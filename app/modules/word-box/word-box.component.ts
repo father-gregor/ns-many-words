@@ -9,6 +9,7 @@ import { IWord } from "./word-box";
 })
 export class WordBoxComponent {
     public word: IWord;
+    public editable: boolean = false;
 
     constructor() {
 
@@ -17,7 +18,7 @@ export class WordBoxComponent {
     ngOnInit () {
         this.word = {
             selfText: "degradation",
-            definition: "a low or downcast state"
+            definition: "a low or downcast state. the process in which the beauty or quality of something is destroyed or spoiled"
         }
     }
 }

@@ -1,11 +1,13 @@
 .word-container {
-    height: 200;
+    height: 300;
     color: rgb(0, 0, 0);
-    background-color: rgb(177, 177, 177);
+    background-color: rgb(204, 204, 204);
+    margin-top: 10;
+    margin-bottom: 10;
     padding-top: 20;
     padding-bottom: 15; 
-    padding-right: 10;
-    padding-left: 10;
+    padding-right: 15;
+    padding-left: 15;
 }
 
 .word-selftext {

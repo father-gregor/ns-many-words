@@ -1,4 +1,4 @@
 <StackLayout class="word-container" orientation="vertical">
     <Label class="word-selftext" [text]="word.selfText"></Label>
-    <TextView class="word-definition" [(ngModel)]="word.definition" [editable]="false"></TextView>
+    <Label class="word-definition" [text]="word.definition" textWrap="true"></Label>
 </StackLayout>
