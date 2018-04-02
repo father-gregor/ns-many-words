@@ -1,0 +1,9 @@
+<GridLayout class="loading-screen-main" columns="10%, *, 10%" rows="*, *, *">
+    <StackLayout col="1" row="1" orientation="vertical">
+        <Label class="h1 app-name text-center" [text]="appName"></Label>
+        <Label class="h2 loading-text text-center" [text]="loadingText"></Label>
+        <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center" verticalAlignment="center">
+        </ActivityIndicator>
+        <Button class="btn-launch" text="Launch" [visibility]="isLoading ? 'collapse' : 'visible'" (tap)="onTap()"></Button>
+    </StackLayout>
+</GridLayout>

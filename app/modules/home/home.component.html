@@ -1,0 +1,11 @@
+<AbsoluteLayout>
+    <SegmentedBar height="300" [items]="wordTabs" (selectedIndexChange)="onSelectedIndexChange($event)" class="m-5"></SegmentedBar>
+</AbsoluteLayout>
+<GridLayout visibility="{{ getVisibility(recentWordsTab) }}" backgroundColor="white">
+    <!--<RecentWords></RecentWords>-->
+    <Label [text]="'Recent Words Tab'" class="m-15 h3 p-5 text-center"></Label>
+</GridLayout>
+
+<GridLayout rows="*" visibility="{{ getVisibility(randomWordsTab) }}" backgroundColor="white">
+    <Label [text]="'Future Random Words Tab'" class="m-15 h3 p-5 text-center"></Label>
+</GridLayout>
