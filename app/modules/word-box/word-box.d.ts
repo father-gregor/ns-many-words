@@ -1,4 +1,5 @@
 export interface IWord {
     selfText: string;
-    definition: string;
+    def: string;
+    date: string
 }
