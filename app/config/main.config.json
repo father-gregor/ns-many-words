@@ -1,0 +1,9 @@
+{
+    "appName": "Many Words",
+    "loadingText": "Loading...",
+    "wordApi": {
+        "getDaily": "",
+        "getRandom": "https://many-words-backend.herokuapp.com/api/words/random",
+        "getMeme": ""
+    }
+}
