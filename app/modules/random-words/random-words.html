@@ -1,0 +1,10 @@
+<ScrollView #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
+    <GridLayout class="random-words-main" columns="10%, *, 10%" rows="*">
+        <StackLayout col="1" row="0" orientation="vertical">
+            <StackLayout *ngFor="let word of randomWords" orientation="vertical">
+                <Label class="word-date" [text]="getWordDate(word)"></Label>
+                <WordBox [word]="word"></WordBox>
+            </StackLayout>
+        </StackLayout>
+    </GridLayout>
+</ScrollView>
