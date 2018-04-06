@@ -3,6 +3,7 @@ import { Observable as RxObservable } from "rxjs/Observable";
 import { Http, Headers } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/do";
+import "rxjs/add/operator/first"
 
 
 import * as mainConfig from "../../config/main.config.json";
@@ -20,7 +21,7 @@ export class WordsService {
         let headers = this.createRequestHeaders();
         return this.http.get((mainConfig as any).wordApi.getRandom, {
             headers: headers
-        }).map((res) => res.json());
+        }).map((res) => res.json()).first();
     }
 
     private createRequestHeaders () {

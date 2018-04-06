@@ -3,11 +3,11 @@ import { ScrollEventData } from "ui/scroll-view";
 
 
 @Component({
-    selector: "RecentWords",
+    selector: "DailyWords",
     styleUrls: [],
-    templateUrl: "./modules/recent-words/recent-words.html"
+    templateUrl: "./modules/daily-words/daily-words.html"
 }) 
-export class RecentWordsComponent {
+export class DailyWordsComponent {
     constructor () {
     }
 

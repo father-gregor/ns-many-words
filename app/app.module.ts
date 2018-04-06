@@ -6,7 +6,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LoadingScreenComponent } from "./modules/loading-screen/loading-screen.component";
 import { HomeComponent } from "./modules/home/home.component";
-import { RecentWordsComponent } from "./modules/recent-words/recent-words.component";
+import { DailyWordsComponent } from "./modules/daily-words/daily-words.component";
 import { WordBoxComponent } from "./modules/word-box/word-box.component";
 import { WordsService } from "./services/words/words.service";
 import { RandomWordsComponent } from "./modules/random-words/random-words.component";
@@ -24,7 +24,7 @@ import { RandomWordsComponent } from "./modules/random-words/random-words.compon
         AppComponent,
         LoadingScreenComponent,
         HomeComponent,
-        RecentWordsComponent,
+        DailyWordsComponent,
         RandomWordsComponent,
         WordBoxComponent
     ],

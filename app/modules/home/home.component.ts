@@ -11,8 +11,8 @@ export class DataItem {
     templateUrl: "./home.component.html"
 })
 export class HomeComponent {
-    public recentWordsTab: IWordTab = {
-        title: "Recent Words",
+    public dailyWordsTab: IWordTab = {
+        title: "Daily Words",
         index: 0
     };
     public randomWordsTab: IWordTab = {

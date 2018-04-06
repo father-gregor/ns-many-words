@@ -5,6 +5,8 @@
                 <Label class="word-date" [text]="getWordDate(word)"></Label>
                 <WordBox [word]="word"></WordBox>
             </StackLayout>
+            <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
+            </ActivityIndicator>
         </StackLayout>
     </GridLayout>
 </ScrollView>

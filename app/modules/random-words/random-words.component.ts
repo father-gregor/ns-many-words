@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from "@angular/core";
 import { ScrollEventData, ScrollView } from "ui/scroll-view";
 import { IWord } from "../word-box/word-box";
 import { WordsService } from "../../services/words/words.service";
+import { MasterWordsClass } from "../master-words/master-words.class";
 
 
 @Component({
@@ -9,12 +10,14 @@ import { WordsService } from "../../services/words/words.service";
     styleUrls: [],
     templateUrl: "./modules/random-words/random-words.html"
 }) 
-export class RandomWordsComponent {
+export class RandomWordsComponent extends MasterWordsClass {
     public randomWords: IWord[] = [];
+
     @ViewChild("wordsContainer") public wordsContainer: ElementRef;
     private scrollView: ScrollView;
 
     constructor (private Words: WordsService) {
+        super();
     }
 
    ngOnInit () {
@@ -32,6 +35,7 @@ export class RandomWordsComponent {
     }
 
     public loadNewWord () {
+        this.isLoading = true;
         this.Words.getRandomWord().subscribe((res: any) => {
             console.dir(res);
             if (res && res.word) {
@@ -42,10 +46,9 @@ export class RandomWordsComponent {
                 } as IWord);
                 console.log('Pushed');
             }
+            this.isLoading = false;
+        }, (error: any) =>{
+            this.isLoading = false;
         });
-    }
-
-    public getWordDate (word: IWord) {
-        return word.date;
     }
 }
