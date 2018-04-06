@@ -17,7 +17,7 @@ export class WordBoxComponent {
     ngOnInit () {
         if (!this.word) {
             this.word = {
-                selfText: "degradation",
+                name: "degradation",
                 def: "a low or downcast state. the process in which the beauty or quality of something is destroyed or spoiled",
                 date: new Date().toUTCString()
             }

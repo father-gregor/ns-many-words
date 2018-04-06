@@ -1,5 +1,5 @@
 export interface IWord {
-    selfText: string;
+    name: string;
     def: string;
     date: string;
 }

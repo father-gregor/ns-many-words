@@ -40,7 +40,7 @@ export class RandomWordsComponent extends MasterWordsClass {
             console.dir(res);
             if (res && res.word) {
                 this.randomWords.push({
-                    selfText: res.word,
+                    name: res.word,
                     def: res.def,
                     date: res.t
                 } as IWord);
