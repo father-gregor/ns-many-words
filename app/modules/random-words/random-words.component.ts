@@ -12,43 +12,46 @@ import { MasterWordsClass } from "../master-words/master-words.class";
 }) 
 export class RandomWordsComponent extends MasterWordsClass {
     public randomWords: IWord[] = [];
-
     @ViewChild("wordsContainer") public wordsContainer: ElementRef;
-    private scrollView: ScrollView;
+
+    public loadWordBtnMsg: string = "Repeat"
 
     constructor (private Words: WordsService) {
         super();
     }
 
    ngOnInit () {
-        this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
-        this.loadNewWord();
+       this.noWordsMsg = "Word didn't loaded. Press button to try again";
+       this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
+       this.loadNewWords();
     }
 
-    public onScroll (data: ScrollEventData) {
-        console.log("scrollX: " + data.scrollX);
-        console.log("scrollY: " + data.scrollY);
-        console.log(this.scrollView.scrollableHeight);
-        if (this.scrollView.scrollableHeight === data.scrollY) {
-            this.loadNewWord();
+    // @Override
+    public loadNewWords () {
+        if (this.showNoWordsMsg) {
+            this.showNoWordsMsg = false;
         }
-    }
-
-    public loadNewWord () {
         this.isLoading = true;
-        this.Words.getRandomWord().subscribe((res: any) => {
-            console.dir(res);
-            if (res && res.word) {
-                this.randomWords.push({
-                    name: res.word,
-                    def: res.def,
-                    date: res.t
-                } as IWord);
-                console.log('Pushed');
-            }
-            this.isLoading = false;
-        }, (error: any) =>{
-            this.isLoading = false;
-        });
+
+        this.Words.getRandomWord().subscribe(
+            (res: any) => {
+                console.dir(res);
+                if (res & res.name) {
+                    this.randomWords.push({
+                        name: res.name,
+                        definitions: res.definitions,
+                        archaic: res.archaic,
+                        language: res.language,
+                        date: res.publishDateUTC,
+                        partOfSpeech: res.partOfSpeech
+                    } as IWord);
+                } else {
+                    this.showNoWordsMsg = true;
+                }
+                this.isLoading = false;
+            }, (error: any) => {
+                this.showNoWordsMsg = true;
+                this.isLoading = false;
+            });
     }
 }

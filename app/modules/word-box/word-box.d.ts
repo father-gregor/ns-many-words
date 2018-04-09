@@ -1,5 +1,8 @@
 export interface IWord {
     name: string;
-    def: string;
+    definitions: string[];
     date: string;
+    language?: string;
+    archaic?: boolean;
+    partOfSpeech?: string[];
 }

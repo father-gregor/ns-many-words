@@ -1,16 +1,26 @@
+import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
+
 import { IWord } from "../word-box/word-box";
 
 export class MasterWordsClass {
+    protected scrollView: ScrollView;
+    public noWordsMsg: string;
+    public showNoWordsMsg: boolean = false;
     public isLoading: boolean = false;
 
     constructor() {}
 
-    public getWordDate (word: IWord) {
-        return word.date;
-        // return this.getFormattedDate(word.date);
+    public onScroll (data: ScrollEventData) {
+        if (this.scrollView.scrollableHeight === data.scrollY) {
+            this.loadNewWords();
+        }
     }
 
-    public getFormattedDate (date: string|Date): string {
+    public loadNewWords () {
+        throw new Error ("No overiding method in the nested class!");
+    }
+
+    public getWordDate (word: IWord) {
         let currentDate = new Date();
         currentDate.setHours(0);
         currentDate.setMinutes(0);
@@ -18,12 +28,8 @@ export class MasterWordsClass {
         currentDate.setMilliseconds(0);
 
         let inputDate;
-        if (date) {
-            if (date instanceof Date) {
-                inputDate = date;
-            } else {
-                inputDate = new Date(date);
-            }
+        if (word.date) {
+            inputDate = new Date(word.date)
             inputDate.setHours(0);
             inputDate.setMinutes(0);
             inputDate.setSeconds(0);
@@ -36,8 +42,7 @@ export class MasterWordsClass {
             return "Today";
         } else if (dateDiff <= (24 * 60 * 60 *1000)) {
             return "Yesterday";
-        } else { 
-            return inputDate.toDateString();
         }
+        return inputDate.toLocaleDateString();
     }
 }

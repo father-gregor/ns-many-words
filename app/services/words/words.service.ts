@@ -12,14 +12,24 @@ import { IWord } from "../../modules/word-box/word-box";
 @Injectable()
 export class WordsService {
     constructor (private http: Http) {}
-
-    public async getRecentWord () {
-        return {} as IWord;
+    
+    public getDailyWord (query: any): RxObservable<Object> {
+        return this.getWord((mainConfig as any).wordApi.getDaily, query);
     }
 
     public getRandomWord (): RxObservable<Object> {
-        let headers = this.createRequestHeaders();
-        return this.http.get((mainConfig as any).wordApi.getRandom, {
+        return this.getWord((mainConfig as any).wordApi.getRandom);
+    }
+
+    public getMemeWord (): RxObservable<Object> {
+        return this.getWord((mainConfig as any).wordApi.getMeme);
+    }
+
+    private getWord (apiLink: string, optQuery: any = {}, optHeaders: Headers = this.createRequestHeaders()): RxObservable<Object> {
+        let headers = optHeaders;
+        let query = optQuery;
+        return this.http.get(apiLink, {
+            params: query,
             headers: headers
         }).map((res) => res.json()).first();
     }

@@ -1,9 +1,13 @@
-<ScrollView orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
+<ScrollView #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
     <GridLayout class="recent-words-main" columns="10%, *, 10%" rows="*">
         <StackLayout col="1" row="0" orientation="vertical">
-            <WordBox></WordBox>
-            <WordBox></WordBox>
-            <WordBox></WordBox>
+            <StackLayout *ngFor="let word of dailyWords" orientation="vertical">
+                <Label class="word-date" [text]="getWordDate(word)"></Label>
+                <WordBox [word]="word"></WordBox>
+            </StackLayout>
+            <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg"></Label>
+            <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
+            </ActivityIndicator>
         </StackLayout>
     </GridLayout>
 </ScrollView>
