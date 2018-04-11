@@ -10,6 +10,8 @@ import { DailyWordsComponent } from "./modules/daily-words/daily-words.component
 import { WordBoxComponent } from "./modules/word-box/word-box.component";
 import { WordsService } from "./services/words/words.service";
 import { RandomWordsComponent } from "./modules/random-words/random-words.component";
+import { MemeWordsComponent } from "./modules/meme-words/meme-words.component";
+import { SettingsComponent } from "./modules/settings/settings.component";
 
 @NgModule({
     bootstrap: [
@@ -26,7 +28,9 @@ import { RandomWordsComponent } from "./modules/random-words/random-words.compon
         HomeComponent,
         DailyWordsComponent,
         RandomWordsComponent,
-        WordBoxComponent
+        MemeWordsComponent,
+        WordBoxComponent,
+        SettingsComponent
     ],
     providers: [
         WordsService

@@ -5,7 +5,7 @@ import { LoadingScreenComponent } from "./modules/loading-screen/loading-screen.
 import { HomeComponent } from "./modules/home/home.component";
 
 const routes: Routes = [
-    { path: "", redirectTo: "/loading", pathMatch: "full" },
+    { path: "", redirectTo: "/home", pathMatch: "full" },
     { path: "loading", component: LoadingScreenComponent },
     { path: "home", component: HomeComponent }
 ];
