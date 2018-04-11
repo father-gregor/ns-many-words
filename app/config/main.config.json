@@ -1,5 +1,18 @@
 {
     "appName": "Many Words",
+    "actionBarItems": {
+        "settings": {
+            "name": "Settings"
+        },
+        "about": {
+            "name": "About"
+        }
+    },
+    "aboutDialog": {
+        "title": "About our team",
+        "message": "Developer: father_gregor\nInterface/Design: father_gregor, dolgopolovki\nIdea: dolgopolovki",
+        "okButtonText": "Close"
+    },
     "loadingText": "Loading...",
     "wordApi": {
         "getDaily": "https://many-words-backend.herokuapp.com/api/words/daily",

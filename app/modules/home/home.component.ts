@@ -1,16 +1,18 @@
 import { Component } from "@angular/core";
 import { IWordTab } from "./tab";
+import * as dialogs from "ui/dialogs";
 
-export class DataItem {
-    constructor(public itemDesc: string) {}
-}
+import * as mainConfig from "../../config/main.config.json";
 
 @Component({
     selector: "Home",
     moduleId: module.id,
+    styleUrls: ["./home-common.css", "./home.css"],
     templateUrl: "./home.component.html"
 })
 export class HomeComponent {
+    public mainConfig: any = mainConfig;
+
     public dailyWordsTab: IWordTab = {
         title: "Daily Words",
         index: 0
@@ -23,12 +25,14 @@ export class HomeComponent {
         title: "Meme Words",
         index: 2
     };
-    public items: Array<DataItem>;
 
-    constructor() {
-        this.items = new Array<DataItem>();
-        for (let i = 0; i < 5; i++) {
-            this.items.push(new DataItem("item " + i));
-        }
+    constructor() {}
+
+    public openSettings () {
+        
+    }
+
+    public showAboutDialog () {
+        dialogs.alert((mainConfig as any).aboutDialog);
     }
 }

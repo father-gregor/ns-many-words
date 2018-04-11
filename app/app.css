@@ -1,1 +1,6 @@
 @import '~nativescript-theme-core/css/core.light.css';
+
+.general-action-bar {
+    color: #ffffff;
+    background-color: #000000;
+}

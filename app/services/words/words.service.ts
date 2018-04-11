@@ -17,12 +17,12 @@ export class WordsService {
         return this.getWord((mainConfig as any).wordApi.getDaily, query);
     }
 
-    public getRandomWord (): RxObservable<Object> {
-        return this.getWord((mainConfig as any).wordApi.getRandom);
+    public getRandomWord (query: any): RxObservable<Object> {
+        return this.getWord((mainConfig as any).wordApi.getRandom, query);
     }
 
-    public getMemeWord (): RxObservable<Object> {
-        return this.getWord((mainConfig as any).wordApi.getMeme);
+    public getMemeWord (query: any): RxObservable<Object> {
+        return this.getWord((mainConfig as any).wordApi.getMeme, query);
     }
 
     private getWord (apiLink: string, optQuery: any = {}, optHeaders: Headers = this.createRequestHeaders()): RxObservable<Object> {

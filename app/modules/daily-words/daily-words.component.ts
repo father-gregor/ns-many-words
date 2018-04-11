@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { ScrollEventData, ScrollView } from "ui/scroll-view";
 import { MasterWordsClass } from "../master-words/master-words.class";
-import { IWord } from "../word-box/word-box";
+import { IWord, IWordQueryOptions } from "../word-box/word-box";
 import { WordsService } from "../../services/words/words.service";
 
 
@@ -24,30 +24,34 @@ export class DailyWordsComponent extends MasterWordsClass {
         this.earliestWordDate = new Date();
         this.noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
         this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
-        this.loadNewWords();
+        this.loadNewWords({
+            count: 3
+        });
     }
 
     // @Override
-    public loadNewWords () {
+    public loadNewWords (options: IWordQueryOptions = {}) {
         if (!this.isLoading) {
             let query = {
-                date: this.earliestWordDate.toString()
+                date: this.earliestWordDate.toString(),
+                count: options.count || 1
             };
             this.isLoading = true;
 
             this.Words.getDailyWord(query).subscribe((res: any) => {
                 console.dir(res);
-                if (res && res.name) {
-                    this.dailyWords.push({
-                        name: res.name,
-                        definitions: res.definitions,
-                        archaic: res.archaic,
-                        language: res.language,
-                        date: res.publishDateUTC,
-                        partOfSpeech: res.partOfSpeech
-                    } as IWord);
-    
-                    this.earliestWordDate.setDate(this.earliestWordDate.getDate() - 1);
+                if (res && Array.isArray(res)) {
+                    for (let word of res) {
+                        this.dailyWords.push({
+                            name: word.name,
+                            definitions: word.definitions,
+                            archaic: word.archaic,
+                            language: word.language,
+                            date: word.publishDateUTC,
+                            partOfSpeech: word.partOfSpeech
+                        } as IWord);
+                    }
+                    this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);
                 } else {
                     this.showNoWordsMsg = true;
                 }

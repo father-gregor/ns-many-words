@@ -1,6 +1,6 @@
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
 
-import { IWord } from "../word-box/word-box";
+import { IWord, IWordQueryOptions } from "../word-box/word-box";
 
 export class MasterWordsClass {
     protected scrollView: ScrollView;
@@ -16,7 +16,7 @@ export class MasterWordsClass {
         }
     }
 
-    public loadNewWords () {
+    public loadNewWords (options: IWordQueryOptions = {}) {
         throw new Error ("No overiding method in the nested class!");
     }
 

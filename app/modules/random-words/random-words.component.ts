@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { ScrollEventData, ScrollView } from "ui/scroll-view";
-import { IWord } from "../word-box/word-box";
+import { IWord, IWordQueryOptions } from "../word-box/word-box";
 import { WordsService } from "../../services/words/words.service";
 import { MasterWordsClass } from "../master-words/master-words.class";
 
@@ -27,24 +27,28 @@ export class RandomWordsComponent extends MasterWordsClass {
     }
 
     // @Override
-    public loadNewWords () {
+    public loadNewWords (options: IWordQueryOptions = {}) {
         if (this.showNoWordsMsg) {
             this.showNoWordsMsg = false;
         }
+        let query = {
+            count: options.count || 1
+        };
         this.isLoading = true;
 
-        this.Words.getRandomWord().subscribe(
+        this.Words.getRandomWord(query).subscribe(
             (res: any) => {
-                console.dir(res);
-                if (res & res.name) {
-                    this.randomWords.push({
-                        name: res.name,
-                        definitions: res.definitions,
-                        archaic: res.archaic,
-                        language: res.language,
-                        date: res.publishDateUTC,
-                        partOfSpeech: res.partOfSpeech
-                    } as IWord);
+                if (res && Array.isArray(res)) {
+                    for (let word of res) {
+                        this.randomWords.push({
+                            name: word.name,
+                            definitions: word.definitions,
+                            archaic: word.archaic,
+                            language: word.language,
+                            date: word.publishDateUTC,
+                            partOfSpeech: word.partOfSpeech
+                        } as IWord);
+                    }
                 } else {
                     this.showNoWordsMsg = true;
                 }

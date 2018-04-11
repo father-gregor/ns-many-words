@@ -6,3 +6,7 @@ export interface IWord {
     archaic?: boolean;
     partOfSpeech?: string[];
 }
+
+export interface IWordQueryOptions {
+    count?: number;
+}

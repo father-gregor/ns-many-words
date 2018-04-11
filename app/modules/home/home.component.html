@@ -1,3 +1,15 @@
+<ActionBar class="general-action-bar" title="{{mainConfig.appName}}">
+    <ActionItem (tap)="openSettings()" 
+                ios.systemIcon="10" 
+                ios.position="right" 
+                text="{{mainConfig.actionBarItems.settings.name}}" 
+                android.position="popup"></ActionItem>
+    <ActionItem (tap)="showAboutDialog()" 
+                ios.systemIcon="11" 
+                ios.position="right" 
+                text="{{mainConfig.actionBarItems.about.name}}" 
+                android.position="popup"></ActionItem>
+</ActionBar>
 <TabView>
     <StackLayout *tabItem="{title: dailyWordsTab.title}" >
         <DailyWords></DailyWords>
@@ -6,6 +18,6 @@
         <RandomWords></RandomWords>
     </StackLayout>
     <StackLayout *tabItem="{title: memeWordsTab.title}">
-        <Label text="Third tab item"></Label>
+        <MemeWords></MemeWords>
     </StackLayout>
 </TabView>
