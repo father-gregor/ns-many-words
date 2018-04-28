@@ -12,6 +12,8 @@ import { WordsService } from "./services/words/words.service";
 import { RandomWordsComponent } from "./modules/random-words/random-words.component";
 import { MemeWordsComponent } from "./modules/meme-words/meme-words.component";
 import { SettingsComponent } from "./modules/settings/settings.component";
+import { FavoriteButtonComponent } from "./modules/favorite-button/favorite-button.component";
+import { FavoriteWordsService } from "./services/favorite-words/favorite-words.service";
 
 @NgModule({
     bootstrap: [
@@ -30,10 +32,12 @@ import { SettingsComponent } from "./modules/settings/settings.component";
         RandomWordsComponent,
         MemeWordsComponent,
         WordBoxComponent,
+        FavoriteButtonComponent,
         SettingsComponent
     ],
     providers: [
-        WordsService
+        WordsService,
+        FavoriteWordsService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

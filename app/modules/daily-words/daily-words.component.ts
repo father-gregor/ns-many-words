@@ -4,11 +4,11 @@ import { MasterWordsClass } from "../master-words/master-words.class";
 import { IWord, IWordQueryOptions } from "../word-box/word-box";
 import { WordsService } from "../../services/words/words.service";
 
-
 @Component({
     selector: "DailyWords",
-    styleUrls: [],
-    templateUrl: "./modules/daily-words/daily-words.html"
+    moduleId: module.id,
+    styleUrls: ["./daily-words-common.css"],
+    templateUrl: "./daily-words.html"
 }) 
 export class DailyWordsComponent extends MasterWordsClass {
     public dailyWords: IWord[] = [];
@@ -39,7 +39,6 @@ export class DailyWordsComponent extends MasterWordsClass {
             this.isLoading = true;
 
             this.Words.getDailyWord(query).subscribe((res: any) => {
-                console.dir(res);
                 if (res && Array.isArray(res)) {
                     for (let word of res) {
                         this.dailyWords.push({

@@ -8,7 +8,7 @@ import * as mainConfig from "../../config/main.config.json";
     selector: "Home",
     moduleId: module.id,
     styleUrls: ["./home-common.css", "./home.css"],
-    templateUrl: "./home.component.html"
+    templateUrl: "./home.html"
 })
 export class HomeComponent {
     public mainConfig: any = mainConfig;

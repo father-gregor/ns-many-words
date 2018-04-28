@@ -7,8 +7,9 @@ import { MasterWordsClass } from "../master-words/master-words.class";
 
 @Component({
     selector: "MemeWords",
+    moduleId: module.id,
     styleUrls: [],
-    templateUrl: "./modules/meme-words/meme-words.html"
+    templateUrl: "./meme-words.html"
 }) 
 export class MemeWordsComponent extends MasterWordsClass {
     public memeWords: IWord[] = [];
@@ -23,6 +24,9 @@ export class MemeWordsComponent extends MasterWordsClass {
    ngOnInit () {
        this.noWordsMsg = "Word didn't loaded. Press button to try again";
        this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
+       // TODO Temporaly make three calls to the backend
+       this.loadNewWords();
+       this.loadNewWords();
        this.loadNewWords();
     }
 

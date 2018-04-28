@@ -1,6 +1,9 @@
 <StackLayout class="word-container" orientation="vertical">
-    <Label class="word-selftext" [text]="word.name" textWrap="true"></Label>
-    <StackLayout *ngFor="let def of word.definitions" orientation="vertical">
-        <Label class="word-definition" [text]="def" textWrap="true"></Label>
+    <GridLayout columns="*, 10" rows="80" verticalAlignment="center">
+        <Label row="0" col="0" class="word-selftext" [text]="word.name" textWrap="true" verticalAlignment="top"></Label>
+        <FavoriteButton [word]="word" [type]="'daily'" row="0" col="1" class="favorite-button" verticalAlignment="top"></FavoriteButton>
+    </GridLayout>
+    <StackLayout orientation="vertical">
+        <Label *ngFor="let def of word.definitions" class="word-definition" [text]="def" textWrap="true"></Label>
     </StackLayout>
 </StackLayout>

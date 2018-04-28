@@ -27,6 +27,7 @@
         <item name="colorAccent">@color/ns_accent</item>
 
         <item name="actionMenuTextColor">@color/mw_white</item>
+        <item name="android:textColorSecondary">@color/mw_white</item>
     </style>
 
     <style name="AppTheme" parent="AppThemeBase">

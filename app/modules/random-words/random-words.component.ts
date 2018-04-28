@@ -4,11 +4,11 @@ import { IWord, IWordQueryOptions } from "../word-box/word-box";
 import { WordsService } from "../../services/words/words.service";
 import { MasterWordsClass } from "../master-words/master-words.class";
 
-
 @Component({
     selector: "RandomWords",
+    moduleId: module.id,
     styleUrls: [],
-    templateUrl: "./modules/random-words/random-words.html"
+    templateUrl: "./random-words.html"
 }) 
 export class RandomWordsComponent extends MasterWordsClass {
     public randomWords: IWord[] = [];
@@ -23,6 +23,9 @@ export class RandomWordsComponent extends MasterWordsClass {
    ngOnInit () {
        this.noWordsMsg = "Word didn't loaded. Press button to try again";
        this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
+       // TODO Temporaly make three calls to the backend
+       this.loadNewWords();
+       this.loadNewWords();
        this.loadNewWords();
     }
 

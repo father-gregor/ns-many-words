@@ -1,4 +1,8 @@
 <ActionBar class="general-action-bar" title="{{mainConfig.appName}}">
+    <ActionItem (tap)="openFavorites()" 
+                icon="res://favorites_icon"
+                ios.position="right"
+                android.position="actionBarIfRoom"></ActionItem>
     <ActionItem (tap)="openSettings()" 
                 ios.systemIcon="10" 
                 ios.position="right" 
@@ -10,7 +14,7 @@
                 text="{{mainConfig.actionBarItems.about.name}}" 
                 android.position="popup"></ActionItem>
 </ActionBar>
-<TabView>
+<TabView class="main-tab-view">
     <StackLayout *tabItem="{title: dailyWordsTab.title}" >
         <DailyWords></DailyWords>
     </StackLayout>

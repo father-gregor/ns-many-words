@@ -9,7 +9,7 @@
         }
     },
     "aboutDialog": {
-        "title": "About our team",
+        "title": "About Us",
         "message": "Developer: father_gregor\nInterface/Design: father_gregor, dolgopolovki\nIdea: dolgopolovki",
         "okButtonText": "Close"
     },

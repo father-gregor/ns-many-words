@@ -1,3 +1,9 @@
+export enum WordTypeEnum {
+    daily = "daily",
+    random = "random",
+    meme = "meme"
+}
+
 export interface IWord {
     name: string;
     definitions: string[];

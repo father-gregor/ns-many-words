@@ -4,8 +4,9 @@ import { IWord } from "./word-box";
 
 @Component({
     selector: "WordBox",
-    styleUrls: ["./modules/word-box/word-box-common.css", "./modules/word-box/word-box.css"],
-    templateUrl: "./modules/word-box/word-box.html"
+    moduleId: module.id,
+    styleUrls: ["./word-box-common.css", "./word-box.css"],
+    templateUrl: "./word-box.html"
 })
 export class WordBoxComponent {
     @Input() public word: IWord;
