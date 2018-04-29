@@ -1,7 +1,8 @@
 export enum WordTypeEnum {
     daily = "daily",
     random = "random",
-    meme = "meme"
+    meme = "meme",
+    favorite = "favorite"
 }
 
 export interface IWord {

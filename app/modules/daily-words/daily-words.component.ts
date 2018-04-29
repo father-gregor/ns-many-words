@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { ScrollEventData, ScrollView } from "ui/scroll-view";
 import { MasterWordsClass } from "../master-words/master-words.class";
-import { IWord, IWordQueryOptions } from "../word-box/word-box";
+import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
 import { WordsService } from "../../services/words/words.service";
 
 @Component({

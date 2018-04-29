@@ -1,0 +1,18 @@
+<ActionBar class="general-action-bar" title="{{title}}">
+    <NavigationButton *ngIf="canGoBack()" text="Go Back" android.systemIcon="ic_menu_back" (tap)="goBack()"></NavigationButton>
+    <ActionItem *ngIf="router.url.indexOf('favorites-archive') === -1"
+                (tap)="openFavorites()" 
+                icon="res://favorites_archive"
+                ios.position="right"
+                android.position="actionBarIfRoom"></ActionItem>
+    <ActionItem (tap)="openSettings()" 
+                ios.systemIcon="10" 
+                ios.position="right" 
+                text="{{mainConfig.actionBarItems.settings.name}}" 
+                android.position="popup"></ActionItem>
+    <ActionItem (tap)="showAboutDialog()" 
+                ios.systemIcon="11" 
+                ios.position="right" 
+                text="{{mainConfig.actionBarItems.about.name}}" 
+                android.position="popup"></ActionItem>
+</ActionBar>

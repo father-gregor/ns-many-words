@@ -1,0 +1,12 @@
+<MainActionBar [title]="actionBarTitle"></MainActionBar>
+<ScrollView #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
+    <GridLayout columns="10%, *, 10%" rows="*">
+            <StackLayout col="1" row="0" orientation="vertical">
+                <StackLayout *ngFor="let favoriteWord of favoriteWords" orientation="vertical">
+                    <WordBox [word]="favoriteWord.word" [type]="'favorite'" [disableFavorite]="true"></WordBox>
+                </StackLayout>
+                <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
+                </ActivityIndicator>
+            </StackLayout>
+        </GridLayout>
+</ScrollView>

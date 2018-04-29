@@ -1,6 +1,8 @@
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
 
-import { IWord, IWordQueryOptions } from "../word-box/word-box";
+import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
+
+const dateformat = require("dateformat");
 
 export class MasterWordsClass {
     protected scrollView: ScrollView;
@@ -11,7 +13,7 @@ export class MasterWordsClass {
     constructor() {}
 
     public onScroll (data: ScrollEventData) {
-        if (this.scrollView.scrollableHeight === data.scrollY) {
+        if (this.scrollView.scrollableHeight <= (data.scrollY + 80) && !this.isLoading) {
             this.loadNewWords();
         }
     }
@@ -43,6 +45,6 @@ export class MasterWordsClass {
         } else if (dateDiff <= (24 * 60 * 60 *1000)) {
             return "Yesterday";
         }
-        return inputDate.toLocaleDateString();
+        return dateformat(inputDate, "mmmm dS, yyyy");
     }
 }

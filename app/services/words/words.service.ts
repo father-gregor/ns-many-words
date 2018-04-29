@@ -7,7 +7,7 @@ import "rxjs/add/operator/first"
 
 
 import * as mainConfig from "../../config/main.config.json";
-import { IWord } from "../../modules/word-box/word-box";
+import { IWord } from "../../modules/word-box/word-box.definitions";
 
 @Injectable()
 export class WordsService {

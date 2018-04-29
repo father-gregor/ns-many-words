@@ -4,4 +4,6 @@ import { Component } from "@angular/core";
     selector: "many-words-app",
     templateUrl: "app.component.html"
 })
-export class AppComponent { }
+export class AppComponent {
+    constructor() {}
+}

@@ -1,8 +1,6 @@
 import { Component } from "@angular/core";
-import { IWordTab } from "./tab";
-import * as dialogs from "ui/dialogs";
 
-import * as mainConfig from "../../config/main.config.json";
+import { IWordTab } from "./tab";
 
 @Component({
     selector: "Home",
@@ -11,8 +9,6 @@ import * as mainConfig from "../../config/main.config.json";
     templateUrl: "./home.html"
 })
 export class HomeComponent {
-    public mainConfig: any = mainConfig;
-
     public dailyWordsTab: IWordTab = {
         title: "Daily Words",
         index: 0
@@ -27,12 +23,4 @@ export class HomeComponent {
     };
 
     constructor() {}
-
-    public openSettings () {
-        
-    }
-
-    public showAboutDialog () {
-        dialogs.alert((mainConfig as any).aboutDialog);
-    }
 }

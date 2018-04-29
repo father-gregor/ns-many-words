@@ -8,7 +8,7 @@ import {
 } from "application-settings";
 
 import * as mainConfig from "../../config/main.config.json";
-import { IWord, WordTypeEnum } from "../../modules/word-box/word-box";
+import { IWord, WordTypeEnum } from "../../modules/word-box/word-box.definitions";
 import { IFavoriteWords, IFavoriteWord } from "./favorite-words";
 
 @Injectable()
@@ -19,6 +19,10 @@ export class FavoriteWordsService {
 
     public getAll (): IFavoriteWords {
         return this.getFavoriteWordsArchive().words;
+    }
+
+    public get (word: IWord, type: WordTypeEnum): IFavoriteWord {
+        return this.getFavoriteWordsArchive().words.find((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type);
     }
 
     public add (word: IWord, type: WordTypeEnum) {

@@ -13,6 +13,9 @@
         "message": "Developer: father_gregor\nInterface/Design: father_gregor, dolgopolovki\nIdea: dolgopolovki",
         "okButtonText": "Close"
     },
+    "favoritesArchive": {
+        "title": "Many Words - Favorite"
+    },
     "loadingText": "Loading...",
     "wordApi": {
         "getDaily": "https://many-words-backend.herokuapp.com/api/words/daily",

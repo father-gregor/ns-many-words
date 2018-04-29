@@ -3,7 +3,7 @@
         <StackLayout col="1" row="0" orientation="vertical">
             <StackLayout *ngFor="let word of dailyWords" orientation="vertical" class="daily-word-container">
                 <Label class="word-date" [text]="getWordDate(word)"></Label>
-                <WordBox [word]="word"></WordBox>
+                <WordBox [word]="word" [type]="'daily'"></WordBox>
             </StackLayout>
             <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg"></Label>
             <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
