@@ -7,4 +7,3 @@ platforms/
 tmp/
 typings/
 .vscode/
-./package-lock.json
