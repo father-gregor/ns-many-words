@@ -1,6 +1,7 @@
 import { NgModule, NgModuleFactoryLoader, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
+import { NgShadowModule } from 'nativescript-ng-shadow';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -14,6 +15,7 @@ import { SettingsComponent } from "./modules/settings/settings.component";
 import { FavoriteWordsService } from "./services/favorite-words/favorite-words.service";
 import { FavoriteWordsComponent } from "./modules/favorite-words/favorite-words.component";
 import { MainActionBarComponent } from "./modules/main-action-bar/main-action-bar.component";
+import { SnackBarNotificationService } from "./services/snack-bar-notification/snack-bar-notification.service";
 
 @NgModule({
     bootstrap: [
@@ -22,7 +24,8 @@ import { MainActionBarComponent } from "./modules/main-action-bar/main-action-ba
     imports: [
         NativeScriptModule,
         AppRoutingModule,
-        NativeScriptHttpModule
+        NativeScriptHttpModule,
+        NgShadowModule
     ],
     declarations: [
         AppComponent,
@@ -37,7 +40,8 @@ import { MainActionBarComponent } from "./modules/main-action-bar/main-action-ba
     ],
     providers: [
         WordsService,
-        FavoriteWordsService
+        FavoriteWordsService,
+        SnackBarNotificationService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

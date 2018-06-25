@@ -1,9 +1,25 @@
-<StackLayout class="word-container" orientation="vertical">
-    <GridLayout columns="*, 30" rows="80" verticalAlignment="center">
-        <Label row="0" col="0" class="word-selftext" [text]="word.name" textWrap="true" verticalAlignment="top"></Label>
-        <Image *ngIf="!disableFavorite" src="{{isFavorite() ? 'res://star_full' : 'res://star_empty'}}" row="0" col="1" class="favorite-button" verticalAlignment="top" stretch="aspectFit" (tap)="onFavoriteTap()"></Image>
-    </GridLayout>
-    <StackLayout orientation="vertical">
+<GridLayout class="word-container" columns="*, 30" rows="80, *, 40" verticalAlignment="center">
+    <Label row="0" col="0" class="word-selftext" [text]="word.name" textWrap="true" verticalAlignment="top"></Label>
+    <Image *ngIf="!disableFavorite" 
+        [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
+        row="0" 
+        col="1" 
+        class="favorite-button" 
+        verticalAlignment="top" 
+        stretch="aspectFit" 
+        (tap)="onFavoriteTap()">
+    </Image>
+    <StackLayout row="1" col="0" colSpan="2" orientation="vertical">
         <Label *ngFor="let def of word.definitions" class="word-definition" [text]="def" textWrap="true"></Label>
     </StackLayout>
-</StackLayout>
+    <StackLayout row="2" col="0" colSpan="2" orientation="vertical">
+        <Image [src]="'res://social_share'" 
+            row="1" 
+            col="1" 
+            class="share-button" 
+            horizontalAlignment="left" 
+            stretch="aspectFit" 
+            (tap)="onSocialShareTap()">
+        </Image>
+    </StackLayout>
+</GridLayout>

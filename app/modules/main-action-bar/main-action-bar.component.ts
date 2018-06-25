@@ -24,12 +24,17 @@ export class MainActionBarComponent {
         return this.routerExtensions.canGoBack();
     }
     public goBack () {
-        console.log(this.router.url);
         this.routerExtensions.backToPreviousPage();
     }
 
     public openFavorites () {
-        this.router.navigate(["/favorites-archive"]);
+        this.routerExtensions.navigate(["/favorites-archive"], {
+            transition: {
+                name: "slideLeft",
+                duration: 500,
+                curve: "ease"
+            }
+        });
     }
 
     public openSettings () {
