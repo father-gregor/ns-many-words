@@ -16,6 +16,8 @@ import { FavoriteWordsService } from "./services/favorite-words/favorite-words.s
 import { FavoriteWordsComponent } from "./modules/favorite-words/favorite-words.component";
 import { MainActionBarComponent } from "./modules/main-action-bar/main-action-bar.component";
 import { SnackBarNotificationService } from "./services/snack-bar-notification/snack-bar-notification.service";
+import { WordShowcaseComponent } from './modules/word-showcase/word-showcase.component';
+import { PageDataStorageService } from './services/page-data-storage/page-data-storage.service';
 
 @NgModule({
     bootstrap: [
@@ -36,12 +38,14 @@ import { SnackBarNotificationService } from "./services/snack-bar-notification/s
         WordBoxComponent,
         SettingsComponent,
         FavoriteWordsComponent,
-        MainActionBarComponent
+        MainActionBarComponent,
+        WordShowcaseComponent
     ],
     providers: [
         WordsService,
         FavoriteWordsService,
-        SnackBarNotificationService
+        SnackBarNotificationService,
+        PageDataStorageService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

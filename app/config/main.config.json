@@ -16,6 +16,9 @@
     "favoritesArchive": {
         "title": "Many Words - Favorite"
     },
+    "wordShowcase": {
+        "title": "Many Words - Showcase"
+    },
     "loadingText": "Loading...",
     "wordApi": {
         "getDaily": "https://many-words-backend.herokuapp.com/api/words/daily",

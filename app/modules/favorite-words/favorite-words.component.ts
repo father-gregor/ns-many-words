@@ -21,6 +21,5 @@ export class FavoriteWordsComponent extends MasterWordsClass {
 
     ngOnInit () {
         this.favoriteWords = this.FavoriteWords.getAll();
-        console.dir(this.favoriteWords);
     }
 }

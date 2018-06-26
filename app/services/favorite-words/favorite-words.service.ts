@@ -36,8 +36,6 @@ export class FavoriteWordsService {
                     type
                 });
                 nsSetString(this.favoriteWordsArchiveKey, JSON.stringify(favoritesArchive));
-            } else {
-                console.log(`Already favorite - '${word.name}' of type '${type}'`);
             }
         } catch (err) {
             console.log(`Error! ${err.message}`);
@@ -52,8 +50,6 @@ export class FavoriteWordsService {
             if (removedWordIndex >= 0) {
                 favoritesArchive.words.splice(removedWordIndex, 1);
                 nsSetString(this.favoriteWordsArchiveKey, JSON.stringify(favoritesArchive));
-            } else {
-                console.log(`Not favorite - '${word.name}' of type '${type}'`);
             }
         } catch (err) {
             console.log(`Error! ${err.message}`);

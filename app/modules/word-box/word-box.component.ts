@@ -1,10 +1,11 @@
 import { Component, Input } from "@angular/core";
+import { RouterExtensions } from 'nativescript-angular/router';
 import * as SocialShare from "nativescript-social-share";
 
 import { IWord, WordTypeEnum } from "./word-box.definitions";
 import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
 import { SnackBarNotificationService } from "../../services/snack-bar-notification/snack-bar-notification.service";
-
+import { PageDataStorageService } from '../../services/page-data-storage/page-data-storage.service';
 
 @Component({
     selector: "WordBox",
@@ -20,7 +21,9 @@ export class WordBoxComponent {
 
     constructor(
         public FavoriteWords: FavoriteWordsService,
-        public SnackBarService: SnackBarNotificationService
+        public SnackBarService: SnackBarNotificationService,
+        public PageDataStorage: PageDataStorageService<IWord>,
+        public routerExtensions: RouterExtensions
     ) {}
 
     ngOnInit () {
@@ -55,9 +58,20 @@ export class WordBoxComponent {
         }
     }
 
+    public onOpenWordTap () {
+        this.PageDataStorage.current = this.word;
+        this.routerExtensions.navigate(['word-showcase'], {
+            transition: {
+                name: "slideTop",
+                duration: 500,
+                curve: "easeIn"
+            }
+        });
+    }
+
     public onSocialShareTap () {
         SocialShare.shareText(
-            `'${this.word.name}' - ${this.word.definitions[0]}. Provided by 'Many Words'`, 
+            `'${this.word.name}' - ${this.word.definitions[0]}'`, 
             `Would you like to share word '${this.word.name}' with others?`
         );
     }

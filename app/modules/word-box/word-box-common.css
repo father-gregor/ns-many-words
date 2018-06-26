@@ -16,12 +16,20 @@
     margin-bottom: 30;
 }
 
-.favorite-button {
-    margin-top: 8;
+.wordbox-footer {
+    padding-top: 10;
 }
 
-.share-button {
-    margin-top: 10;
+.wordbox-footer Button {
+    margin-left: 0;
+    margin-right: 10;
+    color: black;
+    border-color: black;
+    border-radius: 3px;
+}
+
+.btn-favorite {
+    margin-top: 8;
 }
 
 .word-definition {

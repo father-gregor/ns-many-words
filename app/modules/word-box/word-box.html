@@ -4,7 +4,7 @@
         [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
         row="0" 
         col="1" 
-        class="favorite-button" 
+        class="btn-favorite" 
         verticalAlignment="top" 
         stretch="aspectFit" 
         (tap)="onFavoriteTap()">
@@ -12,7 +12,10 @@
     <StackLayout row="1" col="0" colSpan="2" orientation="vertical">
         <Label *ngFor="let def of word.definitions" class="word-definition" [text]="def" textWrap="true"></Label>
     </StackLayout>
-    <StackLayout row="2" col="0" colSpan="2" orientation="vertical">
+    <StackLayout class="wordbox-footer" row="2" col="0" colSpan="2" orientation="horizontal">
+        <Button class="btn btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()"></Button>
+        <Button class="btn btn-outline brn-share-word" text="Share" (tap)="onSocialShareTap()"></Button>
+        <!--
         <Image [src]="'res://social_share'" 
             row="1" 
             col="1" 
@@ -21,5 +24,6 @@
             stretch="aspectFit" 
             (tap)="onSocialShareTap()">
         </Image>
+        -->
     </StackLayout>
 </GridLayout>
