@@ -62,9 +62,9 @@ export class WordBoxComponent {
         this.PageDataStorage.current = this.word;
         this.routerExtensions.navigate(['word-showcase'], {
             transition: {
-                name: "slideTop",
+                name: "slideLeft",
                 duration: 500,
-                curve: "easeIn"
+                curve: "ease"
             }
         });
     }

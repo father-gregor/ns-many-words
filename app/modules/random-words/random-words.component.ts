@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { ScrollEventData, ScrollView } from "ui/scroll-view";
+import { ScrollView } from "ui/scroll-view";
 import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
 import { WordsService } from "../../services/words/words.service";
 import { MasterWordsClass } from "../master-words/master-words.class";
@@ -7,7 +7,7 @@ import { MasterWordsClass } from "../master-words/master-words.class";
 @Component({
     selector: "RandomWords",
     moduleId: module.id,
-    styleUrls: [],
+    styleUrls: ["./random-words-common.css"],
     templateUrl: "./random-words.html"
 }) 
 export class RandomWordsComponent extends MasterWordsClass {

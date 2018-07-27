@@ -13,7 +13,7 @@ export class MasterWordsClass {
     constructor() {}
 
     public onScroll (data: ScrollEventData) {
-        if (this.scrollView.scrollableHeight <= (data.scrollY + 80) && !this.isLoading) {
+        if (this.scrollView && this.scrollView.scrollableHeight <= (data.scrollY + 80) && !this.isLoading) {
             this.loadNewWords();
         }
     }

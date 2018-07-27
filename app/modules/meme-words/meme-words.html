@@ -1,12 +1,15 @@
 <ScrollView #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
     <GridLayout class="meme-words-main" columns="10%, *, 10%" rows="*">
-        <StackLayout col="1" row="0" orientation="vertical">
+        <StackLayout class="meme-words-stack" col="1" row="0" orientation="vertical">
             <StackLayout orientation="vertical">
                 <WordBox *ngFor="let word of memeWords" [word]="word" [type]="'meme'"></WordBox>
             </StackLayout>
-            <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg"></Label>
+            <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg" [textWrap]="true"></Label>
             <Button *ngIf="showNoWordsMsg" [text]="loadWordBtnMsg" (tap)="loadNewWords()"></Button>
-            <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
+            <ActivityIndicator class="activity-indicator"
+                               [busy]="isLoading" 
+                               [visibility]="isLoading ? 'visible' : 'collapse'"  
+                               horizontalAlignment="center">
             </ActivityIndicator>
         </StackLayout>
     </GridLayout>

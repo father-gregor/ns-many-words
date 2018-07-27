@@ -1,14 +1,13 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { ScrollEventData, ScrollView } from "ui/scroll-view";
+import { ScrollView } from "ui/scroll-view";
 import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
 import { WordsService } from "../../services/words/words.service";
 import { MasterWordsClass } from "../master-words/master-words.class";
 
-
 @Component({
     selector: "MemeWords",
     moduleId: module.id,
-    styleUrls: [],
+    styleUrls: ["./meme-words-common.css"],
     templateUrl: "./meme-words.html"
 }) 
 export class MemeWordsComponent extends MasterWordsClass {

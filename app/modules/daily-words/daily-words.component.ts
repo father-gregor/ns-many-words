@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { ScrollEventData, ScrollView } from "ui/scroll-view";
+import { ScrollView } from "ui/scroll-view";
 import { MasterWordsClass } from "../master-words/master-words.class";
 import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
 import { WordsService } from "../../services/words/words.service";
@@ -7,7 +7,7 @@ import { WordsService } from "../../services/words/words.service";
 @Component({
     selector: "DailyWords",
     moduleId: module.id,
-    styleUrls: ["./daily-words-common.css"],
+    styleUrls: [],
     templateUrl: "./daily-words.html"
 }) 
 export class DailyWordsComponent extends MasterWordsClass {

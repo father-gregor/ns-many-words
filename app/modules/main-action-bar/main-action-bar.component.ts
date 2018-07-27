@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, Input, ChangeDetectorRef } from "@angular/core";
+import { Router, NavigationEnd, NavigationStart, Event } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import * as dialogs from "ui/dialogs";
 
@@ -12,12 +12,33 @@ import * as mainConfig from "../../config/main.config.json";
 })
 export class MainActionBarComponent {
     public mainConfig: any = mainConfig;
+    public isTransitionEnded = true;
+    @Input() public routeName: string;
     @Input() public title: string;
 
-    constructor(public router: Router, public routerExtensions: RouterExtensions) {}
+    constructor(
+        public router: Router, 
+        public routerExtensions: RouterExtensions,
+        private cd: ChangeDetectorRef
+    ) {
+        router.events.subscribe((event: Event) => {
+            if (event instanceof NavigationStart) {
+                if (event.url === this.routeName) {
+                    cd.reattach();
+                }
+                else {
+                    cd.detach();
+                }
+            }
+        })
+    }
 
     ngOnInit () {
         this.title = this.title || this.mainConfig.appName;
+    }
+
+    public showFavoritesArchive () {
+        return this.router.url.indexOf('favorites-archive') === -1;
     }
 
     public canGoBack () {
