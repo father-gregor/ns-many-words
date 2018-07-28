@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Observable as RxObservable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { Http, Headers } from "@angular/http";
+import { map, first } from 'rxjs/operators';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/first"
@@ -13,25 +14,28 @@ import { IWord } from "../../modules/word-box/word-box.definitions";
 export class WordsService {
     constructor (private http: Http) {}
     
-    public getDailyWord (query: any): RxObservable<Object> {
+    public getDailyWord (query: any): Observable<Object> {
         return this.getWord((mainConfig as any).wordApi.getDaily, query);
     }
 
-    public getRandomWord (query: any): RxObservable<Object> {
+    public getRandomWord (query: any): Observable<Object> {
         return this.getWord((mainConfig as any).wordApi.getRandom, query);
     }
 
-    public getMemeWord (query: any): RxObservable<Object> {
+    public getMemeWord (query: any): Observable<Object> {
         return this.getWord((mainConfig as any).wordApi.getMeme, query);
     }
 
-    private getWord (apiLink: string, optQuery: any = {}, optHeaders: Headers = this.createRequestHeaders()): RxObservable<Object> {
+    private getWord (apiLink: string, optQuery: any = {}, optHeaders: Headers = this.createRequestHeaders()): Observable<Object> {
         let headers = optHeaders;
         let query = optQuery;
         return this.http.get(apiLink, {
             params: query,
             headers: headers
-        }).map((res) => res.json()).first();
+        }).pipe(
+            map((res) => res.json()),
+            first()
+        );
     }
 
     private createRequestHeaders () {

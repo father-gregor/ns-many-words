@@ -1,6 +1,8 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
+import { ScrollEventData } from 'tns-core-modules/ui/scroll-view/scroll-view';
 
 import { IWordTab } from "./tab";
+import { View } from 'tns-core-modules/ui/page/page';
 
 @Component({
     selector: "Home",
@@ -22,5 +24,11 @@ export class HomeComponent {
         index: 2
     };
 
+    @ViewChild('actionBar') public actionBarView: View;
+
     constructor() {}
+
+    public onScroll (event: ScrollEventData) {
+        console.log("ActionBar", this.actionBarView);
+    }
 }

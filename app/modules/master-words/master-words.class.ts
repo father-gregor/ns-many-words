@@ -1,21 +1,36 @@
+import { Observable, Subject } from 'rxjs';
+import { EventEmitter, Output, OnInit } from '@angular/core';
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
 
 import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
+import { debounceTime } from 'rxjs/operator/debounceTime';
 
 const dateformat = require("dateformat");
 
-export class MasterWordsClass {
+export class MasterWordsClass implements OnInit {
     protected scrollView: ScrollView;
     public noWordsMsg: string;
     public showNoWordsMsg: boolean = false;
     public isLoading: boolean = false;
 
+    @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<ScrollEventData> = new EventEmitter<ScrollEventData>();
+
+    private scrollEvent$: Subject<ScrollEventData> = new Subject<ScrollEventData>();
+
     constructor() {}
 
+    ngOnInit () {
+        this.scrollEvent$.asObservable().pipe(debounceTime(1000)).subscribe((data: ScrollEventData) => {
+            this.onTabScrollEmitter.emit(data);
+
+            if (this.scrollView && this.scrollView.scrollableHeight <= (data.scrollY + 80) && !this.isLoading) {
+                this.loadNewWords();
+            }
+        });
+    }
+
     public onScroll (data: ScrollEventData) {
-        if (this.scrollView && this.scrollView.scrollableHeight <= (data.scrollY + 80) && !this.isLoading) {
-            this.loadNewWords();
-        }
+        this.scrollEvent$.next(data);
     }
 
     public loadNewWords (options: IWordQueryOptions = {}) {
