@@ -1,14 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 import { Http, Headers } from "@angular/http";
+import { Observable } from "rxjs";
 import { map, first } from 'rxjs/operators';
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/first"
 
 
 import * as mainConfig from "../../config/main.config.json";
-import { IWord } from "../../modules/word-box/word-box.definitions";
 
 @Injectable()
 export class WordsService {

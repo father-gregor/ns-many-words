@@ -1,11 +1,13 @@
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { EventEmitter, Output, OnInit } from '@angular/core';
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
 
 import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
-import { debounceTime } from 'rxjs/operator/debounceTime';
+import { debounceTime } from 'rxjs/operators';
 
-const dateformat = require("dateformat");
+import * as dateformat from "dateformat";
+
+// const dateformat = require("dateformat");
 
 export class MasterWordsClass implements OnInit {
     protected scrollView: ScrollView;
@@ -30,6 +32,7 @@ export class MasterWordsClass implements OnInit {
     }
 
     public onScroll (data: ScrollEventData) {
+        console.log('Test');
         this.scrollEvent$.next(data);
     }
 
