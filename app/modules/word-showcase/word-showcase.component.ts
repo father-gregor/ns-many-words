@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import * as mainConfig from "../../config/main.config.json";
-import { PageDataStorageService } from '../../services/page-data-storage/page-data-storage.service';
-import { IWord } from '../word-box/word-box.definitions';
+import { PageDataStorageService } from '~/services/page-data-storage/page-data-storage.service';
+import { IWord } from '~/modules/word-box/word-box.definitions';
 
 @Component({
     selector: "WordShowcase",

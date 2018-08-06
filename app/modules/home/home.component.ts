@@ -1,8 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
-import { ScrollEventData } from 'tns-core-modules/ui/scroll-view/scroll-view';
+import { Page } from 'tns-core-modules/ui/page/page';
 
-import { IWordTab } from "./tab";
-import { View } from 'tns-core-modules/ui/page/page';
+import { IWordTab } from "~/modules/home/tab";
+import { MainActionBarComponent } from '~/modules/main-action-bar/main-action-bar.component';
+import { ScrollDirection } from '~/modules/master-words/master-words.interfaces';
 
 @Component({
     selector: "Home",
@@ -23,12 +24,18 @@ export class HomeComponent {
         title: "Meme Words",
         index: 2
     };
+    public lastVerticalOffset = 0;
 
-    @ViewChild('actionBar') public actionBarView: View;
+    @ViewChild("mainActionBar") public mainActionBarComponent: MainActionBarComponent;
 
-    constructor() {}
+    constructor(private page: Page) {
+    }
 
-    public onScroll (event: ScrollEventData) {
-        console.log("ActionBar", this.actionBarView);
+    public onTabChange () {
+        this.lastVerticalOffset = 0;
+    }
+
+    public onTabScroll (event: {scrollYDiff: number, direction: ScrollDirection}) {
+        this.mainActionBarComponent.toggleActionBar(event.scrollYDiff, event.direction);
     }
 }

@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { ScrollView } from "ui/scroll-view";
-import { MasterWordsClass } from "../master-words/master-words.class";
-import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
-import { WordsService } from "../../services/words/words.service";
+import { ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
+import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
+import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
+import { WordsService } from "~/services/words/words.service";
 
 @Component({
     selector: "DailyWords",
@@ -10,9 +10,8 @@ import { WordsService } from "../../services/words/words.service";
     styleUrls: [],
     templateUrl: "./daily-words.html"
 }) 
-export class DailyWordsComponent extends MasterWordsClass {
+export class DailyWordsComponent extends MasterWordsComponentCommon {
     public dailyWords: IWord[] = [];
-    @ViewChild("wordsContainer") public wordsContainer: ElementRef;
 
     public earliestWordDate: Date;
 
@@ -21,6 +20,7 @@ export class DailyWordsComponent extends MasterWordsClass {
     }
 
     ngOnInit () {
+        super.ngOnInit();
         this.earliestWordDate = new Date();
         this.noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
         this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
@@ -55,7 +55,8 @@ export class DailyWordsComponent extends MasterWordsClass {
                     this.showNoWordsMsg = true;
                 }
                 this.isLoading = false;
-            }, (error: any) => {
+            }, 
+            (error: any) => {
                 this.showNoWordsMsg = true;
                 this.isLoading = false;
             });

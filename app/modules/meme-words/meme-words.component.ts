@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { ScrollView } from "ui/scroll-view";
-import { IWord, IWordQueryOptions } from "../word-box/word-box.definitions";
-import { WordsService } from "../../services/words/words.service";
-import { MasterWordsClass } from "../master-words/master-words.class";
+import { ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
+import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
+import { WordsService } from "~/services/words/words.service";
+import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 
 @Component({
     selector: "MemeWords",
@@ -10,9 +10,8 @@ import { MasterWordsClass } from "../master-words/master-words.class";
     styleUrls: ["./meme-words-common.css"],
     templateUrl: "./meme-words.html"
 }) 
-export class MemeWordsComponent extends MasterWordsClass {
+export class MemeWordsComponent extends MasterWordsComponentCommon {
     public memeWords: IWord[] = [];
-    @ViewChild("wordsContainer") public wordsContainer: ElementRef;
 
     public loadWordBtnMsg: string = "Repeat"
 
@@ -21,8 +20,9 @@ export class MemeWordsComponent extends MasterWordsClass {
     }
 
    ngOnInit () {
+       super.ngOnInit();
        this.noWordsMsg = "Word didn't loaded. Press button to try again";
-       this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
+       this.scrollView = this.wordsContainer.nativeElement as ScrollView;
        // TODO Temporaly make three calls to the backend
        this.loadNewWords();
        this.loadNewWords();
@@ -56,7 +56,8 @@ export class MemeWordsComponent extends MasterWordsClass {
                     this.showNoWordsMsg = true;
                 }
                 this.isLoading = false;
-            }, (error: any) => {
+            }, 
+            (error: any) => {
                 this.showNoWordsMsg = true;
                 this.isLoading = false;
             });

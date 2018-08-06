@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
-import { map, first } from 'rxjs/operators';
 
 
 import * as mainConfig from "../../config/main.config.json";
 
 @Injectable()
 export class WordsService {
-    constructor (private http: Http) {}
+    constructor (private http: HttpClient) {}
     
     public getDailyWord (query: any): Observable<Object> {
         return this.getWord((mainConfig as any).wordApi.getDaily, query);
@@ -22,20 +21,17 @@ export class WordsService {
         return this.getWord((mainConfig as any).wordApi.getMeme, query);
     }
 
-    private getWord (apiLink: string, optQuery: any = {}, optHeaders: Headers = this.createRequestHeaders()): Observable<Object> {
+    private getWord (apiLink: string, optQuery: any = {}, optHeaders: HttpHeaders = this.createRequestHeaders()): Observable<Object> {
         let headers = optHeaders;
         let query = optQuery;
         return this.http.get(apiLink, {
             params: query,
             headers: headers
-        }).pipe(
-            map((res) => res.json()),
-            first()
-        );
+        });
     }
 
     private createRequestHeaders () {
-        return new Headers({
+        return new HttpHeaders({
             "Content-Type": "application/json",
         });
     }

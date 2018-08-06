@@ -5,11 +5,11 @@ import {
     setString as nsSetString,
     hasKey as nsHasKey,
     remove as nsRemove
-} from "application-settings";
+} from "tns-core-modules/application-settings/application-settings";
 
 import * as mainConfig from "../../config/main.config.json";
-import { IWord, WordTypeEnum } from "../../modules/word-box/word-box.definitions";
-import { IFavoriteWords, IFavoriteWord } from "./favorite-words";
+import { IWord, WordTypeEnum } from "~/modules/word-box/word-box.definitions";
+import { IFavoriteWords, IFavoriteWord } from "~/services/favorite-words/favorite-words";
 
 @Injectable()
 export class FavoriteWordsService {

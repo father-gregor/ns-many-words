@@ -1,4 +1,4 @@
-<ActionBar class="general-action-bar" [title]="title">
+<ActionBar #actionBar class="general-action-bar" [title]="title">
     <NavigationButton *ngIf="canGoBack()" 
                       text="Go Back" 
                       android.systemIcon="ic_menu_back" 

@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 
-import { IFavoriteWords } from "../../services/favorite-words/favorite-words";
-import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
+import { IFavoriteWords } from "~/services/favorite-words/favorite-words";
+import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import * as mainConfig from "../../config/main.config.json";
-import { MasterWordsClass } from "../master-words/master-words.class";
+import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 
 @Component({
     selector: "FavoriteWords",
@@ -11,7 +11,7 @@ import { MasterWordsClass } from "../master-words/master-words.class";
     styleUrls: [],
     templateUrl: "./favorite-words.html"
 }) 
-export class FavoriteWordsComponent extends MasterWordsClass {
+export class FavoriteWordsComponent extends MasterWordsComponentCommon {
     public favoriteWords: IFavoriteWords;
     public actionBarTitle: string = (mainConfig as any).favoritesArchive.title;
 
