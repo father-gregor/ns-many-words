@@ -1,5 +1,4 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
 import { TabView } from 'tns-core-modules/ui/tab-view';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators'
@@ -36,7 +35,7 @@ export class HomeComponent implements AfterViewInit {
     private currentPos = 0;
     private changeMargin$ = new Subject<number> ();
 
-    constructor(private page: Page) {
+    constructor() {
         this.changeMargin$
             .pipe(debounceTime(5))
             .subscribe((marginTop: number) => {
@@ -45,7 +44,6 @@ export class HomeComponent implements AfterViewInit {
     }
 
     ngAfterViewInit () {
-        // this.page.style.marginTop = -60;
         this.tabView = this.tabElement.nativeElement as TabView;
         console.log('11TESTTETE', this.tabView);
     }
@@ -54,21 +52,34 @@ export class HomeComponent implements AfterViewInit {
         this.lastVerticalOffset = 0;
     }
 
-    public onTabScroll (event: {scrollYDiff: number, direction: ScrollDirection}) {
+    public onTabScroll (event: {direction: ScrollDirection}) {
         let actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
         if (event.direction === "up" && Math.abs(this.currentPos) < actionBarHeight) {
-            let steps = 2;
+            // Pretty good configuration for scroll. Maybe need to make steps bigger if there is a little of margin left to increment
+            let steps = 5;
             for (let i = 0; i < steps; i++) {
                 this.currentPos--;
                 this.changeMargin$.next(this.currentPos);
             }
         }
         else if (event.direction === "down" && this.currentPos < 0) {
-            let steps = 2;
+            let steps = 5;
             for (let i = 0; i < steps; i++) {
                 this.currentPos++;
                 this.changeMargin$.next(this.currentPos);
             }
+        }
+    }
+
+    public onTabSwipe (event: {direction: ScrollDirection}) {
+        let actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
+        if (event.direction === "up" && Math.abs(this.currentPos) < actionBarHeight) {
+            this.currentPos = -actionBarHeight;
+            this.changeMargin$.next(this.currentPos);
+        }
+        else if (event.direction === "down" && this.currentPos < 0) {
+            this.currentPos = 0;
+            this.changeMargin$.next(this.currentPos);
         }
     }
 }

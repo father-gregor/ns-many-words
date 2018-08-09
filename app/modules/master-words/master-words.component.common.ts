@@ -1,6 +1,6 @@
 import { EventEmitter, Output, OnInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
-import { GestureTypes, PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
+import { GestureTypes, PanGestureEventData, GestureEventDataWithState } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view";
 
 import * as dateformat from "dateformat";
@@ -19,7 +19,8 @@ export class MasterWordsComponentCommon implements OnInit {
     public showNoWordsMsg: boolean = false;
     public isLoading: boolean = false;
 
-    @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{scrollYDiff?: number, direction: ScrollDirection}> = new EventEmitter<{scrollYDiff: number, direction: ScrollDirection}>();
+    @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
+    @Output("onTabSwipe") public onTabSwipeEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
     @ViewChild("wordsContainer") public wordsContainer: ElementRef;
 
     protected initialDeltaY = 0;
@@ -30,31 +31,54 @@ export class MasterWordsComponentCommon implements OnInit {
 
     ngOnInit () {
         const panDelay = 10;
+        let lastScrollViewEvent;
         this.scrollView = this.wordsContainer.nativeElement as ScrollView;
-        (this.scrollView as View).on(GestureTypes.pan, (event: PanGestureEventData) => {
-            let deltaY = Math.round(event.deltaY);
-            if (deltaY - this.lastDeltaY < -panDelay || deltaY - this.lastDeltaY > panDelay) {
-                this.initialDeltaY = 0;
+        
+        (this.scrollView as View).on('pan,swipe', (event: any) => {
+            if (event.type === GestureTypes.pan) {
+                lastScrollViewEvent = GestureTypes.pan;
+                let deltaY = Math.round(event.deltaY);
+                if (deltaY - this.lastDeltaY < -panDelay || deltaY - this.lastDeltaY > panDelay) {
+                    this.initialDeltaY = 0;
+                    this.lastDeltaY = deltaY;
+                    this.lastPanDirection = null;
+                }
+
+                // If in the continious pan we start moving in the opposite direction
+                if (this.lastPanDirection === "up" && deltaY > this.lastDeltaY || this.lastPanDirection === "down" && deltaY < this.lastDeltaY) {
+                    this.initialDeltaY = deltaY;
+                    this.lastPanDirection = null;
+                }
+
+                if ((deltaY - this.initialDeltaY) < -panDelay) {
+                    this.lastPanDirection = "up";
+                    this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
+                }
+                else if ((deltaY - this.initialDeltaY) > panDelay) {
+                    this.lastPanDirection = "down";
+                    this.onTabScrollEmitter.emit({direction:this.lastPanDirection});
+                }
+
                 this.lastDeltaY = deltaY;
-                this.lastPanDirection = null;
             }
 
-            // If in the continious pan we start moving in the opposite direction
-            if (this.lastPanDirection === "up" && deltaY > this.lastDeltaY || this.lastPanDirection === "down" && deltaY < this.lastDeltaY) {
-                this.initialDeltaY = deltaY;
-                this.lastPanDirection = null;
-            }
-
-            if ((deltaY - this.initialDeltaY) < -panDelay) {
-                this.lastPanDirection = "up";
-                this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
-            }
-            else if ((deltaY - this.initialDeltaY) > panDelay) {
-                this.lastPanDirection = "down";
-                this.onTabScrollEmitter.emit({direction:this.lastPanDirection});
-            }
-
-            this.lastDeltaY = deltaY;
+            /* TODO Disable swipe event, as current configuration is working better
+            if (event.type === GestureTypes.swipe) {
+                lastScrollViewEvent = GestureTypes.swipe;
+                console.log('Swipe', event.direction);
+                setTimeout(() => {
+                    if (lastScrollViewEvent === GestureTypes.swipe) {
+                        let direction;
+                        if (event.direction === 4) {
+                            direction = "up";
+                        }
+                        else if (event.direction === 8) {
+                            direction = "down";
+                        }
+                        this.onTabSwipeEmitter.emit({direction});
+                    }
+                }, 500)
+            }*/
         });
     }
 
