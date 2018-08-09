@@ -1,13 +1,12 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
+import { TabView } from 'tns-core-modules/ui/tab-view';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators'
 
 import { IWordTab } from "~/modules/home/tab";
 import { MainActionBarComponent } from '~/modules/main-action-bar/main-action-bar.component';
 import { ScrollDirection } from '~/modules/master-words/master-words.interfaces';
-import { Animation, AnimationDefinition } from 'tns-core-modules/ui/animation/animation';
-import { TabView } from 'tns-core-modules/ui/tab-view';
-import { GestureTypes } from "tns-core-modules/ui/gestures/gestures";
-import { View } from 'tns-core-modules/ui/core/view';
 
 @Component({
     selector: "Home",
@@ -35,17 +34,20 @@ export class HomeComponent implements AfterViewInit {
     @ViewChild("tabView") public tabElement: any;
 
     private currentPos = 0;
+    private changeMargin$ = new Subject<number> ();
 
     constructor(private page: Page) {
+        this.changeMargin$
+            .pipe(debounceTime(5))
+            .subscribe((marginTop: number) => {
+                this.mainActionBarComponent.actionBarView.style.marginTop = marginTop;
+            });
     }
 
     ngAfterViewInit () {
         // this.page.style.marginTop = -60;
         this.tabView = this.tabElement.nativeElement as TabView;
         console.log('11TESTTETE', this.tabView);
-        (this.tabView as View).on(GestureTypes.pan, () => {
-            console.log('PANNED')
-        });
     }
 
     public onTabChange () {
@@ -53,43 +55,20 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public onTabScroll (event: {scrollYDiff: number, direction: ScrollDirection}) {
-        this.mainActionBarComponent.animateScroll(event.direction);
-        //this.mainActionBarComponent.toggleActionBar(event.scrollYDiff, event.direction);
-        /*
-        const actionBarAnimation = this.mainActionBarComponent.getScrollAnimation(event.scrollYDiff, event.direction);
-
-        if (actionBarAnimation) {
-            const tabViewAnimation: AnimationDefinition = {
-                target: this.page,
-                translate: {x: 0, y: actionBarAnimation.translate.y},
-                duration: actionBarAnimation.duration
-            };
-            const scrollAnimationSet = new Animation([
-                actionBarAnimation,
-                tabViewAnimation
-            ]);
-
-            scrollAnimationSet.play().catch((e) => {
-                console.log(e.message);
-            });
-        }
-        /*
-        const actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
-        if (event.direction === 'down') {
-            let pos = this.currentPos + actionBarHeight / 7;
-            if (pos <= actionBarHeight) {
-                this.currentPos = pos;
-                this.page.style.marginTop = -this.currentPos;
+        let actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
+        if (event.direction === "up" && Math.abs(this.currentPos) < actionBarHeight) {
+            let steps = 2;
+            for (let i = 0; i < steps; i++) {
+                this.currentPos--;
+                this.changeMargin$.next(this.currentPos);
             }
         }
-        else if (event.direction === 'up') {
-            let pos = this.currentPos - actionBarHeight / 7;
-            if (pos >= 0) {
-                this.currentPos = pos;
-                if (pos < (actionBarHeight / 7) * 2) {
-                    this.page.style.marginTop = -this.currentPos;
-                }
+        else if (event.direction === "down" && this.currentPos < 0) {
+            let steps = 2;
+            for (let i = 0; i < steps; i++) {
+                this.currentPos++;
+                this.changeMargin$.next(this.currentPos);
             }
-        }*/
+        }
     }
 }

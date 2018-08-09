@@ -1,5 +1,4 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
-import { ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
+import { Component } from "@angular/core";
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";

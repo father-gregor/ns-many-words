@@ -1,18 +1,17 @@
-import { Subject } from 'rxjs';
-import { EventEmitter, Output, OnInit, Component, ElementRef, ViewChild, DoCheck } from '@angular/core';
+import { EventEmitter, Output, OnInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
-
-import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
+import { GestureTypes, PanGestureEventData } from "tns-core-modules/ui/gestures/gestures";
+import { View } from "tns-core-modules/ui/core/view";
 
 import * as dateformat from "dateformat";
-import { ScrollDirection } from '~/modules/master-words/master-words.interfaces';
-import { GestureTypes } from 'tns-core-modules/ui/gestures/gestures';
-import { View } from 'tns-core-modules/ui/core/view';
+
+import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
+import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
 
 // const dateformat = require("dateformat");
 @Component({
-    selector: 'MasterWords',
-    template: '<section></section>'
+    selector: "MasterWords",
+    template: "<section></section>"
 })
 export class MasterWordsComponentCommon implements OnInit {
     protected scrollView: ScrollView;
@@ -20,36 +19,46 @@ export class MasterWordsComponentCommon implements OnInit {
     public showNoWordsMsg: boolean = false;
     public isLoading: boolean = false;
 
-    @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{scrollYDiff: number, direction: ScrollDirection}> = new EventEmitter<{scrollYDiff: number, direction: ScrollDirection}>();
+    @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{scrollYDiff?: number, direction: ScrollDirection}> = new EventEmitter<{scrollYDiff: number, direction: ScrollDirection}>();
     @ViewChild("wordsContainer") public wordsContainer: ElementRef;
 
-    protected lastScrollY = 0;
+    protected initialDeltaY = 0;
+    protected lastDeltaY = 0; 
+    protected lastPanDirection: ScrollDirection;
 
     constructor() {}
 
     ngOnInit () {
-        /* this.scrollEvent$.pipe(throttleTime(50)).subscribe(() => {
-            this.onTabScrollEmitter.emit(this.scrollView);
-        });*/
+        const panDelay = 10;
         this.scrollView = this.wordsContainer.nativeElement as ScrollView;
-        (this.scrollView as View).on(GestureTypes.pan, () => {
-            console.log('Scroll Pan');
+        (this.scrollView as View).on(GestureTypes.pan, (event: PanGestureEventData) => {
+            let deltaY = Math.round(event.deltaY);
+            if (deltaY - this.lastDeltaY < -panDelay || deltaY - this.lastDeltaY > panDelay) {
+                this.initialDeltaY = 0;
+                this.lastDeltaY = deltaY;
+                this.lastPanDirection = null;
+            }
+
+            // If in the continious pan we start moving in the opposite direction
+            if (this.lastPanDirection === "up" && deltaY > this.lastDeltaY || this.lastPanDirection === "down" && deltaY < this.lastDeltaY) {
+                this.initialDeltaY = deltaY;
+                this.lastPanDirection = null;
+            }
+
+            if ((deltaY - this.initialDeltaY) < -panDelay) {
+                this.lastPanDirection = "up";
+                this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
+            }
+            else if ((deltaY - this.initialDeltaY) > panDelay) {
+                this.lastPanDirection = "down";
+                this.onTabScrollEmitter.emit({direction:this.lastPanDirection});
+            }
+
+            this.lastDeltaY = deltaY;
         });
     }
 
     public onScroll (data: ScrollEventData) {
-        let direction: 'up' | 'down';
-        if (Math.abs(data.scrollY - this.lastScrollY) >= 5) {
-            if (data.scrollY > this.lastScrollY) {
-                direction = 'down';
-            }
-            else {
-                direction = 'up';
-            }
-            // console.log('ScrollY', data.scrollY);
-            this.onTabScrollEmitter.emit({scrollYDiff: Math.floor(Math.abs(data.scrollY - this.lastScrollY)), direction});
-            this.lastScrollY = data.scrollY;
-        }
         if (this.scrollView && this.scrollView.scrollableHeight <= (data.scrollY + 80) && !this.isLoading) {
             this.loadNewWords();
         }
