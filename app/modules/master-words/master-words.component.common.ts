@@ -17,6 +17,7 @@ export class MasterWordsComponentCommon implements OnInit {
     protected scrollView: ScrollView;
     public noWordsMsg: string;
     public showNoWordsMsg: boolean = false;
+    public firstLoading = true;
     public isLoading: boolean = false;
 
     @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();

@@ -1,12 +1,24 @@
+<GridLayout *ngIf="firstLoading && isLoading" rows="*" columns="*">
+    <ActivityIndicator [busy]="firstLoading && isLoading" 
+                       [visibility]="isLoading ? 'visible' : 'collapse'"
+                       height="100" 
+                       width="100"  
+                       horizontalAlignment="center"
+                       verticalAlignment="center">
+    </ActivityIndicator>
+</GridLayout>
 <ScrollView #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
-    <GridLayout class="recent-words-main" columns="10%, *, 10%" rows="*">
+    <GridLayout columns="10%, *, 10%" rows="*">
         <StackLayout class="daily-words-stack" col="1" row="0" orientation="vertical">
             <StackLayout *ngFor="let word of dailyWords" orientation="vertical" class="daily-word-container">
                 <Label class="word-date" [text]="getWordDate(word)"></Label>
                 <WordBox [word]="word" [type]="'daily'"></WordBox>
             </StackLayout>
             <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg"></Label>
-            <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
+            <ActivityIndicator [busy]="!firstLoading && isLoading" 
+                       [visibility]="isLoading ? 'visible' : 'collapse'"  
+                       horizontalAlignment="center"
+                       verticalAlignment="center">
             </ActivityIndicator>
         </StackLayout>
     </GridLayout>

@@ -6,7 +6,7 @@ import { WordsService } from "~/services/words/words.service";
 @Component({
     selector: "DailyWords",
     moduleId: module.id,
-    styleUrls: [],
+    styleUrls: ["./daily-words-common.css"],
     templateUrl: "./daily-words.html"
 }) 
 export class DailyWordsComponent extends MasterWordsComponentCommon {
@@ -22,9 +22,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         super.ngOnInit();
         this.earliestWordDate = new Date();
         this.noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
-        this.loadNewWords({
-            count: 3
-        });
+        this.loadNewWords({count: 3});
     }
 
     // @Override
@@ -53,10 +51,16 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                     this.showNoWordsMsg = true;
                 }
                 this.isLoading = false;
+                if (this.firstLoading) {
+                    this.firstLoading = false;
+                }
             }, 
             (error: any) => {
                 this.showNoWordsMsg = true;
                 this.isLoading = false;
+                if (this.firstLoading) {
+                    this.firstLoading = false;
+                }
             });
         }
     }

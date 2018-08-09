@@ -6,10 +6,10 @@
             </StackLayout>
             <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg" [textWrap]="true"></Label>
             <Button *ngIf="showNoWordsMsg" [text]="loadWordBtnMsg" (tap)="loadNewWords()"></Button>
-            <ActivityIndicator class="activity-indicator"
-                               [busy]="isLoading" 
+            <ActivityIndicator [busy]="isLoading" 
                                [visibility]="isLoading ? 'visible' : 'collapse'"  
-                               horizontalAlignment="center">
+                               horizontalAlignment="center" 
+                               verticalAlignment="center">
             </ActivityIndicator>
         </StackLayout>
     </GridLayout>
