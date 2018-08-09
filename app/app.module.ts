@@ -20,7 +20,8 @@ import { MemeWordsComponent } from "~/modules/meme-words/meme-words.component";
 import { SettingsComponent } from "~/modules/settings/settings.component";
 import { FavoriteWordsComponent } from "~/modules/favorite-words/favorite-words.component";
 import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
-import { WordShowcaseComponent } from '~/modules/word-showcase/word-showcase.component';
+import { ShowcaseWordComponent } from '~/modules/showcase-word/showcase-word.component';
+import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlight/touch-button-highlight.directive';
 
 @NgModule({
     bootstrap: [
@@ -43,7 +44,8 @@ import { WordShowcaseComponent } from '~/modules/word-showcase/word-showcase.com
         SettingsComponent,
         FavoriteWordsComponent,
         MainActionBarComponent,
-        WordShowcaseComponent
+        ShowcaseWordComponent,
+        TouchButtonHighlightDirective
     ],
     providers: [
         WordsService,

@@ -6,6 +6,8 @@ import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definition
 
 import * as dateformat from "dateformat";
 import { ScrollDirection } from '~/modules/master-words/master-words.interfaces';
+import { GestureTypes } from 'tns-core-modules/ui/gestures/gestures';
+import { View } from 'tns-core-modules/ui/core/view';
 
 // const dateformat = require("dateformat");
 @Component({
@@ -29,6 +31,10 @@ export class MasterWordsComponentCommon implements OnInit {
         /* this.scrollEvent$.pipe(throttleTime(50)).subscribe(() => {
             this.onTabScrollEmitter.emit(this.scrollView);
         });*/
+        this.scrollView = this.wordsContainer.nativeElement as ScrollView;
+        (this.scrollView as View).on(GestureTypes.pan, () => {
+            console.log('Scroll Pan');
+        });
     }
 
     public onScroll (data: ScrollEventData) {
@@ -40,7 +46,7 @@ export class MasterWordsComponentCommon implements OnInit {
             else {
                 direction = 'up';
             }
-            console.log('ScrollY', data.scrollY);
+            // console.log('ScrollY', data.scrollY);
             this.onTabScrollEmitter.emit({scrollYDiff: Math.floor(Math.abs(data.scrollY - this.lastScrollY)), direction});
             this.lastScrollY = data.scrollY;
         }

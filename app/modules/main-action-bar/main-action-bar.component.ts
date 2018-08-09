@@ -6,6 +6,7 @@ import * as dialogs from "tns-core-modules/ui/dialogs/dialogs";
 
 import * as mainConfig from "../../config/main.config.json";
 import { ScrollDirection } from '~/modules/master-words/master-words.interfaces';
+import { Animation, AnimationDefinition } from 'tns-core-modules/ui/animation/animation';
 
 @Component({
     selector: "MainActionBar",
@@ -23,6 +24,7 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     @ViewChild('actionBar') public actionBarElement: any;
 
     private currentMarginTop = 0;
+    private currentPos = 0;
 
     constructor(
         public router: Router, 
@@ -61,10 +63,56 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
             if (this.currentMarginTop < 0) {
                 this.currentMarginTop+=5;
                 this.actionBarView.style.marginTop = this.currentMarginTop;
+                /*let scrollAnimation: Animation = new Animation([
+
+                ]);*/
             }
         }
 
         console.log('Margin', this.currentMarginTop);
+    }
+
+    public getScrollAnimation (scrollYDiff: number, direction: ScrollDirection) : AnimationDefinition | void {
+        const actionBarHeight = this.actionBarView.getActualSize().height;
+        if (direction === 'down') {
+            let pos = this.currentPos + actionBarHeight / 7;
+            if (pos < actionBarHeight) {
+                this.currentPos = pos;
+                return {
+                    target: this.actionBarView,
+                    translate: {x: 0, y: -this.currentPos},
+                    duration: 500
+                };
+            }
+        }
+        else if (direction === 'up') {
+            let pos = this.currentPos - actionBarHeight / 7;
+            if (pos >= 0) {
+                this.currentPos = pos;
+                if (pos < (actionBarHeight / 7) * 2) {
+                    return {
+                        target: this.actionBarView,
+                        translate: {x: 0, y: -this.currentPos},
+                        duration: 500
+                    };
+                }
+            }
+        }
+    }
+
+    public animateScroll (direction: ScrollDirection) {
+        let barHeight = this.actionBarView.getActualSize().height;;
+        if (direction === 'down') {
+            if (Math.abs(this.currentPos) < barHeight) {
+                this.currentPos = -barHeight;
+                this.actionBarView.style.marginTop = -barHeight;
+            }
+        } else if (direction === 'up') {
+            if (this.currentPos < 0) {
+                this.currentPos = 0;
+                this.actionBarView.style.marginTop = 0; 
+            }
+        }
     }
 
     public showFavoritesArchive () {

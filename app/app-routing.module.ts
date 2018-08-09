@@ -4,13 +4,13 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { HomeComponent } from "~/modules/home/home.component";
 import { FavoriteWordsComponent } from "~/modules/favorite-words/favorite-words.component";
-import { WordShowcaseComponent } from '~/modules/word-showcase/word-showcase.component';
+import { ShowcaseWordComponent } from '~/modules/showcase-word/showcase-word.component';
 
 const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },
     { path: "home", component: HomeComponent },
     { path: "favorites-archive", component: FavoriteWordsComponent },
-    { path: "word-showcase", component: WordShowcaseComponent}
+    { path: "showcase-word", component: ShowcaseWordComponent}
 ];
 
 @NgModule({

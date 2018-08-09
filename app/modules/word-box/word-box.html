@@ -13,8 +13,8 @@
         <Label *ngFor="let def of word.definitions" class="word-definition" [text]="def" textWrap="true"></Label>
     </StackLayout>
     <StackLayout class="wordbox-footer" row="2" col="0" colSpan="2" orientation="horizontal">
-        <Button class="btn btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()"></Button>
-        <Button class="btn btn-outline brn-share-word" text="Share" (tap)="onSocialShareTap()"></Button>
+        <Button class="btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()" btnHighlight></Button>
+        <Button class="btn-outline brn-share-word" text="Share" (tap)="onSocialShareTap()" btnHighlight></Button>
         <!--
         <Image [src]="'res://social_share'" 
             row="1" 

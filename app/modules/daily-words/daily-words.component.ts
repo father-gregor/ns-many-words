@@ -23,7 +23,6 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         super.ngOnInit();
         this.earliestWordDate = new Date();
         this.noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
-        this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
         this.loadNewWords({
             count: 3
         });

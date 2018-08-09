@@ -1,0 +1,13 @@
+:root {
+    transition: margin-top 0.5s linear;
+}
+
+Page {
+    transition: margin-top 0.5s linear;
+}
+
+.main-tab-view {
+    tab-text-color: #c5c4c4;
+    tab-background-color: #000000;
+    selected-tab-text-color: #ffffff;
+}

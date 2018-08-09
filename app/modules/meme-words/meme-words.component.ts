@@ -22,7 +22,6 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
    ngOnInit () {
        super.ngOnInit();
        this.noWordsMsg = "Word didn't loaded. Press button to try again";
-       this.scrollView = this.wordsContainer.nativeElement as ScrollView;
        // TODO Temporaly make three calls to the backend
        this.loadNewWords();
        this.loadNewWords();

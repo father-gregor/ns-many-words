@@ -6,13 +6,13 @@ import { PageDataStorageService } from '~/services/page-data-storage/page-data-s
 import { IWord } from '~/modules/word-box/word-box.definitions';
 
 @Component({
-    selector: "WordShowcase",
+    selector: "ShowcaseWord",
     moduleId: module.id,
-    templateUrl: "./word-showcase.html"
+    templateUrl: "./showcase-word.html"
 })
-export class WordShowcaseComponent implements OnInit {
+export class ShowcaseWordComponent implements OnInit {
     public word: IWord;
-    public actionBarTitle: string = (mainConfig as any).wordShowcase.title;
+    public actionBarTitle: string = (mainConfig as any).showcaseWord.title;
 
     constructor (
         private route: ActivatedRoute, 

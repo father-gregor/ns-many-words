@@ -60,7 +60,7 @@ export class WordBoxComponent {
 
     public onOpenWordTap () {
         this.PageDataStorage.current = this.word;
-        this.routerExtensions.navigate(['word-showcase'], {
+        this.routerExtensions.navigate(['showcase-word'], {
             transition: {
                 name: "slideLeft",
                 duration: 500,

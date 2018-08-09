@@ -23,7 +23,6 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
    ngOnInit () {
        super.ngOnInit();
        this.noWordsMsg = "Word didn't loaded. Press button to try again";
-       this.scrollView = <ScrollView> this.wordsContainer.nativeElement;
        // TODO Temporaly make three calls to the backend
        this.loadNewWords();
        this.loadNewWords();
