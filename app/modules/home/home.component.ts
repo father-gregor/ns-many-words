@@ -45,7 +45,6 @@ export class HomeComponent implements AfterViewInit {
 
     ngAfterViewInit () {
         this.tabView = this.tabElement.nativeElement as TabView;
-        console.log('11TESTTETE', this.tabView);
     }
 
     public onTabChange () {

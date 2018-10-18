@@ -17,7 +17,6 @@ export class WordBoxComponent {
     @Input() public word: IWord;
     @Input() public type: WordTypeEnum;
     @Input() public disableFavorite: boolean;
-    private favorite: boolean;
 
     constructor(
         public FavoriteWords: FavoriteWordsService,
@@ -71,7 +70,7 @@ export class WordBoxComponent {
 
     public onSocialShareTap () {
         SocialShare.shareText(
-            `'${this.word.name}' - ${this.word.definitions[0]}'`, 
+            `'${this.word.name}' - ${this.word.definitions[0].toLowerCase()}'`, 
             `Would you like to share word '${this.word.name}' with others?`
         );
     }

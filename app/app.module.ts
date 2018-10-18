@@ -1,7 +1,6 @@
 import { NgModule, NgModuleFactoryLoader, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
-import { NgShadowModule } from 'nativescript-ng-shadow';
 
 import { AppRoutingModule } from "~/app-routing.module";
 
@@ -22,6 +21,7 @@ import { FavoriteWordsComponent } from "~/modules/favorite-words/favorite-words.
 import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
 import { ShowcaseWordComponent } from '~/modules/showcase-word/showcase-word.component';
 import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlight/touch-button-highlight.directive';
+import { VirtualScrollDirective } from '~/directives/virtual-scroll/virtual-scroll.directive';
 
 @NgModule({
     bootstrap: [
@@ -30,8 +30,7 @@ import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlig
     imports: [
         NativeScriptModule,
         AppRoutingModule,
-        NativeScriptHttpClientModule,
-        NgShadowModule
+        NativeScriptHttpClientModule
     ],
     declarations: [
         AppComponent,
@@ -45,7 +44,8 @@ import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlig
         FavoriteWordsComponent,
         MainActionBarComponent,
         ShowcaseWordComponent,
-        TouchButtonHighlightDirective
+        TouchButtonHighlightDirective,
+        VirtualScrollDirective
     ],
     providers: [
         WordsService,

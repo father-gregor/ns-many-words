@@ -37,14 +37,16 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             this.Words.getDailyWord(query).subscribe((res: any) => {
                 if (res && Array.isArray(res)) {
                     for (let word of res) {
-                        this.dailyWords.push({
+                        word = {
                             name: word.name,
                             definitions: word.definitions,
                             archaic: word.archaic,
                             language: word.language,
                             date: word.publishDateUTC,
                             partOfSpeech: word.partOfSpeech
-                        } as IWord);
+                        } as IWord
+                        word.namedDate = this.getWordDate(word);
+                        this.dailyWords.push(word);
                     }
                     this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);
                 } else {

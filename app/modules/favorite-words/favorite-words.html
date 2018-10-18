@@ -1,12 +1,20 @@
 <MainActionBar [routeName]="'/favorites-archive'" [title]="actionBarTitle"></MainActionBar>
-<ScrollView #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
-    <GridLayout columns="10%, *, 10%" rows="*">
-            <StackLayout col="1" row="0" orientation="vertical">
-                <StackLayout *ngFor="let favoriteWord of favoriteWords" orientation="vertical">
-                    <WordBox [word]="favoriteWord.word" [type]="'favorite'" [disableFavorite]="true"></WordBox>
-                </StackLayout>
-                <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
-                </ActivityIndicator>
+<ScrollView class="favorite-words-container" #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
+    <GridLayout columns="10%, *, 10%" rows="*" *ngIf="favoriteWords.length > 0">
+        <StackLayout col="1" row="0" orientation="vertical">
+            <StackLayout *ngFor="let favoriteWord of favoriteWords" orientation="vertical">
+                <WordBox [word]="favoriteWord.word" [type]="favoriteWord.type"></WordBox>
             </StackLayout>
-        </GridLayout>
+            <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
+            </ActivityIndicator>
+        </StackLayout>
+    </GridLayout>
+    <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="favoriteWords.length === 0">
+        <Label  class="h2 text-center no-words-label"  
+                horizontalAlignment="center" 
+                verticalAlignment="center" 
+                [text]="noWordsText" 
+                [textWrap]="true">
+        </Label>
+    </StackLayout>
 </ScrollView>

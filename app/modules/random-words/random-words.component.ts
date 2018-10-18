@@ -25,7 +25,6 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
        this.loadNewWords();
        this.loadNewWords();
        this.loadNewWords();
-       console.log("LOADED TEST CONSOLE");
     }
 
     // @Override

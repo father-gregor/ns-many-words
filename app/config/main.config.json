@@ -14,7 +14,8 @@
         "okButtonText": "Close"
     },
     "favoritesArchive": {
-        "title": "Many Words - Favorite"
+        "title": "Many Words - Favorite",
+        "noWordsText": "No words yet... Add some!"
     },
     "showcaseWord": {
         "title": "Many Words - Showcase"

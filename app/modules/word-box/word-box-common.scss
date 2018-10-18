@@ -8,35 +8,40 @@
     padding-bottom: 15; 
     padding-right: 15;
     padding-left: 15;
-}
 
-.word-selftext {
-    font-size: 35;
-    color: rgb(0, 0, 0);
-    margin-bottom: 30;
-}
-
-.wordbox-footer {
-    padding-top: 10;
-}
-
-.wordbox-footer Button {
-    min-height: 100;
-    min-width: 64;
-    margin-left: 0;
-    margin-right: 10;
-    color: black;
-    border-width: 1;
-    border-color: black;
-    border-radius: 3;
-    padding: 0;
-}
-
-.btn-favorite {
-    margin-top: 8;
-}
-
-.word-definition {
-    font-size: 20;
-    color: rgb(65, 62, 62);
+    .word-selftext {
+        font-size: 35;
+        color: rgb(0, 0, 0);
+        margin-bottom: 20;
+    }
+    
+    .word-definitions {
+        padding-bottom: 20;
+    
+        .word-definition {
+            font-size: 20;
+            font-style: italic;
+            color: rgb(65, 62, 62);
+        }
+    }
+    
+    .wordbox-footer {
+        padding-top: 10;
+    }
+    
+    .wordbox-footer Button {
+        min-height: 100;
+        min-width: 64;
+        margin-left: 0;
+        margin-right: 10;
+        color: black;
+        border-width: 1;
+        border-color: black;
+        border-radius: 3;
+        padding: 0;
+    }
+    
+    .btn-favorite {
+        margin-top: 8;
+    }
 }

@@ -12,6 +12,7 @@ export interface IWord {
     language?: string;
     archaic?: boolean;
     partOfSpeech?: string[];
+    namedDate?: string;
 }
 
 export interface IWordQueryOptions {

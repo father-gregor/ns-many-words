@@ -1,23 +1,23 @@
 import { Injectable } from "@angular/core";
+import { Subject } from 'rxjs';
 
 import {
     getString as nsGetString,
     setString as nsSetString,
-    hasKey as nsHasKey,
-    remove as nsRemove
+    hasKey as nsHasKey
 } from "tns-core-modules/application-settings/application-settings";
 
-import * as mainConfig from "../../config/main.config.json";
 import { IWord, WordTypeEnum } from "~/modules/word-box/word-box.definitions";
 import { IFavoriteWords, IFavoriteWord } from "~/services/favorite-words/favorite-words";
 
 @Injectable()
 export class FavoriteWordsService {
+    public changes$: Subject<IFavoriteWord[]> = new Subject<IFavoriteWord[]>();
     private favoriteWordsArchiveKey: string = "favoriteWords";
 
     constructor () {}
 
-    public getAll (): IFavoriteWords {
+    public getAll (): IFavoriteWord[] {
         return this.getFavoriteWordsArchive().words;
     }
 
@@ -36,6 +36,7 @@ export class FavoriteWordsService {
                     type
                 });
                 nsSetString(this.favoriteWordsArchiveKey, JSON.stringify(favoritesArchive));
+                this.changes$.next(favoritesArchive.words);
             }
         } catch (err) {
             console.log(`Error! ${err.message}`);
@@ -50,6 +51,7 @@ export class FavoriteWordsService {
             if (removedWordIndex >= 0) {
                 favoritesArchive.words.splice(removedWordIndex, 1);
                 nsSetString(this.favoriteWordsArchiveKey, JSON.stringify(favoritesArchive));
+                this.changes$.next(favoritesArchive.words);
             }
         } catch (err) {
             console.log(`Error! ${err.message}`);

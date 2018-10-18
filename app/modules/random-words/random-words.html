@@ -2,7 +2,7 @@
     <GridLayout class="random-words-main" columns="10%, *, 10%" rows="*">
         <StackLayout class="random-words-stack" col="1" row="0" orientation="vertical">
             <StackLayout orientation="vertical">
-                <WordBox *ngFor="let word of randomWords" [word]="word" [type]="'random'"></WordBox>
+                <WordBox class="random-word-box" *ngFor="let word of randomWords" [word]="word" [type]="'random'"></WordBox>
             </StackLayout>
             <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg"></Label>
             <Button *ngIf="showNoWordsMsg" [text]="loadWordBtnMsg" (tap)="loadNewWords()"></Button>
