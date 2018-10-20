@@ -1,5 +1,5 @@
 <MainActionBar [routeName]="'/favorites-archive'" [title]="actionBarTitle"></MainActionBar>
-<ScrollView class="favorite-words-container" #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
+<ScrollView class="favorite-words-container" #scrollContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
     <GridLayout columns="10%, *, 10%" rows="*" *ngIf="favoriteWords.length > 0">
         <StackLayout col="1" row="0" orientation="vertical">
             <StackLayout *ngFor="let favoriteWord of favoriteWords" orientation="vertical">
@@ -9,7 +9,7 @@
             </ActivityIndicator>
         </StackLayout>
     </GridLayout>
-    <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="favoriteWords.length === 0">
+    <StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="center" *ngIf="favoriteWords.length === 0">
         <Label  class="h2 text-center no-words-label"  
                 horizontalAlignment="center" 
                 verticalAlignment="center" 

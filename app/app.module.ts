@@ -1,4 +1,4 @@
-import { NgModule, NgModuleFactoryLoader, NO_ERRORS_SCHEMA } from "@angular/core";
+import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 
@@ -11,7 +11,6 @@ import { PageDataStorageService } from '~/services/page-data-storage/page-data-s
 
 import { AppComponent } from "~/app.component";
 import { HomeComponent } from "~/modules/home/home.component";
-import { MasterWordsComponentCommon } from '~/modules/master-words/master-words.component.common';
 import { DailyWordsComponent } from "~/modules/daily-words/daily-words.component";
 import { WordBoxComponent } from "~/modules/word-box/word-box.component";
 import { RandomWordsComponent } from "~/modules/random-words/random-words.component";
@@ -35,7 +34,6 @@ import { VirtualScrollDirective } from '~/directives/virtual-scroll/virtual-scro
     declarations: [
         AppComponent,
         HomeComponent,
-        MasterWordsComponentCommon,
         DailyWordsComponent,
         RandomWordsComponent,
         MemeWordsComponent,

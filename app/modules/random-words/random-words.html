@@ -1,12 +1,23 @@
-<ScrollView #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
+<GridLayout *ngIf="firstLoading && isLoading" rows="*" columns="*">
+    <ActivityIndicator [busy]="firstLoading && isLoading" 
+                        [visibility]="isLoading ? 'visible' : 'collapse'"
+                        height="100" 
+                        width="100"  
+                        horizontalAlignment="center"
+                        verticalAlignment="center">
+    </ActivityIndicator>
+</GridLayout>
+<ScrollView #scrollContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
     <GridLayout class="random-words-main" columns="10%, *, 10%" rows="*">
         <StackLayout class="random-words-stack" col="1" row="0" orientation="vertical">
             <StackLayout orientation="vertical">
-                <WordBox class="random-word-box" *ngFor="let word of randomWords" [word]="word" [type]="'random'"></WordBox>
+                <WordBox class="random-word-box" *ngFor="let word of allWords" [word]="word" [type]="'random'"></WordBox>
             </StackLayout>
-            <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg"></Label>
-            <Button *ngIf="showNoWordsMsg" [text]="loadWordBtnMsg" (tap)="loadNewWords()"></Button>
-            <ActivityIndicator [busy]="isLoading" 
+            <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg">
+                <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
+                <Button [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords()"></Button>
+            </StackLayout>
+            <ActivityIndicator [busy]="!firstLoading && isLoading" 
                                [visibility]="isLoading ? 'visible' : 'collapse'" 
                                horizontalAlignment="center" 
                                verticalAlignment="center">

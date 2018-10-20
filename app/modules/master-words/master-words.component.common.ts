@@ -1,43 +1,54 @@
-import { EventEmitter, Output, OnInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { EventEmitter, Output, OnInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
-import { GestureTypes, PanGestureEventData, GestureEventDataWithState } from "tns-core-modules/ui/gestures/gestures";
+import { GestureTypes } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view";
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import * as dateformat from "dateformat";
 
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
 
-// const dateformat = require("dateformat");
-@Component({
-    selector: "MasterWords",
-    template: "<section></section>"
-})
-export class MasterWordsComponentCommon implements OnInit {
-    protected scrollView: ScrollView;
+export abstract class MasterWordsComponentCommon implements OnInit {
     public noWordsMsg: string;
     public showNoWordsMsg: boolean = false;
+    public loadWordsBtnMsg: string = "Repeat";
     public firstLoading = true;
     public isLoading: boolean = false;
+    public allWords: IWord[] = [];
+    public visibleWords: IWord[] = [];
 
     @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
     @Output("onTabSwipe") public onTabSwipeEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
-    @ViewChild("wordsContainer") public wordsContainer: ElementRef;
+    @ViewChild("scrollContainer") public scrollContainer: ElementRef;
+    @ViewChildren("wordsList") public wordList: QueryList<ElementRef>;
 
+    protected scrollView: ScrollView;
     protected initialDeltaY = 0;
     protected lastDeltaY = 0; 
     protected lastPanDirection: ScrollDirection;
+    protected virtualScroll$: Subject<void> = new Subject<void>();
+    protected newWordsLoaded$: Subject<void> = new Subject<void>();
+    protected maxVisibleWords = 10;
 
     constructor() {}
 
     ngOnInit () {
         const panDelay = 10;
-        let lastScrollViewEvent;
-        this.scrollView = this.wordsContainer.nativeElement as ScrollView;
+        this.scrollView = this.scrollContainer.nativeElement as ScrollView;
+
+        this.virtualScroll$.pipe(debounceTime(200)).subscribe(() => {
+            this.redrawVisibleWords();
+        });
+
+        this.newWordsLoaded$.subscribe(() => {
+            this.virtualScroll$.next();
+        });
         
-        (this.scrollView as View).on('pan,swipe', (event: any) => {
+        this.scrollView.on("pan,swipe", (event: any) => {
+            this.virtualScroll$.next();
             if (event.type === GestureTypes.pan) {
-                lastScrollViewEvent = GestureTypes.pan;
                 let deltaY = Math.round(event.deltaY);
                 if (deltaY - this.lastDeltaY < -panDelay || deltaY - this.lastDeltaY > panDelay) {
                     this.initialDeltaY = 0;
@@ -84,14 +95,12 @@ export class MasterWordsComponentCommon implements OnInit {
     }
 
     public onScroll (data: ScrollEventData) {
-        if (this.scrollView && this.scrollView.scrollableHeight <= (data.scrollY + 80) && !this.isLoading) {
+        if (this.scrollView && this.scrollView.scrollableHeight <= (data.scrollY + 100) && !this.isLoading) {
             this.loadNewWords();
         }
     }
 
-    public loadNewWords (options: IWordQueryOptions = {}) {
-        throw new Error ("No overiding method in the nested class!");
-    }
+    public abstract loadNewWords (options?: IWordQueryOptions);
 
     public getWordDate (word: IWord) {
         let currentDate = new Date();
@@ -117,5 +126,34 @@ export class MasterWordsComponentCommon implements OnInit {
             return "Yesterday";
         }
         return dateformat(inputDate, "mmmm dS, yyyy");
+    }
+
+    protected redrawVisibleWords () {
+        let minPos = null;
+        let mostCenteredWordId;
+        console.log(`Scroll Height - ${this.scrollView.getActualSize().height}`);
+        this.wordList.forEach((item: ElementRef) => {
+            let wordView = item.nativeElement as View;
+            let relativeY = wordView.getLocationRelativeTo(this.scrollView).y;
+            if (minPos == null) {
+                minPos = Math.abs(relativeY);
+                mostCenteredWordId = wordView.id.replace("word-stack-", "");
+            }
+            else if (minPos > Math.abs(relativeY)) {
+                minPos = Math.abs(relativeY);
+                mostCenteredWordId = wordView.id.replace("word-stack-", "");
+            }
+            console.log(`relativeY - ${relativeY}; word id - ${wordView.id}`);
+        });
+
+        if (mostCenteredWordId) {
+            let mostCenteredViewIndex = this.allWords.findIndex((w) => w.nameAsId === mostCenteredWordId);
+            let start = mostCenteredViewIndex - this.maxVisibleWords / 2 ;
+            let end = mostCenteredViewIndex + this.maxVisibleWords / 2
+            this.visibleWords = this.allWords.slice(start >= 0 ? start : 0, end <= this.allWords.length - 1 ? end : this.allWords.length - 1);
+        }
+        else {
+            this.visibleWords = [...this.allWords];
+        }
     }
 }

@@ -7,6 +7,7 @@ export enum WordTypeEnum {
 
 export interface IWord {
     name: string;
+    nameAsId?: string;
     definitions: string[];
     date: string;
     language?: string;

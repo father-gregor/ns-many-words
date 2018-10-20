@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
@@ -10,8 +10,6 @@ import { WordsService } from "~/services/words/words.service";
     templateUrl: "./daily-words.html"
 }) 
 export class DailyWordsComponent extends MasterWordsComponentCommon {
-    public dailyWords: IWord[] = [];
-
     public earliestWordDate: Date;
 
     constructor (private Words: WordsService) {
@@ -39,6 +37,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                     for (let word of res) {
                         word = {
                             name: word.name,
+                            nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
                             definitions: word.definitions,
                             archaic: word.archaic,
                             language: word.language,
@@ -46,12 +45,14 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                             partOfSpeech: word.partOfSpeech
                         } as IWord
                         word.namedDate = this.getWordDate(word);
-                        this.dailyWords.push(word);
+                        this.allWords.push(word);
                     }
                     this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);
+                    this.newWordsLoaded$.next();
                 } else {
                     this.showNoWordsMsg = true;
                 }
+
                 this.isLoading = false;
                 if (this.firstLoading) {
                     this.firstLoading = false;

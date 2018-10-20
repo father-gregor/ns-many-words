@@ -10,10 +10,6 @@ import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.
     templateUrl: "./meme-words.html"
 }) 
 export class MemeWordsComponent extends MasterWordsComponentCommon {
-    public memeWords: IWord[] = [];
-
-    public loadWordBtnMsg: string = "Repeat"
-
     constructor (private Words: WordsService) {
         super();
     }
@@ -41,8 +37,9 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
             (res: any) => {
                 if (res && Array.isArray(res)) {
                     for (let word of res) {
-                        this.memeWords.push({
+                        this.allWords.push({
                             name: word.name,
+                            nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
                             definitions: word.definitions,
                             archaic: word.archaic,
                             language: word.language,
@@ -54,10 +51,16 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
                     this.showNoWordsMsg = true;
                 }
                 this.isLoading = false;
+                if (this.firstLoading) {
+                    this.firstLoading = false;
+                }
             }, 
             (error: any) => {
                 this.showNoWordsMsg = true;
                 this.isLoading = false;
+                if (this.firstLoading) {
+                    this.firstLoading = false;
+                }
             });
     }
 }

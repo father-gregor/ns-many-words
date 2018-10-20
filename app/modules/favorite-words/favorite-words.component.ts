@@ -37,4 +37,8 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
             this.sub.unsubscribe();
         }
     }
+
+    public loadNewWords () {
+        return;
+    }
 }

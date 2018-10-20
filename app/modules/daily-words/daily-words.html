@@ -7,24 +7,27 @@
                        verticalAlignment="center">
     </ActivityIndicator>
 </GridLayout>
-<ScrollView #wordsContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
+<ScrollView #scrollContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
     <GridLayout columns="10%, *, 10%" rows="*">
         <StackLayout class="daily-words-stack" col="1" row="0" orientation="vertical">
-            <StackLayout *ngFor="let word of dailyWords; index as ind" orientation="vertical" class="daily-word-container">
-                <ng-container>
-                    <GridLayout columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.namedDate === 'Today'}">
-                        <Label col="0" row="0" text="" class="word-date-line"></Label>   
-                        <Label col="1" row="0" [text]="word.namedDate" class="word-date"></Label> 
-                        <Label col="2" row="0" text="" class="word-date-line"></Label>   
-                    </GridLayout>
-                    <WordBox [word]="word" [type]="'daily'"></WordBox>
-                </ng-container>
+            <StackLayout #wordsList *ngFor="let word of visibleWords; index as ind" height="330" orientation="vertical" class="daily-word-container" [id]="'word-stack-' + word.nameAsId">
+                <GridLayout height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.namedDate === 'Today'}">
+                    <Label col="0" row="0" text="" class="word-date-line"></Label>   
+                    <Label col="1" row="0" [text]="word.namedDate" class="word-date"></Label> 
+                    <Label col="2" row="0" text="" class="word-date-line"></Label>   
+                </GridLayout>
+                <GridLayout height="300" columns="*" rows="*">
+                    <WordBox col="0" row="0" [word]="word" [type]="'daily'"></WordBox>
+                </GridLayout>
             </StackLayout>
-            <Label *ngIf="showNoWordsMsg" [text]="noWordsMsg"></Label>
+            <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg">
+                <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
+                <Button [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords()"></Button>
+            </StackLayout>
             <ActivityIndicator [busy]="!firstLoading && isLoading" 
-                       [visibility]="isLoading ? 'visible' : 'collapse'"  
-                       horizontalAlignment="center"
-                       verticalAlignment="center">
+                               [visibility]="isLoading ? 'visible' : 'collapse'"  
+                               horizontalAlignment="center"
+                               verticalAlignment="center">
             </ActivityIndicator>
         </StackLayout>
     </GridLayout>
