@@ -29,7 +29,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         if (!this.isLoading) {
             let query = {
                 date: this.earliestWordDate.toString(),
-                count: options.count || 1
+                count: options.count || 3
             };
             this.isLoading = true;
 

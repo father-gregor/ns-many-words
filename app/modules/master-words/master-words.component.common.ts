@@ -1,6 +1,5 @@
-import { EventEmitter, Output, OnInit, ElementRef, ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+import { EventEmitter, Output, OnInit, ElementRef, ViewChild, ViewChildren, QueryList, ChangeDetectorRef, DoCheck } from '@angular/core';
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
-import { GestureTypes } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view";
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -10,7 +9,7 @@ import * as dateformat from "dateformat";
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
 
-export abstract class MasterWordsComponentCommon implements OnInit {
+export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     public noWordsMsg: string;
     public showNoWordsMsg: boolean = false;
     public loadWordsBtnMsg: string = "Repeat";
@@ -20,10 +19,8 @@ export abstract class MasterWordsComponentCommon implements OnInit {
     public visibleWords: IWord[] = [];
 
     @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
-    @Output("onTabSwipe") public onTabSwipeEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
     @ViewChild("scrollContainer") public scrollContainer: ElementRef;
     @ViewChildren("wordsList") public wordList: QueryList<ElementRef>;
-    @ViewChild("testScroll") public wordsStack: ElementRef;
 
     protected scrollView: ScrollView;
     protected initialDeltaY = 0;
@@ -31,13 +28,15 @@ export abstract class MasterWordsComponentCommon implements OnInit {
     protected lastPanDirection: ScrollDirection;
     protected virtualScroll$: Subject<void> = new Subject<void>();
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
+    protected tabScroll$: Subject<{direction: ScrollDirection}> = new Subject<{direction: ScrollDirection}>();
     protected maxVisibleWords = 10;
     protected mostCenteredIndex = 0;
+
+    protected lastVerticalOffset = 0;
 
     constructor(protected cd: ChangeDetectorRef) {}
 
     ngOnInit () {
-        const panDelay = 10;
         this.scrollView = this.scrollContainer.nativeElement as ScrollView;
 
         this.virtualScroll$.pipe(debounceTime(200)).subscribe(() => {
@@ -46,11 +45,31 @@ export abstract class MasterWordsComponentCommon implements OnInit {
 
         this.newWordsLoaded$.subscribe(() => {
             this.cd.detectChanges();
-            this.virtualScroll$.next();
         });
-        
-        this.scrollView.on("pan,swipe", (event: any) => {
+
+        this.tabScroll$.subscribe((dir: {direction: ScrollDirection}) => {
+            this.onTabScrollEmitter.emit(dir);
+        });
+    }
+
+    ngDoCheck () {
+        if (this.scrollView && this.scrollView.verticalOffset > 0) {
+            const panDelay = 10;
             this.virtualScroll$.next();
+            let currentVerticalOffset = this.scrollView.verticalOffset;
+
+            if (this.lastVerticalOffset + panDelay < currentVerticalOffset) {
+                this.lastVerticalOffset = currentVerticalOffset;
+                this.tabScroll$.next({direction: "up"});
+            }
+            else if (this.lastVerticalOffset - panDelay > currentVerticalOffset) {
+                this.lastVerticalOffset = currentVerticalOffset;
+                this.tabScroll$.next({direction: "down"}); 
+            }
+        }
+
+        /* REUSE LOGIC FOR CONTINIOUS PAN FOR NGDOCHECK
+        this.scrollView.on("pan,swipe", (event: any) => {
             if (event.type === GestureTypes.pan) {
                 let deltaY = Math.round(event.deltaY);
                 if (deltaY - this.lastDeltaY < -panDelay || deltaY - this.lastDeltaY > panDelay) {
@@ -76,25 +95,7 @@ export abstract class MasterWordsComponentCommon implements OnInit {
 
                 this.lastDeltaY = deltaY;
             }
-
-            /* TODO Disable swipe event, as current configuration is working better
-            if (event.type === GestureTypes.swipe) {
-                lastScrollViewEvent = GestureTypes.swipe;
-                console.log('Swipe', event.direction);
-                setTimeout(() => {
-                    if (lastScrollViewEvent === GestureTypes.swipe) {
-                        let direction;
-                        if (event.direction === 4) {
-                            direction = "up";
-                        }
-                        else if (event.direction === 8) {
-                            direction = "down";
-                        }
-                        this.onTabSwipeEmitter.emit({direction});
-                    }
-                }, 500)
-            }*/
-        });
+        });*/
     }
 
     public onScroll (data: ScrollEventData) {
@@ -145,10 +146,10 @@ export abstract class MasterWordsComponentCommon implements OnInit {
     protected calculateMostCenteredWord () {
         let minPos = null;
         let mostCenteredWordId;
-        console.log(`Scroll Height - ${this.scrollView.getActualSize().height}`);
         this.wordList.forEach((item: ElementRef) => {
             let wordView = item.nativeElement as View;
-            let relativeY = wordView.getLocationRelativeTo(this.scrollView).y;
+            let relativeY = wordView.getLocationRelativeTo(this.scrollView) as any;
+            relativeY = relativeY && relativeY.y;
             if (minPos == null) {
                 minPos = Math.abs(relativeY);
                 mostCenteredWordId = wordView.id.replace("word-stack-", "");

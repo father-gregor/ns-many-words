@@ -10,8 +10,10 @@
 <ScrollView #scrollContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
     <GridLayout class="random-words-main" columns="10%, *, 10%" rows="*">
         <StackLayout class="random-words-stack" col="1" row="0" orientation="vertical">
-            <StackLayout orientation="vertical">
-                <WordBox class="random-word-box" *ngFor="let word of allWords" [word]="word" [type]="'random'"></WordBox>
+            <StackLayout #wordsList *ngFor="let word of allWords" height="300" orientation="vertical" class="random-word-container" [id]="'word-stack-' + word.nameAsId">
+                <GridLayout *ngIf="isWordVisible(word)" height="300" columns="*" rows="*">
+                    <WordBox class="random-word-box" col="0" row="0" [word]="word" [type]="'random'"></WordBox>
+                </GridLayout>
             </StackLayout>
             <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg">
                 <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>

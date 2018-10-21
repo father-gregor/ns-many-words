@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import * as mainConfig from "../../config/main.config.json";
@@ -11,7 +11,8 @@ import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.
     selector: "FavoriteWords",
     moduleId: module.id,
     styleUrls: ["./favorite-words-common.css"],
-    templateUrl: "./favorite-words.html"
+    templateUrl: "./favorite-words.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 }) 
 export class FavoriteWordsComponent extends MasterWordsComponentCommon implements OnInit, OnDestroy {
     public favoriteWords: IFavoriteWord[];
@@ -29,6 +30,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
 
         this.sub = this.FavoriteWords.changes$.subscribe((words: IFavoriteWord[]) => {
             this.favoriteWords = words;
+            this.newWordsLoaded$.next();
         });
     }
 

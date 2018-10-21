@@ -2,7 +2,6 @@ import { Component, Input, ChangeDetectorRef, ViewChild, OnInit, AfterViewInit }
 import { Router, NavigationStart, Event } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActionBar } from 'tns-core-modules/ui/action-bar/action-bar';
-import * as dialogs from "tns-core-modules/ui/dialogs/dialogs";
 
 import * as mainConfig from "../../config/main.config.json";
 
@@ -71,7 +70,13 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         
     }
 
-    public showAboutDialog () {
-        dialogs.alert((mainConfig as any).aboutDialog);
+    public openAboutUs () {
+        this.routerExtensions.navigate(["/about-us"], {
+            transition: {
+                name: "slideLeft",
+                duration: 500,
+                curve: "ease"
+            }
+        });
     }
 }

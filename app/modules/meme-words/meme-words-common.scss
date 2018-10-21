@@ -2,7 +2,11 @@
     background: linear-gradient(to bottom, rgb(235, 209, 96), rgb(241, 79, 106), rgb(153, 216, 236));
 
     .meme-words-stack {
-        margin-top: 15;
+        margin-top: 20;
         margin-bottom: 20;
+
+        .meme-word-container {
+            margin-bottom: 15;
+        }
     }
 }

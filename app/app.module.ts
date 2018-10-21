@@ -19,6 +19,7 @@ import { SettingsComponent } from "~/modules/settings/settings.component";
 import { FavoriteWordsComponent } from "~/modules/favorite-words/favorite-words.component";
 import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
 import { ShowcaseWordComponent } from '~/modules/showcase-word/showcase-word.component';
+import { AboutUsComponent } from './modules/about-us/about-us.component';
 import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlight/touch-button-highlight.directive';
 import { VirtualScrollDirective } from '~/directives/virtual-scroll/virtual-scroll.directive';
 
@@ -42,6 +43,7 @@ import { VirtualScrollDirective } from '~/directives/virtual-scroll/virtual-scro
         FavoriteWordsComponent,
         MainActionBarComponent,
         ShowcaseWordComponent,
+        AboutUsComponent,
         TouchButtonHighlightDirective,
         VirtualScrollDirective
     ],

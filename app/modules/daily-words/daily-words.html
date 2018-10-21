@@ -9,8 +9,8 @@
 </GridLayout>
 <ScrollView #scrollContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
     <GridLayout columns="10%, *, 10%" rows="*">
-        <StackLayout #testScroll class="daily-words-stack" col="1" row="0" orientation="vertical">
-            <StackLayout #wordsList *ngFor="let word of allWords; index as ind" height="330" orientation="vertical" class="daily-word-container" [id]="'word-stack-' + word.nameAsId">
+        <StackLayout class="daily-words-stack" col="1" row="0" orientation="vertical">
+            <StackLayout #wordsList *ngFor="let word of allWords" height="330" orientation="vertical" class="daily-word-container" [id]="'word-stack-' + word.nameAsId">
                 <ng-container *ngIf="isWordVisible(word)">
                     <GridLayout height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.namedDate === 'Today'}">
                         <Label col="0" row="0" text="" class="word-date-line"></Label>   

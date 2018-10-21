@@ -4,21 +4,33 @@
         "settings": {
             "name": "Settings"
         },
-        "about": {
+        "aboutUs": {
             "name": "About"
         }
     },
-    "aboutDialog": {
+    "aboutUs": {
         "title": "About Us",
-        "message": "Developer: father_gregor\nInterface/Design: father_gregor, dolgopolovki\nIdea: dolgopolovki",
-        "okButtonText": "Close"
+        "content": [
+            {
+                "title": "Developer:",
+                "text": "father_gregor"
+            },
+            {
+                "title": "Interface/Design:",
+                "text": "father_gregor, dolgopolovki"
+            },
+            {
+                "title": "Idea:",
+                "text": "dolgopolovki, father_gregor"
+            }
+        ]
     },
     "favoritesArchive": {
-        "title": "Many Words - Favorite",
+        "title": "Favorite Words",
         "noWordsText": "No words yet... Add some!"
     },
     "showcaseWord": {
-        "title": "Many Words - Showcase"
+        "title": "Many Words — Showcase"
     },
     "loadingText": "Loading...",
     "wordApi": {

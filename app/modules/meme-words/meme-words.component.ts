@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
@@ -7,7 +7,8 @@ import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.
     selector: "MemeWords",
     moduleId: module.id,
     styleUrls: ["./meme-words-common.css"],
-    templateUrl: "./meme-words.html"
+    templateUrl: "./meme-words.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 }) 
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     constructor (private Words: WordsService, protected cd: ChangeDetectorRef) {
@@ -47,6 +48,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
                             partOfSpeech: word.partOfSpeech
                         } as IWord);
                     }
+                    this.newWordsLoaded$.next();
                 } else {
                     this.showNoWordsMsg = true;
                 }

@@ -1,12 +1,12 @@
 <MainActionBar #mainActionBar [routeName]="'/home'"></MainActionBar>
 <TabView #tabView class="main-tab-view" (selectedIndexChange)="onTabChange()">
     <StackLayout *tabItem="{title: dailyWordsTab.title}" >
-        <DailyWords (onTabScroll)="onTabScroll($event)" (onTabSwipe)="onTabSwipe($event)"></DailyWords>
+        <DailyWords (onTabScroll)="onTabScroll($event)"></DailyWords>
     </StackLayout>
     <StackLayout *tabItem="{title: randomWordsTab.title}">
-        <RandomWords (onTabScroll)="onTabScroll($event)" (onTabSwipe)="onTabSwipe($event)"></RandomWords>
+        <RandomWords (onTabScroll)="onTabScroll($event)"></RandomWords>
     </StackLayout>
     <StackLayout *tabItem="{title: memeWordsTab.title}">
-        <MemeWords (onTabScroll)="onTabScroll($event)" (onTabSwipe)="onTabSwipe($event)"></MemeWords>
+        <MemeWords (onTabScroll)="onTabScroll($event)"></MemeWords>
     </StackLayout>
 </TabView>

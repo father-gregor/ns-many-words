@@ -37,7 +37,6 @@ export class HomeComponent implements AfterViewInit {
 
     constructor() {
         this.changeMargin$
-            .pipe(debounceTime(5))
             .subscribe((marginTop: number) => {
                 this.mainActionBarComponent.actionBarView.style.marginTop = marginTop;
             });
@@ -67,18 +66,6 @@ export class HomeComponent implements AfterViewInit {
                 this.currentPos++;
                 this.changeMargin$.next(this.currentPos);
             }
-        }
-    }
-
-    public onTabSwipe (event: {direction: ScrollDirection}) {
-        let actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
-        if (event.direction === "up" && Math.abs(this.currentPos) < actionBarHeight) {
-            this.currentPos = -actionBarHeight;
-            this.changeMargin$.next(this.currentPos);
-        }
-        else if (event.direction === "down" && this.currentPos < 0) {
-            this.currentPos = 0;
-            this.changeMargin$.next(this.currentPos);
         }
     }
 }
