@@ -9,16 +9,18 @@
 </GridLayout>
 <ScrollView #scrollContainer orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
     <GridLayout columns="10%, *, 10%" rows="*">
-        <StackLayout class="daily-words-stack" col="1" row="0" orientation="vertical">
-            <StackLayout #wordsList *ngFor="let word of visibleWords; index as ind" height="330" orientation="vertical" class="daily-word-container" [id]="'word-stack-' + word.nameAsId">
-                <GridLayout height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.namedDate === 'Today'}">
-                    <Label col="0" row="0" text="" class="word-date-line"></Label>   
-                    <Label col="1" row="0" [text]="word.namedDate" class="word-date"></Label> 
-                    <Label col="2" row="0" text="" class="word-date-line"></Label>   
-                </GridLayout>
-                <GridLayout height="300" columns="*" rows="*">
-                    <WordBox col="0" row="0" [word]="word" [type]="'daily'"></WordBox>
-                </GridLayout>
+        <StackLayout #testScroll class="daily-words-stack" col="1" row="0" orientation="vertical">
+            <StackLayout #wordsList *ngFor="let word of allWords; index as ind" height="330" orientation="vertical" class="daily-word-container" [id]="'word-stack-' + word.nameAsId">
+                <ng-container *ngIf="isWordVisible(word)">
+                    <GridLayout height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.namedDate === 'Today'}">
+                        <Label col="0" row="0" text="" class="word-date-line"></Label>   
+                        <Label col="1" row="0" [text]="word.namedDate" class="word-date"></Label> 
+                        <Label col="2" row="0" text="" class="word-date-line"></Label>   
+                    </GridLayout>
+                    <GridLayout height="300" columns="*" rows="*">
+                        <WordBox col="0" row="0" [word]="word" [type]="'daily'"></WordBox>
+                    </GridLayout>
+                </ng-container>
             </StackLayout>
             <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg">
                 <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>

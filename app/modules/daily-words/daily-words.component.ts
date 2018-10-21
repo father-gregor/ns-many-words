@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
@@ -7,20 +7,21 @@ import { WordsService } from "~/services/words/words.service";
     selector: "DailyWords",
     moduleId: module.id,
     styleUrls: ["./daily-words-common.css"],
-    templateUrl: "./daily-words.html"
+    templateUrl: "./daily-words.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 }) 
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public earliestWordDate: Date;
 
-    constructor (private Words: WordsService) {
-        super();
+    constructor (private Words: WordsService, protected cd: ChangeDetectorRef) {
+        super(cd);
     }
 
     ngOnInit () {
         super.ngOnInit();
         this.earliestWordDate = new Date();
         this.noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
-        this.loadNewWords({count: 3});
+        this.loadNewWords({count: 5});
     }
 
     // @Override
@@ -64,6 +65,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 if (this.firstLoading) {
                     this.firstLoading = false;
                 }
+                this.newWordsLoaded$.next();
             });
         }
     }

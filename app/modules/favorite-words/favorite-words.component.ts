@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import * as mainConfig from "../../config/main.config.json";
@@ -20,8 +20,8 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
 
     private sub: Subscription
 
-    constructor (public FavoriteWords: FavoriteWordsService) {
-        super();
+    constructor (public FavoriteWords: FavoriteWordsService, protected cd: ChangeDetectorRef) {
+        super(cd);
     }
 
     ngOnInit () {

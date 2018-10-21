@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
@@ -10,8 +10,8 @@ import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.
     templateUrl: "./meme-words.html"
 }) 
 export class MemeWordsComponent extends MasterWordsComponentCommon {
-    constructor (private Words: WordsService) {
-        super();
+    constructor (private Words: WordsService, protected cd: ChangeDetectorRef) {
+        super(cd);
     }
 
    ngOnInit () {

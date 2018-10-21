@@ -1,4 +1,4 @@
-import { EventEmitter, Output, OnInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { EventEmitter, Output, OnInit, ElementRef, ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
 import { GestureTypes } from "tns-core-modules/ui/gestures/gestures";
 import { View } from "tns-core-modules/ui/core/view";
@@ -23,6 +23,7 @@ export abstract class MasterWordsComponentCommon implements OnInit {
     @Output("onTabSwipe") public onTabSwipeEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
     @ViewChild("scrollContainer") public scrollContainer: ElementRef;
     @ViewChildren("wordsList") public wordList: QueryList<ElementRef>;
+    @ViewChild("testScroll") public wordsStack: ElementRef;
 
     protected scrollView: ScrollView;
     protected initialDeltaY = 0;
@@ -31,18 +32,20 @@ export abstract class MasterWordsComponentCommon implements OnInit {
     protected virtualScroll$: Subject<void> = new Subject<void>();
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
     protected maxVisibleWords = 10;
+    protected mostCenteredIndex = 0;
 
-    constructor() {}
+    constructor(protected cd: ChangeDetectorRef) {}
 
     ngOnInit () {
         const panDelay = 10;
         this.scrollView = this.scrollContainer.nativeElement as ScrollView;
 
         this.virtualScroll$.pipe(debounceTime(200)).subscribe(() => {
-            this.redrawVisibleWords();
+            this.calculateMostCenteredWord();
         });
 
         this.newWordsLoaded$.subscribe(() => {
+            this.cd.detectChanges();
             this.virtualScroll$.next();
         });
         
@@ -128,7 +131,18 @@ export abstract class MasterWordsComponentCommon implements OnInit {
         return dateformat(inputDate, "mmmm dS, yyyy");
     }
 
-    protected redrawVisibleWords () {
+    public isWordVisible (word) {
+        let wordIndex = this.allWords.findIndex((w) => w === word);
+        if (wordIndex > -1) {
+            let start = this.mostCenteredIndex - this.maxVisibleWords / 2;
+            start = start >= 0 ? start : 0;
+            let end = this.mostCenteredIndex + this.maxVisibleWords / 2;
+            return wordIndex >= start && wordIndex <= end;
+        }
+        return false;
+    }
+
+    protected calculateMostCenteredWord () {
         let minPos = null;
         let mostCenteredWordId;
         console.log(`Scroll Height - ${this.scrollView.getActualSize().height}`);
@@ -143,17 +157,67 @@ export abstract class MasterWordsComponentCommon implements OnInit {
                 minPos = Math.abs(relativeY);
                 mostCenteredWordId = wordView.id.replace("word-stack-", "");
             }
-            console.log(`relativeY - ${relativeY}; word id - ${wordView.id}`);
+        });
+
+        if (mostCenteredWordId) {
+            let index = this.allWords.findIndex((w) => w.nameAsId === mostCenteredWordId);
+            if (this.mostCenteredIndex !== index) {
+                this.mostCenteredIndex = index;
+                this.cd.detectChanges();
+            }
+        }
+    }
+
+    /** Unfinished method for efficient virtual scrolling
+    protected redrawVisibleWords () {
+        let minPos = null;
+        let mostCenteredWordId;
+        let standardHeight;
+        console.log(`Scroll Height - ${this.scrollView.getActualSize().height}`);
+        this.wordList.forEach((item: ElementRef) => {
+            let wordView = item.nativeElement as View;
+            console.log('WORD Actual HEIGHT', wordView.getActualSize().height);
+            console.log('WORD Measured HEIGHT', wordView.getMeasuredHeight());
+            if (!standardHeight && wordView.getActualSize().height > 0) {
+                standardHeight = wordView.getActualSize().height
+            }
+            let relativeY = wordView.getLocationRelativeTo(this.scrollView).y;
+            if (minPos == null) {
+                minPos = Math.abs(relativeY);
+                mostCenteredWordId = wordView.id.replace("word-stack-", "");
+            }
+            else if (minPos > Math.abs(relativeY)) {
+                minPos = Math.abs(relativeY);
+                mostCenteredWordId = wordView.id.replace("word-stack-", "");
+            }
         });
 
         if (mostCenteredWordId) {
             let mostCenteredViewIndex = this.allWords.findIndex((w) => w.nameAsId === mostCenteredWordId);
             let start = mostCenteredViewIndex - this.maxVisibleWords / 2 ;
+            start = start >= 0 ? start : 0;
             let end = mostCenteredViewIndex + this.maxVisibleWords / 2
             this.visibleWords = this.allWords.slice(start >= 0 ? start : 0, end <= this.allWords.length - 1 ? end : this.allWords.length - 1);
+
+            if (standardHeight) {
+                setTimeout(() => {
+                    console.log("Standard height", standardHeight);
+                    let marginStart = start - 1 > 0 ? start - 1 : 0;
+                    console.log(marginStart);
+                    let marginEnd = (this.allWords.length - 1 - end)  > 0 ? (this.allWords.length - 1 - end) : 0;
+                    (this.wordsStack.nativeElement as View).marginTop = marginStart > 0 ? marginStart * (standardHeight * 0.1) : 0; 
+                    (this.wordsStack.nativeElement as View).marginBottom = end < this.allWords.length ? marginEnd * standardHeight : 0;
+                    console.log(`Margin Top ${(this.wordsStack.nativeElement as View).marginTop}; Margin Bottom ${(this.wordsStack.nativeElement as View).marginBottom}`);
+                    if ((this.wordsStack.nativeElement as View).marginTop > 0) {
+                        this.scrollView.scrollToVerticalOffset(this.scrollView.verticalOffset, false);
+                    }
+                }, 50);
+            }
         }
         else {
             this.visibleWords = [...this.allWords];
         }
-    }
+        console.log("Scroll height", this.scrollView.scrollableHeight);
+        console.log("Verticall offset", this.scrollView.verticalOffset);
+    }*/
 }
