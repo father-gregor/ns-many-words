@@ -1,4 +1,10 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+    getString as nsGetString,
+    setString as nsSetString,
+    hasKey as nsHasKey
+} from "tns-core-modules/application-settings/application-settings";
+
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
@@ -12,6 +18,8 @@ import { WordsService } from "~/services/words/words.service";
 }) 
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public earliestWordDate: Date;
+    private newestWordDate: Date;
+    private newestWordDateKey = "newestDate";
 
     constructor (private Words: WordsService, protected cd: ChangeDetectorRef) {
         super(cd);
@@ -21,7 +29,11 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         super.ngOnInit();
         this.earliestWordDate = new Date();
         this.noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
-        this.loadNewWords({count: 5});
+        if (nsHasKey(this.newestWordDateKey)) {
+            this.newestWordDate = JSON.parse(nsGetString(this.newestWordDateKey));
+        }
+
+        this.loadNewWords({count: 5, checkForNewestWord: true});
     }
 
     // @Override
@@ -42,10 +54,19 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                             definitions: word.definitions,
                             archaic: word.archaic,
                             language: word.language,
-                            date: word.publishDateUTC,
+                            publishDateUTC: word.publishDateUTC,
                             partOfSpeech: word.partOfSpeech
                         } as IWord
-                        word.namedDate = this.getWordDate(word);
+                        word.date = this.getWordDate(word);
+                        if (options.checkForNewestWord) {
+                            if (!this.newestWordDate || this.newestWordDate.getTime() < word.date.object.getTime()) {
+                                word.newest = true;
+                                this.newestWordDate = word.date.object;
+                                options.checkForNewestWord = false;
+                                // nsSetString(this.newestWordDateKey, word.date.object); TODO Commented out for development only
+                            }
+                        }
+
                         this.allWords.push(word);
                     }
                     this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);

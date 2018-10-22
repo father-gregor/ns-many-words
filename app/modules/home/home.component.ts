@@ -36,10 +36,9 @@ export class HomeComponent implements AfterViewInit {
     private changeMargin$ = new Subject<number> ();
 
     constructor() {
-        this.changeMargin$
-            .subscribe((marginTop: number) => {
-                this.mainActionBarComponent.actionBarView.style.marginTop = marginTop;
-            });
+        this.changeMargin$.subscribe((marginTop: number) => {
+            this.mainActionBarComponent.actionBarView.style.marginTop = marginTop;
+        });
     }
 
     ngAfterViewInit () {

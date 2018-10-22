@@ -1,4 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { View } from 'tns-core-modules/ui/core/view';
+import { AnimationCurve } from "tns-core-modules/ui/enums";
 import { RouterExtensions } from 'nativescript-angular/router';
 import * as SocialShare from "nativescript-social-share";
 
@@ -18,25 +20,49 @@ export class WordBoxComponent {
     @Input() public type: WordTypeEnum;
     @Input() public disableFavorite: boolean;
 
+    @ViewChild("wordBox") public wordBoxView: ElementRef;
+
     constructor(
         public FavoriteWords: FavoriteWordsService,
         public SnackBarService: SnackBarNotificationService,
         public PageDataStorage: PageDataStorageService<IWord>,
-        public routerExtensions: RouterExtensions
+        public routerExtensions: RouterExtensions,
+        private cd: ChangeDetectorRef
     ) {}
 
     ngOnInit () {
         if (!this.word) {
             this.word = {
-                name: "degradation",
-                definitions: ["a low or downcast state. the process in which the beauty or quality of something is destroyed or spoiled"],
-                date: new Date().toUTCString()
+                name: "",
+                definitions: [],
+                date: {text: "", object: new Date()}
             }
         }
     }
 
     public isFavorite () {
         return Boolean(this.FavoriteWords.get(this.word, this.type));
+    }
+
+    public openNewestWord () {
+        let wordView = this.wordBoxView.nativeElement as View;
+        wordView.animate({
+            scale: { x: 0.5, y: 0.5},
+            opacity: 0,
+            duration: 1000
+        }).then(() => {
+            this.word = {...this.word, newest: false};
+            this.cd.detectChanges();
+            wordView.translateX = -300;
+            wordView.scaleX = 1;
+            wordView.scaleY = 1;
+            wordView.opacity = 1;
+            wordView.animate({
+                translate: { x: 0, y: 0 }, 
+                duration: 600,
+                curve: AnimationCurve.easeOut
+            });
+        });
     }
 
     public async onFavoriteTap () {

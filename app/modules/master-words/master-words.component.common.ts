@@ -106,7 +106,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
 
     public abstract loadNewWords (options?: IWordQueryOptions);
 
-    public getWordDate (word: IWord) {
+    public getWordDate (word: IWord): {text: string, object: Date} {
         let currentDate = new Date();
         currentDate.setHours(0);
         currentDate.setMinutes(0);
@@ -114,22 +114,22 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
         currentDate.setMilliseconds(0);
 
         let inputDate;
-        if (word.date) {
-            inputDate = new Date(word.date)
+        if (word.publishDateUTC) {
+            inputDate = new Date(word.publishDateUTC)
             inputDate.setHours(0);
             inputDate.setMinutes(0);
             inputDate.setSeconds(0);
             inputDate.setMilliseconds(0);
         } else {
-            return "Mysterious Date";
+            return {text: "Mysterious Date", object: null};
         }
         let dateDiff = currentDate.getTime() - inputDate.getTime();
         if (currentDate.getTime() == inputDate.getTime()) {
-            return "Today";
+            return {text: "Today", object: inputDate};
         } else if (dateDiff <= (24 * 60 * 60 *1000)) {
-            return "Yesterday";
+            return {text: "Yesterday", object: inputDate};
         }
-        return dateformat(inputDate, "mmmm dS, yyyy");
+        return {text: dateformat(inputDate, "mmmm dS, yyyy"), object: inputDate};
     }
 
     public isWordVisible (word) {

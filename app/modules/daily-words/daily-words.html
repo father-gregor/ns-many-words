@@ -12,9 +12,9 @@
         <StackLayout class="daily-words-stack" col="1" row="0" orientation="vertical">
             <StackLayout #wordsList *ngFor="let word of allWords" height="330" orientation="vertical" class="daily-word-container" [id]="'word-stack-' + word.nameAsId">
                 <ng-container *ngIf="isWordVisible(word)">
-                    <GridLayout height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.namedDate === 'Today'}">
+                    <GridLayout height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.date.text === 'Today'}">
                         <Label col="0" row="0" text="" class="word-date-line"></Label>   
-                        <Label col="1" row="0" [text]="word.namedDate" class="word-date"></Label> 
+                        <Label col="1" row="0" [text]="word.date.text" class="word-date"></Label> 
                         <Label col="2" row="0" text="" class="word-date-line"></Label>   
                     </GridLayout>
                     <GridLayout height="300" columns="*" rows="*">
