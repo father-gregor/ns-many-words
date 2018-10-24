@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as Firebase from "nativescript-plugin-firebase";
 import { LocalNotifications } from "nativescript-local-notifications";
 
 import * as mainConfig from "./config/main.config.json";
@@ -14,19 +15,15 @@ export class AppComponent implements OnInit {
     constructor() {}
 
     async ngOnInit () {
-        const ids = await LocalNotifications.getScheduledIds();
-        if (ids.indexOf(this.newWordNotification.options.id) < 0) {
-            let notificationDate = new Date();
-            notificationDate.setHours(this.newWordNotification.scheduledTime.hours);
-            notificationDate.setMinutes(this.newWordNotification.scheduledTime.minutes);
-            notificationDate.setSeconds(this.newWordNotification.scheduledTime.seconds);
-            notificationDate.setMilliseconds(this.newWordNotification.scheduledTime.milliseconds);
-            LocalNotifications.schedule([{
-                ...this.newWordNotification.options,
-                at: notificationDate,
-                interval: "day",
-                sound: "default"
-            }]);
-        }
+        Firebase.init({
+            // Optionally pass in properties for database, authentication and cloud messaging,
+            // see their respective docs.
+        }).then((instance) => {
+            console.log("firebase.init done");
+        }, (error) => {
+            console.log(`firebase.init error: ${error}`);
+        });
+
+        await LocalNotifications.cancelAll();
     }
 }
