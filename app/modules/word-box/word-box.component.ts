@@ -1,13 +1,13 @@
-import { Component, Input, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { View } from 'tns-core-modules/ui/core/view';
+import { Component, Input, ElementRef, ViewChild, ChangeDetectorRef } from "@angular/core";
+import { View } from "tns-core-modules/ui/core/view";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from "nativescript-angular/router";
 import * as SocialShare from "nativescript-social-share";
 
-import { IWord, WordTypeEnum } from "~/modules/word-box/word-box.definitions";
+import { IWord, WordType, IWordRouterData } from "~/modules/word-box/word-box.definitions";
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { SnackBarNotificationService } from "~/services/snack-bar-notification/snack-bar-notification.service";
-import { PageDataStorageService } from '~/services/page-data-storage/page-data-storage.service';
+import { PageDataStorageService } from "~/services/page-data-storage/page-data-storage.service";
 
 @Component({
     selector: "WordBox",
@@ -16,8 +16,10 @@ import { PageDataStorageService } from '~/services/page-data-storage/page-data-s
     templateUrl: "./word-box.html"
 })
 export class WordBoxComponent {
+    public hideBeforeConfirm = false;
     @Input() public word: IWord;
-    @Input() public type: WordTypeEnum;
+    @Input() public type: WordType;
+    @Input() public isFavoritePage = false;
     @Input() public disableFavorite: boolean;
 
     @ViewChild("wordBox") public wordBoxView: ElementRef;
@@ -25,7 +27,7 @@ export class WordBoxComponent {
     constructor(
         public FavoriteWords: FavoriteWordsService,
         public SnackBarService: SnackBarNotificationService,
-        public PageDataStorage: PageDataStorageService<IWord>,
+        public PageDataStorage: PageDataStorageService<IWordRouterData>,
         public routerExtensions: RouterExtensions,
         private cd: ChangeDetectorRef
     ) {}
@@ -66,26 +68,31 @@ export class WordBoxComponent {
     }
 
     public async onFavoriteTap () {
-        let undo;
         if (this.isFavorite()) {
-            this.FavoriteWords.remove(this.word, this.type);
-            undo = await this.SnackBarService.showUndoAction(`Removed '${this.word.name}' from favorite list`);
-            if (undo.command === 'Action') {
-                this.FavoriteWords.add(this.word, this.type);
+            if (this.isFavoritePage) {
+                this.hideBeforeConfirm = true;
+            }
+            else {
+                this.FavoriteWords.remove(this.word, this.type);
+            }
+            this.cd.detectChanges();
+            let undo = await this.SnackBarService.showUndoAction(`Removed "${this.word.name}" from favorite list`);
+            if (undo.command === "Action") {
+                this.hideBeforeConfirm = false;
+                this.cd.detectChanges();
+            } else if (this.isFavoritePage) {
+                this.FavoriteWords.remove(this.word, this.type);
             }
         }
         else {
             this.FavoriteWords.add(this.word, this.type);
-            undo = await this.SnackBarService.showUndoAction(`Added '${this.word.name}' to favorite list`);
-            if (undo.command === 'Action') {
-                this.FavoriteWords.remove(this.word, this.type);
-            }
+            this.cd.detectChanges();
         }
     }
 
     public onOpenWordTap () {
-        this.PageDataStorage.current = this.word;
-        this.routerExtensions.navigate(['showcase-word'], {
+        this.PageDataStorage.current = {word: this.word, type: this.type};
+        this.routerExtensions.navigate(["/showcase-word"], {
             transition: {
                 name: "slideLeft",
                 duration: 500,
@@ -96,8 +103,8 @@ export class WordBoxComponent {
 
     public onSocialShareTap () {
         SocialShare.shareText(
-            `'${this.word.name}' - ${this.word.definitions[0].toLowerCase()}'`, 
-            `Would you like to share word '${this.word.name}' with others?`
+            `"${this.word.name}" - ${this.word.definitions[0].toLowerCase()}"`, 
+            `Would you like to share word "${this.word.name}" with others?`
         );
     }
 }

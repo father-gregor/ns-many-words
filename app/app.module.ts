@@ -8,6 +8,7 @@ import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.s
 import { WordsService } from "~/services/words/words.service";
 import { SnackBarNotificationService } from "~/services/snack-bar-notification/snack-bar-notification.service";
 import { PageDataStorageService } from '~/services/page-data-storage/page-data-storage.service';
+import { ConnectionMonitorService } from './services/connection-monitor/connection-monitor.service';
 
 import { AppComponent } from "~/app.component";
 import { HomeComponent } from "~/modules/home/home.component";
@@ -49,7 +50,8 @@ import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlig
         WordsService,
         FavoriteWordsService,
         SnackBarNotificationService,
-        PageDataStorageService
+        PageDataStorageService,
+        ConnectionMonitorService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

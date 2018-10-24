@@ -7,7 +7,7 @@ import {
     hasKey as nsHasKey
 } from "tns-core-modules/application-settings/application-settings";
 
-import { IWord, WordTypeEnum } from "~/modules/word-box/word-box.definitions";
+import { IWord, WordType } from "~/modules/word-box/word-box.definitions";
 import { IFavoriteWords, IFavoriteWord } from "~/services/favorite-words/favorite-words";
 
 @Injectable()
@@ -21,11 +21,11 @@ export class FavoriteWordsService {
         return this.getFavoriteWordsArchive().words;
     }
 
-    public get (word: IWord, type: WordTypeEnum): IFavoriteWord {
+    public get (word: IWord, type: WordType): IFavoriteWord {
         return this.getFavoriteWordsArchive().words.find((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type);
     }
 
-    public add (word: IWord, type: WordTypeEnum) {
+    public add (word: IWord, type: WordType) {
         try {
             let favoritesArchive: IFavoriteWords = this.getFavoriteWordsArchive();
             let isWordExist: boolean = Boolean(favoritesArchive.words.find((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type));
@@ -43,7 +43,7 @@ export class FavoriteWordsService {
         }
     }
 
-    public remove (word: IWord, type: WordTypeEnum) {
+    public remove (word: IWord, type: WordType) {
         try {
             let favoritesArchive: IFavoriteWords = this.getFavoriteWordsArchive();
             let removedWordIndex: number = favoritesArchive.words.findIndex((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type);

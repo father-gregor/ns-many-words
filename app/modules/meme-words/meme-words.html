@@ -7,7 +7,7 @@
                        verticalAlignment="center">
     </ActivityIndicator>
 </GridLayout>
-<ScrollView #scrollContainer class="meme-words-container" orientation="vertical" (scroll)="onScroll($event)" sdkExampleTitle sdkToggleNavButton>
+<ScrollView #scrollContainer class="meme-words-container" orientation="vertical" (scroll)="onScroll($event)">
     <GridLayout class="meme-words-main" columns="10%, *, 10%" rows="*">
         <StackLayout class="meme-words-stack" col="1" row="0" orientation="vertical">
             <StackLayout #wordsList *ngFor="let word of allWords" class="meme-word-container" height="300" orientation="vertical" [id]="'word-stack-' + word.nameAsId">

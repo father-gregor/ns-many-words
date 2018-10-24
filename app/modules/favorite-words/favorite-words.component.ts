@@ -6,6 +6,7 @@ import * as mainConfig from "../../config/main.config.json";
 import { IFavoriteWord } from '~/services/favorite-words/favorite-words';
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
+import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service.js';
 
 @Component({
     selector: "FavoriteWords",
@@ -21,8 +22,12 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
 
     private sub: Subscription
 
-    constructor (public FavoriteWords: FavoriteWordsService, protected cd: ChangeDetectorRef) {
-        super(cd);
+    constructor (
+        public FavoriteWords: FavoriteWordsService,
+        protected ConnectionMonitor: ConnectionMonitorService,
+        protected cd: ChangeDetectorRef
+    ) {
+        super(ConnectionMonitor, cd);
     }
 
     ngOnInit () {

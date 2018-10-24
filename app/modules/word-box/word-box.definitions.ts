@@ -1,9 +1,4 @@
-export enum WordTypeEnum {
-    daily = "daily",
-    random = "random",
-    meme = "meme",
-    favorite = "favorite"
-}
+export type WordType = "daily" | "random" | "meme" | "favorite";
 
 export interface IWord {
     name: string;
@@ -15,6 +10,11 @@ export interface IWord {
     language?: string;
     archaic?: boolean;
     partOfSpeech?: string[];
+}
+
+export interface IWordRouterData {
+    word: IWord;
+    type: WordType;
 }
 
 export interface IWordQueryOptions {

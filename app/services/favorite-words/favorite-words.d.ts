@@ -1,8 +1,8 @@
-import { IWord, WordTypeEnum } from "~/modules/word-box/word-box.definitions";
+import { IWord, WordType } from "~/modules/word-box/word-box.definitions";
 
 export interface IFavoriteWord {
     word: IWord;
-    type: WordTypeEnum;
+    type: WordType;
 }
 
 export interface IFavoriteWords {

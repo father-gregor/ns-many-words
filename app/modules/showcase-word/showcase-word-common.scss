@@ -1,0 +1,41 @@
+.word-name {
+    margin-top: 20;
+    color: #000000;
+    font-size: 40;
+}
+
+.word-name-separator {
+    margin-top: 20;
+    margin-bottom: 20;
+    border-width: 0;
+    border-style: solid;
+    height: 3;
+    background-color: rgb(114, 114, 114);
+}
+
+.word-definition-container {
+    font-size: 20;
+    margin-bottom: 50;
+
+    GridLayout {
+        margin-bottom: 10;
+    }
+}
+
+.btn-favorite-container {
+    margin-right: 20;
+    margin-bottom: 20;
+    background: #000000;
+    border-radius: 100;
+    border-width: 0;
+}
+
+.meme-word {
+    &.btn-favorite-container {
+        background: linear-gradient(45deg, rgb(235, 209, 96), rgb(241, 79, 106), rgb(153, 216, 236));
+    }
+
+    .word-name-separator {
+        background: linear-gradient(to right, rgb(235, 209, 96), rgb(241, 79, 106), rgb(153, 216, 236));
+    }
+}

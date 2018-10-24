@@ -1,11 +1,25 @@
-<MainActionBar [routerName]="'/word-showcase'" [title]="actionBarTitle"></MainActionBar>
-<GridLayout></GridLayout>
-<StackLayout orientation="vertical">
-    <Label class="h1 text-center" [text]="word.name.toUpperCase()"></Label>
-    <GridLayout col="*" row="50, *">
-        <Label col="0" row="0" text="Options Row"></Label>
-        <StackLayout class="m-10" col="0" row="1">
-            <Label *ngFor="let def of word.definitions" class="word-definition m-10" [text]="def" textWrap="true"></Label>
+<MainActionBar [routerName]="'/showcase-word'" [title]="actionBarTitle"></MainActionBar>
+<ScrollView orientation="vertical" [ngClass]="{'meme-word': type === 'meme'}">
+    <GridLayout columns="25, *, 15" rows="*">
+        <StackLayout col="1" row="0" orientation="vertical">
+            <Label class="word-name" [text]="word.name" [textWrap]="true"></Label>
+            <Label text="" class="word-name-separator"></Label>  
+            <StackLayout class="word-definition-container">
+                <GridLayout columns="20, *" rows="*"  *ngFor="let def of word.definitions; index as ind">
+                    <Label col="0" row="0" [text]="(ind + 1) + '.'"></Label>
+                    <Label class="word-definition" col="1" row="0" [text]="def" textWrap="true"></Label>
+                </GridLayout>
+            </StackLayout> 
         </StackLayout>
     </GridLayout>
-</StackLayout>
+</ScrollView>
+<AbsoluteLayout class="btn-favorite-container" [ngClass]="{'meme-word': type === 'meme'}" width="70" height="70" horizontalAlignment="right" verticalAlignment="bottom" (tap)="onFavoriteTap()">
+    <Image  top="14"
+            left="14"
+            [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
+            width="40" 
+            height="40" 
+            class="btn-favorite"
+            stretch="aspectFit">
+    </Image>
+</AbsoluteLayout>

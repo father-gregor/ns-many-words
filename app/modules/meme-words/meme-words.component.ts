@@ -1,7 +1,9 @@
 import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
+import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service';
 
 @Component({
     selector: "MemeWords",
@@ -11,8 +13,12 @@ import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.
     changeDetection: ChangeDetectionStrategy.OnPush
 }) 
 export class MemeWordsComponent extends MasterWordsComponentCommon {
-    constructor (private Words: WordsService, protected cd: ChangeDetectorRef) {
-        super(cd);
+    constructor (
+        private Words: WordsService, 
+        protected ConnectionMonitor: ConnectionMonitorService,
+        protected cd: ChangeDetectorRef
+    ) {
+        super(ConnectionMonitor, cd);
     }
 
    ngOnInit () {

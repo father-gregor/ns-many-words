@@ -1,13 +1,15 @@
-import { EventEmitter, Output, OnInit, ElementRef, ViewChild, ViewChildren, QueryList, ChangeDetectorRef, DoCheck } from '@angular/core';
+import { EventEmitter, Output, OnInit, ElementRef, ViewChild, ViewChildren, QueryList, ChangeDetectorRef, DoCheck, Optional } from '@angular/core';
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view/scroll-view";
 import { View } from "tns-core-modules/ui/core/view";
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { connectionType } from 'tns-core-modules/connectivity/connectivity';
 
 import * as dateformat from "dateformat";
 
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
+import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service';
 
 export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     public noWordsMsg: string;
@@ -31,10 +33,18 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     protected tabScroll$: Subject<{direction: ScrollDirection}> = new Subject<{direction: ScrollDirection}>();
     protected maxVisibleWords = 10;
     protected mostCenteredIndex = 0;
-
     protected lastVerticalOffset = 0;
 
-    constructor(protected cd: ChangeDetectorRef) {}
+    private static monitor: ConnectionMonitorService;
+
+    constructor(protected ConnectionMonitor: ConnectionMonitorService, protected cd: ChangeDetectorRef) {
+        if (MasterWordsComponentCommon.monitor) {
+            ConnectionMonitor = MasterWordsComponentCommon.monitor;
+        }
+        else {
+            MasterWordsComponentCommon.monitor = ConnectionMonitor;
+        }
+    }
 
     ngOnInit () {
         this.scrollView = this.scrollContainer.nativeElement as ScrollView;
@@ -49,6 +59,9 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
 
         this.tabScroll$.subscribe((dir: {direction: ScrollDirection}) => {
             this.onTabScrollEmitter.emit(dir);
+        });
+
+        this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
         });
     }
 
@@ -169,57 +182,4 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
             }
         }
     }
-
-    /** Unfinished method for efficient virtual scrolling
-    protected redrawVisibleWords () {
-        let minPos = null;
-        let mostCenteredWordId;
-        let standardHeight;
-        console.log(`Scroll Height - ${this.scrollView.getActualSize().height}`);
-        this.wordList.forEach((item: ElementRef) => {
-            let wordView = item.nativeElement as View;
-            console.log('WORD Actual HEIGHT', wordView.getActualSize().height);
-            console.log('WORD Measured HEIGHT', wordView.getMeasuredHeight());
-            if (!standardHeight && wordView.getActualSize().height > 0) {
-                standardHeight = wordView.getActualSize().height
-            }
-            let relativeY = wordView.getLocationRelativeTo(this.scrollView).y;
-            if (minPos == null) {
-                minPos = Math.abs(relativeY);
-                mostCenteredWordId = wordView.id.replace("word-stack-", "");
-            }
-            else if (minPos > Math.abs(relativeY)) {
-                minPos = Math.abs(relativeY);
-                mostCenteredWordId = wordView.id.replace("word-stack-", "");
-            }
-        });
-
-        if (mostCenteredWordId) {
-            let mostCenteredViewIndex = this.allWords.findIndex((w) => w.nameAsId === mostCenteredWordId);
-            let start = mostCenteredViewIndex - this.maxVisibleWords / 2 ;
-            start = start >= 0 ? start : 0;
-            let end = mostCenteredViewIndex + this.maxVisibleWords / 2
-            this.visibleWords = this.allWords.slice(start >= 0 ? start : 0, end <= this.allWords.length - 1 ? end : this.allWords.length - 1);
-
-            if (standardHeight) {
-                setTimeout(() => {
-                    console.log("Standard height", standardHeight);
-                    let marginStart = start - 1 > 0 ? start - 1 : 0;
-                    console.log(marginStart);
-                    let marginEnd = (this.allWords.length - 1 - end)  > 0 ? (this.allWords.length - 1 - end) : 0;
-                    (this.wordsStack.nativeElement as View).marginTop = marginStart > 0 ? marginStart * (standardHeight * 0.1) : 0; 
-                    (this.wordsStack.nativeElement as View).marginBottom = end < this.allWords.length ? marginEnd * standardHeight : 0;
-                    console.log(`Margin Top ${(this.wordsStack.nativeElement as View).marginTop}; Margin Bottom ${(this.wordsStack.nativeElement as View).marginBottom}`);
-                    if ((this.wordsStack.nativeElement as View).marginTop > 0) {
-                        this.scrollView.scrollToVerticalOffset(this.scrollView.verticalOffset, false);
-                    }
-                }, 50);
-            }
-        }
-        else {
-            this.visibleWords = [...this.allWords];
-        }
-        console.log("Scroll height", this.scrollView.scrollableHeight);
-        console.log("Verticall offset", this.scrollView.verticalOffset);
-    }*/
 }

@@ -1,4 +1,4 @@
-<GridLayout #wordBox class="word-container" [ngClass]="{'newest-teaser': word.newest, 'newest-word': !word.newest && word.date.text === 'Today'}" columns="*, 30" rows="70, *, 40" verticalAlignment="center">
+<GridLayout #wordBox *ngIf="!hideBeforeConfirm" class="word-container" [ngClass]="{'newest-teaser': word.newest, 'newest-word': !word.newest && word.date.text === 'Today'}" columns="*, 30" rows="70, *, 40" verticalAlignment="center">
     <ng-container *ngIf="!word.newest">
         <Label row="0" col="0" class="word-selftext" [text]="word.name" textWrap="true" verticalAlignment="top"></Label>
         <Image *ngIf="!disableFavorite" 
@@ -14,8 +14,8 @@
             <Label *ngFor="let def of word.definitions; index as ind" class="word-definition" [text]="(ind + 1) + '. ' + def"></Label>
         </StackLayout>
         <StackLayout class="wordbox-footer" row="2" col="0" colSpan="2" orientation="horizontal">
-            <Button class="btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()" btnHighlight></Button>
-            <Button class="btn-outline brn-share-word" text="Share" (tap)="onSocialShareTap()" btnHighlight></Button>
+            <Button class="btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()" [btnHighlight]="word.date.text === 'Today' ? '#eed755' : null"></Button>
+            <Button class="btn-outline brn-share-word" text="Share" (tap)="onSocialShareTap()" [btnHighlight]="word.date.text === 'Today' ? '#eed755' : null"></Button>
         </StackLayout>
     </ng-container>
 

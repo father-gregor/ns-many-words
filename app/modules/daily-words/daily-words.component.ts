@@ -8,6 +8,7 @@ import {
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
+import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service';
 
 @Component({
     selector: "DailyWords",
@@ -21,8 +22,12 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
     private newestWordDate: Date;
     private newestWordDateKey = "newestDate";
 
-    constructor (private Words: WordsService, protected cd: ChangeDetectorRef) {
-        super(cd);
+    constructor (
+        private Words: WordsService, 
+        protected ConnectionMonitor: ConnectionMonitorService,
+        protected cd: ChangeDetectorRef
+    ) {
+        super(ConnectionMonitor, cd);
     }
 
     ngOnInit () {
