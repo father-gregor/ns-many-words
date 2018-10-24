@@ -1,7 +1,6 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { TabView } from 'tns-core-modules/ui/tab-view';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators'
 
 import { IWordTab } from "~/modules/home/tab";
 import { MainActionBarComponent } from '~/modules/main-action-bar/main-action-bar.component';

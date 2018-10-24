@@ -25,7 +25,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     protected scrollView: ScrollView;
     protected initialDeltaY = 0;
     protected lastDeltaY = 0; 
-    protected lastPanDirection: ScrollDirection;
+    protected lastPanDirection: ScrollDirection = "up";
     protected virtualScroll$: Subject<void> = new Subject<void>();
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
     protected tabScroll$: Subject<{direction: ScrollDirection}> = new Subject<{direction: ScrollDirection}>();
@@ -54,48 +54,49 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
 
     ngDoCheck () {
         if (this.scrollView && this.scrollView.verticalOffset > 0) {
-            const panDelay = 10;
+            let panDelay = 15;
             this.virtualScroll$.next();
             let currentVerticalOffset = this.scrollView.verticalOffset;
 
+            if ((this.lastPanDirection === "up" && this.lastVerticalOffset < currentVerticalOffset) || (this.lastPanDirection === "down" && this.lastVerticalOffset > currentVerticalOffset)) {
+                panDelay = 0;
+            }
+
             if (this.lastVerticalOffset + panDelay < currentVerticalOffset) {
                 this.lastVerticalOffset = currentVerticalOffset;
-                this.tabScroll$.next({direction: "up"});
+                this.lastPanDirection = "up";
+                this.tabScroll$.next({direction: this.lastPanDirection});
             }
             else if (this.lastVerticalOffset - panDelay > currentVerticalOffset) {
                 this.lastVerticalOffset = currentVerticalOffset;
-                this.tabScroll$.next({direction: "down"}); 
+                this.lastPanDirection = "down";
+                this.tabScroll$.next({direction: this.lastPanDirection}); 
             }
+
+            /*let deltaY = Math.round(this.scrollView.verticalOffset);
+            if (deltaY - this.lastVerticalOffset < -panDelay || deltaY - this.lastVerticalOffset > panDelay) {
+                this.initialDeltaY = 0;
+                this.lastVerticalOffset = deltaY;
+                this.lastPanDirection = null;
+            }
+
+            // If in the continious pan we start moving in the opposite direction
+            if (this.lastPanDirection === "up" && deltaY < this.lastVerticalOffset || this.lastPanDirection === "down" && deltaY > this.lastVerticalOffset) {
+                this.initialDeltaY = deltaY;
+                this.lastPanDirection = null;
+            }
+
+            if ((deltaY - this.initialDeltaY) > panDelay) {
+                this.lastPanDirection = "up";
+                this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
+            }
+            else if ((deltaY - this.initialDeltaY) < -panDelay) {
+                this.lastPanDirection = "down";
+                this.onTabScrollEmitter.emit({direction:this.lastPanDirection});
+            }
+
+            this.lastVerticalOffset = deltaY;*/
         }
-
-        /* REUSE LOGIC FOR CONTINIOUS PAN FOR NGDOCHECK
-        this.scrollView.on("pan,swipe", (event: any) => {
-            if (event.type === GestureTypes.pan) {
-                let deltaY = Math.round(event.deltaY);
-                if (deltaY - this.lastDeltaY < -panDelay || deltaY - this.lastDeltaY > panDelay) {
-                    this.initialDeltaY = 0;
-                    this.lastDeltaY = deltaY;
-                    this.lastPanDirection = null;
-                }
-
-                // If in the continious pan we start moving in the opposite direction
-                if (this.lastPanDirection === "up" && deltaY > this.lastDeltaY || this.lastPanDirection === "down" && deltaY < this.lastDeltaY) {
-                    this.initialDeltaY = deltaY;
-                    this.lastPanDirection = null;
-                }
-
-                if ((deltaY - this.initialDeltaY) < -panDelay) {
-                    this.lastPanDirection = "up";
-                    this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
-                }
-                else if ((deltaY - this.initialDeltaY) > panDelay) {
-                    this.lastPanDirection = "down";
-                    this.onTabScrollEmitter.emit({direction:this.lastPanDirection});
-                }
-
-                this.lastDeltaY = deltaY;
-            }
-        });*/
     }
 
     public onScroll (data: ScrollEventData) {

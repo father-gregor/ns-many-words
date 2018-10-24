@@ -21,7 +21,6 @@ import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-ba
 import { ShowcaseWordComponent } from '~/modules/showcase-word/showcase-word.component';
 import { AboutUsComponent } from './modules/about-us/about-us.component';
 import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlight/touch-button-highlight.directive';
-import { VirtualScrollDirective } from '~/directives/virtual-scroll/virtual-scroll.directive';
 
 @NgModule({
     bootstrap: [
@@ -44,8 +43,7 @@ import { VirtualScrollDirective } from '~/directives/virtual-scroll/virtual-scro
         MainActionBarComponent,
         ShowcaseWordComponent,
         AboutUsComponent,
-        TouchButtonHighlightDirective,
-        VirtualScrollDirective
+        TouchButtonHighlightDirective
     ],
     providers: [
         WordsService,
