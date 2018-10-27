@@ -32,7 +32,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     protected virtualScroll$: Subject<void> = new Subject<void>();
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
     protected tabScroll$: Subject<{direction: ScrollDirection}> = new Subject<{direction: ScrollDirection}>();
-    protected maxVisibleWords = 10;
+    protected maxVisibleWords = 20;
     protected mostCenteredIndex = 0;
     protected lastVerticalOffset = 0;
     protected lastVerticalOffsetBeforeRecalculate = 0;
@@ -80,7 +80,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     ngDoCheck () {
         const scrollViewOffset = this.scrollView.verticalOffset;
         if (this.scrollView && scrollViewOffset > 0 && scrollViewOffset !== this.lastVerticalOffset) {
-            console.log('DO CHECK', scrollViewOffset);
             let panDelay = 15;
             if (Math.abs(this.lastVerticalOffsetBeforeRecalculate - scrollViewOffset) >= this.cardHeight) {
                 this.lastVerticalOffsetBeforeRecalculate = scrollViewOffset;

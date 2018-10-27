@@ -8,3 +8,5 @@ platforms/
 tmp/
 typings/
 .vscode/
+App_Resources/**/GoogleService-Info.plist
+App_Resources/**/google-services.json
