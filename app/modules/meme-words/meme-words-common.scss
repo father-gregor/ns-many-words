@@ -1,5 +1,8 @@
+@import "../../mixins.scss";
+
 .meme-words-container {
-    background: linear-gradient(to bottom, rgb(235, 209, 96), rgb(241, 79, 106), rgb(153, 216, 236));
+    @include meme-gradient(to bottom);
+    height: 100%;
 
     .meme-words-stack {
         margin-top: 20;

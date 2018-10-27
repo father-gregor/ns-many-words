@@ -17,6 +17,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     public loadWordsBtnMsg: string = "Repeat";
     public firstLoading = true;
     public isLoading: boolean = false;
+    public noConnectionError = false;
     public allWords: IWord[] = [];
     public visibleWords: IWord[] = [];
 
@@ -34,10 +35,12 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     protected maxVisibleWords = 10;
     protected mostCenteredIndex = 0;
     protected lastVerticalOffset = 0;
+    protected lastVerticalOffsetBeforeRecalculate = 0;
+    protected cardHeight = null;
 
     private static monitor: ConnectionMonitorService;
 
-    constructor(protected ConnectionMonitor: ConnectionMonitorService, protected cd: ChangeDetectorRef) {
+    constructor (protected ConnectionMonitor: ConnectionMonitorService, protected cd: ChangeDetectorRef) {
         if (MasterWordsComponentCommon.monitor) {
             ConnectionMonitor = MasterWordsComponentCommon.monitor;
         }
@@ -62,26 +65,39 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
         });
 
         this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
+            if (!this.noConnectionError && connection === connectionType.none) {
+                this.noConnectionError = true;
+                console.log("ERRPRS CONNECTION");
+                this.cd.detectChanges();
+            }
+            else if (this.noConnectionError) {
+                this.noConnectionError = false;
+                this.loadNewWords();
+            }
         });
     }
 
     ngDoCheck () {
-        if (this.scrollView && this.scrollView.verticalOffset > 0) {
+        const scrollViewOffset = this.scrollView.verticalOffset;
+        if (this.scrollView && scrollViewOffset > 0 && scrollViewOffset !== this.lastVerticalOffset) {
+            console.log('DO CHECK', scrollViewOffset);
             let panDelay = 15;
-            this.virtualScroll$.next();
-            let currentVerticalOffset = this.scrollView.verticalOffset;
+            if (Math.abs(this.lastVerticalOffsetBeforeRecalculate - scrollViewOffset) >= this.cardHeight) {
+                this.lastVerticalOffsetBeforeRecalculate = scrollViewOffset;
+                this.virtualScroll$.next();
+            }
 
-            if ((this.lastPanDirection === "up" && this.lastVerticalOffset < currentVerticalOffset) || (this.lastPanDirection === "down" && this.lastVerticalOffset > currentVerticalOffset)) {
+            if ((this.lastPanDirection === "up" && this.lastVerticalOffset < scrollViewOffset) || (this.lastPanDirection === "down" && this.lastVerticalOffset > scrollViewOffset)) {
                 panDelay = 0;
             }
 
-            if (this.lastVerticalOffset + panDelay < currentVerticalOffset) {
-                this.lastVerticalOffset = currentVerticalOffset;
+            if (this.lastVerticalOffset + panDelay < scrollViewOffset) {
+                this.lastVerticalOffset = scrollViewOffset;
                 this.lastPanDirection = "up";
                 this.tabScroll$.next({direction: this.lastPanDirection});
             }
-            else if (this.lastVerticalOffset - panDelay > currentVerticalOffset) {
-                this.lastVerticalOffset = currentVerticalOffset;
+            else if (this.lastVerticalOffset - panDelay > scrollViewOffset) {
+                this.lastVerticalOffset = scrollViewOffset;
                 this.lastPanDirection = "down";
                 this.tabScroll$.next({direction: this.lastPanDirection}); 
             }
@@ -160,17 +176,25 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     protected calculateMostCenteredWord () {
         let minPos = null;
         let mostCenteredWordId;
-        this.wordList.forEach((item: ElementRef) => {
-            let wordView = item.nativeElement as View;
-            let relativeY = wordView.getLocationRelativeTo(this.scrollView) as any;
-            relativeY = relativeY && relativeY.y;
-            if (minPos == null) {
-                minPos = Math.abs(relativeY);
-                mostCenteredWordId = wordView.id.replace("word-stack-", "");
-            }
-            else if (minPos > Math.abs(relativeY)) {
-                minPos = Math.abs(relativeY);
-                mostCenteredWordId = wordView.id.replace("word-stack-", "");
+        if (this.cardHeight == null && this.wordList.first) {
+            this.cardHeight = (this.wordList.first.nativeElement as View).getActualSize().height;
+        }
+        this.wordList.forEach((item: ElementRef, index: number) => {
+            const toCheck = this.mostCenteredIndex > this.maxVisibleWords / 2 ? 
+                index >= (this.mostCenteredIndex - this.maxVisibleWords / 2)  && index <= (this.mostCenteredIndex + this.maxVisibleWords / 2) :
+                index <= this.maxVisibleWords;
+            if (toCheck) {
+                let wordView = item.nativeElement as View;
+                let relativeY = wordView.getLocationRelativeTo(this.scrollView) as any;
+                relativeY = relativeY && relativeY.y;
+                if (minPos == null) {
+                    minPos = relativeY;
+                    mostCenteredWordId = wordView.id.replace("word-stack-", "");
+                }
+                else if (minPos < 0 && minPos < relativeY || minPos > 0 && minPos > relativeY) {
+                    minPos = relativeY;
+                    mostCenteredWordId = wordView.id.replace("word-stack-", "");
+                }
             }
         });
 

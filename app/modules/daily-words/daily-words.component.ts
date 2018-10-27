@@ -48,6 +48,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 date: this.earliestWordDate.toString(),
                 count: options.count || 3
             };
+            this.showNoWordsMsg = false;
             this.isLoading = true;
 
             this.Words.getDailyWord(query).subscribe((res: any) => {
@@ -76,7 +77,8 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                     }
                     this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);
                     this.newWordsLoaded$.next();
-                } else {
+                }
+                else {
                     this.showNoWordsMsg = true;
                 }
 

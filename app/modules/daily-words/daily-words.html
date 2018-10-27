@@ -22,9 +22,9 @@
                     </GridLayout>
                 </ng-container>
             </StackLayout>
-            <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg">
+            <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg && !noConnectionError">
                 <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
-                <Button [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords()"></Button>
+                <Button class="repeat-load-btn" [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords()"></Button>
             </StackLayout>
             <ActivityIndicator [busy]="!firstLoading && isLoading" 
                                [visibility]="isLoading ? 'visible' : 'collapse'"  
@@ -33,4 +33,5 @@
             </ActivityIndicator>
         </StackLayout>
     </GridLayout>
+    <NoConnection *ngIf="noConnectionError"></NoConnection>
 </ScrollView>

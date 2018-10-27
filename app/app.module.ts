@@ -1,6 +1,7 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from "~/app-routing.module";
 
@@ -9,6 +10,7 @@ import { WordsService } from "~/services/words/words.service";
 import { SnackBarNotificationService } from "~/services/snack-bar-notification/snack-bar-notification.service";
 import { PageDataStorageService } from '~/services/page-data-storage/page-data-storage.service';
 import { ConnectionMonitorService } from './services/connection-monitor/connection-monitor.service';
+import { DeviceInfoInterceptor } from './interceptors/device-info.interceptor';
 
 import { AppComponent } from "~/app.component";
 import { HomeComponent } from "~/modules/home/home.component";
@@ -21,6 +23,7 @@ import { FavoriteWordsComponent } from "~/modules/favorite-words/favorite-words.
 import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
 import { ShowcaseWordComponent } from '~/modules/showcase-word/showcase-word.component';
 import { AboutUsComponent } from './modules/about-us/about-us.component';
+import { NoConnectionComponent } from './modules/no-connection/no-connection.component';
 import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlight/touch-button-highlight.directive';
 
 @NgModule({
@@ -44,6 +47,7 @@ import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlig
         MainActionBarComponent,
         ShowcaseWordComponent,
         AboutUsComponent,
+        NoConnectionComponent,
         TouchButtonHighlightDirective
     ],
     providers: [
@@ -51,7 +55,12 @@ import { TouchButtonHighlightDirective } from '~/directives/touch-button-highlig
         FavoriteWordsService,
         SnackBarNotificationService,
         PageDataStorageService,
-        ConnectionMonitorService
+        ConnectionMonitorService,
+        { 
+            provide: HTTP_INTERCEPTORS, 
+            useClass: DeviceInfoInterceptor, 
+            multi: true 
+        }
     ],
     schemas: [
         NO_ERRORS_SCHEMA

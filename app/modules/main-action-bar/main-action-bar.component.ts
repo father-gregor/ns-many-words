@@ -71,7 +71,7 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     public openAboutUs () {
         this.routerExtensions.navigate(["/about-us"], {
             transition: {
-                name: "slideLeft",
+                name: "fade",
                 duration: 500,
                 curve: "ease"
             }

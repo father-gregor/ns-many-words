@@ -26,7 +26,6 @@ export class HomeComponent implements AfterViewInit {
         index: 2
     };
     public tabView: TabView;
-    public lastVerticalOffset = 0;
 
     @ViewChild("mainActionBar") public mainActionBarComponent: MainActionBarComponent;
     @ViewChild("tabView") public tabElement: any;
@@ -42,10 +41,6 @@ export class HomeComponent implements AfterViewInit {
 
     ngAfterViewInit () {
         this.tabView = this.tabElement.nativeElement as TabView;
-    }
-
-    public onTabChange () {
-        this.lastVerticalOffset = 0;
     }
 
     public onTabScroll (event: {direction: ScrollDirection}) {

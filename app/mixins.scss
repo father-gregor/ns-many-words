@@ -1,0 +1,3 @@
+@mixin meme-gradient($direction) {
+    background: linear-gradient(#{$direction}, rgb(235, 209, 96), rgb(241, 79, 106), rgb(153, 216, 236));
+}

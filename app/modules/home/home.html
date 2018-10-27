@@ -1,5 +1,5 @@
 <MainActionBar #mainActionBar [routeName]="'/home'"></MainActionBar>
-<TabView #tabView class="main-tab-view" (selectedIndexChange)="onTabChange()">
+<TabView #tabView class="main-tab-view">
     <StackLayout *tabItem="{title: dailyWordsTab.title}" >
         <DailyWords (onTabScroll)="onTabScroll($event)"></DailyWords>
     </StackLayout>

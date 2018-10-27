@@ -38,6 +38,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         let query = {
             count: options.count || 1
         };
+        this.showNoWordsMsg = false;
         this.isLoading = true;
 
         this.Words.getMemeWord(query).subscribe(
