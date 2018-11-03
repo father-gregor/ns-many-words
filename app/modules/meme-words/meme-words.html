@@ -7,24 +7,22 @@
                        verticalAlignment="center">
     </ActivityIndicator>
 </GridLayout>
-<ScrollView #scrollContainer class="meme-words-container" orientation="vertical" (scroll)="onScroll($event)">
-    <GridLayout class="meme-words-main" columns="10%, *, 10%" rows="*">
-        <StackLayout class="meme-words-stack" col="1" row="0" orientation="vertical">
-            <StackLayout #wordsList *ngFor="let word of allWords" class="meme-word-container" height="300" orientation="vertical" [id]="'word-stack-' + word.nameAsId">
-                <GridLayout *ngIf="isWordVisible(word)" height="300" columns="*" rows="*">
-                    <WordBox col="0" row="0" [word]="word" [type]="'meme'"></WordBox>
-                </GridLayout>
-            </StackLayout>
-            <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg">
-                <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
-                <Button class="repeat-load-btn" [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords()"></Button>
-            </StackLayout>
-            <ActivityIndicator [busy]="!firstLoading && isLoading" 
-                               [visibility]="isLoading ? 'visible' : 'collapse'"  
-                               horizontalAlignment="center" 
-                               verticalAlignment="center">
-            </ActivityIndicator>
+<ScrollView class="meme-words-container" orientation="vertical">
+    <ListView class="meme-words-main" [items]="allWords" [separatorColor]="'transparent'" (loadMoreItems)="loadNewWords()" col="1" row="0">
+        <ng-template let-word="item" let-ind="index">
+            <GridLayout class="word-box" [ngClass]="{'first-word': ind === 0}" height="300" columns="*" rows="*">
+                <WordBox col="0" row="0" [word]="word" [type]="'meme'"></WordBox>
+            </GridLayout>
+        </ng-template>
+        <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg">
+            <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
+            <Button class="repeat-load-btn" [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords()"></Button>
         </StackLayout>
-    </GridLayout>
+        <ActivityIndicator [busy]="!firstLoading && isLoading" 
+                            [visibility]="isLoading ? 'visible' : 'collapse'"  
+                            horizontalAlignment="center" 
+                            verticalAlignment="center">
+        </ActivityIndicator>
+    </ListView>
     <NoConnection *ngIf="noConnectionError"></NoConnection>
 </ScrollView>

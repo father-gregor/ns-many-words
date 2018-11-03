@@ -1,4 +1,6 @@
+import { WordType } from '~/modules/word-box/word-box.definitions';
+
 export interface IWordTab {
     title: string;
-    index: number;
+    id: WordType;
 }

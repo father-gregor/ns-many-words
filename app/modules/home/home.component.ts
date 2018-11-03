@@ -1,10 +1,11 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { TabView } from 'tns-core-modules/ui/tab-view';
+import { TabView, SelectedIndexChangedEventData } from 'tns-core-modules/ui/tab-view';
 import { Subject } from 'rxjs';
 
 import { IWordTab } from "~/modules/home/tab";
 import { MainActionBarComponent } from '~/modules/main-action-bar/main-action-bar.component';
 import { ScrollDirection } from '~/modules/master-words/master-words.interfaces';
+import { CurrentTabService } from '~/services/current-tab/current-tab.service';
 
 @Component({
     selector: "Home",
@@ -13,18 +14,20 @@ import { ScrollDirection } from '~/modules/master-words/master-words.interfaces'
     templateUrl: "./home.html"
 })
 export class HomeComponent implements AfterViewInit {
-    public dailyWordsTab: IWordTab = {
-        title: "Daily Words",
-        index: 0
-    };
-    public randomWordsTab: IWordTab = {
-        title: "Random Words",
-        index: 1
-    };
-    public memeWordsTab: IWordTab = {
-        title: "Meme Words",
-        index: 2
-    };
+    public wordsTab: IWordTab[]= [
+        {
+            title: "Daily Words",
+            id: "daily"
+        },
+        {
+            title: "Random Words",
+            id: "random"
+        },
+        {
+            title: "Meme Words",
+            id: "meme"
+        }
+    ];
     public tabView: TabView;
 
     @ViewChild("mainActionBar") public mainActionBarComponent: MainActionBarComponent;
@@ -33,7 +36,9 @@ export class HomeComponent implements AfterViewInit {
     private currentPos = 0;
     private changeMargin$ = new Subject<number> ();
 
-    constructor() {
+    constructor (private CurrentTab: CurrentTabService) {
+        this.CurrentTab.setCurrentTab(this.wordsTab[0]);
+
         this.changeMargin$.subscribe((marginTop: number) => {
             this.mainActionBarComponent.actionBarView.style.marginTop = marginTop;
         });
@@ -41,6 +46,10 @@ export class HomeComponent implements AfterViewInit {
 
     ngAfterViewInit () {
         this.tabView = this.tabElement.nativeElement as TabView;
+    }
+
+    public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
+        this.CurrentTab.setCurrentTab(this.wordsTab[event.newIndex]);
     }
 
     public onTabScroll (event: {direction: ScrollDirection}) {

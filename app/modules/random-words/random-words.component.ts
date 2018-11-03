@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
-import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
+import { IWord, IWordQueryOptions, WordType } from '~/modules/word-box/word-box.definitions';
 import { WordsService } from "~/services/words/words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service';
@@ -13,25 +13,31 @@ import { ConnectionMonitorService } from '~/services/connection-monitor/connecti
     changeDetection: ChangeDetectionStrategy.OnPush
 }) 
 export class RandomWordsComponent extends MasterWordsComponentCommon {
+    public wordsType: WordType = "random";
+
     constructor (
-        private Words: WordsService, 
+        private Words: WordsService,
         protected ConnectionMonitor: ConnectionMonitorService,
         protected cd: ChangeDetectorRef
     ) {
         super(ConnectionMonitor, cd);
     }
 
-   ngOnInit () {
+   async ngOnInit () {
        super.ngOnInit();
        this.noWordsMsg = "Word didn't loaded. Press button to try again";
        // TODO Temporaly make three calls to the backend
-       this.loadNewWords();
-       this.loadNewWords();
-       this.loadNewWords();
+       await this.loadNewWords();
+       await this.loadNewWords();
+       await this.loadNewWords();
     }
 
     // @Override
-    public loadNewWords (options: IWordQueryOptions = {}) {
+    public async loadNewWords (options: IWordQueryOptions = {}) {
+        if (this.isLoading) {
+            return;
+        }
+
         if (this.showNoWordsMsg) {
             this.showNoWordsMsg = false;
         }
@@ -41,35 +47,40 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         this.showNoWordsMsg = false;
         this.isLoading = true;
 
-        this.Words.getRandomWord(query).subscribe(
-            (res: any) => {
-                if (res && Array.isArray(res)) {
-                    for (let word of res) {
-                        this.allWords.push({
-                            name: word.name,
-                            nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
-                            definitions: word.definitions,
-                            archaic: word.archaic,
-                            language: word.language,
-                            date: word.publishDateUTC,
-                            partOfSpeech: word.partOfSpeech
-                        } as IWord);
-                    }
-                    this.newWordsLoaded$.next();
-                } else {
-                    this.showNoWordsMsg = true;
+        try {
+            const res = await this.Words.getRandomWord(query).toPromise();
+            if (res && Array.isArray(res)) {
+                for (let word of res) {
+                    this.allWords.push({
+                        name: word.name,
+                        nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
+                        definitions: word.definitions,
+                        archaic: word.archaic,
+                        language: word.language,
+                        date: word.publishDateUTC,
+                        partOfSpeech: word.partOfSpeech
+                    } as IWord);
                 }
-                this.isLoading = false;
-                if (this.firstLoading) {
-                    this.firstLoading = false;
-                }
-            }, 
-            (error: any) => {
+                this.newWordsLoaded$.next();
+            } 
+            else {
                 this.showNoWordsMsg = true;
-                this.isLoading = false;
-                if (this.firstLoading) {
-                    this.firstLoading = false;
-                }
-            });
+            }
+
+            this.isLoading = false;
+            if (this.firstLoading) {
+                this.firstLoading = false;
+            }
+        }
+        catch (err) {
+            this.showNoWordsMsg = true;
+            this.isLoading = false;
+            if (this.firstLoading) {
+                this.firstLoading = false;
+            }
+        }
+        finally {
+            this.newWordsLoaded$.next();
+        }
     }
 }

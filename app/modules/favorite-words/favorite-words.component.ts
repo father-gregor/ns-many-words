@@ -7,6 +7,7 @@ import { IFavoriteWord } from '~/services/favorite-words/favorite-words';
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service.js';
+import { WordType } from '~/modules/word-box/word-box.definitions';
 
 @Component({
     selector: "FavoriteWords",
@@ -16,6 +17,7 @@ import { ConnectionMonitorService } from '~/services/connection-monitor/connecti
     changeDetection: ChangeDetectionStrategy.OnPush
 }) 
 export class FavoriteWordsComponent extends MasterWordsComponentCommon implements OnInit, OnDestroy {
+    public wordsType: WordType = "favorite";
     public favoriteWords: IFavoriteWord[];
     public actionBarTitle: string = (mainConfig as any).favoritesArchive.title;
     public noWordsText = (mainConfig as any).favoritesArchive.noWordsText;
@@ -32,6 +34,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
 
     ngOnInit () {
         this.favoriteWords = this.FavoriteWords.getAll();
+        this.cd.detectChanges();
 
         this.sub = this.FavoriteWords.changes$.subscribe((words: IFavoriteWord[]) => {
             this.favoriteWords = words;

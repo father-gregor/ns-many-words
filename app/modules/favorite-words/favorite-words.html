@@ -1,7 +1,7 @@
 <MainActionBar [routeName]="'/favorites-archive'" [title]="actionBarTitle"></MainActionBar>
-<ScrollView #scrollContainer class="favorite-words-container" orientation="vertical" (scroll)="onScroll($event)">
+<ScrollView class="favorite-words-container" orientation="vertical">
     <GridLayout columns="10%, *, 10%" rows="*" *ngIf="favoriteWords.length > 0">
-        <StackLayout col="1" row="0" orientation="vertical">
+        <StackLayout [ngClass]="{'first-word': ind === 0}" col="1" row="0" orientation="vertical">
             <StackLayout *ngFor="let favoriteWord of favoriteWords" orientation="vertical">
                 <WordBox [word]="favoriteWord.word" [type]="favoriteWord.type" [isFavoritePage]="true"></WordBox>
             </StackLayout>

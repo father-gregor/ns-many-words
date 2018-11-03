@@ -4,6 +4,10 @@
     @include meme-gradient(to bottom);
     height: 100%;
 
+    .meme-words-main {
+        height: 100%;
+    }
+
     .meme-words-stack {
         margin-top: 20;
         margin-bottom: 20;

@@ -21,6 +21,16 @@ $meme-gradient: linear-gradient(to bottom, rgb(235, 209, 96), rgb(241, 79, 106),
     background-color: #1d1d1d;
 }
 
+.first-word {
+    padding-top: 20;
+}
+
+.word-box {
+    padding-left: 10;
+    padding-right: 10;
+    padding-bottom: 15;
+}
+
 ActivityIndicator {
     color: rgb(77, 76, 76);
 }
