@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as connectivity from "tns-core-modules/connectivity";
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class ConnectionMonitorService {

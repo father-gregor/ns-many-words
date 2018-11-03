@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from "@angular/core";
 import {
     getString as nsGetString,
     setString as nsSetString,
@@ -8,8 +8,8 @@ import {
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
-import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service';
-import { WordType } from '../../../platforms/android/app/src/main/assets/app/modules/word-box/word-box.definitions';
+import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
+import { WordType } from "../../../platforms/android/app/src/main/assets/app/modules/word-box/word-box.definitions";
 
 @Component({
     selector: "DailyWords",
@@ -17,7 +17,7 @@ import { WordType } from '../../../platforms/android/app/src/main/assets/app/mod
     styleUrls: ["./daily-words-common.css"],
     templateUrl: "./daily-words.html",
     changeDetection: ChangeDetectionStrategy.OnPush
-}) 
+})
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
     public earliestWordDate: Date;
@@ -33,7 +33,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         super(ConnectionMonitor, cd);
     }
 
-    async ngOnInit () {
+    public async ngOnInit () {
         super.ngOnInit();
         this.earliestWordDate = new Date();
         this.noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
@@ -50,7 +50,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             return;
         }
 
-        let query = {
+        const query = {
             date: this.earliestWordDate.toString(),
             count: options.count || 3
         };
@@ -70,7 +70,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                         language: word.language,
                         publishDateUTC: word.publishDateUTC,
                         partOfSpeech: word.partOfSpeech
-                    } as IWord
+                    } as IWord;
                     word.date = this.getWordDate(word);
                     if (options.checkForNewestWord) {
                         if (!this.newestWordDate || this.newestWordDate.getTime() < word.date.object.getTime()) {

@@ -9,6 +9,6 @@ import * as mainConfig from "../../config/main.config.json";
 })
 export class SettingsComponent {
     public mainConfig: any = mainConfig;
-    
-    constructor() {}
+
+    constructor () {}
 }

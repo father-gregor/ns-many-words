@@ -1,9 +1,9 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 
-import { IWord, IWordQueryOptions, WordType } from '~/modules/word-box/word-box.definitions';
+import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
-import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service';
+import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
 
 @Component({
     selector: "RandomWords",
@@ -11,7 +11,7 @@ import { ConnectionMonitorService } from '~/services/connection-monitor/connecti
     styleUrls: ["./random-words-common.css"],
     templateUrl: "./random-words.html",
     changeDetection: ChangeDetectionStrategy.OnPush
-}) 
+})
 export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";
 
@@ -23,7 +23,7 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         super(ConnectionMonitor, cd);
     }
 
-   async ngOnInit () {
+   public async ngOnInit () {
        super.ngOnInit();
        this.noWordsMsg = "Word didn't loaded. Press button to try again";
        // TODO Temporaly make three calls to the backend
@@ -41,7 +41,7 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         if (this.showNoWordsMsg) {
             this.showNoWordsMsg = false;
         }
-        let query = {
+        const query = {
             count: options.count || 1
         };
         this.showNoWordsMsg = false;
@@ -50,7 +50,7 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         try {
             const res = await this.Words.getRandomWord(query).toPromise();
             if (res && Array.isArray(res)) {
-                for (let word of res) {
+                for (const word of res) {
                     this.allWords.push({
                         name: word.name,
                         nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
@@ -62,7 +62,7 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
                     } as IWord);
                 }
                 this.newWordsLoaded$.next();
-            } 
+            }
             else {
                 this.showNoWordsMsg = true;
             }

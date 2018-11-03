@@ -12,8 +12,8 @@ export class SnackBarNotificationService {
     }
 
     public async showUndoAction (text: string) {
-        let options: SnackBarOptions = {
-            actionText: 'UNDO',
+        const options: SnackBarOptions = {
+            actionText: "UNDO",
             snackText: text,
             hideDelay: 4000
         };

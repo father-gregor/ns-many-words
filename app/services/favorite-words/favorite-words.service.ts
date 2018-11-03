@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 
 import {
     getString as nsGetString,
@@ -27,8 +27,8 @@ export class FavoriteWordsService {
 
     public add (word: IWord, type: WordType) {
         try {
-            let favoritesArchive: IFavoriteWords = this.getFavoriteWordsArchive();
-            let isWordExist: boolean = Boolean(favoritesArchive.words.find((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type));
+            const favoritesArchive: IFavoriteWords = this.getFavoriteWordsArchive();
+            const isWordExist: boolean = Boolean(favoritesArchive.words.find((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type));
 
             if (!isWordExist) {
                 favoritesArchive.words.push({
@@ -45,8 +45,8 @@ export class FavoriteWordsService {
 
     public remove (word: IWord, type: WordType) {
         try {
-            let favoritesArchive: IFavoriteWords = this.getFavoriteWordsArchive();
-            let removedWordIndex: number = favoritesArchive.words.findIndex((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type);
+            const favoritesArchive: IFavoriteWords = this.getFavoriteWordsArchive();
+            const removedWordIndex: number = favoritesArchive.words.findIndex((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type);
 
             if (removedWordIndex >= 0) {
                 favoritesArchive.words.splice(removedWordIndex, 1);
@@ -59,8 +59,8 @@ export class FavoriteWordsService {
     }
 
     private getFavoriteWordsArchive () {
-        return nsHasKey(this.favoriteWordsArchiveKey) 
-            ? JSON.parse(nsGetString(this.favoriteWordsArchiveKey)) 
+        return nsHasKey(this.favoriteWordsArchiveKey)
+            ? JSON.parse(nsGetString(this.favoriteWordsArchiveKey))
             : {
                 words: []
             };

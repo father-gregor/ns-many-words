@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import { Subscription } from "rxjs";
 
 import * as mainConfig from "../../config/main.config.json";
 
-import { IFavoriteWord } from '~/services/favorite-words/favorite-words';
+import { IFavoriteWord } from "~/services/favorite-words/favorite-words";
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
-import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service.js';
-import { WordType } from '~/modules/word-box/word-box.definitions';
+import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service.js";
+import { WordType } from "~/modules/word-box/word-box.definitions";
 
 @Component({
     selector: "FavoriteWords",
@@ -15,14 +15,14 @@ import { WordType } from '~/modules/word-box/word-box.definitions';
     styleUrls: ["./favorite-words-common.css"],
     templateUrl: "./favorite-words.html",
     changeDetection: ChangeDetectionStrategy.OnPush
-}) 
+})
 export class FavoriteWordsComponent extends MasterWordsComponentCommon implements OnInit, OnDestroy {
     public wordsType: WordType = "favorite";
     public favoriteWords: IFavoriteWord[];
     public actionBarTitle: string = (mainConfig as any).favoritesArchive.title;
     public noWordsText = (mainConfig as any).favoritesArchive.noWordsText;
 
-    private sub: Subscription
+    private sub: Subscription;
 
     constructor (
         public FavoriteWords: FavoriteWordsService,
@@ -32,7 +32,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
         super(ConnectionMonitor, cd);
     }
 
-    ngOnInit () {
+    public ngOnInit () {
         this.favoriteWords = this.FavoriteWords.getAll();
         this.cd.detectChanges();
 
@@ -42,7 +42,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
         });
     }
 
-    ngOnDestroy () {
+    public ngOnDestroy () {
         if (this.sub) {
             this.sub.unsubscribe();
         }

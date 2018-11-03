@@ -1,9 +1,9 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 
-import { IWord, IWordQueryOptions, WordType } from '~/modules/word-box/word-box.definitions';
+import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
 import { WordsService } from "~/services/words/words.service";
-import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service';
+import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
 
 @Component({
     selector: "MemeWords",
@@ -11,7 +11,7 @@ import { ConnectionMonitorService } from '~/services/connection-monitor/connecti
     styleUrls: ["./meme-words-common.css"],
     templateUrl: "./meme-words.html",
     changeDetection: ChangeDetectionStrategy.OnPush
-}) 
+})
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
 
@@ -23,7 +23,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         super(ConnectionMonitor, cd);
     }
 
-   async ngOnInit () {
+   public async ngOnInit () {
        super.ngOnInit();
        this.noWordsMsg = "Word didn't loaded. Press button to try again";
        // TODO Temporaly make three calls to the backend
@@ -41,7 +41,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         if (this.showNoWordsMsg) {
             this.showNoWordsMsg = false;
         }
-        let query = {
+        const query = {
             count: options.count || 1
         };
         this.showNoWordsMsg = false;
@@ -50,7 +50,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         try {
             const res = await this.Words.getMemeWord(query).toPromise();
             if (res && Array.isArray(res)) {
-                for (let word of res) {
+                for (const word of res) {
                     this.allWords.push({
                         name: word.name,
                         nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
@@ -61,7 +61,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
                         partOfSpeech: word.partOfSpeech
                     } as IWord);
                 }
-            } 
+            }
             else {
                 this.showNoWordsMsg = true;
             }

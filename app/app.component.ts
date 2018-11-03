@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import * as Firebase from "nativescript-plugin-firebase";
-import { LocalNotifications } from "nativescript-local-notifications";
 
 import * as mainConfig from "./config/main.config.json";
 
@@ -12,9 +11,9 @@ import * as mainConfig from "./config/main.config.json";
 export class AppComponent implements OnInit {
     private newWordNotification = (mainConfig as any).newWordNotification;
 
-    constructor() {}
+    constructor () {}
 
-    async ngOnInit () {
+    public async ngOnInit () {
         Firebase.init({
             // Optionally pass in properties for database, authentication and cloud messaging,
             // see their respective docs.
@@ -23,7 +22,5 @@ export class AppComponent implements OnInit {
         }, (error) => {
             console.log(`firebase.init error: ${error}`);
         });
-
-        await LocalNotifications.cancelAll();
     }
 }

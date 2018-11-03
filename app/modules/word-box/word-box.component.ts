@@ -24,7 +24,7 @@ export class WordBoxComponent {
 
     @ViewChild("wordBox") public wordBoxView: ElementRef;
 
-    constructor(
+    constructor (
         public FavoriteWords: FavoriteWordsService,
         public SnackBarService: SnackBarNotificationService,
         public PageDataStorage: PageDataStorageService<IWordRouterData>,
@@ -32,13 +32,13 @@ export class WordBoxComponent {
         private cd: ChangeDetectorRef
     ) {}
 
-    ngOnInit () {
+    public ngOnInit () {
         if (!this.word) {
             this.word = {
                 name: "",
                 definitions: [],
                 date: {text: "", object: new Date()}
-            }
+            };
         }
     }
 
@@ -47,7 +47,7 @@ export class WordBoxComponent {
     }
 
     public openNewestWord () {
-        let wordView = this.wordBoxView.nativeElement as View;
+        const wordView = this.wordBoxView.nativeElement as View;
         wordView.animate({
             scale: { x: 0.5, y: 0.5},
             opacity: 0,
@@ -60,7 +60,7 @@ export class WordBoxComponent {
             wordView.scaleY = 1;
             wordView.opacity = 1;
             wordView.animate({
-                translate: { x: 0, y: 0 }, 
+                translate: { x: 0, y: 0 },
                 duration: 600,
                 curve: AnimationCurve.easeOut
             });
@@ -76,7 +76,7 @@ export class WordBoxComponent {
                 this.FavoriteWords.remove(this.word, this.type);
             }
             this.cd.detectChanges();
-            let undo = await this.SnackBarService.showUndoAction(`Removed "${this.word.name}" from favorite list`);
+            const undo = await this.SnackBarService.showUndoAction(`Removed "${this.word.name}" from favorite list`);
             if (undo.command === "Action") {
                 this.hideBeforeConfirm = false;
                 this.cd.detectChanges();
@@ -103,7 +103,7 @@ export class WordBoxComponent {
 
     public onSocialShareTap () {
         SocialShare.shareText(
-            `"${this.word.name}" - ${this.word.definitions[0].toLowerCase()}"`, 
+            `"${this.word.name}" - ${this.word.definitions[0].toLowerCase()}"`,
             `Would you like to share word "${this.word.name}" with others?`
         );
     }

@@ -1,14 +1,16 @@
-import { EventEmitter, Output, OnInit, ChangeDetectorRef, DoCheck } from '@angular/core';
-import { Subject } from 'rxjs';
-import { connectionType } from 'tns-core-modules/connectivity/connectivity';
+import { EventEmitter, Output, OnInit, ChangeDetectorRef, DoCheck } from "@angular/core";
+import { Subject } from "rxjs";
+import { connectionType } from "tns-core-modules/connectivity/connectivity";
 
 import * as dateformat from "dateformat";
 
-import { IWord, IWordQueryOptions, WordType } from '~/modules/word-box/word-box.definitions';
+import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
 
-import { ConnectionMonitorService } from '~/services/connection-monitor/connection-monitor.service';
+import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
 export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
+    private static monitor: ConnectionMonitorService;
+
     public wordsType: WordType;
     public noWordsMsg: string;
     public showNoWordsMsg: boolean = false;
@@ -25,10 +27,8 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     protected tabScroll$: Subject<{direction: ScrollDirection}> = new Subject<{direction: ScrollDirection}>();
     protected lastVerticalOffset = 0;
 
-    private static monitor: ConnectionMonitorService;
-
     constructor (
-        protected ConnectionMonitor: ConnectionMonitorService, 
+        protected ConnectionMonitor: ConnectionMonitorService,
         protected cd: ChangeDetectorRef
     ) {
         this.cd.detach();
@@ -41,7 +41,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
         }
     }
 
-    ngOnInit () {
+    public ngOnInit () {
         this.newWordsLoaded$.subscribe(() => {
             this.cd.detectChanges();
         });
@@ -62,7 +62,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
         });
     }
 
-    ngDoCheck () {
+    public ngDoCheck () {
         /*
         const scrollViewOffset = this.scrollView.verticalOffset;
         console.log(`Offset ${scrollViewOffset} at ${this.wordsType}`);
@@ -82,7 +82,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
             else if (this.lastVerticalOffset - panDelay > scrollViewOffset) {
                 this.lastVerticalOffset = scrollViewOffset;
                 this.lastPanDirection = "down";
-                this.tabScroll$.next({direction: this.lastPanDirection}); 
+                this.tabScroll$.next({direction: this.lastPanDirection});
             }
         }*/
     }
@@ -96,7 +96,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     public abstract async loadNewWords (options?: IWordQueryOptions);
 
     public getWordDate (word: IWord): {text: string, object: Date} {
-        let currentDate = new Date();
+        const currentDate = new Date();
         currentDate.setHours(0);
         currentDate.setMinutes(0);
         currentDate.setSeconds(0);
@@ -104,20 +104,21 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
 
         let inputDate;
         if (word.publishDateUTC) {
-            inputDate = new Date(word.publishDateUTC)
+            inputDate = new Date(word.publishDateUTC);
             inputDate.setHours(0);
             inputDate.setMinutes(0);
             inputDate.setSeconds(0);
             inputDate.setMilliseconds(0);
-        } 
+        }
         else {
             return {text: "Mysterious Date", object: null};
         }
-        let dateDiff = currentDate.getTime() - inputDate.getTime();
-        if (currentDate.getTime() == inputDate.getTime()) {
+
+        const dateDiff = currentDate.getTime() - inputDate.getTime();
+        if (currentDate.getTime() === inputDate.getTime()) {
             return {text: "Today", object: inputDate};
-        } 
-        else if (dateDiff <= (24 * 60 * 60 *1000)) {
+        }
+        else if (dateDiff <= (24 * 60 * 60 * 1000)) {
             return {text: "Yesterday", object: inputDate};
         }
         return {text: dateformat(inputDate, "mmmm dS, yyyy"), object: inputDate};

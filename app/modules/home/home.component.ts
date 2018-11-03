@@ -1,11 +1,11 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { TabView, SelectedIndexChangedEventData } from 'tns-core-modules/ui/tab-view';
-import { Subject } from 'rxjs';
+import { Component, ViewChild, AfterViewInit } from "@angular/core";
+import { TabView, SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
+import { Subject } from "rxjs";
 
 import { IWordTab } from "~/modules/home/tab";
-import { MainActionBarComponent } from '~/modules/main-action-bar/main-action-bar.component';
-import { ScrollDirection } from '~/modules/master-words/master-words.interfaces';
-import { CurrentTabService } from '~/services/current-tab/current-tab.service';
+import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
+import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
+import { CurrentTabService } from "~/services/current-tab/current-tab.service";
 
 @Component({
     selector: "Home",
@@ -14,7 +14,7 @@ import { CurrentTabService } from '~/services/current-tab/current-tab.service';
     templateUrl: "./home.html"
 })
 export class HomeComponent implements AfterViewInit {
-    public wordsTab: IWordTab[]= [
+    public wordsTab: IWordTab[] = [
         {
             title: "Daily Words",
             id: "daily"
@@ -44,7 +44,7 @@ export class HomeComponent implements AfterViewInit {
         });
     }
 
-    ngAfterViewInit () {
+    public ngAfterViewInit () {
         this.tabView = this.tabElement.nativeElement as TabView;
     }
 
@@ -53,17 +53,17 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public onTabScroll (event: {direction: ScrollDirection}) {
-        let actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
+        const actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
         if (event.direction === "up" && Math.abs(this.currentPos) < actionBarHeight) {
             // Pretty good configuration for scroll. Maybe need to make steps bigger if there is a little of margin left to increment
-            let steps = 5;
+            const steps = 5;
             for (let i = 0; i < steps; i++) {
                 this.currentPos--;
                 this.changeMargin$.next(this.currentPos);
             }
         }
         else if (event.direction === "down" && this.currentPos < 0) {
-            let steps = 5;
+            const steps = 5;
             for (let i = 0; i < steps; i++) {
                 this.currentPos++;
                 this.changeMargin$.next(this.currentPos);
