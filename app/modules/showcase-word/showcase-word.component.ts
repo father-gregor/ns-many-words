@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
-import * as mainConfig from "../../config/main.config.json";
 import { PageDataStorageService } from "~/services/page-data-storage/page-data-storage.service";
 import { IWord, IWordRouterData, WordType } from "~/modules/word-box/word-box.definitions";
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
+import { MainConfigService } from "~/services/main-config/main-config.service";
 
 @Component({
     selector: "ShowcaseWord",
@@ -15,12 +15,15 @@ import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.s
 export class ShowcaseWordComponent implements OnInit {
     public word: IWord;
     public type: WordType;
-    public actionBarTitle: string = (mainConfig as any).showcaseWord.title;
+    public actionBarTitle: string;
 
     constructor (
+        public MainConfig: MainConfigService,
         private FavoriteWords: FavoriteWordsService,
         private PageDataStorage: PageDataStorageService<IWordRouterData>
-    ) {}
+    ) {
+        this.actionBarTitle = this.MainConfig.config.showcaseWord.title;
+    }
 
     public ngOnInit () {
         this.word = this.PageDataStorage.current.word;

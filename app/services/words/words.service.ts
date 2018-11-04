@@ -1,28 +1,36 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { device } from "tns-core-modules/platform";
 import { Observable } from "rxjs";
 
-import * as mainConfig from "../../config/main.config.json";
+import { MainConfigService } from "../main-config/main-config.service";
 
 @Injectable()
 export class WordsService {
-    constructor (private http: HttpClient) {}
+    constructor (private http: HttpClient, private MainConfig: MainConfigService) {}
 
     public getDailyWord (query: any): Observable<object> {
-        return this.getWord((mainConfig as any).wordApi.getDaily, query);
+        return this.getWord(this.MainConfig.config.wordApi.getDaily, query);
     }
 
     public getRandomWord (query: any): Observable<object> {
-        return this.getWord((mainConfig as any).wordApi.getRandom, query);
+        return this.getWord(this.MainConfig.config.wordApi.getRandom, query);
     }
 
     public getMemeWord (query: any): Observable<object> {
-        return this.getWord((mainConfig as any).wordApi.getMeme, query);
+        return this.getWord(this.MainConfig.config.wordApi.getMeme, query);
     }
 
     private getWord (apiLink: string, optQuery: any = {}, optHeaders: HttpHeaders = this.createRequestHeaders()): Observable<object> {
         const headers = optHeaders;
-        const query = optQuery;
+        const query = Object.assign(
+            {},
+            {
+                os: device.os,
+                uuid: device.uuid
+            },
+            optQuery
+        );
         return this.http.get(apiLink, {
             params: query,
             headers

@@ -3,7 +3,7 @@ import { Router, NavigationStart, Event } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActionBar } from "tns-core-modules/ui/action-bar/action-bar";
 
-import * as mainConfig from "../../config/main.config.json";
+import { MainConfigService } from "~/services/main-config/main-config.service.js";
 
 @Component({
     selector: "MainActionBar",
@@ -12,7 +12,6 @@ import * as mainConfig from "../../config/main.config.json";
     templateUrl: "./main-action-bar.html"
 })
 export class MainActionBarComponent implements OnInit, AfterViewInit {
-    public mainConfig: any = mainConfig;
     public isTransitionEnded = true;
     public actionBarView: ActionBar;
     @Input() public routeName: string;
@@ -21,9 +20,10 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     @ViewChild("actionBar") public actionBarElement: any;
 
     constructor (
+        public MainConfig: MainConfigService,
         public router: Router,
         public routerExtensions: RouterExtensions,
-        private cd: ChangeDetectorRef
+        protected cd: ChangeDetectorRef
     ) {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
@@ -38,7 +38,7 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     }
 
     public ngOnInit () {
-        this.title = this.title || this.mainConfig.appName;
+        this.title = this.title || this.MainConfig.config.appName;
     }
 
     public ngAfterViewInit () {

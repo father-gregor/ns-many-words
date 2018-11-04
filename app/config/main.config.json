@@ -33,20 +33,9 @@
         "title": "Showcase"
     },
     "loadingText": "Loading...",
-    "newWordNotification": {
-        "scheduledTime": {
-            "hours": 9,
-            "minutes": 30,
-            "seconds": 0,
-            "milliseconds": 0
-        },
-        "options": {
-            "id": 25,
-            "subtitle": "New Word",
-            "title": "New daily word is already there! Check it out...",
-            "body": "Press to open application"
-        }
-    },
+    "pushNotificationTopics": [
+        "newDailyWord"
+    ],
     "wordApi": {
         "getDaily": "https://many-words-backend.herokuapp.com/api/words/daily",
         "getRandom": "https://many-words-backend.herokuapp.com/api/words/random",

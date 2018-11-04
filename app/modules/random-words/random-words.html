@@ -8,7 +8,7 @@
     </ActivityIndicator>
 </GridLayout>
 <ScrollView class="random-word-container" orientation="vertical">
-    <ListView class="random-words-main" [items]="allWords" [separatorColor]="'transparent'" (loadMoreItems)="loadNewWords()" col="1" row="0">
+    <ListView #listView class="random-words-main" [items]="allWords" [separatorColor]="'transparent'" (loadMoreItems)="loadNewWords()" col="1" row="0">
         <ng-template let-word="item" let-ind="index">
             <GridLayout class="word-box" [ngClass]="{'first-word': ind === 0}" height="300" columns="*" rows="*">
                 <WordBox col="0" row="0" [word]="word" [type]="'random'"></WordBox>

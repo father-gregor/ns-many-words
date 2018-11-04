@@ -7,12 +7,14 @@ import { AppRoutingModule } from "~/app-routing.module";
 
 import { DeviceInfoInterceptor } from "./interceptors/device-info.interceptor";
 
-import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { WordsService } from "~/services/words/words.service";
+import { MainConfigService } from "./services/main-config/main-config.service";
+import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { SnackBarNotificationService } from "~/services/snack-bar-notification/snack-bar-notification.service";
 import { PageDataStorageService } from "~/services/page-data-storage/page-data-storage.service";
 import { ConnectionMonitorService } from "./services/connection-monitor/connection-monitor.service";
 import { CurrentTabService } from "./services/current-tab/current-tab.service";
+import { GoogleFirebaseService } from "./services/google-firebase/google-firebase.service";
 
 import { AppComponent } from "~/app.component";
 import { HomeComponent } from "~/modules/home/home.component";
@@ -54,11 +56,13 @@ import { TouchButtonHighlightDirective } from "~/directives/touch-button-highlig
     ],
     providers: [
         WordsService,
+        MainConfigService,
         FavoriteWordsService,
         SnackBarNotificationService,
         PageDataStorageService,
         ConnectionMonitorService,
         CurrentTabService,
+        GoogleFirebaseService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: DeviceInfoInterceptor,

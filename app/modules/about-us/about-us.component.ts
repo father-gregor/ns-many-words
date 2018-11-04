@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
 
-import * as mainConfig from "../../config/main.config.json";
+import { MainConfigService } from "~/services/main-config/main-config.service.js";
 
 @Component({
     selector: "AboutUs",
@@ -10,8 +10,9 @@ import * as mainConfig from "../../config/main.config.json";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutUsComponent {
-    public mainConfig: any = mainConfig;
-    public actionBarTitle: string = (mainConfig as any).aboutUs.title;
+    public actionBarTitle: string;
 
-    constructor () {}
+    constructor (public MainConfig: MainConfigService) {
+        this.actionBarTitle = this.MainConfig.config.aboutUs.title;
+    }
 }

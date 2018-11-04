@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import * as mainConfig from "../../config/main.config.json";
+import { MainConfigService } from "~/services/main-config/main-config.service.js";
 
 @Component({
     selector: "Settings",
@@ -8,7 +8,5 @@ import * as mainConfig from "../../config/main.config.json";
     templateUrl: "./settings.html"
 })
 export class SettingsComponent {
-    public mainConfig: any = mainConfig;
-
-    constructor () {}
+    constructor (public MainConfig: MainConfigService) {}
 }

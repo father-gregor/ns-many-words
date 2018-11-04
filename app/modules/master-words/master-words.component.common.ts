@@ -1,6 +1,8 @@
-import { EventEmitter, Output, OnInit, ChangeDetectorRef, DoCheck } from "@angular/core";
-import { Subject } from "rxjs";
+import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
+import { isAndroid } from "tns-core-modules/platform";
 import { connectionType } from "tns-core-modules/connectivity/connectivity";
+import { ListView } from "tns-core-modules/ui/list-view";
+import { Subject } from "rxjs";
 
 import * as dateformat from "dateformat";
 
@@ -8,7 +10,8 @@ import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.
 import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
 
 import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
-export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
+
+export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit {
     private static monitor: ConnectionMonitorService;
 
     public wordsType: WordType;
@@ -21,10 +24,13 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
     public allWords: IWord[] = [];
 
     @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
+    @ViewChild("listView") public wordsListView: ElementRef;
 
+    protected listView: ListView;
     protected lastPanDirection: ScrollDirection = "up";
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
     protected tabScroll$: Subject<{direction: ScrollDirection}> = new Subject<{direction: ScrollDirection}>();
+    protected lastListViewOffset = 0;
     protected lastVerticalOffset = 0;
 
     constructor (
@@ -41,19 +47,39 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
         }
     }
 
+    public ngAfterViewInit () {
+        if (isAndroid) {
+            const intervalId = setInterval(() => {
+                this.listView = this.wordsListView && this.wordsListView.nativeElement as ListView;
+                if (this.listView && this.listView.android) {
+                    clearInterval(intervalId);
+                    this.listView.android.setOnScrollListener(new android.widget.AbsListView.OnScrollListener({
+                        onScrollStateChanged: () => {},
+                        onScroll: () => {
+                            const offset = this.listView.android.computeVerticalScrollOffset();
+                            if (Math.abs(this.lastListViewOffset - offset) > 1) {
+                                this.lastListViewOffset = offset;
+                                this.onAndroidListViewScroll();
+                            }
+                        }
+                    }));
+                }
+            }, 100);
+        }
+    }
+
     public ngOnInit () {
         this.newWordsLoaded$.subscribe(() => {
             this.cd.detectChanges();
         });
 
-        /*this.tabScroll$.subscribe((dir: {direction: ScrollDirection}) => {
+        this.tabScroll$.subscribe((dir: {direction: ScrollDirection}) => {
             this.onTabScrollEmitter.emit(dir);
-        });*/
+        });
 
         this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
             if (!this.noConnectionError && connection === connectionType.none) {
                 this.noConnectionError = true;
-                console.log("ERRPRS CONNECTION");
             }
             else if (this.noConnectionError) {
                 this.noConnectionError = false;
@@ -62,36 +88,26 @@ export abstract class MasterWordsComponentCommon implements OnInit, DoCheck {
         });
     }
 
-    public ngDoCheck () {
-        /*
-        const scrollViewOffset = this.scrollView.verticalOffset;
-        console.log(`Offset ${scrollViewOffset} at ${this.wordsType}`);
-        if (this.scrollView && scrollViewOffset > 0 && scrollViewOffset !== this.lastVerticalOffset) {
-            let panDelay = 15;
+    public onAndroidListViewScroll () {
+        if (this.lastListViewOffset > 0 && this.lastListViewOffset !== this.lastVerticalOffset) {
+            let panDelay = 10;
 
-            /*
-            if ((this.lastPanDirection === "up" && this.lastVerticalOffset < scrollViewOffset) || (this.lastPanDirection === "down" && this.lastVerticalOffset > scrollViewOffset)) {
+            if ((this.lastPanDirection === "up" && this.lastVerticalOffset < this.lastListViewOffset) || (this.lastPanDirection === "down" && this.lastVerticalOffset > this.lastListViewOffset)) {
                 panDelay = 0;
             }
 
-            if (this.lastVerticalOffset + panDelay < scrollViewOffset) {
-                this.lastVerticalOffset = scrollViewOffset;
+            if (this.lastVerticalOffset + panDelay < this.lastListViewOffset) {
+                this.lastVerticalOffset = this.lastListViewOffset;
                 this.lastPanDirection = "up";
                 this.tabScroll$.next({direction: this.lastPanDirection});
             }
-            else if (this.lastVerticalOffset - panDelay > scrollViewOffset) {
-                this.lastVerticalOffset = scrollViewOffset;
+            else if (this.lastVerticalOffset - panDelay > this.lastListViewOffset) {
+                this.lastVerticalOffset = this.lastListViewOffset;
                 this.lastPanDirection = "down";
                 this.tabScroll$.next({direction: this.lastPanDirection});
             }
-        }*/
-    }
-
-    /*public onScroll (data: ScrollEventData) {
-        if (this.scrollView && this.scrollView.scrollableHeight <= (data.scrollY + 100) && !this.isLoading) {
-            this.loadNewWords();
         }
-    }*/
+    }
 
     public abstract async loadNewWords (options?: IWordQueryOptions);
 
