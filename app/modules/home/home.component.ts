@@ -4,7 +4,7 @@ import { Subject } from "rxjs";
 
 import { IWordTab } from "~/modules/home/tab";
 import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
-import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
+import { ITabScrollEvent } from "~/modules/master-words/master-words.interfaces";
 import { CurrentTabService } from "~/services/current-tab/current-tab.service";
 
 @Component({
@@ -52,20 +52,26 @@ export class HomeComponent implements AfterViewInit {
         this.CurrentTab.setCurrentTab(this.wordsTab[event.newIndex]);
     }
 
-    public onTabScroll (event: {direction: ScrollDirection}) {
+    public onTabScroll (event: ITabScrollEvent) {
         const actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
         if (event.direction === "up" && Math.abs(this.currentPos) < actionBarHeight) {
             // Pretty good configuration for scroll. Maybe need to make steps bigger if there is a little of margin left to increment
             const steps = 5;
-            for (let i = 0; i < steps; i++) {
+            for (let i = 0; i < event.steps; i++) {
                 this.currentPos--;
+                if (Math.abs(this.currentPos) > actionBarHeight) {
+                    break;
+                }
                 this.changeMargin$.next(this.currentPos);
             }
         }
         else if (event.direction === "down" && this.currentPos < 0) {
             const steps = 5;
-            for (let i = 0; i < steps; i++) {
+            for (let i = 0; i < event.steps; i++) {
                 this.currentPos++;
+                if (this.currentPos > 0) {
+                    break;
+                }
                 this.changeMargin$.next(this.currentPos);
             }
         }

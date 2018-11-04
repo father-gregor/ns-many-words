@@ -7,7 +7,7 @@ import { Subject } from "rxjs";
 import * as dateformat from "dateformat";
 
 import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
-import { ScrollDirection } from "~/modules/master-words/master-words.interfaces";
+import { ScrollDirection, ITabScrollEvent } from "~/modules/master-words/master-words.interfaces";
 
 import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
 
@@ -23,13 +23,13 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public noConnectionError = false;
     public allWords: IWord[] = [];
 
-    @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<{direction: ScrollDirection}> = new EventEmitter<{direction: ScrollDirection}>();
+    @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<ITabScrollEvent> = new EventEmitter<ITabScrollEvent>();
     @ViewChild("listView") public wordsListView: ElementRef;
 
     protected listView: ListView;
     protected lastPanDirection: ScrollDirection = "up";
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
-    protected tabScroll$: Subject<{direction: ScrollDirection}> = new Subject<{direction: ScrollDirection}>();
+    protected tabScroll$: Subject<ITabScrollEvent> = new Subject<ITabScrollEvent>();
     protected lastListViewOffset = 0;
     protected lastVerticalOffset = 0;
 
@@ -47,34 +47,13 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         }
     }
 
-    public ngAfterViewInit () {
-        if (isAndroid) {
-            const intervalId = setInterval(() => {
-                this.listView = this.wordsListView && this.wordsListView.nativeElement as ListView;
-                if (this.listView && this.listView.android) {
-                    clearInterval(intervalId);
-                    this.listView.android.setOnScrollListener(new android.widget.AbsListView.OnScrollListener({
-                        onScrollStateChanged: () => {},
-                        onScroll: () => {
-                            const offset = this.listView.android.computeVerticalScrollOffset();
-                            if (Math.abs(this.lastListViewOffset - offset) > 1) {
-                                this.lastListViewOffset = offset;
-                                this.onAndroidListViewScroll();
-                            }
-                        }
-                    }));
-                }
-            }, 100);
-        }
-    }
-
     public ngOnInit () {
         this.newWordsLoaded$.subscribe(() => {
             this.cd.detectChanges();
         });
 
-        this.tabScroll$.subscribe((dir: {direction: ScrollDirection}) => {
-            this.onTabScrollEmitter.emit(dir);
+        this.tabScroll$.subscribe((event: {direction: ScrollDirection, steps: number}) => {
+            this.onTabScrollEmitter.emit(event);
         });
 
         this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
@@ -88,23 +67,48 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         });
     }
 
+    public ngAfterViewInit () {
+        if (isAndroid) {
+            const intervalId = setInterval(() => {
+                this.listView = this.wordsListView && this.wordsListView.nativeElement as ListView;
+                if (this.listView && this.listView.android) {
+                    clearInterval(intervalId);
+                    this.listView.android.setOnScrollListener(new android.widget.AbsListView.OnScrollListener({
+                        onScrollStateChanged: () => {},
+                        onScroll: () => {
+                            const offset = this.listView.android.computeVerticalScrollOffset();
+                            if (Math.abs(this.lastListViewOffset - offset) > 0) {
+                                this.onAndroidListViewScroll();
+                            }
+                        }
+                    }));
+                }
+            }, 100);
+        }
+    }
+
     public onAndroidListViewScroll () {
+        const prevOffset = this.lastListViewOffset;
+        this.lastListViewOffset = this.listView.android.computeVerticalScrollOffset();
         if (this.lastListViewOffset > 0 && this.lastListViewOffset !== this.lastVerticalOffset) {
-            let panDelay = 10;
+            let panDelay = 5;
 
             if ((this.lastPanDirection === "up" && this.lastVerticalOffset < this.lastListViewOffset) || (this.lastPanDirection === "down" && this.lastVerticalOffset > this.lastListViewOffset)) {
                 panDelay = 0;
             }
 
+            const diff = Math.abs(this.lastListViewOffset - prevOffset);
             if (this.lastVerticalOffset + panDelay < this.lastListViewOffset) {
                 this.lastVerticalOffset = this.lastListViewOffset;
                 this.lastPanDirection = "up";
-                this.tabScroll$.next({direction: this.lastPanDirection});
+                if (diff > 0) {
+                    this.tabScroll$.next({direction: this.lastPanDirection, steps: diff});
+                }
             }
             else if (this.lastVerticalOffset - panDelay > this.lastListViewOffset) {
                 this.lastVerticalOffset = this.lastListViewOffset;
                 this.lastPanDirection = "down";
-                this.tabScroll$.next({direction: this.lastPanDirection});
+                this.tabScroll$.next({direction: this.lastPanDirection, steps: diff});
             }
         }
     }

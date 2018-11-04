@@ -4,8 +4,8 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { HomeComponent } from "~/modules/home/home.component";
 import { FavoriteWordsComponent } from "~/modules/favorite-words/favorite-words.component";
-import { ShowcaseWordComponent } from '~/modules/showcase-word/showcase-word.component';
-import { AboutUsComponent } from './modules/about-us/about-us.component';
+import { ShowcaseWordComponent } from "~/modules/showcase-word/showcase-word.component";
+import { AboutUsComponent } from "./modules/about-us/about-us.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },
