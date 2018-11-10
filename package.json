@@ -6,7 +6,7 @@
   "nativescript": {
     "id": "com.fathergregor.manywords",
     "tns-android": {
-      "version": "4.2.0"
+      "version": "5.0.0"
     }
   },
   "dependencies": {
@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~6.1.0",
     "@angular/router": "~6.1.0",
     "dateformat": "^3.0.3",
-    "nativescript-angular": "^6.1.0",
+    "nativescript-angular": "^6.2.0",
     "nativescript-cardview": "^3.1.1",
     "nativescript-local-notifications": "^3.1.0",
     "nativescript-plugin-firebase": "^7.3.0",
@@ -29,19 +29,19 @@
     "nativescript-theme-core": "~1.0.4",
     "reflect-metadata": "~0.1.10",
     "rxjs": "^6.0.0",
-    "tns-core-modules": "^4.2.0",
+    "tns-core-modules": "^5.0.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular/compiler-cli": "~6.1.0",
-    "@ngtools/webpack": "~6.1.0",
+    "@ngtools/webpack": "~6.2.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "babylon": "6.4.5",
     "lazy": "1.0.11",
     "nativescript-dev-sass": "^1.6.0",
     "nativescript-dev-typescript": "^0.7.2",
-    "nativescript-dev-webpack": "^0.15.1",
+    "nativescript-dev-webpack": "^0.17.0",
     "tns-platform-declarations": "^5.0.0",
     "tslib": "^1.9.3",
     "typescript": "~2.7.2"
