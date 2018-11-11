@@ -32,6 +32,8 @@
     }
 
     .word-selftext {
+        font-family: "Cardo", "Cardo-Regular";
+        font-weight: normal;
         font-size: 35;
         color: rgb(0, 0, 0);
         margin-bottom: 20;
@@ -42,6 +44,8 @@
         // color: #eed755;
     
         .word-definition {
+            font-family: "Cardo", "Cardo-Italic";
+            font-weight: normal;
             font-size: 20;
             font-style: italic;
             color: rgb(65, 62, 62);
