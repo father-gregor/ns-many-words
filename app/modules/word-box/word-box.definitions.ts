@@ -10,6 +10,7 @@ export interface IWord {
     language?: string;
     archaic?: boolean;
     partOfSpeech?: string[];
+    wikiUrl?: string;
 }
 
 export interface IWordRouterData {

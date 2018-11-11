@@ -4,6 +4,11 @@
                       android.systemIcon="ic_menu_back" 
                       (tap)="goBack()">
     </NavigationButton>
+    <ActionItem *ngIf="showWikiLogo()" ios.position="right" (tap)="openWordWiki()">
+        <StackLayout class="wiki-logo" orientation="vertical" backgroundColor="#ffffff" borderRadius="100">
+            <Image src="res://wiki_logo" margin="5" width="20" height="20" stretch="aspectFit"></Image> 
+        </StackLayout>
+    </ActionItem>
     <ActionItem *ngIf="showFavoritesArchive()"
                 (tap)="openFavorites()" 
                 icon="res://favorites_archive"

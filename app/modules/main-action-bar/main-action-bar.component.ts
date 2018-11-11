@@ -1,9 +1,12 @@
 import { Component, Input, ChangeDetectorRef, ViewChild, OnInit, AfterViewInit } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActionBar } from "tns-core-modules/ui/action-bar/action-bar";
+import * as utils from "tns-core-modules/utils/utils";
 
 import { MainConfigService } from "~/services/main-config/main-config.service.js";
+import { IWord } from "~/modules/word-box/word-box.definitions";
 
 @Component({
     selector: "MainActionBar",
@@ -16,6 +19,7 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     public actionBarView: ActionBar;
     @Input() public routeName: string;
     @Input() public title: string;
+    @Input() public showcaseWord: IWord;
 
     @ViewChild("actionBar") public actionBarElement: any;
 
@@ -23,7 +27,8 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         public MainConfig: MainConfigService,
         public router: Router,
         public routerExtensions: RouterExtensions,
-        protected cd: ChangeDetectorRef
+        protected cd: ChangeDetectorRef,
+        private http: HttpClient
     ) {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
@@ -37,8 +42,24 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         });
     }
 
-    public ngOnInit () {
+    public async ngOnInit () {
         this.title = this.title || this.MainConfig.config.appName;
+
+        if (this.showcaseWord) {
+            try {
+                if (!this.showcaseWord.wikiUrl && this.showcaseWord.wikiUrl !== "") {
+                    const wordWikiUrl = this.MainConfig.config.showcaseWord.wikiUrl + this.showcaseWord.name.toLowerCase().replace(/\s/gm, "_");
+                    await this.http.get(wordWikiUrl, {responseType: "text"}).toPromise();
+                    this.showcaseWord.wikiUrl = wordWikiUrl;
+                }
+            }
+            catch (err) {
+                this.showcaseWord.wikiUrl = "";
+            }
+            finally {
+                this.cd.detectChanges();
+            }
+        }
     }
 
     public ngAfterViewInit () {
@@ -47,6 +68,10 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
 
     public showFavoritesArchive () {
         return this.router.url.indexOf("favorites-archive") === -1;
+    }
+
+    public showWikiLogo () {
+        return this.showcaseWord && this.showcaseWord.wikiUrl;
     }
 
     public canGoBack () {
@@ -64,6 +89,12 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
                 curve: "ease"
             }
         });
+    }
+
+    public openWordWiki () {
+        if (this.showcaseWord.wikiUrl) {
+            utils.openUrl(this.showcaseWord.wikiUrl);
+        }
     }
 
     public openSettings () {}
