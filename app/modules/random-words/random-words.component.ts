@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectorRef } from "@angular/core";
 
 import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
@@ -9,8 +9,7 @@ import { ConnectionMonitorService } from "~/services/connection-monitor/connecti
     selector: "RandomWords",
     moduleId: module.id,
     styleUrls: ["./random-words-common.css"],
-    templateUrl: "./random-words.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: "./random-words.html"
 })
 export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";

@@ -55,8 +55,6 @@ export class HomeComponent implements AfterViewInit {
     public onTabScroll (event: ITabScrollEvent) {
         const actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
         if (event.direction === "up" && Math.abs(this.currentPos) < actionBarHeight) {
-            // Pretty good configuration for scroll. Maybe need to make steps bigger if there is a little of margin left to increment
-            const steps = 5;
             for (let i = 0; i < event.steps; i++) {
                 this.currentPos--;
                 if (Math.abs(this.currentPos) > actionBarHeight) {
@@ -66,7 +64,6 @@ export class HomeComponent implements AfterViewInit {
             }
         }
         else if (event.direction === "down" && this.currentPos < 0) {
-            const steps = 5;
             for (let i = 0; i < event.steps; i++) {
                 this.currentPos++;
                 if (this.currentPos > 0) {

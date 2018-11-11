@@ -1,4 +1,5 @@
 import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
+import { SetupItemViewArgs } from "nativescript-angular/directives";
 import { isAndroid } from "tns-core-modules/platform";
 import { connectionType } from "tns-core-modules/connectivity/connectivity";
 import { ListView } from "tns-core-modules/ui/list-view";
@@ -64,6 +65,8 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 this.noConnectionError = false;
                 this.loadNewWords();
             }
+
+            this.cd.detectChanges();
         });
     }
 
@@ -114,6 +117,10 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     }
 
     public abstract async loadNewWords (options?: IWordQueryOptions);
+
+    public onSetupWordBoxView (event: SetupItemViewArgs) {
+        event.view.context.noWords = (event.index + 1 === this.allWords.length) && this.showNoWordsMsg;
+    }
 
     public getWordDate (word: IWord): {text: string, object: Date} {
         const currentDate = new Date();

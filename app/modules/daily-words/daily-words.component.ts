@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from "@angular/core";
+import { Component, ChangeDetectorRef, NgZone } from "@angular/core";
 import {
     getString as nsGetString,
     setString as nsSetString,
@@ -15,8 +15,7 @@ import { WordType } from "../../../platforms/android/app/src/main/assets/app/mod
     selector: "DailyWords",
     moduleId: module.id,
     styleUrls: ["./daily-words-common.css"],
-    templateUrl: "./daily-words.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: "./daily-words.html"
 })
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";

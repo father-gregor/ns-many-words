@@ -2,14 +2,21 @@
     <ActivityIndicator [busy]="firstLoading && isLoading" 
                        [visibility]="isLoading ? 'visible' : 'collapse'"
                        height="100" 
-                       width="100"  
+                       width="100"
+                       col="0"
+                       row="0"  
                        horizontalAlignment="center"
                        verticalAlignment="center">
     </ActivityIndicator>
 </GridLayout>
-<ScrollView class="daily-word-container" orientation="vertical">
-    <ListView #listView class="daily-words-main" [items]="allWords" [separatorColor]="'transparent'" (loadMoreItems)="loadNewWords()" col="1" row="0">
-        <ng-template let-word="item" let-ind="index">
+<GridLayout *ngIf="noConnectionError" rows="*" columns="*">
+    <StackLayout col="0" row="0" horizontalAlignment="center" verticalAlignment="center">
+        <NoConnection></NoConnection>
+    </StackLayout>
+</GridLayout>
+<ScrollView class="daily-word-container" orientation="vertical" *ngIf="!firstLoading && !noConnectionError">
+    <ListView #listView class="daily-words-main" [items]="allWords" [separatorColor]="'transparent'" (setupItemView)="onSetupWordBoxView($event)" (loadMoreItems)="loadNewWords()">
+        <ng-template let-word="item" let-ind="index" let-noWords="noWords">
             <StackLayout class="word-box" [ngClass]="{'first-word': ind === 0}" orientation="vertical">
                 <GridLayout height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.date.text === 'Today'}">
                     <Label col="0" row="0" text="" class="word-date-line"></Label>   
@@ -19,17 +26,11 @@
                 <GridLayout height="300" columns="*" rows="*">
                     <WordBox col="0" row="0" [word]="word" [type]="'daily'"></WordBox>
                 </GridLayout>
+                <StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="center" *ngIf="noWords">
+                    <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
+                    <Button class="repeat-load-btn" [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords()"></Button>
+                </StackLayout>
             </StackLayout>
         </ng-template>
-        <StackLayout horizontalAlignment="center" orientation="vertical" verticalAlignment="center" *ngIf="showNoWordsMsg && !noConnectionError">
-            <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
-            <Button class="repeat-load-btn" [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords()"></Button>
-        </StackLayout>
-        <ActivityIndicator [busy]="!firstLoading && isLoading" 
-                            [visibility]="isLoading ? 'visible' : 'collapse'"  
-                            horizontalAlignment="center"
-                            verticalAlignment="center">
-        </ActivityIndicator>
     </ListView>
-    <NoConnection *ngIf="noConnectionError"></NoConnection>
 </ScrollView>

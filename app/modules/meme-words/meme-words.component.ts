@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectorRef } from "@angular/core";
 
 import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
@@ -9,8 +9,7 @@ import { ConnectionMonitorService } from "~/services/connection-monitor/connecti
     selector: "MemeWords",
     moduleId: module.id,
     styleUrls: ["./meme-words-common.css"],
-    templateUrl: "./meme-words.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: "./meme-words.html"
 })
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";

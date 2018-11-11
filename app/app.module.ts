@@ -7,6 +7,8 @@ import { AppRoutingModule } from "~/app-routing.module";
 
 import { DeviceInfoInterceptor } from "./interceptors/device-info.interceptor";
 
+import { TouchButtonHighlightDirective } from "~/directives/touch-button-highlight/touch-button-highlight.directive";
+
 import { WordsService } from "~/services/words/words.service";
 import { MainConfigService } from "./services/main-config/main-config.service";
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
@@ -28,7 +30,6 @@ import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-ba
 import { ShowcaseWordComponent } from "~/modules/showcase-word/showcase-word.component";
 import { AboutUsComponent } from "./modules/about-us/about-us.component";
 import { NoConnectionComponent } from "./modules/no-connection/no-connection.component";
-import { TouchButtonHighlightDirective } from "~/directives/touch-button-highlight/touch-button-highlight.directive";
 
 @NgModule({
     bootstrap: [
