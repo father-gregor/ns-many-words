@@ -6,10 +6,9 @@ import {
 } from "tns-core-modules/application-settings/application-settings";
 
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
-import { IWord, IWordQueryOptions } from "~/modules/word-box/word-box.definitions";
+import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { WordsService } from "~/services/words/words.service";
 import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
-import { WordType } from "../../../platforms/android/app/src/main/assets/app/modules/word-box/word-box.definitions";
 
 @Component({
     selector: "DailyWords",
