@@ -1,40 +1,50 @@
-import { Component, ChangeDetectorRef, NgZone } from "@angular/core";
+import { Component, ChangeDetectorRef } from "@angular/core";
 import {
     getString as nsGetString,
     setString as nsSetString,
     hasKey as nsHasKey
 } from "tns-core-modules/application-settings/application-settings";
 
+/**
+ * Components
+ */
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
+
+/**
+ * Interfaces
+ */
 import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
+
+/**
+ * Services
+ */
 import { WordsService } from "~/services/words/words.service";
-import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
+import { LoggerService } from "~/services/logger/logger.service";
 
 @Component({
     selector: "DailyWords",
     moduleId: module.id,
-    styleUrls: ["./daily-words-common.css"],
+    styleUrls: ["./daily-words-common.scss"],
     templateUrl: "./daily-words.html"
 })
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
+    public noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
     public earliestWordDate: Date;
     private newestWordDate: Date;
     private newestWordDateKey = "newestDate";
 
     constructor (
         private Words: WordsService,
-        protected ConnectionMonitor: ConnectionMonitorService,
-        protected cd: ChangeDetectorRef,
-        protected zone: NgZone
+        private logger: LoggerService,
+        protected cd: ChangeDetectorRef
     ) {
-        super(ConnectionMonitor, cd);
+        super(cd);
     }
 
     public async ngOnInit () {
         super.ngOnInit();
         this.earliestWordDate = new Date();
-        this.noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
         if (nsHasKey(this.newestWordDateKey)) {
             this.newestWordDate = JSON.parse(nsGetString(this.newestWordDateKey));
         }
@@ -52,13 +62,13 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             date: this.earliestWordDate.toString(),
             count: options.count || 3
         };
-        this.showNoWordsMsg = false;
+        this.noWords = false;
         this.isLoading = true;
 
         try {
             const res = await this.Words.getDailyWord(query).toPromise();
             let newWords = false;
-            if (res && Array.isArray(res)) {
+            if (res && Array.isArray(res) && res.length > 0) {
                 for (let word of res) {
                     word = {
                         name: word.name,
@@ -84,7 +94,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 newWords = true;
             }
             else {
-                this.showNoWordsMsg = true;
+                this.noWords = true;
             }
 
             this.isLoading = false;
@@ -96,11 +106,13 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             }
         }
         catch (err) {
-            this.showNoWordsMsg = true;
+            this.logger.error("mw_error_try_catch", err);
+            this.noWords = true;
             this.isLoading = false;
             if (this.firstLoading) {
                 this.firstLoading = false;
             }
+            this.currentError = "wordsLoadingFailed";
         }
         finally {
             this.newWordsLoaded$.next();

@@ -10,3 +10,4 @@ typings/
 .vscode/
 **/GoogleService-Info.plist
 **/google-services.json
+.tmp_backup/

@@ -28,15 +28,12 @@ export class ConnectionMonitorService {
             switch (newConnectionType) {
                 case connectivity.connectionType.none:
                     this.currentConnection = connectivity.connectionType.none;
-                    console.log("Connection type changed to none.");
                     break;
                 case connectivity.connectionType.wifi:
                     this.currentConnection = connectivity.connectionType.wifi;
-                    console.log("Connection type changed to WiFi.");
                     break;
                 case connectivity.connectionType.mobile:
                     this.currentConnection = connectivity.connectionType.mobile;
-                    console.log("Connection type changed to mobile.");
                     break;
                 default:
                     break;

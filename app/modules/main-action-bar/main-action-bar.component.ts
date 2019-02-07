@@ -5,13 +5,13 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { ActionBar } from "tns-core-modules/ui/action-bar/action-bar";
 import * as utils from "tns-core-modules/utils/utils";
 
-import { MainConfigService } from "~/services/main-config/main-config.service.js";
+import { MainConfigService } from "~/services/main-config/main-config.service";
 import { IWord } from "~/modules/word-box/word-box.definitions";
 
 @Component({
     selector: "MainActionBar",
     moduleId: module.id,
-    styleUrls: ["./main-action-bar-common.css", "./main-action-bar.css"],
+    styleUrls: ["./main-action-bar-common.scss", "./main-action-bar.scss"],
     templateUrl: "./main-action-bar.html"
 })
 export class MainActionBarComponent implements OnInit, AfterViewInit {

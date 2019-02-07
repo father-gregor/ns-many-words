@@ -7,21 +7,26 @@ import { Subject } from "rxjs";
 
 import * as dateformat from "dateformat";
 
+/**
+ * Interfaces
+ */
+import { TabErrorType } from "../errors/errors.interfaces";
 import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { ScrollDirection, ITabScrollEvent } from "~/modules/master-words/master-words.interfaces";
 
+/**
+ * Services
+ */
 import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
 
 export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit {
-    private static monitor: ConnectionMonitorService;
-
     public wordsType: WordType;
+    public currentError: TabErrorType;
     public noWordsMsg: string;
-    public showNoWordsMsg: boolean = false;
+    public noWords: boolean = false;
     public loadWordsBtnMsg: string = "Repeat";
     public firstLoading = true;
     public isLoading: boolean = false;
-    public noConnectionError = false;
     public allWords: IWord[] = [];
 
     @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<ITabScrollEvent> = new EventEmitter<ITabScrollEvent>();
@@ -34,18 +39,8 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     protected lastListViewOffset = 0;
     protected lastVerticalOffset = 0;
 
-    constructor (
-        protected ConnectionMonitor: ConnectionMonitorService,
-        protected cd: ChangeDetectorRef
-    ) {
+    constructor (protected cd: ChangeDetectorRef) {
         this.cd.detach();
-
-        if (MasterWordsComponentCommon.monitor) {
-            ConnectionMonitor = MasterWordsComponentCommon.monitor;
-        }
-        else {
-            MasterWordsComponentCommon.monitor = ConnectionMonitor;
-        }
     }
 
     public ngOnInit () {
@@ -55,18 +50,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
 
         this.tabScroll$.subscribe((event: {direction: ScrollDirection, steps: number}) => {
             this.onTabScrollEmitter.emit(event);
-        });
-
-        this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
-            if (!this.noConnectionError && connection === connectionType.none) {
-                this.noConnectionError = true;
-            }
-            else if (this.noConnectionError) {
-                this.noConnectionError = false;
-                this.loadNewWords();
-            }
-
-            this.cd.detectChanges();
         });
     }
 
@@ -119,7 +102,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public abstract async loadNewWords (options?: IWordQueryOptions);
 
     public onSetupWordBoxView (event: SetupItemViewArgs) {
-        event.view.context.noWords = (event.index + 1 === this.allWords.length) && this.showNoWordsMsg;
+        event.view.context.noWords = ((event.index + 1) === this.allWords.length) && this.noWords;
     }
 
     public getWordDate (word: IWord): {text: string, object: Date} {

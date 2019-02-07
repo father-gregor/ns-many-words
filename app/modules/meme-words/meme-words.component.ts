@@ -1,34 +1,42 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
 
+/**
+ * Interfaces
+ */
 import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
+
+/**
+ * Components
+ */
 import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
+
+/**
+ * Services
+ */
 import { WordsService } from "~/services/words/words.service";
-import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
+import { LoggerService } from "~/services/logger/logger.service";
 
 @Component({
     selector: "MemeWords",
     moduleId: module.id,
-    styleUrls: ["./meme-words-common.css"],
+    styleUrls: ["./meme-words-common.scss"],
     templateUrl: "./meme-words.html"
 })
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
+    public noWordsMsg = "Word didn't loaded. Press button to try again";
 
     constructor (
         private Words: WordsService,
-        protected ConnectionMonitor: ConnectionMonitorService,
+        private logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
-        super(ConnectionMonitor, cd);
+        super(cd);
     }
 
    public async ngOnInit () {
        super.ngOnInit();
-       this.noWordsMsg = "Word didn't loaded. Press button to try again";
-       // TODO Temporaly make three calls to the backend
-       await this.loadNewWords();
-       await this.loadNewWords();
-       await this.loadNewWords();
+       await this.loadNewWords({count: 5});
     }
 
     // @Override
@@ -37,18 +45,16 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
             return;
         }
 
-        if (this.showNoWordsMsg) {
-            this.showNoWordsMsg = false;
+        if (this.noWords) {
+            this.noWords = false;
         }
-        const query = {
-            count: options.count || 1
-        };
-        this.showNoWordsMsg = false;
+        const query = {count: options.count || 1};
+        this.noWords = false;
         this.isLoading = true;
 
         try {
             const res = await this.Words.getMemeWord(query).toPromise();
-            if (res && Array.isArray(res)) {
+            if (res && Array.isArray(res) && res.length > 0) {
                 for (const word of res) {
                     this.allWords.push({
                         name: word.name,
@@ -62,7 +68,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
                 }
             }
             else {
-                this.showNoWordsMsg = true;
+                this.noWords = true;
             }
 
             this.isLoading = false;
@@ -71,11 +77,13 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
             }
         }
         catch (err) {
-            this.showNoWordsMsg = true;
+            this.logger.error("mw_error_try_catch", err);
+            this.noWords = true;
             this.isLoading = false;
             if (this.firstLoading) {
                 this.firstLoading = false;
             }
+            this.currentError = "wordsLoadingFailed";
         }
         finally {
             this.newWordsLoaded$.next();

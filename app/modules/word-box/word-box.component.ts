@@ -12,7 +12,7 @@ import { PageDataStorageService } from "~/services/page-data-storage/page-data-s
 @Component({
     selector: "WordBox",
     moduleId: module.id,
-    styleUrls: ["./word-box-common.css", "./word-box.css"],
+    styleUrls: ["./word-box-common.scss", "./word-box.scss"],
     templateUrl: "./word-box.html"
 })
 export class WordBoxComponent {

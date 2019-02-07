@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
 
-import { MainConfigService } from "~/services/main-config/main-config.service.js";
+import { MainConfigService } from "~/services/main-config/main-config.service";
 
 @Component({
     selector: "AboutUs",
     moduleId: module.id,
-    styleUrls: ["./about-us-common.css"],
+    styleUrls: ["./about-us-common.scss"],
     templateUrl: "./about-us.html",
     changeDetection: ChangeDetectionStrategy.OnPush
 })

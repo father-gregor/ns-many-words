@@ -1,21 +1,28 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
-
 import {
     getString as nsGetString,
     setString as nsSetString,
     hasKey as nsHasKey
 } from "tns-core-modules/application-settings/application-settings";
 
+/**
+ * Interfaces
+ */
 import { IWord, WordType } from "~/modules/word-box/word-box.definitions";
 import { IFavoriteWords, IFavoriteWord } from "~/services/favorite-words/favorite-words";
+
+/**
+ * Services
+ */
+import { LoggerService } from "~/services/logger/logger.service";
 
 @Injectable()
 export class FavoriteWordsService {
     public changes$: Subject<IFavoriteWord[]> = new Subject<IFavoriteWord[]>();
     private favoriteWordsArchiveKey: string = "favoriteWords";
 
-    constructor () {}
+    constructor (private logger: LoggerService) {}
 
     public getAll (): IFavoriteWord[] {
         return this.getFavoriteWordsArchive().words;
@@ -38,8 +45,9 @@ export class FavoriteWordsService {
                 nsSetString(this.favoriteWordsArchiveKey, JSON.stringify(favoritesArchive));
                 this.changes$.next(favoritesArchive.words);
             }
-        } catch (err) {
-            console.log(`Error! ${err.message}`);
+        }
+        catch (err) {
+            this.logger.error("mw_error_add_favorite", err);
         }
     }
 
@@ -53,16 +61,13 @@ export class FavoriteWordsService {
                 nsSetString(this.favoriteWordsArchiveKey, JSON.stringify(favoritesArchive));
                 this.changes$.next(favoritesArchive.words);
             }
-        } catch (err) {
-            console.log(`Error! ${err.message}`);
+        }
+        catch (err) {
+            this.logger.error("mw_error_remove_favorite", err);
         }
     }
 
     private getFavoriteWordsArchive () {
-        return nsHasKey(this.favoriteWordsArchiveKey)
-            ? JSON.parse(nsGetString(this.favoriteWordsArchiveKey))
-            : {
-                words: []
-            };
+        return nsHasKey(this.favoriteWordsArchiveKey) ? JSON.parse(nsGetString(this.favoriteWordsArchiveKey)) : {words: []};
     }
 }

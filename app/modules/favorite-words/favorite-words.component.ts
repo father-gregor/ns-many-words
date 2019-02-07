@@ -1,17 +1,27 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Subscription } from "rxjs";
 
+/**
+ * Interfaces
+ */
 import { IFavoriteWord } from "~/services/favorite-words/favorite-words";
-import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
-import { MainConfigService } from "~/services/main-config/main-config.service.js";
-import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
-import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service.js";
 import { WordType } from "~/modules/word-box/word-box.definitions";
+
+/**
+ * Components
+ */
+import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
+
+/**
+ * Services
+ */
+import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
+import { MainConfigService } from "~/services/main-config/main-config.service";
 
 @Component({
     selector: "FavoriteWords",
     moduleId: module.id,
-    styleUrls: ["./favorite-words-common.css"],
+    styleUrls: ["./favorite-words-common.scss"],
     templateUrl: "./favorite-words.html"
 })
 export class FavoriteWordsComponent extends MasterWordsComponentCommon implements OnInit, OnDestroy {
@@ -25,10 +35,9 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
     constructor (
         public MainConfig: MainConfigService,
         public FavoriteWords: FavoriteWordsService,
-        protected ConnectionMonitor: ConnectionMonitorService,
         protected cd: ChangeDetectorRef
     ) {
-        super(ConnectionMonitor, cd);
+        super(cd);
         this.actionBarTitle = this.MainConfig.config.favoritesArchive.title;
         this.noWordsText = this.MainConfig.config.favoritesArchive.noWordsText;
     }

@@ -1,12 +1,15 @@
 <MainActionBar #mainActionBar [routeName]="'/home'"></MainActionBar>
 <TabView #tabView class="main-tab-view" (selectedIndexChanged)="onSelectedTabChanged($event)">
     <StackLayout *tabItem="{title: wordsTab[0].title}" >
-        <DailyWords (onTabScroll)="onTabScroll($event)"></DailyWords>
+        <DailyWords *ngIf="!noConnectionError" (onTabScroll)="onTabScroll($event)"></DailyWords>
+        <NoConnection *ngIf="noConnectionError"></NoConnection>
     </StackLayout>
     <StackLayout *tabItem="{title: wordsTab[1].title}">
-        <RandomWords (onTabScroll)="onTabScroll($event)"></RandomWords>
+        <RandomWords *ngIf="!noConnectionError" (onTabScroll)="onTabScroll($event)"></RandomWords>
+        <NoConnection *ngIf="noConnectionError"></NoConnection>
     </StackLayout>
     <StackLayout *tabItem="{title: wordsTab[2].title}">
-        <MemeWords (onTabScroll)="onTabScroll($event)"></MemeWords>
+        <MemeWords *ngIf="!noConnectionError" (onTabScroll)="onTabScroll($event)"></MemeWords>
+        <NoConnection *ngIf="noConnectionError"></NoConnection>
     </StackLayout>
 </TabView>

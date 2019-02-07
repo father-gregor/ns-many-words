@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { GoogleFirebaseService } from "./services/google-firebase/google-firebase.service.js";
+import { GoogleFirebaseService } from "./services/google-firebase/google-firebase.service";
 
 @Component({
     selector: "many-words-app",

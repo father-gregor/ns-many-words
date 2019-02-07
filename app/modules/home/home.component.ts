@@ -1,16 +1,29 @@
 import { Component, ViewChild, AfterViewInit } from "@angular/core";
 import { TabView, SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
+import { connectionType } from "tns-core-modules/connectivity/connectivity";
 import { Subject } from "rxjs";
 
+/**
+ * Interfaces
+ */
 import { IWordTab } from "~/modules/home/tab";
-import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
 import { ITabScrollEvent } from "~/modules/master-words/master-words.interfaces";
+
+/**
+ * Components
+ */
+import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
+
+/**
+ * Services
+ */
 import { CurrentTabService } from "~/services/current-tab/current-tab.service";
+import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
 
 @Component({
     selector: "Home",
     moduleId: module.id,
-    styleUrls: ["./home-common.css", "./home.css"],
+    styleUrls: ["./home-common.scss", "./home.scss"],
     templateUrl: "./home.html"
 })
 export class HomeComponent implements AfterViewInit {
@@ -29,6 +42,7 @@ export class HomeComponent implements AfterViewInit {
         }
     ];
     public tabView: TabView;
+    public noConnectionError = false;
 
     @ViewChild("mainActionBar") public mainActionBarComponent: MainActionBarComponent;
     @ViewChild("tabView") public tabElement: any;
@@ -36,11 +50,23 @@ export class HomeComponent implements AfterViewInit {
     private currentPos = 0;
     private changeMargin$ = new Subject<number> ();
 
-    constructor (private CurrentTab: CurrentTabService) {
+    constructor (
+        private CurrentTab: CurrentTabService,
+        private ConnectionMonitor: ConnectionMonitorService
+    ) {
         this.CurrentTab.setCurrentTab(this.wordsTab[0]);
 
         this.changeMargin$.subscribe((marginTop: number) => {
             this.mainActionBarComponent.actionBarView.style.marginTop = marginTop;
+        });
+
+        this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
+            if (!this.noConnectionError && connection === connectionType.none) {
+                this.noConnectionError = true;
+            }
+            else if (this.noConnectionError && connection !== connectionType.none) {
+                this.noConnectionError = false;
+            }
         });
     }
 

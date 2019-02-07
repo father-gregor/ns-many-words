@@ -8,7 +8,7 @@ import { MainConfigService } from "~/services/main-config/main-config.service";
 @Component({
     selector: "ShowcaseWord",
     moduleId: module.id,
-    styleUrls: ["./showcase-word-common.css"],
+    styleUrls: ["./showcase-word-common.scss"],
     templateUrl: "./showcase-word.html",
     changeDetection: ChangeDetectionStrategy.OnPush
 })
