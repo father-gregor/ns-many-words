@@ -1,5 +1,4 @@
-<GridLayout class="no-connection-container" columns="*" rows="*, *" horizontalAlignment="center" verticalAlignment="center">
-    <Label col="0" row="0" class="font-icon no-connection-icon" text="&#xf1eb;" horizontalAlignment="center" verticalAlignment="center"></Label>
-    <Label col="0" row="0" class="font-icon ban-icon text-danger" text="&#xf05e;" horizontalAlignment="center" verticalAlignment="center"></Label>
-    <Label class="text-center offline-text" col="0" row="1" [text]="errorMessage"></Label>
-</GridLayout>
+<StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
+    <Label class="h2 text-center" [text]="errorMessage" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
+    <Button *ngIf="showButton" [btnDefault]="'#1d1d1d'" [btnHighlight]="'#707070'" class="no-words-btn" [text]="buttonText" horizontalAlignment="center" verticalAlignment="center" (tap)="onButtonTap()"></Button>
+</StackLayout>

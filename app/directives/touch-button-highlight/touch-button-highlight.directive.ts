@@ -6,10 +6,10 @@ import { View, Color } from "tns-core-modules/ui/core/view";
     selector: "[btnHighlight]"
 })
 export class TouchButtonHighlightDirective implements OnInit {
+    @Input("btnDefault") public defaultColor: string;
     @Input("btnHighlight") public highlightColor: string;
 
     private view: View;
-    private defaultColor: Color;
 
     constructor (private el: ElementRef) {
         this.view = ((el as any).element ? (el as any).element.nativeElement : el.nativeElement) as View;
@@ -17,7 +17,10 @@ export class TouchButtonHighlightDirective implements OnInit {
 
     public ngOnInit () {
         this.highlightColor = this.highlightColor || "#b4b4b4";
-        this.defaultColor = this.view.backgroundColor as Color;
+        if (!this.defaultColor) {
+            this.defaultColor = this.view.backgroundColor as string;
+            console.log("DEFAULT COLOR", this.view.backgroundColor);
+        }
     }
 
     @HostListener("touch", ["$event"])

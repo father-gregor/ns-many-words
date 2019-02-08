@@ -62,13 +62,16 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             date: this.earliestWordDate.toString(),
             count: options.count || 3
         };
-        this.noWords = false;
         this.isLoading = true;
 
         try {
             const res = await this.Words.getDailyWord(query).toPromise();
             let newWords = false;
             if (res && Array.isArray(res) && res.length > 0) {
+                if (this.isNoWords) {
+                    this.isNoWords = false;
+                }
+
                 for (let word of res) {
                     word = {
                         name: word.name,
@@ -94,27 +97,23 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 newWords = true;
             }
             else {
-                this.noWords = true;
+                this.isNoWords = true;
             }
 
-            this.isLoading = false;
-            if (this.firstLoading) {
-                this.firstLoading = false;
-            }
             if (newWords) {
                 this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);
             }
         }
         catch (err) {
             this.logger.error("mw_error_try_catch", err);
-            this.noWords = true;
+            this.isNoWords = true;
+            this.currentError = "wordsLoadingFailed";
+        }
+        finally {
             this.isLoading = false;
             if (this.firstLoading) {
                 this.firstLoading = false;
             }
-            this.currentError = "wordsLoadingFailed";
-        }
-        finally {
             this.newWordsLoaded$.next();
         }
     }

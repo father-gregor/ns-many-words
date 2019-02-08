@@ -9,12 +9,7 @@
             </ActivityIndicator>
         </StackLayout>
     </GridLayout>
-    <StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="center" *ngIf="favoriteWords.length === 0">
-        <Label  class="h2 text-center no-words-label"  
-                horizontalAlignment="center" 
-                verticalAlignment="center" 
-                [text]="noWordsText" 
-                [textWrap]="true">
-        </Label>
+    <StackLayout *ngIf="favoriteWords.length === 0" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
+        <NoWords [errorMessage]="noWordsMsg" [showButton]="false"></NoWords>
     </StackLayout>
 </ScrollView>

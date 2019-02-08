@@ -1,7 +1,6 @@
 import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
 import { SetupItemViewArgs } from "nativescript-angular/directives";
 import { isAndroid } from "tns-core-modules/platform";
-import { connectionType } from "tns-core-modules/connectivity/connectivity";
 import { ListView } from "tns-core-modules/ui/list-view";
 import { Subject } from "rxjs";
 
@@ -14,16 +13,11 @@ import { TabErrorType } from "../errors/errors.interfaces";
 import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { ScrollDirection, ITabScrollEvent } from "~/modules/master-words/master-words.interfaces";
 
-/**
- * Services
- */
-import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
-
 export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit {
     public wordsType: WordType;
     public currentError: TabErrorType;
+    public isNoWords = false;
     public noWordsMsg: string;
-    public noWords: boolean = false;
     public loadWordsBtnMsg: string = "Repeat";
     public firstLoading = true;
     public isLoading: boolean = false;
@@ -102,7 +96,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public abstract async loadNewWords (options?: IWordQueryOptions);
 
     public onSetupWordBoxView (event: SetupItemViewArgs) {
-        event.view.context.noWords = ((event.index + 1) === this.allWords.length) && this.noWords;
+        event.view.context.noWords = ((event.index + 1) === this.allWords.length) && this.isNoWords;
     }
 
     public getWordDate (word: IWord): {text: string, object: Date} {

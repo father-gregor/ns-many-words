@@ -28,7 +28,6 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
     public wordsType: WordType = "favorite";
     public favoriteWords: IFavoriteWord[];
     public actionBarTitle: string;
-    public noWordsText: string;
 
     private sub: Subscription;
 
@@ -39,7 +38,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
     ) {
         super(cd);
         this.actionBarTitle = this.MainConfig.config.favoritesArchive.title;
-        this.noWordsText = this.MainConfig.config.favoritesArchive.noWordsText;
+        this.noWordsMsg = this.MainConfig.config.favoritesArchive.noWordsText;
     }
 
     public ngOnInit () {

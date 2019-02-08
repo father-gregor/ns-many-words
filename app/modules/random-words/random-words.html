@@ -19,8 +19,5 @@
             </StackLayout>
         </ng-template>
     </ListView>
-    <StackLayout *ngIf="noWords" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
-        <Label class="h2 text-center" [text]="noWordsMsg" [textWrap]="true" horizontalAlignment="center" verticalAlignment="center"></Label>
-        <Button class="repeat-load-btn" [text]="loadWordsBtnMsg" horizontalAlignment="center" verticalAlignment="center" (tap)="loadNewWords({count: 3})"></Button>
-    </StackLayout>
+    <NoWords *ngIf="isNoWords" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
 </ScrollView>

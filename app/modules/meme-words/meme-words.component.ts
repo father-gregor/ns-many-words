@@ -45,16 +45,16 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
             return;
         }
 
-        if (this.noWords) {
-            this.noWords = false;
-        }
         const query = {count: options.count || 1};
-        this.noWords = false;
         this.isLoading = true;
 
         try {
             const res = await this.Words.getMemeWord(query).toPromise();
             if (res && Array.isArray(res) && res.length > 0) {
+                if (this.isNoWords) {
+                    this.isNoWords = false;
+                }
+
                 for (const word of res) {
                     this.allWords.push({
                         name: word.name,
@@ -68,24 +68,19 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
                 }
             }
             else {
-                this.noWords = true;
-            }
-
-            this.isLoading = false;
-            if (this.firstLoading) {
-                this.firstLoading = false;
+                this.isNoWords = true;
             }
         }
         catch (err) {
             this.logger.error("mw_error_try_catch", err);
-            this.noWords = true;
+            this.isNoWords = true;
+            this.currentError = "wordsLoadingFailed";
+        }
+        finally {
             this.isLoading = false;
             if (this.firstLoading) {
                 this.firstLoading = false;
             }
-            this.currentError = "wordsLoadingFailed";
-        }
-        finally {
             this.newWordsLoaded$.next();
         }
     }
