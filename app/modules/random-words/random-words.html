@@ -1,23 +1,20 @@
-<GridLayout *ngIf="firstLoading" rows="*" columns="*">
-    <ActivityIndicator [busy]="firstLoading" 
-                       [visibility]="'visible'"
-                       height="100" 
-                       width="100"
-                       col="0"
-                       row="0"  
-                       horizontalAlignment="center"
-                       verticalAlignment="center">
-    </ActivityIndicator>
-</GridLayout>
-<ScrollView class="random-word-container" orientation="vertical" *ngIf="!firstLoading">
-    <ListView #listView class="random-words-main" [items]="allWords" [separatorColor]="'transparent'" (setupItemView)="onSetupWordBoxView($event)" (loadMoreItems)="loadNewWords({count: 3})">
-        <ng-template let-word="item" let-ind="index" let-noWords="noWords">
+<StackLayout class="random-word-container" orientation="vertical">
+    <ListView #listView *ngIf="!firstLoading && allWords.length !== 0" class="random-words-main" [items]="allWords" [separatorColor]="'transparent'" (setupItemView)="onSetupWordBoxView($event)" (loadMoreItems)="loadNewWords({count: 3})">
+        <ng-template let-word="item" let-ind="index" let-isLast="isLast">
             <StackLayout class="word-box" [ngClass]="{'first-word': ind === 0}" orientation="vertical">
                 <GridLayout height="300" columns="*" rows="*">
                     <WordBox col="0" row="0" [word]="word" [type]="'random'"></WordBox>
                 </GridLayout>
+                <NoWords *ngIf="isLast && isNoWords" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
             </StackLayout>
         </ng-template>
     </ListView>
-    <NoWords *ngIf="isNoWords" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
-</ScrollView>
+    <ActivityIndicator *ngIf="firstLoading"
+                       [busy]="firstLoading"
+                       height="100" 
+                       width="100"
+                       horizontalAlignment="center"
+                       verticalAlignment="center">
+    </ActivityIndicator>
+    <NoWords *ngIf="isNoWords && allWords.length === 0" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
+</StackLayout>

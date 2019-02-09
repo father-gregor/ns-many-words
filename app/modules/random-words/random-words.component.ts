@@ -1,4 +1,5 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
+import { finalize } from "rxjs/operators";
 
 /**
  * Interfaces
@@ -34,13 +35,14 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         super(cd);
     }
 
-   public async ngOnInit () {
+   public ngOnInit () {
        super.ngOnInit();
-       await this.loadNewWords({count: 5});
+       this.loadNewWords({count: 5});
+       this.cd.detectChanges();
     }
 
     // @Override
-    public async loadNewWords (options: IWordQueryOptions = {}) {
+    public loadNewWords (options: IWordQueryOptions = {}) {
         if (this.isLoading) {
             return;
         }
@@ -48,41 +50,42 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         const query = {count: options.count || 1};
         this.isLoading = true;
 
-        try {
-            const res = await this.Words.getRandomWord(query).toPromise();
-            if (res && Array.isArray(res) && res.length > 0) {
-                if (this.isNoWords) {
-                    this.isNoWords = false;
-                }
-
-                for (const word of res) {
-                    this.allWords.push({
-                        name: word.name,
-                        nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
-                        definitions: word.definitions,
-                        archaic: word.archaic,
-                        language: word.language,
-                        date: word.publishDateUTC,
-                        partOfSpeech: word.partOfSpeech
-                    } as IWord);
+        this.Words.getRandomWord(query).pipe(
+            finalize(() => {
+                this.isLoading = false;
+                if (this.firstLoading) {
+                    this.firstLoading = false;
                 }
                 this.newWordsLoaded$.next();
-            }
-            else {
+            })
+        ).subscribe(
+            (res) => {
+                if (res && Array.isArray(res) && res.length > 0) {
+                    if (this.isNoWords) {
+                        this.isNoWords = false;
+                    }
+
+                    for (const word of res) {
+                        this.allWords.push({
+                            name: word.name,
+                            nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
+                            definitions: word.definitions,
+                            archaic: word.archaic,
+                            language: word.language,
+                            date: word.publishDateUTC,
+                            partOfSpeech: word.partOfSpeech
+                        } as IWord);
+                    }
+                }
+                else {
+                    this.isNoWords = true;
+                }
+            },
+            (err) => {
+                this.logger.error("mw_error_try_catch", err);
                 this.isNoWords = true;
+                this.currentError = "wordsLoadingFailed";
             }
-        }
-        catch (err) {
-            this.logger.error("mw_error_try_catch", err);
-            this.isNoWords = true;
-            this.currentError = "wordsLoadingFailed";
-        }
-        finally {
-            this.isLoading = false;
-            if (this.firstLoading) {
-                this.firstLoading = false;
-            }
-            this.newWordsLoaded$.next();
-        }
+        );
     }
 }

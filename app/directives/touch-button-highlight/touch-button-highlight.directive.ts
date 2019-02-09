@@ -19,7 +19,6 @@ export class TouchButtonHighlightDirective implements OnInit {
         this.highlightColor = this.highlightColor || "#b4b4b4";
         if (!this.defaultColor) {
             this.defaultColor = this.view.backgroundColor as string;
-            console.log("DEFAULT COLOR", this.view.backgroundColor);
         }
     }
 

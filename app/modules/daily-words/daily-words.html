@@ -1,17 +1,6 @@
-<GridLayout *ngIf="firstLoading" rows="*" columns="*">
-    <ActivityIndicator [busy]="firstLoading" 
-                       [visibility]="'visible'"
-                       height="100" 
-                       width="100"
-                       col="0"
-                       row="0"  
-                       horizontalAlignment="center"
-                       verticalAlignment="center">
-    </ActivityIndicator>
-</GridLayout>
-<ScrollView class="daily-word-container" orientation="vertical" *ngIf="!firstLoading">
-    <ListView #listView class="daily-words-main" [items]="allWords" [separatorColor]="'transparent'" (setupItemView)="onSetupWordBoxView($event)" (loadMoreItems)="loadNewWords()">
-        <ng-template let-word="item" let-ind="index" let-noWords="noWords">
+<StackLayout class="daily-word-container" orientation="vertical">
+    <ListView #listView *ngIf="!firstLoading && allWords.length !== 0" class="daily-words-main" [items]="allWords" [separatorColor]="'transparent'" (setupItemView)="onSetupWordBoxView($event)" (loadMoreItems)="loadNewWords({count: 3})">
+        <ng-template let-word="item" let-ind="index" let-isLast="isLast">
             <StackLayout class="word-box" [ngClass]="{'first-word': ind === 0}" orientation="vertical">
                 <GridLayout height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.date.text === 'Today'}">
                     <Label col="0" row="0" text="" class="word-date-line"></Label>   
@@ -21,8 +10,16 @@
                 <GridLayout height="300" columns="*" rows="*">
                     <WordBox col="0" row="0" [word]="word" [type]="'daily'"></WordBox>
                 </GridLayout>
+                <NoWords *ngIf="isLast && isNoWords" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
             </StackLayout>
         </ng-template>
     </ListView>
-    <NoWords *ngIf="isNoWords" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
-</ScrollView>
+    <ActivityIndicator *ngIf="firstLoading"
+                       [busy]="firstLoading"
+                       height="100" 
+                       width="100"
+                       horizontalAlignment="center"
+                       verticalAlignment="center">
+    </ActivityIndicator>
+    <NoWords *ngIf="isNoWords && allWords.length === 0" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
+</StackLayout>

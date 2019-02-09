@@ -96,7 +96,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public abstract async loadNewWords (options?: IWordQueryOptions);
 
     public onSetupWordBoxView (event: SetupItemViewArgs) {
-        event.view.context.noWords = ((event.index + 1) === this.allWords.length) && this.isNoWords;
+        event.view.context.isLast = ((event.index + 1) === this.allWords.length);
     }
 
     public getWordDate (word: IWord): {text: string, object: Date} {
