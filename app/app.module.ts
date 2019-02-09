@@ -47,7 +47,6 @@ import { ShowcaseWordComponent } from "~/modules/showcase-word/showcase-word.com
 import { AboutUsComponent } from "./modules/about-us/about-us.component";
 import { NoConnectionComponent } from "./modules/errors/no-connection/no-connection.component";
 import { NoWordsComponent } from "./modules/errors/no-words/no-words.component";
-import { WordsLoadingFailedComponent } from "./modules/errors/words-loading-failed/words-loading-failed.component";
 
 @NgModule({
     bootstrap: [
@@ -72,8 +71,7 @@ import { WordsLoadingFailedComponent } from "./modules/errors/words-loading-fail
         AboutUsComponent,
         TouchButtonHighlightDirective,
         NoConnectionComponent,
-        NoWordsComponent,
-        WordsLoadingFailedComponent
+        NoWordsComponent
     ],
     providers: [
         WordsService,

@@ -20,7 +20,7 @@ import { WordsService } from "~/services/words/words.service";
 @Component({
     selector: "RandomWords",
     moduleId: module.id,
-    styleUrls: ["./random-words-common.scss"],
+    styleUrls: ["../master-words/master-words-common.scss", "./random-words-common.scss"],
     templateUrl: "./random-words.html"
 })
 export class RandomWordsComponent extends MasterWordsComponentCommon {

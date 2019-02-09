@@ -1,8 +1,8 @@
-import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
+import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy } from "@angular/core";
 import { SetupItemViewArgs } from "nativescript-angular/directives";
 import { isAndroid } from "tns-core-modules/platform";
 import { ListView } from "tns-core-modules/ui/list-view";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 
 import * as dateformat from "dateformat";
 
@@ -13,7 +13,7 @@ import { TabErrorType } from "../errors/errors.interfaces";
 import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
 import { ScrollDirection, ITabScrollEvent } from "~/modules/master-words/master-words.interfaces";
 
-export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit {
+export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit, OnDestroy {
     public wordsType: WordType;
     public currentError: TabErrorType;
     public isNoWords = false;
@@ -33,18 +33,30 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     protected lastListViewOffset = 0;
     protected lastVerticalOffset = 0;
 
+    protected subscriptions: Subscription = new Subscription();
+
     constructor (protected cd: ChangeDetectorRef) {
         this.cd.detach();
     }
 
     public ngOnInit () {
-        this.newWordsLoaded$.subscribe(() => {
-            this.cd.detectChanges();
-        });
+        this.subscriptions.add(
+            this.newWordsLoaded$.subscribe(() => {
+                this.cd.detectChanges();
+            })
+        );
 
-        this.tabScroll$.subscribe((event: {direction: ScrollDirection, steps: number}) => {
-            this.onTabScrollEmitter.emit(event);
-        });
+        this.subscriptions.add(
+            this.tabScroll$.subscribe((event: {direction: ScrollDirection, steps: number}) => {
+                this.onTabScrollEmitter.emit(event);
+            })
+        );
+    }
+
+    public ngOnDestroy () {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
     }
 
     public ngAfterViewInit () {

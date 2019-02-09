@@ -25,7 +25,7 @@ import { LoggerService } from "~/services/logger/logger.service";
 @Component({
     selector: "DailyWords",
     moduleId: module.id,
-    styleUrls: ["./daily-words-common.scss"],
+    styleUrls: ["../master-words/master-words-common.scss", "./daily-words-common.scss"],
     templateUrl: "./daily-words.html"
 })
 export class DailyWordsComponent extends MasterWordsComponentCommon {

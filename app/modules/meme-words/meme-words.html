@@ -9,12 +9,15 @@
             </StackLayout>
         </ng-template>
     </ListView>
-    <ActivityIndicator *ngIf="firstLoading"
-                       [busy]="firstLoading"
-                       height="100" 
-                       width="100"
-                       horizontalAlignment="center"
-                       verticalAlignment="center">
-    </ActivityIndicator>
-    <NoWords *ngIf="isNoWords && allWords.length === 0" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
+    <StackLayout *ngIf="firstLoading" class="loading-indicator" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
+        <ActivityIndicator [busy]="firstLoading"
+                           height="100"
+                           width="100"
+                           horizontalAlignment="center"
+                           verticalAlignment="center">
+        </ActivityIndicator>
+    </StackLayout>
+    <StackLayout *ngIf="isNoWords && allWords.length === 0" class="no-words-component" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
+        <NoWords [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
+    </StackLayout>
 </StackLayout>
