@@ -19,6 +19,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public isNoWords = false;
     public noWordsMsg: string;
     public loadWordsBtnMsg: string = "Repeat";
+    public className: string;
     public firstLoading = true;
     public isLoading: boolean = false;
     public allWords: IWord[] = [];

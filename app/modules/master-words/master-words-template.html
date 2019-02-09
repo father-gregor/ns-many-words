@@ -1,9 +1,14 @@
-<StackLayout class="random-words-container" orientation="vertical">
-    <ListView #listView *ngIf="!firstLoading && allWords.length !== 0" class="random-words-main" [items]="allWords" [separatorColor]="'transparent'" (setupItemView)="onSetupWordBoxView($event)" (loadMoreItems)="loadNewWords({count: 3})">
+<StackLayout [ngClass]="className" orientation="vertical">
+    <ListView #listView *ngIf="!firstLoading && allWords.length !== 0" class="words-list" [items]="allWords" [separatorColor]="'transparent'" (setupItemView)="onSetupWordBoxView($event)" (loadMoreItems)="loadNewWords({count: 3})">
         <ng-template let-word="item" let-ind="index" let-isLast="isLast">
             <StackLayout class="word-box" [ngClass]="{'first-word': ind === 0}" orientation="vertical">
+                <GridLayout *ngIf="wordsType === 'daily'" height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.date.text === 'Today'}">
+                    <Label col="0" row="0" text="" class="word-date-line"></Label>   
+                    <Label col="1" row="0" [text]="word.date.text" class="word-date"></Label> 
+                    <Label col="2" row="0" text="" class="word-date-line"></Label>   
+                </GridLayout>
                 <GridLayout height="300" columns="*" rows="*">
-                    <WordBox col="0" row="0" [word]="word" [type]="'random'"></WordBox>
+                    <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
                 </GridLayout>
                 <NoWords *ngIf="isLast && isNoWords" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
             </StackLayout>

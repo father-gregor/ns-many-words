@@ -21,10 +21,11 @@ import { WordsService } from "~/services/words/words.service";
     selector: "RandomWords",
     moduleId: module.id,
     styleUrls: ["../master-words/master-words-common.scss", "./random-words-common.scss"],
-    templateUrl: "./random-words.html"
+    templateUrl: "../master-words/master-words-template.html"
 })
 export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";
+    public className = "random-word-container";
     public noWordsMsg = "Word didn't loaded. Press button to try again";
 
     constructor (

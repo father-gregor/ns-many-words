@@ -21,10 +21,11 @@ import { LoggerService } from "~/services/logger/logger.service";
     selector: "MemeWords",
     moduleId: module.id,
     styleUrls: ["../master-words/master-words-common.scss", "./meme-words-common.scss"],
-    templateUrl: "./meme-words.html"
+    templateUrl: "../master-words/master-words-template.html"
 })
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
+    public className = "meme-words-container";
     public noWordsMsg = "Word didn't loaded. Press button to try again";
 
     constructor (

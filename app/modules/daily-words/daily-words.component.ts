@@ -26,10 +26,11 @@ import { LoggerService } from "~/services/logger/logger.service";
     selector: "DailyWords",
     moduleId: module.id,
     styleUrls: ["../master-words/master-words-common.scss", "./daily-words-common.scss"],
-    templateUrl: "./daily-words.html"
+    templateUrl: "../master-words/master-words-template.html"
 })
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
+    public className = "daily-words-container";
     public noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
     public earliestWordDate: Date;
     private newestWordDate: Date;
