@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 /**
  * Interfaces
@@ -9,17 +10,22 @@ import {IAnalyticsLog, CustomErrorType, CustomEventType } from "./logger.interfa
  * Services
  */
 import { GoogleFirebaseService } from "../google-firebase/google-firebase.service";
+import { MainConfigService } from "~/services/main-config/main-config.service";
 
 @Injectable()
 export class LoggerService {
-    private postponedLogs: IAnalyticsLog[] = [];
+    private postponedFirebaseLogs: IAnalyticsLog[] = [];
     private isFirebaseStarted = false;
 
-    constructor (private GoogleFirebase: GoogleFirebaseService) {
+    constructor (
+        private GoogleFirebase: GoogleFirebaseService,
+        private http: HttpClient,
+        private MainConfig: MainConfigService
+    ) {
         const sub = this.GoogleFirebase.started$.subscribe(() => {
             this.isFirebaseStarted = true;
-            if (this.postponedLogs.length > 0) {
-                for (const log of this.postponedLogs) {
+            if (this.postponedFirebaseLogs.length > 0) {
+                for (const log of this.postponedFirebaseLogs) {
                     this.GoogleFirebase.$Native.analytics.logEvent(log);
                 }
             }
@@ -36,7 +42,6 @@ export class LoggerService {
     }
 
     public error (type: CustomErrorType, error: Error) {
-        console.log(`LOGGER ERROR '${type}':`, error.name);
         this.sendLog({
             key: type,
             parameters: [{
@@ -56,7 +61,9 @@ export class LoggerService {
             });
         }
         else {
-            this.postponedLogs.push(log);
+            this.postponedFirebaseLogs.push(log);
         }
+
+        this.http.post(this.MainConfig.config.loggingUrl, log);
     }
 }

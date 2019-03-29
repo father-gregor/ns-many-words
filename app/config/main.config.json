@@ -37,6 +37,7 @@
     "pushNotificationTopics": [
         "newDailyWord"
     ],
+    "loggingUrl": "https://many-words-backend.herokuapp.com/api/logging",
     "wordApi": {
         "getDaily": "https://many-words-backend.herokuapp.com/api/words/daily",
         "getRandom": "https://many-words-backend.herokuapp.com/api/words/random",

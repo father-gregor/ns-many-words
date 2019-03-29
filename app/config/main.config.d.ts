@@ -6,5 +6,6 @@ export interface IMainConfig {
     showcaseWord: any;
     loadingText: string;
     pushNotificationTopics: string[];
+    loggingUrl: string;
     wordApi: any;
 }
