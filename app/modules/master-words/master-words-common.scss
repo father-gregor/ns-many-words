@@ -1,3 +1,19 @@
+@import "../../variables.scss";
+
+.master-words-container {
+    .words-list {
+        height: 100%;
+
+        .word-date-container{
+            font-family: $typography-font;
+        }
+    }
+
+    .loading-words-spinner {
+        margin-top: 15;
+    }
+}
+
 .loading-indicator,
 .no-words-component {
     height: 100%;

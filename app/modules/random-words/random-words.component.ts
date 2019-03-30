@@ -38,7 +38,7 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
 
    public ngOnInit () {
        super.ngOnInit();
-       this.loadNewWords({count: 5});
+       this.loadNewWords({count: 10});
        this.cd.detectChanges();
     }
 

@@ -6,7 +6,6 @@ import * as SocialShare from "nativescript-social-share";
 
 import { IWord, WordType, IWordRouterData } from "~/modules/word-box/word-box.definitions";
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
-import { SnackBarNotificationService } from "~/services/snack-bar-notification/snack-bar-notification.service";
 import { PageDataStorageService } from "~/services/page-data-storage/page-data-storage.service";
 
 @Component({
@@ -26,7 +25,6 @@ export class WordBoxComponent {
 
     constructor (
         public FavoriteWords: FavoriteWordsService,
-        public SnackBarService: SnackBarNotificationService,
         public PageDataStorage: PageDataStorageService<IWordRouterData>,
         public routerExtensions: RouterExtensions,
         private cd: ChangeDetectorRef
@@ -69,19 +67,9 @@ export class WordBoxComponent {
 
     public async onFavoriteTap () {
         if (this.isFavorite()) {
-            if (this.isFavoritePage) {
-                this.hideBeforeConfirm = true;
-            }
-            else {
-                this.FavoriteWords.remove(this.word, this.type);
-            }
-            this.cd.detectChanges();
-            const undo = await this.SnackBarService.showUndoAction(`Removed "${this.word.name}" from favorite list`);
-            if (undo.command === "Action") {
-                this.hideBeforeConfirm = false;
+            this.FavoriteWords.remove(this.word, this.type);
+            if (!this.isFavoritePage) {
                 this.cd.detectChanges();
-            } else if (this.isFavoritePage) {
-                this.FavoriteWords.remove(this.word, this.type);
             }
         }
         else {

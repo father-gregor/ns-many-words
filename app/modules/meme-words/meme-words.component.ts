@@ -39,7 +39,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
     public ngOnInit () {
         super.ngOnInit();
         this.firstLoading = true;
-        this.loadNewWords({count: 5});
+        this.loadNewWords({count: 10});
         this.cd.detectChanges();
     }
 

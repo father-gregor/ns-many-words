@@ -8,6 +8,6 @@ export class MainConfigService {
     public config: IMainConfig;
 
     constructor () {
-        this.config = mainConfig as any;
+        this.config = {...mainConfig.default as any};
     }
 }

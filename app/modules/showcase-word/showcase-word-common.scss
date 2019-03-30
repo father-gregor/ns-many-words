@@ -1,26 +1,31 @@
+@import "../../variables.scss";
 @import "../../mixins.scss";
 
-.word-name {
-    margin-top: 20;
-    color: #000000;
-    font-size: 40;
-}
+.showcase-word-container {
+    font-family: $typography-font;
 
-.word-name-separator {
-    margin-top: 20;
-    margin-bottom: 20;
-    border-width: 0;
-    border-style: solid;
-    height: 3;
-    background-color: rgb(114, 114, 114);
-}
-
-.word-definition-container {
-    font-size: 20;
-    margin-bottom: 50;
-
-    GridLayout {
-        margin-bottom: 10;
+    .word-name {
+        margin-top: 20;
+        color: #000000;
+        font-size: 40;
+    }
+    
+    .word-name-separator {
+        margin-top: 20;
+        margin-bottom: 20;
+        border-width: 0;
+        border-style: solid;
+        height: 3;
+        background-color: rgb(114, 114, 114);
+    }
+    
+    .word-definition-container {
+        font-size: 20;
+        margin-bottom: 50;
+    
+        GridLayout {
+            margin-bottom: 10;
+        }
     }
 }
 
@@ -37,7 +42,7 @@
         @include meme-gradient(45deg);
     }
 
-    .word-name-separator {
+    &.showcase-word-container .word-name-separator {
         @include meme-gradient(to right);
     }
 }

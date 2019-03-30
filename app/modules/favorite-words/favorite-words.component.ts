@@ -47,6 +47,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
 
         this.sub = this.FavoriteWords.changes$.subscribe((words: IFavoriteWord[]) => {
             this.favoriteWords = words;
+            this.cd.detectChanges();
             this.newWordsLoaded$.next();
         });
     }

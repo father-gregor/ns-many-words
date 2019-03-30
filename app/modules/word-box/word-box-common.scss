@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .word-container {
     height: 300;
     color: rgb(0, 0, 0);
@@ -8,6 +10,12 @@
     padding-bottom: 15; 
     padding-right: 15;
     padding-left: 15;
+
+    .word-selftext,
+    .word-definitions {
+        font-family: $typography-font;
+        font-weight: normal;
+    }
 
     &.newest-teaser {
         background-color: #ac9203;

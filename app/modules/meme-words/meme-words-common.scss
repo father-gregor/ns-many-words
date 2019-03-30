@@ -3,8 +3,4 @@
 .meme-words-container {
     @include meme-gradient(to bottom);
     height: 100%;
-
-    .words-list {
-        height: 100%;
-    }
 }

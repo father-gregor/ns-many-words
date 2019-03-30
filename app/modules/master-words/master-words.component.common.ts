@@ -66,6 +66,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 this.listView = this.wordsListView && this.wordsListView.nativeElement as ListView;
                 if (this.listView && this.listView.android) {
                     clearInterval(intervalId);
+                    this.listView.android.setFriction(android.view.ViewConfiguration.getScrollFriction() * 2);
                     this.listView.android.setOnScrollListener(new android.widget.AbsListView.OnScrollListener({
                         onScrollStateChanged: () => {},
                         onScroll: () => {
