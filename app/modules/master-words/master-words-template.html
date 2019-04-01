@@ -18,7 +18,7 @@
                 <GridLayout height="300" columns="*" rows="*">
                     <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
                 </GridLayout>
-                <NoWords *ngIf="isLast && isNoWords" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
+                <NoWords *ngIf="isLast && isNoWords && !isLoading" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
                 <ActivityIndicator *ngIf="isLast && isLoading" 
                                     class="loading-words-spinner"
                                     [busy]="true"
@@ -30,15 +30,14 @@
             </StackLayout>
         </ng-template>
     </ListView>
-    <StackLayout *ngIf="firstLoading" row="0" class="loading-indicator" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
-        <ActivityIndicator [busy]="firstLoading"
+    <StackLayout row="0" class="words-additional-elements" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
+        <ActivityIndicator *ngIf="isNoWords && allWords.length === 0 && isLoading || firstLoading"
+                           [busy]="true"
                            height="100"
                            width="100"
                            horizontalAlignment="center"
                            verticalAlignment="center">
         </ActivityIndicator>
-    </StackLayout>
-    <StackLayout *ngIf="isNoWords && allWords.length === 0" row="0" class="no-words-component" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
-        <NoWords [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
+        <NoWords *ngIf="isNoWords && allWords.length === 0 && !isLoading" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
     </StackLayout>
 </GridLayout>

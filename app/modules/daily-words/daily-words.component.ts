@@ -51,7 +51,6 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             this.newestWordDate = JSON.parse(nsGetString(this.newestWordDateKey));
         }
         this.loadNewWords({count: 5, checkForNewestWord: true});
-        this.cd.detectChanges();
     }
 
     // @Override
@@ -65,6 +64,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             count: options.count || 3
         };
         this.isLoading = true;
+        this.cd.detectChanges();
 
         this.Words.getDailyWord(query).pipe(
             finalize(() => {

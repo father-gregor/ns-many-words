@@ -39,7 +39,6 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
    public ngOnInit () {
        super.ngOnInit();
        this.loadNewWords({count: 10});
-       this.cd.detectChanges();
     }
 
     // @Override
@@ -50,6 +49,7 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
 
         const query = {count: options.count || 1};
         this.isLoading = true;
+        this.cd.detectChanges();
 
         this.Words.getRandomWord(query).pipe(
             finalize(() => {

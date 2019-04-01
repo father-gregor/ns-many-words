@@ -40,7 +40,6 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         super.ngOnInit();
         this.firstLoading = true;
         this.loadNewWords({count: 10});
-        this.cd.detectChanges();
     }
 
     // @Override
@@ -51,6 +50,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
 
         const query = {count: options.count || 1};
         this.isLoading = true;
+        this.cd.detectChanges();
 
         this.Words.getMemeWord(query).pipe(
             finalize(() => {

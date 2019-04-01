@@ -15,6 +15,12 @@ Page {
 .general-action-bar {
     color: #ffffff;
     background-color: #000000;
+
+    .general-action-bar-label {
+        font-family: $main-font;
+        font-weight: normal;
+        font-size: 25
+    }
 }
 
 .font-icon {
