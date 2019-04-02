@@ -40,7 +40,6 @@
     }
 
     .word-selftext {
-        // font-family: "Cardo-Bold", "Old Standard TT", "OldStandard-Regular", "CormorantGaramond-Regular", "CormorantGaramond-Medium", "AllertaStencil-Regular", "PermanentMarker-Regular";
         font-weight: normal;
         font-size: 35;
         color: rgb(0, 0, 0);
@@ -48,13 +47,11 @@
     }
     
     .word-definitions {
-        padding-bottom: 20;
-        // color: #eed755;
+        padding-bottom: 5;
+        font-size: 20;
+        font-weight: normal;
     
         .word-definition {
-            // font-family: "Old Standard TT", "OldStandard-Regular", "CormorantGaramond-Regular", "CormorantGaramond-Medium", "AllertaStencil-Regular", "PermanentMarker-Regular";
-            font-weight: normal;
-            font-size: 20;
             font-style: italic;
             color: rgb(65, 62, 62);
         }

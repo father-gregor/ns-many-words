@@ -1,6 +1,12 @@
-<GridLayout #wordBox *ngIf="!hideBeforeConfirm" class="word-container" [ngClass]="{'newest-teaser': word.newest, 'newest-word': !word.newest && word.date.text === 'Today'}" columns="*, 30" rows="70, *, 40" verticalAlignment="center">
+<GridLayout #wordBox 
+            *ngIf="!hideBeforeConfirm"
+            columns="*, 30"
+            rows="72, *, 40"
+            class="word-container" 
+            [ngClass]="{'newest-teaser': word.newest, 'newest-word': !word.newest && word.date.text === 'Today'}"
+            verticalAlignment="center">
     <ng-container *ngIf="!word.newest">
-        <Label row="0" col="0" class="word-selftext" [text]="word.name" textWrap="true" verticalAlignment="top"></Label>
+        <Label row="0" col="0" class="word-selftext" [text]="word.name" verticalAlignment="top"></Label>
         <Image *ngIf="!disableFavorite" 
             [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
             row="0" 
@@ -11,7 +17,8 @@
             (tap)="onFavoriteTap()">
         </Image>
         <StackLayout class="word-definitions" row="1" col="0" colSpan="2" orientation="vertical">
-            <Label *ngFor="let def of word.definitions; index as ind" class="word-definition" [text]="(ind + 1) + '. ' + def"></Label>
+            <Label *ngFor="let def of word.definitions | slice:0:4 ; index as ind" class="word-definition" [text]="(ind + 1) + '. ' + def"></Label>
+            <Label *ngIf="word.definitions.length > 4" [text]="(word.definitions.length - 4) + ' more...'" horizontalAlignment="right"></Label>
         </StackLayout>
         <StackLayout class="wordbox-footer" row="2" col="0" colSpan="2" orientation="horizontal">
             <Button class="btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()" [btnHighlight]="word.date.text === 'Today' ? '#eed755' : null"></Button>
