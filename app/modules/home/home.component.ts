@@ -1,7 +1,7 @@
 import { Component, ViewChild, AfterViewInit } from "@angular/core";
-import { TabView, SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
+import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
 import { connectionType } from "tns-core-modules/connectivity/connectivity";
-import { Subject } from "rxjs";
+import { isAndroid } from "tns-core-modules/platform";
 
 /**
  * Interfaces
@@ -41,24 +41,20 @@ export class HomeComponent implements AfterViewInit {
             id: "meme"
         }
     ];
-    public tabView: TabView;
     public noConnectionError = false;
 
     @ViewChild("mainActionBar") public mainActionBarComponent: MainActionBarComponent;
-    @ViewChild("tabView") public tabElement: any;
 
-    private currentPos = 0;
-    private changeMargin$ = new Subject<number> ();
+    private actionBarHeight = 0;
+    private actionBarHideAnimation: android.animation.ValueAnimator;
+    private actionBarShowAnimation: android.animation.ValueAnimator;
+    private isActionBarHidden = false;
 
     constructor (
         private CurrentTab: CurrentTabService,
         private ConnectionMonitor: ConnectionMonitorService
     ) {
         this.CurrentTab.setCurrentTab(this.wordsTab[0]);
-
-        this.changeMargin$.subscribe((marginTop: number) => {
-            this.mainActionBarComponent.actionBarView.style.marginTop = marginTop;
-        });
 
         this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
             if (!this.noConnectionError && connection === connectionType.none) {
@@ -71,7 +67,16 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit () {
-        this.tabView = this.tabElement.nativeElement as TabView;
+        if (isAndroid) {
+            const timerId = setInterval(() => {
+                if (this.mainActionBarComponent.actionBarView.nativeView) {
+                    clearInterval(timerId);
+                    this.actionBarHeight = this.mainActionBarComponent.actionBarView.nativeView.getMeasuredHeight();
+                    this.actionBarHideAnimation = this.getActionBarHeightAnimation([this.actionBarHeight, 0]);
+                    this.actionBarShowAnimation = this.getActionBarHeightAnimation([0, this.actionBarHeight]);
+                }
+            }, 50);
+        }
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
@@ -79,24 +84,28 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public onTabScroll (event: ITabScrollEvent) {
-        const actionBarHeight = this.mainActionBarComponent.actionBarView.getActualSize().height;
-        if (event.direction === "up" && Math.abs(this.currentPos) < actionBarHeight) {
-            for (let i = 0; i < event.steps; i++) {
-                this.currentPos--;
-                if (Math.abs(this.currentPos) > actionBarHeight) {
-                    break;
-                }
-                this.changeMargin$.next(this.currentPos);
-            }
+        if (event.direction === "up" && !this.isActionBarHidden) {
+            this.isActionBarHidden = true;
+            this.actionBarHideAnimation.start();
         }
-        else if (event.direction === "down" && this.currentPos < 0) {
-            for (let i = 0; i < event.steps; i++) {
-                this.currentPos++;
-                if (this.currentPos > 0) {
-                    break;
-                }
-                this.changeMargin$.next(this.currentPos);
-            }
+        else if (event.direction === "down" && this.isActionBarHidden) {
+            this.isActionBarHidden = false;
+            this.actionBarShowAnimation.start();
         }
+    }
+
+    private getActionBarHeightAnimation (heightValues: number[]) {
+        const anim = android.animation.ValueAnimator.ofInt(heightValues);
+        anim.addUpdateListener(new android.animation.ValueAnimator.AnimatorUpdateListener({
+            onAnimationUpdate: (valueAnimator: android.animation.ValueAnimator) => {
+                const val = valueAnimator.getAnimatedValue();
+                const layoutParams = this.mainActionBarComponent.actionBarView.nativeView.getLayoutParams();
+                layoutParams.height = val;
+                this.mainActionBarComponent.actionBarView.nativeView.setLayoutParams(layoutParams);
+            }
+        }));
+        anim.setDuration(300);
+
+        return anim;
     }
 }

@@ -2,7 +2,6 @@
 
 .meme-words-container {
     @include meme-gradient(to bottom);
-    height: 100%;
 
     .words-additional-elements {
         ActivityIndicator {

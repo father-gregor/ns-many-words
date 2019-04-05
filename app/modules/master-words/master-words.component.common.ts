@@ -30,7 +30,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     protected listView: ListView;
     protected lastPanDirection: ScrollDirection = "up";
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
-    protected tabScroll$: Subject<ITabScrollEvent> = new Subject<ITabScrollEvent>();
     protected lastListViewOffset = 0;
     protected lastVerticalOffset = 0;
 
@@ -44,12 +43,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         this.subscriptions.add(
             this.newWordsLoaded$.subscribe(() => {
                 this.cd.detectChanges();
-            })
-        );
-
-        this.subscriptions.add(
-            this.tabScroll$.subscribe((event: {direction: ScrollDirection, steps: number}) => {
-                this.onTabScrollEmitter.emit(event);
             })
         );
     }
@@ -85,7 +78,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         const prevOffset = this.lastListViewOffset;
         this.lastListViewOffset = this.listView.android.computeVerticalScrollOffset();
         if (this.lastListViewOffset > 0 && this.lastListViewOffset !== this.lastVerticalOffset) {
-            let panDelay = 5;
+            let panDelay = 20;
 
             if ((this.lastPanDirection === "up" && this.lastVerticalOffset < this.lastListViewOffset) || (this.lastPanDirection === "down" && this.lastVerticalOffset > this.lastListViewOffset)) {
                 panDelay = 0;
@@ -96,13 +89,13 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 this.lastVerticalOffset = this.lastListViewOffset;
                 this.lastPanDirection = "up";
                 if (diff > 0) {
-                    this.tabScroll$.next({direction: this.lastPanDirection, steps: diff});
+                    this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
                 }
             }
             else if (this.lastVerticalOffset - panDelay > this.lastListViewOffset) {
                 this.lastVerticalOffset = this.lastListViewOffset;
                 this.lastPanDirection = "down";
-                this.tabScroll$.next({direction: this.lastPanDirection, steps: diff});
+                this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
             }
         }
     }

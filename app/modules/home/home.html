@@ -1,5 +1,5 @@
 <MainActionBar #mainActionBar [routeName]="'/home'"></MainActionBar>
-<TabView #tabView class="main-tab-view" (selectedIndexChanged)="onSelectedTabChanged($event)">
+<TabView class="main-tab-view" (selectedIndexChanged)="onSelectedTabChanged($event)">
     <StackLayout *tabItem="{title: wordsTab[0].title}" >
         <DailyWords *ngIf="!noConnectionError" (onTabScroll)="onTabScroll($event)"></DailyWords>
         <NoConnection *ngIf="noConnectionError"></NoConnection>
