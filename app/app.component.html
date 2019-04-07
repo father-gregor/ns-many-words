@@ -1,1 +1,4 @@
-<page-router-outlet></page-router-outlet>
+<GridLayout rows="*" columns="*">
+    <page-router-outlet row="0" column="0"></page-router-outlet>
+    <FpsMeter *ngIf="enableFpsMeter" row="0" column="0"></FpsMeter>
+</GridLayout>

@@ -1,0 +1,14 @@
+:host {
+    .fps-log-container {
+        background: #000000;
+        color: yellow;
+        padding: 10 0 10 5;
+        margin-right: 5;
+        margin-bottom: 5;
+        z-index: 1000;
+    
+        .fps-log {
+            font-size: 20;
+        }
+    }
+}

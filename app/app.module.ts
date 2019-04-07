@@ -30,6 +30,7 @@ import { ConnectionMonitorService } from "./services/connection-monitor/connecti
 import { CurrentTabService } from "./services/current-tab/current-tab.service";
 import { GoogleFirebaseService } from "./services/google-firebase/google-firebase.service";
 import { LoggerService } from "./services/logger/logger.service";
+import { FpsLoggerService } from "./services/fps-logger/fps-logger.service";
 
 /**
  * Components
@@ -47,6 +48,7 @@ import { ShowcaseWordComponent } from "~/modules/showcase-word/showcase-word.com
 import { AboutUsComponent } from "./modules/about-us/about-us.component";
 import { NoConnectionComponent } from "./modules/errors/no-connection/no-connection.component";
 import { NoWordsComponent } from "./modules/errors/no-words/no-words.component";
+import { FpsMeterComponent } from "./modules/fps-meter/fps-meter.component";
 
 @NgModule({
     bootstrap: [
@@ -71,7 +73,8 @@ import { NoWordsComponent } from "./modules/errors/no-words/no-words.component";
         AboutUsComponent,
         TouchButtonHighlightDirective,
         NoConnectionComponent,
-        NoWordsComponent
+        NoWordsComponent,
+        FpsMeterComponent
     ],
     providers: [
         WordsService,
@@ -83,6 +86,7 @@ import { NoWordsComponent } from "./modules/errors/no-words/no-words.component";
         CurrentTabService,
         GoogleFirebaseService,
         LoggerService,
+        FpsLoggerService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: DeviceInfoInterceptor,
