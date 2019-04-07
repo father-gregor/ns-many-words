@@ -11,7 +11,7 @@
     }
     
     .word-name-separator {
-        margin-top: 20;
+        margin-top: 10;
         margin-bottom: 20;
         border-width: 0;
         border-style: solid;
@@ -23,6 +23,10 @@
         font-size: 20;
         margin-bottom: 80;
         color: #000000;
+
+        .word-definition {
+            margin-top: -10;
+        }
     
         GridLayout {
             margin-bottom: 10;

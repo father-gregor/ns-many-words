@@ -13,7 +13,7 @@ export class CurrentTabService {
         this.tabChanged$ = new BehaviorSubject<IWordTab>(null);
     }
 
-    public setCurrentTab (tab: IWordTab) {
+    public setCurrent (tab: IWordTab) {
         this._currentTab = tab;
         this.tabChanged$.next(this._currentTab);
     }

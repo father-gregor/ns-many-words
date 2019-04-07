@@ -6,7 +6,7 @@
             [ngClass]="{'newest-teaser': word.newest, 'newest-word': !word.newest && word.date.text === 'Today'}"
             verticalAlignment="center">
     <ng-container *ngIf="!word.newest">
-        <Label row="0" col="0" class="word-selftext" [text]="word.name" verticalAlignment="top"></Label>
+        <Label row="0" col="0" class="word-selftext" [text]="word.name" verticalAlignment="top" (longPress)="copyToClipboard($event, word.name)"></Label>
         <Image *ngIf="!disableFavorite" 
             [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
             row="0" 
@@ -17,7 +17,11 @@
             (tap)="onFavoriteTap()">
         </Image>
         <StackLayout class="word-definitions" row="1" col="0" colSpan="2" orientation="vertical">
-            <Label *ngFor="let def of word.definitions | slice:0:4 ; index as ind" class="word-definition" [text]="(ind + 1) + '. ' + def"></Label>
+            <Label *ngFor="let def of word.definitions | slice:0:4 ; index as ind" 
+                   class="word-definition" 
+                   [text]="(ind + 1) + '. ' + def" 
+                   (longPress)="copyToClipboard($event, def)">
+            </Label>
             <Label *ngIf="word.definitions.length > 4" [text]="(word.definitions.length - 4) + ' more...'" horizontalAlignment="right"></Label>
         </StackLayout>
         <StackLayout class="wordbox-footer" row="2" col="0" colSpan="2" orientation="horizontal">

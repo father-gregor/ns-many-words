@@ -1,12 +1,14 @@
 import { Component, Input, ElementRef, ViewChild, ChangeDetectorRef } from "@angular/core";
-import { View } from "tns-core-modules/ui/core/view";
+import { View, isIOS } from "tns-core-modules/ui/core/view";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
 import { RouterExtensions } from "nativescript-angular/router";
 import * as SocialShare from "nativescript-social-share";
+import * as clipboard from "nativescript-clipboard";
 
 import { IWord, WordType, IWordRouterData } from "~/modules/word-box/word-box.definitions";
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { PageDataStorageService } from "~/services/page-data-storage/page-data-storage.service";
+import { SnackBarNotificationService } from "~/services/snack-bar-notification/snack-bar-notification.service";
 
 @Component({
     selector: "WordBox",
@@ -27,6 +29,7 @@ export class WordBoxComponent {
         public FavoriteWords: FavoriteWordsService,
         public PageDataStorage: PageDataStorageService<IWordRouterData>,
         public routerExtensions: RouterExtensions,
+        public SnackBarService: SnackBarNotificationService,
         private cd: ChangeDetectorRef
     ) {}
 
@@ -63,6 +66,16 @@ export class WordBoxComponent {
                 curve: AnimationCurve.easeOut
             });
         });
+    }
+
+    public async copyToClipboard (event, text: string) {
+        if (isIOS) {
+            if (event.ios.state !== 3) {
+                return;
+            }
+        }
+        await clipboard.setText(text);
+        this.SnackBarService.showMessage("Copied to clipboard");
     }
 
     public async onFavoriteTap () {

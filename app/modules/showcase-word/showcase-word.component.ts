@@ -4,6 +4,7 @@ import { PageDataStorageService } from "~/services/page-data-storage/page-data-s
 import { IWord, IWordRouterData, WordType } from "~/modules/word-box/word-box.definitions";
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { MainConfigService } from "~/services/main-config/main-config.service";
+import { isAndroid } from "tns-core-modules/ui/page/page";
 
 @Component({
     selector: "ShowcaseWord",
@@ -32,6 +33,12 @@ export class ShowcaseWordComponent implements OnInit {
 
     public isFavorite () {
         return Boolean(this.FavoriteWords.get(this.word, this.type));
+    }
+
+    public makeSelectable (event) {
+        if (isAndroid) {
+            event.object.nativeView.setTextIsSelectable(true);
+        }
     }
 
     public async onFavoriteTap () {

@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from "@angular/core";
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
 import { connectionType } from "tns-core-modules/connectivity/connectivity";
 import { isAndroid } from "tns-core-modules/platform";
@@ -52,9 +52,10 @@ export class HomeComponent implements AfterViewInit {
 
     constructor (
         private CurrentTab: CurrentTabService,
-        private ConnectionMonitor: ConnectionMonitorService
+        private ConnectionMonitor: ConnectionMonitorService,
+        private cd: ChangeDetectorRef
     ) {
-        this.CurrentTab.setCurrentTab(this.wordsTab[0]);
+        this.CurrentTab.setCurrent(this.wordsTab[0]);
 
         this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
             if (!this.noConnectionError && connection === connectionType.none) {
@@ -64,6 +65,7 @@ export class HomeComponent implements AfterViewInit {
                 this.noConnectionError = false;
             }
         });
+        this.cd.detach();
     }
 
     public ngAfterViewInit () {
@@ -77,20 +79,24 @@ export class HomeComponent implements AfterViewInit {
                 }
             }, 50);
         }
+        this.cd.detectChanges();
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
-        this.CurrentTab.setCurrentTab(this.wordsTab[event.newIndex]);
+        this.CurrentTab.setCurrent(this.wordsTab[event.newIndex]);
+        this.cd.detectChanges();
     }
 
     public onTabScroll (event: ITabScrollEvent) {
         if (event.direction === "up" && !this.isActionBarHidden) {
             this.isActionBarHidden = true;
             this.actionBarHideAnimation.start();
+            this.cd.detectChanges();
         }
         else if (event.direction === "down" && this.isActionBarHidden) {
             this.isActionBarHidden = false;
             this.actionBarShowAnimation.start();
+            this.cd.detectChanges();
         }
     }
 

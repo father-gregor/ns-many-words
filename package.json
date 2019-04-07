@@ -2,7 +2,10 @@
   "description": "So many words we have to share",
   "license": "SEE LICENSE IN <your-license-filename>",
   "readme": "Many Words",
-  "repository": "<fill-your-repository-here>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/father-gregor/ns-many-words.git"
+  },
   "nativescript": {
     "id": "com.fathergregor.manywords",
     "tns-android": {
@@ -22,6 +25,7 @@
     "dateformat": "^3.0.3",
     "nativescript-angular": "^7.2.3",
     "nativescript-cardview": "^3.1.1",
+    "nativescript-clipboard": "^1.1.7",
     "nativescript-local-notifications": "^3.1.0",
     "nativescript-plugin-firebase": "^7.7.0",
     "nativescript-snackbar": "^3.2.0",

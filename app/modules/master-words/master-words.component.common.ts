@@ -1,4 +1,4 @@
-import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy } from "@angular/core";
+import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, DoCheck } from "@angular/core";
 import { SetupItemViewArgs } from "nativescript-angular/directives";
 import { isAndroid } from "tns-core-modules/platform";
 import { ListView } from "tns-core-modules/ui/list-view";
@@ -61,7 +61,12 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                     clearInterval(intervalId);
                     this.listView.android.setFriction(android.view.ViewConfiguration.getScrollFriction() * 2);
                     this.listView.android.setOnScrollListener(new android.widget.AbsListView.OnScrollListener({
-                        onScrollStateChanged: () => {},
+                        onScrollStateChanged: () => {
+                            const offset = this.listView.android.computeVerticalScrollOffset();
+                            if (offset === 0) {
+                                this.onTabScrollEmitter.emit({direction: "down"});
+                            }
+                        },
                         onScroll: () => {
                             const offset = this.listView.android.computeVerticalScrollOffset();
                             if (Math.abs(this.lastListViewOffset - offset) > 0) {
@@ -72,6 +77,10 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 }
             }, 100);
         }
+    }
+
+    public onAndroidListViewTopScroll () {
+        return;
     }
 
     public onAndroidListViewScroll () {
