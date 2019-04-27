@@ -4,5 +4,6 @@
 	<color name="ns_primaryDark">#000000</color>
 	<color name="ns_accent">#33B5E5</color>
     <color name="ns_blue">#272734</color>
+    <color name="mw_launch_screen">#636363</color>
     <color name="mw_white">#ffffff</color>
 </resources>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<color name="ns_accent">#3d5afe</color>
+	<color name="mw_launch_screen">#636363</color>
+    <color name="mw_white">#ffffff</color>
 </resources>
