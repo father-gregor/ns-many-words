@@ -23,14 +23,7 @@ export class WordsService {
 
     private getWord (apiLink: string, optQuery: any = {}, optHeaders: HttpHeaders = this.createRequestHeaders()): Observable<object> {
         const headers = optHeaders;
-        const query = Object.assign(
-            {},
-            {
-                os: device.os,
-                uuid: device.uuid
-            },
-            optQuery
-        );
+        const query = Object.assign({}, optQuery);
         return this.http.get(apiLink, {
             params: query,
             headers

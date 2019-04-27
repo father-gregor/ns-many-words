@@ -10,7 +10,7 @@ import { GoogleFirebaseService } from "./services/google-firebase/google-firebas
     templateUrl: "app.component.html"
 })
 export class AppComponent {
-    public enableFpsMeter = true;
+    public enableFpsMeter = false;
 
     constructor (private GoogleFirebase: GoogleFirebaseService) {
         this.GoogleFirebase.init();

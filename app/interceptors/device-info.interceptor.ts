@@ -9,7 +9,12 @@ export class DeviceInfoInterceptor implements HttpInterceptor {
 
     public intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const duplicate = req.clone({
-            params: req.params.set("os", device.os).set("osVersion", device.osVersion).set("manufacter", device.manufacturer).set("model", device.model)
+            params: req.params
+                        .set("os", device.os)
+                        .set("osVersion", device.osVersion)
+                        .set("manufacter", device.manufacturer)
+                        .set("model", device.model)
+                        .set("uuid", device.uuid)
         });
         return next.handle(duplicate);
     }
