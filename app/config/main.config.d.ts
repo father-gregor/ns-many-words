@@ -1,7 +1,9 @@
 export interface IMainConfig {
     appName: string;
     actionBarItems: any;
-    aboutUs: any;
+    settings: any;
+    settingsGeneral: any;
+    settingsAboutUs: any;
     favoritesArchive: any;
     showcaseWord: any;
     loadingText: string;

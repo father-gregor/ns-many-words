@@ -1,3 +1,17 @@
-<ActionBar class="general-action-bar" title="{{MainConfig.config.appName}}">
-    <NavigationButton text="Back" android.systemIcon="ic_menu_back"></NavigationButton>
-</ActionBar>
+<MainActionBar [routeName]="'/settings'"
+               [title]="actionBarTitle"></MainActionBar>
+<ScrollView orientation="vertical">
+       <GridLayout columns="*"
+                   rows="50, *">
+              <StackLayout orientation="vertical">
+                     <SettingsEntry [iconSrc]="'res://settings_general'"
+                                    [title]="'General'"
+                                    [url]="'/settings-entry/general'">
+                     </SettingsEntry>
+                     <SettingsEntry [iconSrc]="'res://settings_about'"
+                                    [title]="'About Many Words'"
+                                    [url]="'/settings-entry/about-us'">
+                     </SettingsEntry>
+              </StackLayout>
+       </GridLayout>
+</ScrollView>

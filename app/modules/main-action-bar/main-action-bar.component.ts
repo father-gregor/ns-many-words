@@ -97,7 +97,15 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         }
     }
 
-    public openSettings () {}
+    public openSettings () {
+        this.routerExtensions.navigate(["/settings"], {
+            transition: {
+                name: "fade",
+                duration: 500,
+                curve: "ease"
+            }
+        });
+    }
 
     public openAboutUs () {
         this.routerExtensions.navigate(["/about-us"], {

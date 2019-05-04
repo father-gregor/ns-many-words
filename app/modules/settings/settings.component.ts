@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { MainConfigService } from "~/services/main-config/main-config.service.js";
+import { MainConfigService } from "~/services/main-config/main-config.service";
 
 @Component({
     selector: "Settings",
@@ -8,5 +8,9 @@ import { MainConfigService } from "~/services/main-config/main-config.service.js
     templateUrl: "./settings.html"
 })
 export class SettingsComponent {
-    constructor (public MainConfig: MainConfigService) {}
+    public actionBarTitle: string;
+
+    constructor (public MainConfig: MainConfigService) {
+        this.actionBarTitle = this.MainConfig.config.settings.title;
+    }
 }

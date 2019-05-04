@@ -1,0 +1,17 @@
+<GridLayout columns="50, *, 10"
+            rows="20, 100, 20"
+            (tap)="openSettingEntry()">
+       <Image [src]="iconSrc"
+              loadMode="async"
+              col="0"
+              row="1"
+              width="40"
+              height="40"
+              stretch="aspectFit">
+       </Image>
+       <Label [text]="title"
+              [textWrap]="true"
+              col="1"
+              row="1">
+       </Label>
+</GridLayout>

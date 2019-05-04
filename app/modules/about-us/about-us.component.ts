@@ -13,6 +13,6 @@ export class AboutUsComponent {
     public actionBarTitle: string;
 
     constructor (public MainConfig: MainConfigService) {
-        this.actionBarTitle = this.MainConfig.config.aboutUs.title;
+        this.actionBarTitle = this.MainConfig.config.settingsAboutUs.title;
     }
 }

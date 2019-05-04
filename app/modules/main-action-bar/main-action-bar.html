@@ -9,7 +9,7 @@
     </StackLayout>
     <ActionItem *ngIf="showWikiLogo()" ios.position="right" (tap)="openWordWiki()">
         <StackLayout class="wiki-logo" orientation="vertical" backgroundColor="#ffffff" borderRadius="100">
-            <Image src="res://wiki_logo" margin="5" width="20" height="20" stretch="aspectFit"></Image> 
+            <Image src="res://wiki_logo" loadMode="async" margin="5" width="20" height="20" stretch="aspectFit"></Image> 
         </StackLayout>
     </ActionItem>
     <ActionItem *ngIf="showFavoritesArchive()"
