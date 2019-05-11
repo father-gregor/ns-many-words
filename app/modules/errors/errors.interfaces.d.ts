@@ -2,4 +2,4 @@ export type TabErrorType = "noConnection" | "noWords" | "wordsLoadingFailed" | n
 
 export default interface ITabError {
     errorMessage: string;
-} 
+}

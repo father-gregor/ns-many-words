@@ -6,9 +6,5 @@ import { MainConfigService } from "../../services/main-config/main-config.servic
     templateUrl: "./settings-general.html"
 })
 export class SettingsGeneralComponent  {
-    public actionBarTitle: string;
-
-    constructor (public MainConfig: MainConfigService) {
-        this.actionBarTitle = this.MainConfig.config.settingsGeneral.title;
-    }
+    constructor (public MainConfig: MainConfigService) {}
 }

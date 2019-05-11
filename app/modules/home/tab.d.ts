@@ -1,4 +1,4 @@
-import { WordType } from '~/modules/word-box/word-box.definitions';
+import { WordType } from "~/modules/word-box/word-box.interfaces";
 
 export interface IWordTab {
     title: string;

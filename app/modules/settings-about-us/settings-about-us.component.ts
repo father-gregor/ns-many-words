@@ -11,9 +11,5 @@ import { MainConfigService } from "../../services/main-config/main-config.servic
     templateUrl: "./settings-about-us.html"
 })
 export class SettingsAboutUsComponent  {
-    public actionBarTitle: string;
-
-    constructor (public MainConfig: MainConfigService) {
-        this.actionBarTitle = this.MainConfig.config.settingsAboutUs.title;
-    }
+    constructor (public MainConfig: MainConfigService) {}
 }

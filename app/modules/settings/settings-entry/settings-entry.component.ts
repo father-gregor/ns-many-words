@@ -13,7 +13,7 @@ export class SettingsEntryComponent {
 
     constructor (public routerExtensions: RouterExtensions) {}
 
-    public openSettingEntry () {
+    public open () {
         this.routerExtensions.navigate([this.url], {
             transition: {
                 name: "slideLeft",

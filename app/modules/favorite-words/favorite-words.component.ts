@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
  * Interfaces
  */
 import { IFavoriteWord } from "~/services/favorite-words/favorite-words";
-import { WordType } from "~/modules/word-box/word-box.definitions";
+import { WordType } from "~/modules/word-box/word-box.interfaces";
 
 /**
  * Components
@@ -27,7 +27,6 @@ import { MainConfigService } from "~/services/main-config/main-config.service";
 export class FavoriteWordsComponent extends MasterWordsComponentCommon implements OnInit, OnDestroy {
     public wordsType: WordType = "favorite";
     public favoriteWords: IFavoriteWord[];
-    public actionBarTitle: string;
 
     private sub: Subscription;
 
@@ -37,8 +36,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
         protected cd: ChangeDetectorRef
     ) {
         super(cd);
-        this.actionBarTitle = this.MainConfig.config.favoritesArchive.title;
-        this.noWordsMsg = this.MainConfig.config.favoritesArchive.noWordsText;
+        this.noWordsMsg = this.MainConfig.config.states.favoritesArchive.noWordsText;
     }
 
     public ngOnInit () {

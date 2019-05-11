@@ -9,7 +9,7 @@ import {
 /**
  * Interfaces
  */
-import { IWord, WordType } from "~/modules/word-box/word-box.definitions";
+import { IWord, WordType } from "~/modules/word-box/word-box.interfaces";
 import { IFavoriteWords, IFavoriteWord } from "~/services/favorite-words/favorite-words";
 
 /**

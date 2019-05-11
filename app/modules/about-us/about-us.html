@@ -1,9 +1,0 @@
-<MainActionBar [routeName]="'/about-us'" [title]="actionBarTitle"></MainActionBar>
-<GridLayout columns="20, auto, 20" rows="auto" horizontalAlignment="center" verticalAlignment="center">
-    <StackLayout col="1" row="0">
-        <GridLayout *ngFor="let elem of MainConfig.config.aboutUs.content" class="content-elem" columns="150, 10, 200" rows="*">
-            <Label class="h2 elem-title" col="0" row="0" [text]="elem.title" [textWrap]="true"></Label>
-            <Label class="h2 elem-text" col="2" row="0" [text]="elem.text" [textWrap]="true"></Label>
-        </GridLayout>
-    </StackLayout>
-</GridLayout>

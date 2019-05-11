@@ -43,9 +43,8 @@ import { RandomWordsComponent } from "~/modules/random-words/random-words.compon
 import { MemeWordsComponent } from "~/modules/meme-words/meme-words.component";
 import { SettingsComponent } from "~/modules/settings/settings.component";
 import { FavoriteWordsComponent } from "~/modules/favorite-words/favorite-words.component";
-import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
+import { MainActionBarComponent } from "~/modules/action-bars/main-action-bar/main-action-bar.component";
 import { ShowcaseWordComponent } from "~/modules/showcase-word/showcase-word.component";
-import { AboutUsComponent } from "~/modules/about-us/about-us.component";
 import { NoConnectionComponent } from "~/modules/errors/no-connection/no-connection.component";
 import { NoWordsComponent } from "~/modules/errors/no-words/no-words.component";
 import { FpsMeterComponent } from "~/modules/fps-meter/fps-meter.component";
@@ -73,7 +72,6 @@ import { SettingsAboutUsComponent } from "~/modules/settings-about-us/settings-a
         FavoriteWordsComponent,
         MainActionBarComponent,
         ShowcaseWordComponent,
-        AboutUsComponent,
         TouchButtonHighlightDirective,
         NoConnectionComponent,
         NoWordsComponent,

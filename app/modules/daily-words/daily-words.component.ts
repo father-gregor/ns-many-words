@@ -14,7 +14,7 @@ import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.
 /**
  * Interfaces
  */
-import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
+import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.interfaces";
 
 /**
  * Services

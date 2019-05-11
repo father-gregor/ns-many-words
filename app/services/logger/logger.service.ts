@@ -34,7 +34,6 @@ export class LoggerService {
     }
 
     public event (type: CustomEventType, data?: any) {
-        console.log(`LOGGER EVENT '${type}':`, data || "");
         this.sendLog({
             key: type,
             parameters: data ? [data] : []

@@ -4,7 +4,7 @@ import { finalize } from "rxjs/operators";
 /**
  * Interfaces
  */
-import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
+import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.interfaces";
 
 /**
  * Components

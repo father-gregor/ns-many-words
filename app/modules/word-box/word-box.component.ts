@@ -5,7 +5,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import * as SocialShare from "nativescript-social-share";
 import * as clipboard from "nativescript-clipboard";
 
-import { IWord, WordType, IWordRouterData } from "~/modules/word-box/word-box.definitions";
+import { IWord, WordType, IWordRouterData } from "~/modules/word-box/word-box.interfaces";
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { PageDataStorageService } from "~/services/page-data-storage/page-data-storage.service";
 import { SnackBarNotificationService } from "~/services/snack-bar-notification/snack-bar-notification.service";

@@ -10,7 +10,7 @@ import * as dateformat from "dateformat";
  * Interfaces
  */
 import { TabErrorType } from "../errors/errors.interfaces";
-import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.definitions";
+import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.interfaces";
 import { ScrollDirection, ITabScrollEvent } from "~/modules/master-words/master-words.interfaces";
 
 export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit, OnDestroy {

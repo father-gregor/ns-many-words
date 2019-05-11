@@ -8,36 +8,55 @@
             "name": "About"
         }
     },
-    "settings": {
-        "title": "Settings"
-    },
-    "settingsGeneral": {
-        "title": "General"
-    },
-    "settingsAboutUs": {
-        "title": "About Us",
-        "content": [
-            {
-                "title": "Developer:",
-                "text": "father_gregor"
-            },
-            {
-                "title": "Interface/Design:",
-                "text": "father_gregor, dolgopolovki"
-            },
-            {
-                "title": "Idea:",
-                "text": "dolgopolovki, father_gregor"
-            }
-        ]
-    },
-    "favoritesArchive": {
-        "title": "Favorite Words",
-        "noWordsText": "No words yet... Add some!"
-    },
-    "showcaseWord": {
-        "title": "Showcase",
-        "wikiUrl": "https://en.wiktionary.org/wiki/"
+    "states": {
+        "home": {
+            "url": "/home",
+            "title": "Home",
+            "actionBarItems": ["title", "favoritesArchive", "settings"]
+        },
+        "settings": {
+            "url": "/settings",
+            "title": "Settings",
+            "actionBarItems": ["title", "close"]
+        },
+        "settingsGeneral": {
+            "url": "/settings-entry/general",
+            "title": "General",
+            "iconSrc": "res://settings_general",
+            "actionBarItems": ["title", "close"]
+        },
+        "settingsAboutUs": {
+            "url": "/settings-entry/about-us",
+            "title": "About Many Words",
+            "iconSrc": "res://settings_about",
+            "actionBarItems": ["title", "close"],
+            "content": [
+                {
+                    "title": "Developer:",
+                    "text": "father_gregor"
+                },
+                {
+                    "title": "Interface/Design:",
+                    "text": "father_gregor, dolgopolovki"
+                },
+                {
+                    "title": "Idea:",
+                    "text": "dolgopolovki, father_gregor"
+                }
+            ]
+        },
+        "favoritesArchive": {
+            "url": "favorites-archive",
+            "title": "Favorite Words",
+            "actionBarItems": ["title", "settings"],
+            "noWordsText": "No words yet... Add some!"
+        },
+        "showcaseWord": {
+            "url": "/showcase-word",
+            "title": "Showcase",
+            "actionBarItems": ["title", "favoritesArchive", "wiki", "settings"],
+            "wikiUrl": "https://en.wiktionary.org/wiki/"
+        }
     },
     "loadingText": "Loading...",
     "pushNotificationTopics": [

@@ -12,13 +12,14 @@ import { ITabScrollEvent } from "~/modules/master-words/master-words.interfaces"
 /**
  * Components
  */
-import { MainActionBarComponent } from "~/modules/main-action-bar/main-action-bar.component";
+import { MainActionBarComponent } from "~/modules/action-bars/main-action-bar/main-action-bar.component";
 
 /**
  * Services
  */
 import { CurrentTabService } from "~/services/current-tab/current-tab.service";
 import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
+import { MainConfigService } from "~/services/main-config/main-config.service";
 
 @Component({
     selector: "Home",
@@ -51,6 +52,7 @@ export class HomeComponent implements AfterViewInit {
     private isActionBarHidden = false;
 
     constructor (
+        public MainConfig: MainConfigService,
         private CurrentTab: CurrentTabService,
         private ConnectionMonitor: ConnectionMonitorService,
         private cd: ChangeDetectorRef

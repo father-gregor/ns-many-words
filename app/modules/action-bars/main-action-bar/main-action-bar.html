@@ -1,0 +1,45 @@
+<ActionBar #actionBar
+           class="general-action-bar">
+    <NavigationButton *ngIf="canGoBack()"
+                      text="Go Back"
+                      android.systemIcon="ic_menu_back"
+                      (tap)="goBack()">
+    </NavigationButton>
+    <ng-container *ngFor="let actionBarItem of actionBarItems">
+        <StackLayout *ngIf="actionBarItem === 'title'"
+                     orientation="horizontal"
+                     android:horizontalAlignment="left"
+                     ios:horizontalAlignment="center">
+            <Label [text]="title"
+                   class="general-action-bar-label"></Label>
+        </StackLayout>
+        <ActionItem *ngIf="actionBarItem === 'wiki' && showWikiLogo()"
+                    ios.position="right"
+                    (tap)="openWordWiki()">
+            <StackLayout class="wiki-logo"
+                         orientation="vertical"
+                         backgroundColor="#ffffff"
+                         borderRadius="100">
+                <Image src="res://wiki_logo"
+                       loadMode="async"
+                       margin="5"
+                       width="20"
+                       height="20"
+                       stretch="aspectFit"></Image>
+            </StackLayout>
+        </ActionItem>
+        <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"
+                    (tap)="openFavoritesArchive()"
+                    icon="res://favorites_archive"
+                    ios.position="right"
+                    android.position="actionBarIfRoom">
+        </ActionItem>
+        <ActionItem *ngIf="actionBarItem === 'settings'"
+                    (tap)="openSettings()"
+                    ios.systemIcon="10"
+                    ios.position="right"
+                    [text]="MainConfig.config.actionBarItems.settings.name"
+                    android.position="popup">
+        </ActionItem>
+    </ng-container>
+</ActionBar>

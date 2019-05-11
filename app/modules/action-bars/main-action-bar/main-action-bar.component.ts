@@ -1,12 +1,12 @@
 import { Component, Input, ChangeDetectorRef, ViewChild, OnInit, AfterViewInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActionBar } from "tns-core-modules/ui/action-bar/action-bar";
 import * as utils from "tns-core-modules/utils/utils";
 
 import { MainConfigService } from "~/services/main-config/main-config.service";
-import { IWord } from "~/modules/word-box/word-box.definitions";
+import { IWord } from "~/modules/word-box/word-box.interfaces";
+import { ActionBarItemsType } from "./main-action-bar.interfaces";
 
 @Component({
     selector: "MainActionBar",
@@ -19,16 +19,18 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     public actionBarView: ActionBar;
     @Input() public routeName: string;
     @Input() public title: string;
+    @Input() public actionBarItems: ActionBarItemsType[];
     @Input() public showcaseWord: IWord;
 
     @ViewChild("actionBar") public actionBarElement: any;
+
+    private defaultActionBarItems: ActionBarItemsType[] = ["title", "favoritesArchive", "settings"];
 
     constructor (
         public MainConfig: MainConfigService,
         public router: Router,
         public routerExtensions: RouterExtensions,
-        protected cd: ChangeDetectorRef,
-        private http: HttpClient
+        protected cd: ChangeDetectorRef
     ) {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
@@ -42,24 +44,10 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         });
     }
 
-    public async ngOnInit () {
-        this.title = this.title || this.MainConfig.config.appName;
-
-        if (this.showcaseWord) {
-            try {
-                if (!this.showcaseWord.wikiUrl && this.showcaseWord.wikiUrl !== "") {
-                    const wordWikiUrl = this.MainConfig.config.showcaseWord.wikiUrl + this.showcaseWord.name.toLowerCase().replace(/\s/gm, "_");
-                    await this.http.get(wordWikiUrl, {responseType: "text"}).toPromise();
-                    this.showcaseWord.wikiUrl = wordWikiUrl;
-                }
-            }
-            catch (err) {
-                this.showcaseWord.wikiUrl = "";
-            }
-            finally {
-                this.cd.detectChanges();
-            }
-        }
+    public ngOnInit () {
+        const stateConfig = this.getStateConfigByUrl(this.routeName) || {};
+        this.title = this.title || stateConfig.title || this.MainConfig.config.appName;
+        this.actionBarItems = this.actionBarItems || stateConfig.actionBarItems || this.defaultActionBarItems;
     }
 
     public ngAfterViewInit () {
@@ -81,7 +69,7 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         this.routerExtensions.backToPreviousPage();
     }
 
-    public openFavorites () {
+    public openFavoritesArchive () {
         this.routerExtensions.navigate(["/favorites-archive"], {
             transition: {
                 name: "slideLeft",
@@ -107,13 +95,12 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         });
     }
 
-    public openAboutUs () {
-        this.routerExtensions.navigate(["/about-us"], {
-            transition: {
-                name: "fade",
-                duration: 500,
-                curve: "ease"
+    private getStateConfigByUrl (url: string) {
+        for (const stateName of Object.keys(this.MainConfig.config.states)) {
+            const configState = this.MainConfig.config.states[stateName];
+            if (configState.url && configState.url === url) {
+                return configState;
             }
-        });
+        }
     }
 }

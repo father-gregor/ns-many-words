@@ -1,4 +1,4 @@
-<MainActionBar #mainActionBar [routeName]="'/home'"></MainActionBar>
+<MainActionBar #mainActionBar [routeName]="MainConfig.config.states.home.url"></MainActionBar>
 <TabView class="main-tab-view" (selectedIndexChanged)="onSelectedTabChanged($event)">
     <StackLayout *tabItem="{title: wordsTab[0].title}" >
         <DailyWords *ngIf="!noConnectionError" (onTabScroll)="onTabScroll($event)"></DailyWords>

@@ -1,4 +1,4 @@
-import { IWord, WordType } from "~/modules/word-box/word-box.definitions";
+import { IWord, WordType } from "~/modules/word-box/word-box.interfaces";
 
 export interface IFavoriteWord {
     word: IWord;

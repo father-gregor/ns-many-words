@@ -1,4 +1,4 @@
-<MainActionBar [routerName]="'/showcase-word'" [title]="actionBarTitle" [showcaseWord]="word"></MainActionBar>
+<MainActionBar [routerName]="MainConfig.config.states.showcaseWord.url" [showcaseWord]="word"></MainActionBar>
 <ScrollView class="showcase-word-container" orientation="vertical" [ngClass]="{'meme-word': type === 'meme'}">
     <GridLayout columns="20, *, 15" rows="*">
         <StackLayout col="1" row="0" orientation="vertical">
