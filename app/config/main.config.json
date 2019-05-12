@@ -1,5 +1,6 @@
 {
     "appName": "Many Words",
+    "appTheme": "default",
     "actionBarItems": {
         "settings": {
             "name": "Settings"
@@ -64,8 +65,8 @@
     ],
     "loggingUrl": "https://many-words-backend.herokuapp.com/api/logging",
     "wordApi": {
-        "getDaily": "https://many-words-backend.herokuapp.com/api/words/daily",
-        "getRandom": "https://many-words-backend.herokuapp.com/api/words/random",
-        "getMeme": "https://many-words-backend.herokuapp.com/api/words/meme"
+        "daily": "https://many-words-backend.herokuapp.com/api/words/daily",
+        "random": "https://many-words-backend.herokuapp.com/api/words/random",
+        "meme": "https://many-words-backend.herokuapp.com/api/words/meme"
     }
 }

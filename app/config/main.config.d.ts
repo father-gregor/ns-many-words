@@ -1,5 +1,8 @@
+import { AppThemeType } from "~/services/app-theme/app-theme.interfaces";
+
 export interface IMainConfig {
     appName: string;
+    appTheme: AppThemeType;
     actionBarItems: any;
     states: {
         home: any;
@@ -12,5 +15,9 @@ export interface IMainConfig {
     loadingText: string;
     pushNotificationTopics: string[];
     loggingUrl: string;
-    wordApi: any;
+    wordApi: {
+        daily: string;
+        random: string;
+        meme: string;
+    };
 }

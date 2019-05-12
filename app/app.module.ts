@@ -31,6 +31,7 @@ import { CurrentTabService } from "./services/current-tab/current-tab.service";
 import { GoogleFirebaseService } from "./services/google-firebase/google-firebase.service";
 import { LoggerService } from "./services/logger/logger.service";
 import { FpsLoggerService } from "./services/fps-logger/fps-logger.service";
+import { AppThemeService } from "./services/app-theme/app-theme.service";
 
 /**
  * Components
@@ -91,6 +92,7 @@ import { SettingsAboutUsComponent } from "~/modules/settings-about-us/settings-a
         GoogleFirebaseService,
         LoggerService,
         FpsLoggerService,
+        AppThemeService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: DeviceInfoInterceptor,

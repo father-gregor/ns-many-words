@@ -1,3 +1,10 @@
 ActionBar {
     transition: margin-top 5s linear;
+
+    .close-icon {
+        color: #ffffff;
+        font-size: 25;
+        margin-left: 15;
+        margin-right: 15;
+    }
 }

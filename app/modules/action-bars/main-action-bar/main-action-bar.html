@@ -28,6 +28,18 @@
                        stretch="aspectFit"></Image>
             </StackLayout>
         </ActionItem>
+        <ActionItem *ngIf="actionBarItem === 'close'"
+                    ios.position="right"
+                    android.position="actionBarIfRoom" 
+                    (tap)="goHome()">
+            <StackLayout orientation="vertical">
+                <Label class="font-icon close-icon"
+                        text="&#xf00d;"
+                        horizontalAlignment="center"
+                        verticalAlignment="center">
+                </Label>
+            </StackLayout>
+        </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"
                     (tap)="openFavoritesArchive()"
                     icon="res://favorites_archive"

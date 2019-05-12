@@ -69,6 +69,17 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         this.routerExtensions.backToPreviousPage();
     }
 
+    public goHome () {
+        this.routerExtensions.navigate(["/home"], {
+            clearHistory: true,
+            transition: {
+                name: "fade",
+                duration: 500,
+                curve: "ease"
+            }
+        });
+    }
+
     public openFavoritesArchive () {
         this.routerExtensions.navigate(["/favorites-archive"], {
             transition: {
