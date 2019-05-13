@@ -52,6 +52,7 @@ import { FpsMeterComponent } from "~/modules/fps-meter/fps-meter.component";
 import { SettingsEntryComponent } from "~/modules/settings/settings-entry/settings-entry.component";
 import { SettingsGeneralComponent } from "~/modules/settings-general/setting-general.component";
 import { SettingsAboutUsComponent } from "~/modules/settings-about-us/settings-about-us.component";
+import { SettingsDividerComponent } from "./modules/settings/settings-divider/settings-divider.component";
 
 @NgModule({
     bootstrap: [
@@ -79,7 +80,8 @@ import { SettingsAboutUsComponent } from "~/modules/settings-about-us/settings-a
         FpsMeterComponent,
         SettingsEntryComponent,
         SettingsGeneralComponent,
-        SettingsAboutUsComponent
+        SettingsAboutUsComponent,
+        SettingsDividerComponent
     ],
     providers: [
         WordsService,

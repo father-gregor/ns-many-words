@@ -1,9 +1,22 @@
 @import "../../variables.scss";
 
+::ng-deep {
+    .grey-theme {
+        .word-container {
+            color: rgb(0, 0, 0);
+            background-color: rgb(204, 204, 204);
+        }
+    }
+
+    .dark-theme {
+        .word-container {
+            background-color: #ffffffff;
+        }
+    }
+}
+
 .word-container {
     height: 300;
-    color: rgb(0, 0, 0);
-    background-color: rgb(204, 204, 204);
     margin-top: 10;
     margin-bottom: 20;
     padding-top: 20;

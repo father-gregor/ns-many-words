@@ -1,1 +1,1 @@
-export type AppThemeType = "default" | "dark" | "light";
+export type AppThemeType = "grey" | "dark" | "light";
