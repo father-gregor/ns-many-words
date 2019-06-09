@@ -27,7 +27,8 @@
                      </Label>
               </StackLayout>
        </Ripple>
-       <StackLayout class="entry-content"
+       <StackLayout *ngIf="useContentProjection"
+                    class="entry-content"
                     col="{{iconSrc ? '1' : '0'}}"
                     colspan="2"
                     row="1">

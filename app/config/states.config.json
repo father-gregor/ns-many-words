@@ -22,7 +22,9 @@
         "subtitle": "Information about application, version, developers",
         "iconSrc": "res://settings_about",
         "actionBarItems": ["title", "close"],
-        "creatorsInfo": [
+        "appInfoTitle": "Many Words",
+        "appInfoSubtitle": "Denys Rakov (father_gregor)\n© 2018-2019",
+        "developersInfo": [
             {
                 "title": "Developers",
                 "subtitle": "father_gregor"

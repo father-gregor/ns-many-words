@@ -8,11 +8,11 @@
                            orientation="vertical">
                      <SettingsDivider></SettingsDivider>
                      <SettingsEntry [iconSrc]="'res://app_logo'"
-                                    title="Many Words"
-                                    [subtitle]="appInfoSubtitle">
+                                    [title]="MainConfig.config.states.settingsAboutUs.appInfoTitle"
+                                    [subtitle]="MainConfig.config.states.settingsAboutUs.appInfoSubtitle">
                      </SettingsEntry>
                      <SettingsDivider></SettingsDivider>
-                     <SettingsEntry *ngFor="let entry of MainConfig.config.states.settingsAboutUs.creatorsInfo"
+                     <SettingsEntry *ngFor="let entry of MainConfig.config.states.settingsAboutUs.developersInfo"
                                     [title]="entry.title"
                                     [subtitle]="entry.subtitle">
                      </SettingsEntry>

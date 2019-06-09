@@ -14,6 +14,7 @@
             <SettingsDivider></SettingsDivider>
             <SettingsEntry title="Columns Order"
                            subtitle="Change order of columns on home page"
+                           [useContentProjection]="true"
                            (onEntryTap)="openColumnsOrderingModal()">
                 <StackLayout class="columns-list">
                     <ng-container *ngFor="let columnName of currentColumnsOrder; index as ind">
