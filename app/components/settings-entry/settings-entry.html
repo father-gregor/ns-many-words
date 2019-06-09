@@ -1,0 +1,29 @@
+<GridLayout columns="{{iconSrc ? 'auto, *' : '*'}}"
+            rows="*">
+       <Image *ngIf="iconSrc"
+              [src]="iconSrc"
+              class="entry-icon"
+              loadMode="async"
+              col="0"
+              row="0"
+              width="40"
+              height="40"
+              verticalAlignment="center"
+              stretch="aspectFit">
+       </Image>
+       <Ripple col="{{iconSrc ? '1' : '0'}}"
+               row="0"
+               rippleColor="#afafaf"
+               (tap)="open()">
+              <StackLayout class="entry-title-container">
+                     <Label class="entry-title"
+                            [text]="title"
+                            [textWrap]="true">
+                     </Label>
+                     <Label class="entry-subtitle"
+                            [text]="subtitle"
+                            [textWrap]="true">
+                     </Label>
+              </StackLayout>
+       </Ripple>
+</GridLayout>

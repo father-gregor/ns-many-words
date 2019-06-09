@@ -1,0 +1,22 @@
+<MainActionBar [routeName]="MainConfig.config.states.settingsGeneral.url"></MainActionBar>
+<ScrollView orientation="vertical"
+            class="settings-container">
+    <GridLayout columns="*"
+                rows="*">
+        <StackLayout col="0"
+                     row="0"
+                     orientation="vertical">
+            <SettingsDivider></SettingsDivider>
+            <SettingsEntry title="Current Theme"
+                           [subtitle]="selectedTheme.label" 
+                           (onEntryTap)="openSelectThemeDialog()">
+            </SettingsEntry>
+            <SettingsDivider></SettingsDivider>
+            <SettingsEntry title="Columns Order"
+                           subtitle="Change order of columns on home page" 
+                           (onEntryTap)="openChangeColumnsOrderDialog()">
+            </SettingsEntry>
+            <SettingsDivider></SettingsDivider>
+        </StackLayout>
+    </GridLayout>
+</ScrollView>

@@ -1,0 +1,50 @@
+@import '~nativescript-theme-core/scss/light';
+
+// Theme colors override
+$btn-color-outline-highlighted: #b4b4b4;
+
+@import '~nativescript-theme-core/scss/index';
+
+@import "./variables.scss";
+
+Page {
+    font-family: $main-font;
+    font-weight: normal;
+}
+
+.grey-theme {
+    background-color: #ffffff;
+}
+
+.dark-theme {
+    background-color: #333232;
+}
+
+.general-action-bar {
+    color: #ffffff;
+    background-color: #000000;
+
+    .general-action-bar-label {
+        font-family: $main-font;
+        font-weight: normal;
+        font-size: 25;
+    }
+}
+
+.font-icon {
+    font-family: "FontAwesome", "fontawesome";
+}
+
+.first-word {
+    padding-top: 20;
+}
+
+.word-box {
+    padding-left: 10;
+    padding-right: 10;
+    padding-bottom: 15;
+}
+
+ActivityIndicator {
+    color: rgb(77, 76, 76);
+}

@@ -3,7 +3,6 @@ import { topmost } from "tns-core-modules/ui/frame/frame";
 import { isIOS } from "tns-core-modules/ui/page/page";
 
 import { GoogleFirebaseService } from "./services/google-firebase/google-firebase.service";
-import { AppThemeType } from "./services/app-theme/app-theme.interfaces";
 import { AppThemeService } from "./services/app-theme/app-theme.service";
 
 @Component({

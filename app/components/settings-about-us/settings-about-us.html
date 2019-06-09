@@ -1,0 +1,27 @@
+<MainActionBar [routeName]="MainConfig.config.states.settingsAboutUs.url"></MainActionBar>
+<ScrollView orientation="vertical"
+            class="settings-container">
+       <GridLayout columns="*"
+                   rows="*">
+              <StackLayout col="0"
+                           row="0"
+                           orientation="vertical">
+                     <SettingsDivider></SettingsDivider>
+                     <SettingsEntry [iconSrc]="'res://app_logo'"
+                                    title="Many Words"
+                                    [subtitle]="appInfoSubtitle">
+                     </SettingsEntry>
+                     <SettingsDivider></SettingsDivider>
+                     <SettingsEntry *ngFor="let entry of MainConfig.config.states.settingsAboutUs.creatorsInfo"
+                                    [title]="entry.title"
+                                    [subtitle]="entry.subtitle">
+                     </SettingsEntry>
+                     <SettingsDivider></SettingsDivider>
+                     <SettingsEntry [title]="MainConfig.config.states.settingsAboutUs.contactInfo.title"
+                                    [subtitle]="MainConfig.config.states.settingsAboutUs.contactInfo.subtitle" 
+                                    (onEntryTap)="openContactUsDialog()">
+                     </SettingsEntry>
+                     <SettingsDivider></SettingsDivider>
+              </StackLayout>
+       </GridLayout>
+</ScrollView>

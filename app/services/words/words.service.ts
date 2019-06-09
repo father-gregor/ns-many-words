@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 import { MainConfigService } from "../main-config/main-config.service";
-import { WordType } from "../../modules/word-box/word-box.interfaces";
+import { WordType } from "../../components/word-box/word-box.interfaces";
 
 @Injectable()
 export class WordsService {

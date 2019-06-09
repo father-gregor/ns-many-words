@@ -1,0 +1,13 @@
+@import "../../styles/variables.scss";
+
+.settings-container {
+    ::ng-deep {
+        font-family: $typography-font;
+        font-weight: normal;
+    }
+
+    .entries-divider {
+        margin-left: 10;
+        margin-right: 10;
+    }
+}

@@ -1,0 +1,26 @@
+@import "../../styles/variables.scss";
+
+$settings-entry-color: rgba(3, 3, 3, 0.836);
+
+.entry-title-container {
+    margin: 5 10 5 15;
+
+    ::ng-deep {
+        font-family: $typography-font;
+        font-weight: normal;
+    }
+}
+
+.entry-icon {
+    margin-left: 15;
+}
+
+.entry-title {
+    font-size: 20;
+    color: $settings-entry-color;
+}
+
+.entry-subtitle {
+    color: lighten($settings-entry-color, 20%);
+    font-size: 16;
+}

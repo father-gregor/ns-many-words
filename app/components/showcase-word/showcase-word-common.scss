@@ -1,0 +1,53 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.showcase-word-container {
+    font-family: $typography-font;
+
+    .word-name {
+        margin-top: 20;
+        color: #000000;
+        font-size: 40;
+    }
+    
+    .word-name-separator {
+        margin-top: 10;
+        margin-bottom: 20;
+        border-width: 0;
+        border-style: solid;
+        height: 3;
+        background-color: rgb(114, 114, 114);
+    }
+    
+    .word-definition-container {
+        font-size: 20;
+        margin-bottom: 80;
+        color: #000000;
+
+        .word-definition {
+            margin-top: -10;
+        }
+    
+        GridLayout {
+            margin-bottom: 10;
+        }
+    }
+}
+
+.btn-favorite-container {
+    margin-right: 20;
+    margin-bottom: 20;
+    background: #000000;
+    border-radius: 100;
+    border-width: 0;
+}
+
+.meme-word {
+    &.btn-favorite-container {
+        @include meme-gradient(45deg);
+    }
+
+    &.showcase-word-container .word-name-separator {
+        @include meme-gradient(to right);
+    }
+}

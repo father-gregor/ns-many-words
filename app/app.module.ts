@@ -37,22 +37,22 @@ import { AppThemeService } from "./services/app-theme/app-theme.service";
  * Components
  */
 import { AppComponent } from "~/app.component";
-import { HomeComponent } from "~/modules/home/home.component";
-import { DailyWordsComponent } from "~/modules/daily-words/daily-words.component";
-import { WordBoxComponent } from "~/modules/word-box/word-box.component";
-import { RandomWordsComponent } from "~/modules/random-words/random-words.component";
-import { MemeWordsComponent } from "~/modules/meme-words/meme-words.component";
-import { SettingsComponent } from "~/modules/settings/settings.component";
-import { FavoriteWordsComponent } from "~/modules/favorite-words/favorite-words.component";
-import { MainActionBarComponent } from "~/modules/action-bars/main-action-bar/main-action-bar.component";
-import { ShowcaseWordComponent } from "~/modules/showcase-word/showcase-word.component";
-import { NoConnectionComponent } from "~/modules/errors/no-connection/no-connection.component";
-import { NoWordsComponent } from "~/modules/errors/no-words/no-words.component";
-import { FpsMeterComponent } from "~/modules/fps-meter/fps-meter.component";
-import { SettingsEntryComponent } from "~/modules/settings/settings-entry/settings-entry.component";
-import { SettingsGeneralComponent } from "~/modules/settings-general/setting-general.component";
-import { SettingsAboutUsComponent } from "~/modules/settings-about-us/settings-about-us.component";
-import { SettingsDividerComponent } from "./modules/settings/settings-divider/settings-divider.component";
+import { HomeComponent } from "~/components/home/home.component";
+import { DailyWordsComponent } from "~/components/daily-words/daily-words.component";
+import { WordBoxComponent } from "~/components/word-box/word-box.component";
+import { RandomWordsComponent } from "~/components/random-words/random-words.component";
+import { MemeWordsComponent } from "~/components/meme-words/meme-words.component";
+import { SettingsComponent } from "~/components/settings/settings.component";
+import { FavoriteWordsComponent } from "~/components/favorite-words/favorite-words.component";
+import { MainActionBarComponent } from "~/components/action-bars/main-action-bar/main-action-bar.component";
+import { ShowcaseWordComponent } from "~/components/showcase-word/showcase-word.component";
+import { NoConnectionComponent } from "~/components/errors/no-connection/no-connection.component";
+import { NoWordsComponent } from "~/components/errors/no-words/no-words.component";
+import { FpsMeterComponent } from "~/components/fps-meter/fps-meter.component";
+import { SettingsEntryComponent } from "~/components/settings-entry/settings-entry.component";
+import { SettingsGeneralComponent } from "~/components/settings-general/setting-general.component";
+import { SettingsAboutUsComponent } from "~/components/settings-about-us/settings-about-us.component";
+import { SettingsDividerComponent } from "./components/settings-divider/settings-divider.component";
 
 @NgModule({
     bootstrap: [
