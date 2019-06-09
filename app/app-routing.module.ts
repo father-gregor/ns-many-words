@@ -6,8 +6,8 @@ import { HomeComponent } from "~/components/home/home.component";
 import { FavoriteWordsComponent } from "~/components/favorite-words/favorite-words.component";
 import { ShowcaseWordComponent } from "~/components/showcase-word/showcase-word.component";
 import { SettingsComponent } from "./components/settings/settings.component";
-import { SettingsGeneralComponent } from "./components/settings-general/setting-general.component";
-import { SettingsAboutUsComponent } from "./components/settings-about-us/settings-about-us.component";
+import { SettingsGeneralComponent } from "./components/settings/settings-general/setting-general.component";
+import { SettingsAboutUsComponent } from "./components/settings/settings-about-us/settings-about-us.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },

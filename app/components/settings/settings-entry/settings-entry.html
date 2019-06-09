@@ -1,5 +1,6 @@
-<GridLayout columns="{{iconSrc ? 'auto, *' : '*'}}"
-            rows="*">
+<GridLayout class="entry-container"
+            columns="{{iconSrc ? 'auto, *' : '*'}}"
+            rows="auto, *">
        <Image *ngIf="iconSrc"
               [src]="iconSrc"
               class="entry-icon"
@@ -26,4 +27,10 @@
                      </Label>
               </StackLayout>
        </Ripple>
+       <StackLayout class="entry-content"
+                    col="{{iconSrc ? '1' : '0'}}"
+                    colspan="2"
+                    row="1">
+              <ng-content></ng-content>
+       </StackLayout>
 </GridLayout>

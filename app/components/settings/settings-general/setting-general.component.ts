@@ -1,13 +1,15 @@
-import { Component } from "@angular/core";
+import { Component, ViewContainerRef } from "@angular/core";
 import {
     getString as nsGetString,
     setString as nsSetString
 } from "tns-core-modules/application-settings/application-settings";
 import { action } from "tns-core-modules/ui/dialogs";
+import { ModalDialogOptions, ModalDialogService } from "nativescript-angular/modal-dialog";
 
-import { MainConfigService } from "../../services/main-config/main-config.service";
-import { AppThemeService } from "../../services/app-theme/app-theme.service";
-import { AppThemeType } from "../../services/app-theme/app-theme.interfaces";
+import { MainConfigService } from "../../../services/main-config/main-config.service";
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
+import { AppThemeType } from "../../../services/app-theme/app-theme.interfaces";
+import { ColumnsOrderingModalComponent } from "~/components/modals/columns-ordering-modal/columns-ordering-modal.component";
 
 export interface IAppTheme {
     label: string;
@@ -31,12 +33,27 @@ export class SettingsGeneralComponent  {
             value: "dark"
         }
     ];
+    public currentColumnsOrder: string[];
+    public availableColumns = {
+        daily: {
+            label: "Daily Words"
+        },
+        random: {
+            label: "Random Words"
+        },
+        meme: {
+            label: "Meme Words"
+        }
+    };
+
     private appThemeKey = "appTheme";
     private columnsOrderKey = "customColumnsOrder";
 
     constructor (
         public MainConfig: MainConfigService,
-        public AppTheme: AppThemeService
+        public AppTheme: AppThemeService,
+        private ModalDialog: ModalDialogService,
+        private viewContainer: ViewContainerRef
     ) {
         let theme = nsGetString(this.appThemeKey) as AppThemeType;
         if (!theme) {
@@ -44,6 +61,14 @@ export class SettingsGeneralComponent  {
             nsSetString(this.appThemeKey, theme);
         }
         this.selectedTheme = this.availableThemes.find((t) => t.value === theme);
+
+        const customColumnsOrder = nsGetString(this.columnsOrderKey) as any;
+        if (customColumnsOrder) {
+            this.currentColumnsOrder = JSON.parse(customColumnsOrder);
+        }
+        else {
+            this.currentColumnsOrder = this.MainConfig.config.columnsOrder;
+        }
     }
 
     public openSelectThemeDialog () {
@@ -60,8 +85,15 @@ export class SettingsGeneralComponent  {
         });
     }
 
-    public openChangeColumnsOrderDialog () {
-        
+    public openColumnsOrderingModal () {
+        this.ModalDialog.showModal(ColumnsOrderingModalComponent, {
+            viewContainerRef: this.viewContainer,
+            context: {
+                availableColumns: this.availableColumns
+            }
+        }).then((result: string) => {
+            console.log("MODAL CLOSED", result);
+        });
     }
 
     private changeCurrentTheme (newTheme: IAppTheme) {

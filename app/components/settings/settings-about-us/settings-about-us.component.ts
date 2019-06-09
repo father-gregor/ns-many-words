@@ -6,7 +6,7 @@ import * as email from "nativescript-email";
 /**
  * Services
  */
-import { MainConfigService } from "../../services/main-config/main-config.service";
+import { MainConfigService } from "../../../services/main-config/main-config.service";
 
 @Component({
     selector: "SettingsAboutUs",

@@ -49,10 +49,11 @@ import { ShowcaseWordComponent } from "~/components/showcase-word/showcase-word.
 import { NoConnectionComponent } from "~/components/errors/no-connection/no-connection.component";
 import { NoWordsComponent } from "~/components/errors/no-words/no-words.component";
 import { FpsMeterComponent } from "~/components/fps-meter/fps-meter.component";
-import { SettingsEntryComponent } from "~/components/settings-entry/settings-entry.component";
-import { SettingsGeneralComponent } from "~/components/settings-general/setting-general.component";
-import { SettingsAboutUsComponent } from "~/components/settings-about-us/settings-about-us.component";
-import { SettingsDividerComponent } from "./components/settings-divider/settings-divider.component";
+import { SettingsEntryComponent } from "~/components/settings/settings-entry/settings-entry.component";
+import { SettingsGeneralComponent } from "~/components/settings/settings-general/setting-general.component";
+import { SettingsAboutUsComponent } from "~/components/settings/settings-about-us/settings-about-us.component";
+import { SettingsDividerComponent } from "~/components/settings/settings-divider/settings-divider.component";
+import { ColumnsOrderingModalComponent } from "./components/modals/columns-ordering-modal/columns-ordering-modal.component";
 
 @NgModule({
     bootstrap: [
@@ -81,7 +82,8 @@ import { SettingsDividerComponent } from "./components/settings-divider/settings
         SettingsEntryComponent,
         SettingsGeneralComponent,
         SettingsAboutUsComponent,
-        SettingsDividerComponent
+        SettingsDividerComponent,
+        ColumnsOrderingModalComponent
     ],
     providers: [
         WordsService,
@@ -100,6 +102,9 @@ import { SettingsDividerComponent } from "./components/settings-divider/settings
             useClass: DeviceInfoInterceptor,
             multi: true
         }
+    ],
+    entryComponents: [
+        ColumnsOrderingModalComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

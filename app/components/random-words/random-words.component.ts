@@ -4,12 +4,12 @@ import { finalize } from "rxjs/operators";
 /**
  * Interfaces
  */
-import { IWord, IWordQueryOptions, WordType } from "~/modules/word-box/word-box.interfaces";
+import { IWord, IWordQueryOptions, WordType } from "~/components/word-box/word-box.interfaces";
 
 /**
  * Components
  */
-import { MasterWordsComponentCommon } from "~/modules/master-words/master-words.component.common";
+import { MasterWordsComponentCommon } from "~/components/master-words/master-words.component.common";
 
 /**
  * Services

@@ -8,13 +8,21 @@
                      orientation="vertical">
             <SettingsDivider></SettingsDivider>
             <SettingsEntry title="Current Theme"
-                           [subtitle]="selectedTheme.label" 
+                           [subtitle]="selectedTheme.label"
                            (onEntryTap)="openSelectThemeDialog()">
             </SettingsEntry>
             <SettingsDivider></SettingsDivider>
             <SettingsEntry title="Columns Order"
-                           subtitle="Change order of columns on home page" 
-                           (onEntryTap)="openChangeColumnsOrderDialog()">
+                           subtitle="Change order of columns on home page"
+                           (onEntryTap)="openColumnsOrderingModal()">
+                <StackLayout class="columns-list">
+                    <ng-container *ngFor="let columnName of currentColumnsOrder; index as ind">
+                        <GridLayout columns="30, *" rows="*">
+                            <Label col="0" row="0" [text]="(ind + 1) + '.'"></Label>
+                            <Label col="1" row="0" [text]="availableColumns[columnName].label"></Label>
+                        </GridLayout>
+                    </ng-container>
+                </StackLayout>
             </SettingsEntry>
             <SettingsDivider></SettingsDivider>
         </StackLayout>
