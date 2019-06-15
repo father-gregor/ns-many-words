@@ -1,0 +1,38 @@
+@import "./variables.scss";
+
+.modal-container {
+    margin: 15 15 10 15;
+    font-family: $typography-font;
+    font-size: 20;
+    color: #000000;
+
+    .modal-header {
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 20;
+
+        [class^="hr-"] {
+            margin-top: 10;
+        }
+    }
+
+    .modal-footer {
+        margin-top: 15;
+
+        Button {
+            margin: 0;
+            font-family: "Roboto";
+
+            &.btn-modal-close {
+                color: #a80000;
+                background-color: transparent;
+                border-color: transparent;
+                font-size: 16;
+            }
+
+            &.btn-modal-success {
+                background-color: #000000;
+            }
+        }
+    }
+}

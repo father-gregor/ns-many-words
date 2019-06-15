@@ -1,0 +1,23 @@
+<StackLayout class="modal-container">
+    <StackLayout *ngIf="modalTitle"
+                 class="modal-header">
+        <Label [text]="modalTitle"></Label>
+        <StackLayout class="hr-light"></StackLayout>
+    </StackLayout>
+    <ng-content></ng-content>
+    <GridLayout *ngIf="footerButtons"
+                class="modal-footer"
+                columns="*, auto, auto"
+                rows="*">
+        <Button col="1"
+                row="0"
+                class="btn btn-primary btn-modal-close"
+                [text]="cancelButtonTitle"
+                (tap)="cancel()"></Button>
+        <Button col="2"
+                row="0"
+                class="btn btn-primary btn-modal-success"
+                [text]="finishButtonTitle"
+                (tap)="finish()"></Button>
+    </GridLayout>
+</StackLayout>

@@ -6,6 +6,9 @@ $btn-color-outline-highlighted: #b4b4b4;
 @import '~nativescript-theme-core/scss/index';
 
 @import "./variables.scss";
+@import "./modals.scss";
+
+@import "./main.android.scss";
 
 Page {
     font-family: $main-font;

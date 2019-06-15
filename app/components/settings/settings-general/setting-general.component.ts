@@ -89,10 +89,16 @@ export class SettingsGeneralComponent  {
         this.ModalDialog.showModal(ColumnsOrderingModalComponent, {
             viewContainerRef: this.viewContainer,
             context: {
-                availableColumns: this.availableColumns
+                currentColumnsOrder: [...this.currentColumnsOrder],
+                availableColumns: {...this.availableColumns},
+                modalSettings: {
+                    title: "Change Sections Order"
+                }
             }
-        }).then((result: string) => {
-            console.log("MODAL CLOSED", result);
+        }).then((result: string[]) => {
+            if (result && result.length === this.currentColumnsOrder.length) {
+                console.log("Order Updated", result);
+            }
         });
     }
 

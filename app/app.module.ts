@@ -53,7 +53,10 @@ import { SettingsEntryComponent } from "~/components/settings/settings-entry/set
 import { SettingsGeneralComponent } from "~/components/settings/settings-general/setting-general.component";
 import { SettingsAboutUsComponent } from "~/components/settings/settings-about-us/settings-about-us.component";
 import { SettingsDividerComponent } from "~/components/settings/settings-divider/settings-divider.component";
-import { ColumnsOrderingModalComponent } from "./components/modals/columns-ordering-modal/columns-ordering-modal.component";
+import { ColumnsOrderingModalComponent } from "~/components/modals/columns-ordering-modal/columns-ordering-modal.component";
+import { DraggableItemDirective } from "~/directives/drag-and-drop/draggable-item/draggable-item.directive";
+import { DraggableItemAnchorDirective } from "~/directives/drag-and-drop/draggable-item-anchor/draggable-item-anchor.directive";
+import { ModalContainerComponent } from "~/components/modals/modal-container/modal-container.component";
 
 @NgModule({
     bootstrap: [
@@ -83,7 +86,10 @@ import { ColumnsOrderingModalComponent } from "./components/modals/columns-order
         SettingsGeneralComponent,
         SettingsAboutUsComponent,
         SettingsDividerComponent,
-        ColumnsOrderingModalComponent
+        ColumnsOrderingModalComponent,
+        DraggableItemDirective,
+        DraggableItemAnchorDirective,
+        ModalContainerComponent
     ],
     providers: [
         WordsService,
@@ -104,6 +110,7 @@ import { ColumnsOrderingModalComponent } from "./components/modals/columns-order
         }
     ],
     entryComponents: [
+        ModalContainerComponent,
         ColumnsOrderingModalComponent
     ],
     schemas: [
