@@ -26,6 +26,32 @@
                 </StackLayout>
             </SettingsEntry>
             <SettingsDivider></SettingsDivider>
+            <StackLayout reorderContainer>
+                <ng-container *ngFor="let columnName of currentColumnsOrder; index as ind">
+                    <GridLayout draggableItem
+                                dragDirection="vertical"
+                                [dragItemValue]="columnName"
+                                columns="5, 30, *, 30"
+                                rows="*"
+                                class="column-elem">
+                        <Label col="1"
+                               row="0"
+                               [text]="(ind + 1) + '.'">
+                        </Label>
+                        <Label col="2"
+                               row="0"
+                               [text]="availableColumns[columnName].label">
+                        </Label>
+                        <Label col="3"
+                               row="0"
+                               horizontalAlignment="center"
+                               verticalAlignment="center"
+                               class="font-icon drag-icon"
+                               text="&#xf0c9;">
+                        </Label>
+                    </GridLayout>
+                </ng-container>
+            </StackLayout>
         </StackLayout>
     </GridLayout>
 </ScrollView>

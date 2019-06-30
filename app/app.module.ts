@@ -17,6 +17,9 @@ import { DeviceInfoInterceptor } from "./interceptors/device-info.interceptor";
  * Directives
  */
 import { TouchButtonHighlightDirective } from "~/directives/touch-button-highlight/touch-button-highlight.directive";
+import { ReorderContainerDirective } from "~/directives/drag-and-drop/reorder-container/reorder-container.directive";
+import { DraggableItemDirective } from "~/directives/drag-and-drop/draggable-item/draggable-item.directive";
+import { DraggableItemAnchorDirective } from "~/directives/drag-and-drop/draggable-item-anchor/draggable-item-anchor.directive";
 
 /**
  * Services
@@ -54,8 +57,6 @@ import { SettingsGeneralComponent } from "~/components/settings/settings-general
 import { SettingsAboutUsComponent } from "~/components/settings/settings-about-us/settings-about-us.component";
 import { SettingsDividerComponent } from "~/components/settings/settings-divider/settings-divider.component";
 import { ColumnsOrderingModalComponent } from "~/components/modals/columns-ordering-modal/columns-ordering-modal.component";
-import { DraggableItemDirective } from "~/directives/drag-and-drop/draggable-item/draggable-item.directive";
-import { DraggableItemAnchorDirective } from "~/directives/drag-and-drop/draggable-item-anchor/draggable-item-anchor.directive";
 import { ModalContainerComponent } from "~/components/modals/modal-container/modal-container.component";
 
 @NgModule({
@@ -87,6 +88,7 @@ import { ModalContainerComponent } from "~/components/modals/modal-container/mod
         SettingsAboutUsComponent,
         SettingsDividerComponent,
         ColumnsOrderingModalComponent,
+        ReorderContainerDirective,
         DraggableItemDirective,
         DraggableItemAnchorDirective,
         ModalContainerComponent

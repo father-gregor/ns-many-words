@@ -5,10 +5,9 @@
                     [cancelButtonTitle]="'Cancel'"
                     (onFinish)="save()"
                     (onCancel)="closeModal()">
-        <StackLayout #dragAndDropContainer>
+        <StackLayout reorderContainer (onItemsOrderChange)="updateColumnsOrder($event)">
             <ng-container *ngFor="let columnName of currentColumnsOrder; index as ind">
                 <GridLayout draggableItem
-                            [dragContainer]="dragAndDropContainer"
                             dragDirection="vertical"
                             [dragItemValue]="columnName"
                             columns="5, 30, *, 30"

@@ -17,6 +17,10 @@ export class ColumnsOrderingModalComponent {
         this.modalTitle = this.modalParams.context.modalSettings.title;
     }
 
+    public updateColumnsOrder (newColumnsOrder: string[]) {
+        this.currentColumnsOrder = newColumnsOrder;
+    }
+
     public save () {
         this.modalParams.closeCallback(this.currentColumnsOrder);
     }
