@@ -34,7 +34,6 @@ export class DraggableItemDirective {
 
     @HostListener("touch", ["$event"])
     public touchListener (event: TouchGestureEventData) {
-        // console.log("ACTION", event.action);
         if (event.action === "down") {
             if (this.dragContainer) {
                 this.dragContainer.onItemPanStart(this.dragItemValue);

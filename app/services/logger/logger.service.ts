@@ -53,9 +53,7 @@ export class LoggerService {
 
     private sendLog (log: IAnalyticsLog) {
         if (this.isFirebaseStarted) {
-            this.GoogleFirebase.$Native.analytics.logEvent(log).then(() => {
-                console.log("=> EVENT LOGGED");
-            }).catch(() => {
+            this.GoogleFirebase.$Native.analytics.logEvent(log).catch(() => {
                 console.log("Error while sending log to Firebase");
             });
         }

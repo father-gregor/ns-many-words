@@ -4,7 +4,7 @@ import {
     setString as nsSetString
 } from "tns-core-modules/application-settings/application-settings";
 import { action } from "tns-core-modules/ui/dialogs";
-import { ModalDialogOptions, ModalDialogService } from "nativescript-angular/modal-dialog";
+import { ModalDialogService } from "nativescript-angular/modal-dialog";
 
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
@@ -97,7 +97,8 @@ export class SettingsGeneralComponent  {
             }
         }).then((result: string[]) => {
             if (result && result.length === this.currentColumnsOrder.length) {
-                console.log("Order Updated", result);
+                this.currentColumnsOrder = [...result];
+                nsSetString(this.columnsOrderKey, JSON.stringify(this.currentColumnsOrder));
             }
         });
     }

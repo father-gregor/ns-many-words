@@ -52,23 +52,20 @@ export class ReorderContainerDirective implements AfterContentInit {
         const itemView = this.itemsOrder[itemInd].element.view;
         const itemLocation = itemView.getLocationRelativeTo(this.view);
 
-        const delayFactorPercent = 0.1;
         let isOrderChanged = false;
         if (prevItemInd != null) {
-            const prevItemView = this.itemsOrder[prevItemInd].element.view;
-            const prevItemSize = prevItemView.getActualSize();
-            const prevItemLocation = prevItemView.getLocationRelativeTo(this.view);
+            const prevItem = this.itemsOrder[prevItemInd];
+            const prevItemTranslateY = this.itemsOrder[prevItemInd].element.view.translateY;
 
-            if ((itemLocation.y - itemView.getActualSize().height / 2) <= (prevItemLocation.y /* + prevItemSize.height * delayFactorPercent*/)) {
-                console.log("ORDER CHANGED", `curr ${this.itemsOrder[itemInd].itemValue} location: ${itemLocation.y}; prev ${this.itemsOrder[prevItemInd].itemValue}: ${prevItemLocation.y + prevItemSize.height / 2}`);
+            if ((itemLocation.y - itemView.getActualSize().height / 2) <= prevItem.locationY) {
                 [this.itemsOrder[prevItemInd].locationX, this.itemsOrder[itemInd].locationX] = [this.itemsOrder[itemInd].locationX, this.itemsOrder[prevItemInd].locationX];
                 [this.itemsOrder[prevItemInd].locationY, this.itemsOrder[itemInd].locationY] = [this.itemsOrder[itemInd].locationY, this.itemsOrder[prevItemInd].locationY];
                 [this.itemsOrder[itemInd], this.itemsOrder[prevItemInd]] = [this.itemsOrder[prevItemInd], this.itemsOrder[itemInd]];
                 this.animationInProgress = true;
-                prevItemView.animate({
+                prevItem.element.view.animate({
                     translate: {
                         x: 0,
-                        y: this.itemsOrder[itemInd].locationY - this.itemsOrder[prevItemInd].locationY
+                        y: prevItemTranslateY === 0 ? (this.itemsOrder[itemInd].locationY - this.itemsOrder[prevItemInd].locationY) : 0
                     },
                     duration: 200,
                     curve: AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1)
@@ -79,29 +76,26 @@ export class ReorderContainerDirective implements AfterContentInit {
             }
         }
         if (!isOrderChanged && nextItemInd != null) {
-            const nextItemView = this.itemsOrder[nextItemInd].element.view;
-            const nextItemLocation = nextItemView.getLocationRelativeTo(this.view);
+            const nextItem = this.itemsOrder[nextItemInd];
+            const nextItemTranslateY = this.itemsOrder[nextItemInd].element.view.translateY;
 
-            if ((itemLocation.y + itemView.getActualSize().height / 2) >= (nextItemLocation.y /*+ nextItemSize.height / 2 + nextItemSize.height * delayFactorPercent*/)) {
+            if ((itemLocation.y + itemView.getActualSize().height / 2) >= nextItem.locationY) {
                 [this.itemsOrder[nextItemInd].locationX, this.itemsOrder[itemInd].locationX] = [this.itemsOrder[itemInd].locationX, this.itemsOrder[nextItemInd].locationX];
                 [this.itemsOrder[nextItemInd].locationY, this.itemsOrder[itemInd].locationY] = [this.itemsOrder[itemInd].locationY, this.itemsOrder[nextItemInd].locationY];
                 [this.itemsOrder[itemInd], this.itemsOrder[nextItemInd]] = [this.itemsOrder[nextItemInd], this.itemsOrder[itemInd]];
                 this.animationInProgress = true;
-                nextItemView.animate({
+                nextItem.element.view.animate({
                     translate: {
                         x: 0,
-                        y: this.itemsOrder[itemInd].locationY - this.itemsOrder[nextItemInd].locationY
+                        y: nextItemTranslateY === 0 ? (this.itemsOrder[itemInd].locationY - this.itemsOrder[nextItemInd].locationY) : 0
                     },
                     duration: 200,
                     curve: AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1)
                 }).then(() => {
                     this.animationInProgress = false;
                 });
-                console.log(`curr: ${itemInd}; prev: ${prevItemInd}; next: ${nextItemInd}`);
-                console.log(`curr location: ${itemLocation.y + itemView.getActualSize().height / 2}; next: ${nextItemLocation.y}`);
             }
         }
-        console.log("CURRENT ORDER", this.itemsOrder.map((i) => i.itemValue));
     }
 
     public onItemPanEnd (itemValue: any) {
