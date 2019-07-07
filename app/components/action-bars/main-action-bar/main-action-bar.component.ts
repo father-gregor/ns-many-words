@@ -80,6 +80,10 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         });
     }
 
+    public openSearchBar () {
+        
+    }
+
     public openFavoritesArchive () {
         this.routerExtensions.navigate(["/favorites-archive"], {
             transition: {

@@ -1,0 +1,10 @@
+<StackLayout>
+    <SearchBar hint="Search for words..."
+               [text]="searchTerm"
+               (textChange)="onSearchTermChanged($event)"
+               (submit)="onSearchTermSubmit($event)"
+               color="white"
+               textFieldBackgroundColor="red"
+               textFieldHintColor="white">
+    </SearchBar>
+</StackLayout>

@@ -1,5 +1,5 @@
 <MainActionBar #mainActionBar [routeName]="MainConfig.config.states.home.url"></MainActionBar>
-<TabView class="main-tab-view" (selectedIndexChanged)="onSelectedTabChanged($event)">
+<TabView #wordsTabView class="main-tab-view" (loaded)="onTabViewLoaded()" (selectedIndexChanged)="onSelectedTabChanged($event)">
     <ng-container *ngFor="let column of MainConfig.config.columnsOrder">
         <StackLayout *tabItem="{title: wordsTab[column].title}" >
             <ng-container *ngIf="!noConnectionError" [ngSwitch]="column">

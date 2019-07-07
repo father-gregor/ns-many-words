@@ -1,5 +1,5 @@
-import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from "@angular/core";
-import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
+import { Component, ViewChild, ChangeDetectorRef, ElementRef, AfterViewInit } from "@angular/core";
+import { SelectedIndexChangedEventData, TabView } from "tns-core-modules/ui/tab-view";
 import { connectionType } from "tns-core-modules/connectivity/connectivity";
 import { isAndroid } from "tns-core-modules/platform";
 
@@ -28,7 +28,7 @@ import { MainConfigService } from "~/services/main-config/main-config.service";
     templateUrl: "./home.html"
 })
 export class HomeComponent implements AfterViewInit {
-    public wordsTab: {[key: string]: IWordTab} = {
+    public wordsTab: { [key: string]: IWordTab } = {
         daily: {
             title: "Daily Words",
             id: "daily"
@@ -44,12 +44,16 @@ export class HomeComponent implements AfterViewInit {
     };
     public noConnectionError = false;
 
-    @ViewChild("mainActionBar", {static: false}) public mainActionBarComponent: MainActionBarComponent;
+    @ViewChild("mainActionBar", { static: false }) public mainActionBarComponent: MainActionBarComponent;
+    @ViewChild("wordsTabView", { static: false }) public tabBarElement: ElementRef;
 
-    private actionBarHeight = 0;
-    private actionBarHideAnimation: android.animation.ValueAnimator;
-    private actionBarShowAnimation: android.animation.ValueAnimator;
-    private isActionBarHidden = false;
+    private tabView: TabView;
+
+    private tabViewHeaderHeight;
+    private tabViewHeaderHideAnimation: android.animation.ValueAnimator;
+    private tabViewHeaderShowAnimation: android.animation.ValueAnimator;
+    private isTabViewHeaderAnimInProgress = false;
+    private isTabViewHeaderHidden = false;
 
     constructor (
         public MainConfig: MainConfigService,
@@ -71,17 +75,11 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit () {
-        if (isAndroid) {
-            const timerId = setInterval(() => {
-                if (this.mainActionBarComponent.actionBarView.nativeView) {
-                    clearInterval(timerId);
-                    this.actionBarHeight = this.mainActionBarComponent.actionBarView.nativeView.getMeasuredHeight();
-                    this.actionBarHideAnimation = this.getActionBarHeightAnimation([this.actionBarHeight, 0]);
-                    this.actionBarShowAnimation = this.getActionBarHeightAnimation([0, this.actionBarHeight]);
-                }
-            }, 50);
-        }
         this.cd.detectChanges();
+    }
+
+    public onTabViewLoaded () {
+        this.tabView = this.tabBarElement.nativeElement as TabView; 
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
@@ -90,27 +88,49 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public onTabScroll (event: ITabScrollEvent) {
-        if (event.direction === "up" && !this.isActionBarHidden) {
-            this.isActionBarHidden = true;
-            this.actionBarHideAnimation.start();
-            this.cd.detectChanges();
-        }
-        else if (event.direction === "down" && this.isActionBarHidden) {
-            this.isActionBarHidden = false;
-            this.actionBarShowAnimation.start();
-            this.cd.detectChanges();
+        if (isAndroid) {
+            if (this.isTabViewHeaderAnimInProgress) {
+                return;
+            }
+
+            if (this.tabViewHeaderHeight == null) {
+                this.tabViewHeaderHeight = this.tabView.android.tabLayout.getHeight();
+                this.tabViewHeaderHideAnimation = this.getTabViewHeaderHeightAnimation([this.tabViewHeaderHeight, 0]);
+                this.tabViewHeaderShowAnimation = this.getTabViewHeaderHeightAnimation([0, this.tabViewHeaderHeight]);
+            }
+
+            if (event.direction === "up" && !this.isTabViewHeaderHidden) {
+                this.isTabViewHeaderAnimInProgress = true;
+                this.isTabViewHeaderHidden = true;
+                this.tabViewHeaderHideAnimation.start();
+                this.cd.detectChanges();
+            }
+            else if (event.direction === "down" && this.isTabViewHeaderHidden) {
+                this.isTabViewHeaderAnimInProgress = true;
+                this.isTabViewHeaderHidden = false;
+                this.tabViewHeaderShowAnimation.start();
+                this.cd.detectChanges();
+            }
         }
     }
 
-    private getActionBarHeightAnimation (heightValues: number[]) {
+    private getTabViewHeaderHeightAnimation (heightValues: number[]) {
         const anim = android.animation.ValueAnimator.ofInt(heightValues);
         anim.addUpdateListener(new android.animation.ValueAnimator.AnimatorUpdateListener({
             onAnimationUpdate: (valueAnimator: android.animation.ValueAnimator) => {
                 const val = valueAnimator.getAnimatedValue();
-                const layoutParams = this.mainActionBarComponent.actionBarView.nativeView.getLayoutParams();
+                const layoutParams = this.tabView.android.tabLayout.getLayoutParams();
                 layoutParams.height = val;
-                this.mainActionBarComponent.actionBarView.nativeView.setLayoutParams(layoutParams);
+                this.tabView.android.tabLayout.setLayoutParams(layoutParams);
             }
+        }));
+        anim.addListener(new android.animation.Animator.AnimatorListener({
+            onAnimationEnd: (param: android.animation.Animator) => {
+                this.isTabViewHeaderAnimInProgress = false;
+            },
+            onAnimationStart: () => {},
+            onAnimationCancel: () => {},
+            onAnimationRepeat: () => {}
         }));
         anim.setDuration(300);
 

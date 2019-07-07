@@ -1,1 +1,1 @@
-export type ActionBarItemsType = "title" | "wiki" | "favoritesArchive" | "settings" | "close";
+export type ActionBarItemsType = "title" | "wiki" | "searchWords" | "favoritesArchive" | "settings" | "close";

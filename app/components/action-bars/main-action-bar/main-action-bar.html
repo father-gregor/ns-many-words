@@ -40,6 +40,12 @@
                 </Label>
             </StackLayout>
         </ActionItem>
+        <ActionItem *ngIf="actionBarItem === 'searchWords'"
+                    (tap)="openSearchBar()"
+                    icon="res://search"
+                    ios.position="right"
+                    android.position="actionBarIfRoom">
+        </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"
                     (tap)="openFavoritesArchive()"
                     icon="res://favorites_archive"
