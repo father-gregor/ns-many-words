@@ -79,7 +79,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public onTabViewLoaded () {
-        this.tabView = this.tabBarElement.nativeElement as TabView; 
+        this.tabView = this.tabBarElement.nativeElement as TabView;
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {

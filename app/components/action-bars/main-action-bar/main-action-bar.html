@@ -30,13 +30,13 @@
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'close'"
                     ios.position="right"
-                    android.position="actionBarIfRoom" 
+                    android.position="actionBarIfRoom"
                     (tap)="goHome()">
             <StackLayout orientation="vertical">
                 <Label class="font-icon close-icon"
-                        text="&#xf00d;"
-                        horizontalAlignment="center"
-                        verticalAlignment="center">
+                       text="&#xf00d;"
+                       horizontalAlignment="center"
+                       verticalAlignment="center">
                 </Label>
             </StackLayout>
         </ActionItem>
@@ -45,6 +45,7 @@
                     icon="res://search"
                     ios.position="right"
                     android.position="actionBarIfRoom">
+            <SearchWords></SearchWords>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"
                     (tap)="openFavoritesArchive()"

@@ -1,10 +1,14 @@
-<StackLayout>
+<StackLayout #searchBarContainer
+             class="search-bar-container"
+             orientation="vertical"
+             horizontalAlignment="center"
+             verticalAlignment="top">
     <SearchBar hint="Search for words..."
                [text]="searchTerm"
                (textChange)="onSearchTermChanged($event)"
                (submit)="onSearchTermSubmit($event)"
                color="white"
-               textFieldBackgroundColor="red"
+               textFieldBackgroundColor="black"
                textFieldHintColor="white">
     </SearchBar>
 </StackLayout>

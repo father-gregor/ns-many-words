@@ -59,6 +59,7 @@ import { SettingsDividerComponent } from "~/components/settings/settings-divider
 import { ColumnsOrderingModalComponent } from "~/components/modals/columns-ordering-modal/columns-ordering-modal.component";
 import { ModalContainerComponent } from "~/components/modals/modal-container/modal-container.component";
 import { SearchWordsComponent } from "~/components/search-words/search-words.component";
+import { SearchWordsModalComponent } from "~/components/modals/search-words-modal/search-words-modal.component";
 
 @NgModule({
     bootstrap: [
@@ -93,7 +94,8 @@ import { SearchWordsComponent } from "~/components/search-words/search-words.com
         DraggableItemDirective,
         DraggableItemAnchorDirective,
         ModalContainerComponent,
-        SearchWordsComponent
+        SearchWordsComponent,
+        SearchWordsModalComponent
     ],
     providers: [
         WordsService,
@@ -115,7 +117,8 @@ import { SearchWordsComponent } from "~/components/search-words/search-words.com
     ],
     entryComponents: [
         ModalContainerComponent,
-        ColumnsOrderingModalComponent
+        ColumnsOrderingModalComponent,
+        SearchWordsModalComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
