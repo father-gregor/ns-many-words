@@ -1,37 +1,58 @@
-<MainActionBar [routerName]="MainConfig.config.states.showcaseWord.url" [showcaseWord]="word"></MainActionBar>
-<ScrollView class="showcase-word-container" orientation="vertical" [ngClass]="{'meme-word': type === 'meme'}">
-    <GridLayout columns="20, *, 15" rows="*">
-        <StackLayout col="1" row="0" orientation="vertical">
-            <TextView class="word-name" 
-                      [text]="word.name" 
-                      [editable]="false" 
-                      backgroundColor="transparent" 
-                      (loaded)="makeSelectable($event)">
-            </TextView>
-            <Label text="" class="word-name-separator"></Label>  
-            <StackLayout class="word-definition-container">
-                <GridLayout columns="30, 5, *" rows="*"  *ngFor="let def of word.definitions; index as ind">
-                    <Label col="0" row="0" horizontalAlignment="left" [text]="(ind + 1) + '.'"></Label>
-                    <TextView col="2" 
-                              row="0"
-                              class="word-definition"
-                              [editable]="false" 
-                              [text]="def" 
-                              backgroundColor="transparent" 
-                              (loaded)="makeSelectable($event)">
-                    </TextView>
-                </GridLayout>
-            </StackLayout> 
-        </StackLayout>
-    </GridLayout>
-</ScrollView>
-<AbsoluteLayout class="btn-favorite-container" [ngClass]="{'meme-word': type === 'meme'}" width="70" height="70" horizontalAlignment="right" verticalAlignment="bottom" (tap)="onFavoriteTap()">
-    <Image  top="14"
-            left="14"
-            [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
-            width="40" 
-            height="40" 
-            class="btn-favorite"
-            stretch="aspectFit">
-    </Image>
-</AbsoluteLayout>
+<MainActionBar [routerName]="MainConfig.config.states.showcaseWord.url"
+               [showcaseWord]="word">
+</MainActionBar>
+<GridLayout>
+    <ScrollView class="showcase-word-container"
+                orientation="vertical"
+                [ngClass]="{'meme-word': type === 'meme'}">
+        <GridLayout columns="20, *, 15"
+                    rows="*">
+            <StackLayout col="1"
+                         row="0"
+                         orientation="vertical">
+                <TextView class="word-name"
+                          [text]="word.name"
+                          [editable]="false"
+                          backgroundColor="transparent"
+                          (loaded)="makeSelectable($event)">
+                </TextView>
+                <Label text=""
+                       class="word-name-separator"></Label>
+                <StackLayout class="word-definition-container">
+                    <GridLayout columns="30, 5, *"
+                                rows="*"
+                                *ngFor="let def of word.definitions; index as ind">
+                        <Label col="0"
+                               row="0"
+                               horizontalAlignment="left"
+                               [text]="(ind + 1) + '.'"></Label>
+                        <TextView col="2"
+                                  row="0"
+                                  class="word-definition"
+                                  [editable]="false"
+                                  [text]="def"
+                                  backgroundColor="transparent"
+                                  (loaded)="makeSelectable($event)">
+                        </TextView>
+                    </GridLayout>
+                </StackLayout>
+            </StackLayout>
+        </GridLayout>
+    </ScrollView>
+    <AbsoluteLayout class="btn-favorite-container"
+                    [ngClass]="{'meme-word': type === 'meme'}"
+                    width="70"
+                    height="70"
+                    horizontalAlignment="right"
+                    verticalAlignment="bottom"
+                    (tap)="onFavoriteTap()">
+        <Image top="14"
+               left="14"
+               [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'"
+               width="40"
+               height="40"
+               class="btn-favorite"
+               stretch="aspectFit">
+        </Image>
+    </AbsoluteLayout>
+</GridLayout>

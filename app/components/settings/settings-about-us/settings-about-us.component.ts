@@ -32,9 +32,9 @@ export class SettingsAboutUsComponent  {
         const telegramConfig = this.MainConfig.config.states.settingsAboutUs.contactInfo.viaTelegram;
         this.telegramChannelUrl = telegramConfig.telegramUrl + telegramConfig.channelName;
 
-        email.available().then((isAvailable) => {
+        email.available().then((isAvailable: boolean) => {
             if (!isAvailable) {
-                this.contactUsOptions = this.contactUsOptions.filter((o) => o.value === "Email");
+                this.contactUsOptions = this.contactUsOptions.filter((o) => o.value !== "Email");
             }
         });
     }

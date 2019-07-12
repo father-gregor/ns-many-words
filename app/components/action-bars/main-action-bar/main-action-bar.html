@@ -45,7 +45,9 @@
                     icon="res://search"
                     ios.position="right"
                     android.position="actionBarIfRoom">
-            <SearchWords></SearchWords>
+            <StackLayout>
+                <SearchWords></SearchWords>
+            </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"
                     (tap)="openFavoritesArchive()"
