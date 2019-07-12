@@ -10,6 +10,9 @@
     "id": "com.fathergregor.manywords",
     "tns-android": {
       "version": "5.4.0"
+    },
+    "tns-ios": {
+      "version": "5.4.2"
     }
   },
   "dependencies": {
