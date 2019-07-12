@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, AfterViewInit } from "@angular/core";
 import { topmost } from "tns-core-modules/ui/frame/frame";
 import { isIOS } from "tns-core-modules/ui/page/page";
 
@@ -10,7 +10,7 @@ import { AppThemeService } from "./services/app-theme/app-theme.service";
     moduleId: module.id,
     templateUrl: "app.component.html"
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit  {
     public enableFpsMeter = false;
     public currentAppTheme: string;
 
@@ -24,10 +24,18 @@ export class AppComponent {
         });
 
         this.GoogleFirebase.init();
+    }
 
+    public ngAfterViewInit () {
         if (isIOS) {
-            const navigationBar = topmost().ios.controller.navigationBar;
-            navigationBar.barStyle = UIBarStyle.Black;
+            const frame = topmost();
+            if (frame) {
+                const navigationBar = topmost().ios.controller.navigationBar;
+                navigationBar.barStyle = UIBarStyle.Black;
+            }
+            else {
+                console.log("FRAME STILL NOT LOADED");
+            }
         }
     }
 }
