@@ -20,7 +20,7 @@ import { LoggerService } from "~/services/logger/logger.service";
 @Component({
     selector: "MemeWords",
     moduleId: module.id,
-    styleUrls: ["../master-words/master-words-common.scss", "./meme-words-common.scss"],
+    styleUrls: ["../master-words/master-words.scss", "./meme-words-common.scss"],
     templateUrl: "../master-words/master-words-template.html"
 })
 export class MemeWordsComponent extends MasterWordsComponentCommon {
