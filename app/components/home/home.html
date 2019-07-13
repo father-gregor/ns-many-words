@@ -1,11 +1,20 @@
-<MainActionBar #mainActionBar [routeName]="MainConfig.config.states.home.url"></MainActionBar>
-<TabView #wordsTabView class="main-tab-view" (loaded)="onTabViewLoaded()" (selectedIndexChanged)="onSelectedTabChanged($event)">
+<MainActionBar #mainActionBar
+               [routeName]="MainConfig.config.states.home.url"></MainActionBar>
+<TabView #wordsTabView
+         class="main-tab-view"
+         androidTabsPosition="bottom"
+         (loaded)="onTabViewLoaded()"
+         (selectedIndexChanged)="onSelectedTabChanged($event)">
     <ng-container *ngFor="let column of MainConfig.config.columnsOrder">
-        <StackLayout *tabItem="{title: wordsTab[column].title}" >
-            <ng-container *ngIf="!noConnectionError" [ngSwitch]="column">
-                <DailyWords *ngSwitchCase="'daily'" (onTabScroll)="onTabScroll($event)"></DailyWords>
-                <RandomWords *ngSwitchCase="'random'" (onTabScroll)="onTabScroll($event)"></RandomWords>
-                <MemeWords *ngSwitchCase="'meme'" (onTabScroll)="onTabScroll($event)"></MemeWords>
+        <StackLayout *tabItem="{title: wordsTab[column].title, iconSource: wordsTab[column].icon}">
+            <ng-container *ngIf="!noConnectionError"
+                          [ngSwitch]="column">
+                <DailyWords *ngSwitchCase="'daily'"
+                            (onTabScroll)="onTabScroll($event)"></DailyWords>
+                <RandomWords *ngSwitchCase="'random'"
+                             (onTabScroll)="onTabScroll($event)"></RandomWords>
+                <MemeWords *ngSwitchCase="'meme'"
+                           (onTabScroll)="onTabScroll($event)"></MemeWords>
             </ng-container>
 
             <NoConnection *ngIf="noConnectionError"></NoConnection>

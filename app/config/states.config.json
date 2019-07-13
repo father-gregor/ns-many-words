@@ -1,7 +1,7 @@
 {
     "home": {
         "url": "/home",
-        "title": "Home",
+        "title": "Words",
         "actionBarItems": ["title", "searchWords", "favoritesArchive", "settings"]
     },
     "settings": {

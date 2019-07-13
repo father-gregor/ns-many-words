@@ -1,9 +1,21 @@
 import { Component, AfterViewInit } from "@angular/core";
 import { topmost } from "tns-core-modules/ui/frame/frame";
-import { isIOS } from "tns-core-modules/ui/page/page";
+import { device } from "tns-core-modules/platform/platform";
+import { isAndroid, isIOS } from "tns-core-modules/ui/page/page";
+import { Color } from "tns-core-modules/ui/core/view";
+import { android as androidObj, AndroidApplication } from "tns-core-modules/application/application";
 
 import { GoogleFirebaseService } from "./services/google-firebase/google-firebase.service";
 import { AppThemeService } from "./services/app-theme/app-theme.service";
+
+if (isAndroid && parseInt(device.sdkVersion, 10) >= 21) {
+    androidObj.on(AndroidApplication.activityStartedEvent, () => {
+        const window = androidObj.startActivity.getWindow();
+        window.addFlags((android.view.WindowManager.LayoutParams as any).FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags((android.view.WindowManager.LayoutParams as any).FLAG_TRANSLUCENT_STATUS);
+        window.setNavigationBarColor(new Color("black").android);
+    });
+}
 
 @Component({
     selector: "many-words-app",
@@ -30,7 +42,7 @@ export class AppComponent implements AfterViewInit  {
         if (isIOS) {
             const frame = topmost();
             if (frame) {
-                const navigationBar = topmost().ios.controller.navigationBar;
+                const navigationBar = frame.ios.controller.navigationBar;
                 navigationBar.barStyle = UIBarStyle.Black;
             }
             else {

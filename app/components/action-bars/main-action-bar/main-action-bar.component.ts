@@ -85,9 +85,16 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     }
 
     public openSearchBar () {
-        this.ModalDialog.showModal(SearchWordsModalComponent, {
+        /* this.ModalDialog.showModal(SearchWordsModalComponent, {
             viewContainerRef: this.viewContainer,
             fullscreen: true
+        });*/
+        this.routerExtensions.navigate(["/search-words"], {
+            transition: {
+                name: "slideLeft",
+                duration: 500,
+                curve: "ease"
+            }
         });
     }
 

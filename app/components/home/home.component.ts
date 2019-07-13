@@ -30,15 +30,18 @@ import { MainConfigService } from "~/services/main-config/main-config.service";
 export class HomeComponent implements AfterViewInit {
     public wordsTab: { [key: string]: IWordTab } = {
         daily: {
-            title: "Daily Words",
+            title: "Daily",
+            icon: "res://tab_icon_daily",
             id: "daily"
         },
         random: {
-            title: "Random Words",
+            title: "Random",
+            icon: "res://tab_icon_random",
             id: "random"
         },
         meme: {
-            title: "Meme Words",
+            title: "Meme",
+            icon: "res://tab_icon_meme",
             id: "meme"
         }
     };
@@ -61,7 +64,7 @@ export class HomeComponent implements AfterViewInit {
         private ConnectionMonitor: ConnectionMonitorService,
         private cd: ChangeDetectorRef
     ) {
-        this.CurrentTab.setCurrent(this.wordsTab[0]);
+        this.CurrentTab.setCurrent(this.wordsTab[0], 0);
 
         this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
             if (!this.noConnectionError && connection === connectionType.none) {
@@ -79,11 +82,31 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public onTabViewLoaded () {
+        const firstLoad = this.tabView == null;
         this.tabView = this.tabBarElement.nativeElement as TabView;
+        if (isAndroid && firstLoad) {
+            const androidTab = this.tabView.android.tabLayout;
+            const layoutParams = androidTab.getLayoutParams();
+            layoutParams.height = 150;
+            androidTab.setLayoutParams(layoutParams);
+
+            let selectedTabIndex = this.CurrentTab.getCurrentIndex();
+            if (selectedTabIndex == null) {
+                selectedTabIndex = 0;
+            }
+            this.setTabIconColor(selectedTabIndex, "selected");
+            for (let i = 0; i < Object.keys(this.wordsTab).length; i++) {
+                if (i !== selectedTabIndex) {
+                    this.setTabIconColor(i, "unselected");
+                }
+            }
+        }
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
-        this.CurrentTab.setCurrent(this.wordsTab[event.newIndex]);
+        this.CurrentTab.setCurrent(this.wordsTab[event.newIndex], event.newIndex);
+        this.setTabIconColor(event.oldIndex, "unselected");
+        this.setTabIconColor(event.newIndex, "selected");
         this.cd.detectChanges();
     }
 
@@ -112,6 +135,24 @@ export class HomeComponent implements AfterViewInit {
                 this.cd.detectChanges();
             }
         }
+    }
+
+    private setTabIconColor (tabIndex: number, type: "selected" | "unselected") {
+        if (!this.tabView) {
+            return;
+        }
+        const androidTab = this.tabView.android.tabLayout;
+        const tabIconColor = type === "unselected" ? android.graphics.Color.GRAY : android.graphics.Color.WHITE;
+        /**
+         * Note: This version of setColorFilter method was deprecated in API level 29
+         * Why so many getChildAt? Actual layout has structure that looks like that:
+         * TabLayout (androidTab variable here) => TabStrip => LinearLayout => ImageView
+         */
+        androidTab.getChildAt(0)
+            .getChildAt(tabIndex)
+            .getChildAt(0)
+            .getDrawable()
+            .setColorFilter(tabIconColor, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     private getTabViewHeaderHeightAnimation (heightValues: number[]) {

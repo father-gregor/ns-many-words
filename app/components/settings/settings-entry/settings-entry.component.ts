@@ -11,6 +11,7 @@ export class SettingsEntryComponent {
     @Input() public title: string;
     @Input() public subtitle: string;
     @Input() public iconSrc: string;
+    @Input() public withFutherActions = true;
     @Input() public useContentProjection = false;
     @Output("onEntryTap") public onEntryTabEmitter: EventEmitter<void> = new EventEmitter<void>();
 

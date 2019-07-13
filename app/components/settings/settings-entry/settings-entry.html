@@ -16,16 +16,29 @@
                row="0"
                rippleColor="#afafaf"
                (tap)="open()">
-              <StackLayout class="entry-title-container">
-                     <Label class="entry-title"
-                            [text]="title"
-                            [textWrap]="true">
+              <GridLayout [columns]="withFutherActions ? '*, 30' : '*'"
+                          rows="*">
+                     <StackLayout col="0"
+                                  row="0"
+                                  class="entry-title-container">
+                            <Label class="entry-title"
+                                   [text]="title"
+                                   [textWrap]="true">
+                            </Label>
+                            <Label class="entry-subtitle"
+                                   [text]="subtitle"
+                                   [textWrap]="true">
+                            </Label>
+                     </StackLayout>
+                     <Label *ngIf="withFutherActions"
+                            col="1"
+                            row="0"
+                            horizontalAlignment="left"
+                            verticalAlignment="center"
+                            class="font-icon"
+                            text="&#xf105;">
                      </Label>
-                     <Label class="entry-subtitle"
-                            [text]="subtitle"
-                            [textWrap]="true">
-                     </Label>
-              </StackLayout>
+              </GridLayout>
        </Ripple>
        <StackLayout *ngIf="useContentProjection"
                     class="entry-content"

@@ -1,5 +1,6 @@
 import { Component, ViewContainerRef, ViewChild, ElementRef } from "@angular/core";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
+import { Page } from "tns-core-modules/ui/page/page";
 
 @Component({
     selector: "SearchWords",
@@ -14,7 +15,12 @@ export class SearchWordsComponent {
         }
     }
 
-    constructor (private viewContainer: ViewContainerRef) {}
+    constructor (
+        private viewContainer: ViewContainerRef,
+        private page: Page
+    ) {
+        this.page.actionBarHidden = true;
+    }
 
     public onSearchTermChanged (event) {}
 

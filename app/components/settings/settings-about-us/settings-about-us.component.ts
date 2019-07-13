@@ -41,19 +41,14 @@ export class SettingsAboutUsComponent  {
 
     public async openContactUsDialog () {
         let selectedContactMethod: string;
-        if (this.contactUsOptions.length > 1) {
-            const options = {
-                title: "Contact via",
-                message: "",
-                cancelButtonText: "Cancel",
-                actions: this.contactUsOptions.map((t) => t.value)
-            };
+        const options = {
+            title: "Contact via",
+            message: "",
+            cancelButtonText: "Cancel",
+            actions: this.contactUsOptions.map((t) => t.value)
+        };
 
-            selectedContactMethod = await action(options);
-        }
-        else {
-            selectedContactMethod = this.contactUsOptions[0].value;
-        }
+        selectedContactMethod = await action(options);
 
         switch (selectedContactMethod) {
             case "Email":
