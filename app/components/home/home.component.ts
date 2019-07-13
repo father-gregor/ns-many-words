@@ -105,8 +105,10 @@ export class HomeComponent implements AfterViewInit {
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
         this.CurrentTab.setCurrent(this.wordsTab[event.newIndex], event.newIndex);
-        this.setTabIconColor(event.oldIndex, "unselected");
-        this.setTabIconColor(event.newIndex, "selected");
+        if (isAndroid) {
+            this.setTabIconColor(event.oldIndex, "unselected");
+            this.setTabIconColor(event.newIndex, "selected");
+        }
         this.cd.detectChanges();
     }
 
