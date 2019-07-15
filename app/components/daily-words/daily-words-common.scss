@@ -1,3 +1,26 @@
+::ng-deep {
+    .grey-theme,
+    .dark-theme {
+        .daily-words-container .word-container {
+            border-color: #000000;
+    
+            &.newest-teaser {
+                background-color: #ac9203;
+                border-width: 0;
+    
+                .btn-newest-word {
+                    color: #000000;
+                    background-color: rgba(233, 200, 16, 0.822);
+                }
+            }
+    
+            &.newest-word {
+                background-color: rgba(201, 174, 20, 0.815);
+            }
+        }
+    }
+}
+
 .daily-words-container {
     .word-date-line {
         border-width: 0;

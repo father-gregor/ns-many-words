@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { isAndroid } from "tns-core-modules/ui/page/page";
 
@@ -22,7 +22,8 @@ export class ShowcaseWordComponent implements OnInit {
         public MainConfig: MainConfigService,
         private FavoriteWords: FavoriteWordsService,
         private PageDataStorage: PageDataStorageService<IWordRouterData>,
-        private http: HttpClient
+        private http: HttpClient,
+        private cd: ChangeDetectorRef
     ) {}
 
     public async ngOnInit () {
@@ -63,6 +64,7 @@ export class ShowcaseWordComponent implements OnInit {
         }
         finally {
             this.word = {...this.word};
+            this.cd.detectChanges();
         }
     }
 }

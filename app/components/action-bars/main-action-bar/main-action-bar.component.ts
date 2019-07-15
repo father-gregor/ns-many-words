@@ -1,14 +1,12 @@
-import { Component, Input, ChangeDetectorRef, ViewChild, OnInit, AfterViewInit, ViewContainerRef } from "@angular/core";
+import { Component, Input, ChangeDetectorRef, ViewChild, OnInit, AfterViewInit } from "@angular/core";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActionBar } from "tns-core-modules/ui/action-bar/action-bar";
-import { ModalDialogService } from "nativescript-angular/modal-dialog";
 import * as utils from "tns-core-modules/utils/utils";
 
 import { MainConfigService } from "~/services/main-config/main-config.service";
 import { IWord } from "~/components/word-box/word-box.interfaces";
 import { ActionBarItemsType } from "./main-action-bar.interfaces";
-import { SearchWordsModalComponent } from "~/components/modals/search-words-modal/search-words-modal.component";
 
 @Component({
     selector: "MainActionBar",
@@ -32,8 +30,6 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         public MainConfig: MainConfigService,
         public router: Router,
         public routerExtensions: RouterExtensions,
-        private ModalDialog: ModalDialogService,
-        private viewContainer: ViewContainerRef,
         protected cd: ChangeDetectorRef
     ) {
         this.router.events.subscribe((event: Event) => {
@@ -51,7 +47,7 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     public ngOnInit () {
         const stateConfig = this.getStateConfigByUrl(this.routeName) || {};
         this.title = this.title || stateConfig.title || this.MainConfig.config.appName;
-        this.actionBarItems = this.actionBarItems || stateConfig.actionBarItems || this.defaultActionBarItems;
+        this.actionBarItems = stateConfig.actionBarItems || this.defaultActionBarItems;
     }
 
     public ngAfterViewInit () {
@@ -85,10 +81,6 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
     }
 
     public openSearchBar () {
-        /* this.ModalDialog.showModal(SearchWordsModalComponent, {
-            viewContainerRef: this.viewContainer,
-            fullscreen: true
-        });*/
         this.routerExtensions.navigate(["/search-words"], {
             transition: {
                 name: "slideLeft",

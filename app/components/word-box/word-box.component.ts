@@ -1,4 +1,5 @@
-import { Component, Input, ElementRef, ViewChild, ChangeDetectorRef } from "@angular/core";
+import { Component, Input, ElementRef, ViewChild, ChangeDetectorRef, HostBinding } from "@angular/core";
+import {trigger, transition, style, animate, state} from "@angular/animations";
 import { View, isIOS } from "tns-core-modules/ui/core/view";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
 import { RouterExtensions } from "nativescript-angular/router";
@@ -14,10 +15,35 @@ import { SnackBarNotificationService } from "~/services/snack-bar-notification/s
     selector: "WordBox",
     moduleId: module.id,
     styleUrls: ["./word-box-common.scss", "./word-box.scss"],
-    templateUrl: "./word-box.html"
+    templateUrl: "./word-box.html",
+    animations: [
+        trigger("wordBoxAnimations", [
+            transition(":enter", [
+                style({
+                    transform: "translateY(100%)",
+                    opacity: "0"
+                }),
+                animate(300, style({
+                    transform: "translateY(0%)",
+                    opacity: "1.0"
+                }))
+            ]),
+            transition("* => openNewWord", [
+                style({
+                    transform: "scale(1)",
+                    opacity: "1.0"
+                }),
+                animate(700, style({
+                    transform: "scale(0.5)",
+                    opacity: "0"
+                }))
+            ])
+        ])
+    ]
 })
 export class WordBoxComponent {
     public hideBeforeConfirm = false;
+    public animationState: "openNewWord" | never;
     @Input() public word: IWord;
     @Input() public type: WordType;
     @Input() public isFavoritePage = false;
@@ -48,6 +74,8 @@ export class WordBoxComponent {
     }
 
     public openNewestWord () {
+        // this.animationState = "openNewWord";
+        // this.cd.detectChanges();
         const wordView = this.wordBoxView.nativeElement as View;
         wordView.animate({
             scale: { x: 0.5, y: 0.5},

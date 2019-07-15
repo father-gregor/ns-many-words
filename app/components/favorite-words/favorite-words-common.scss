@@ -1,0 +1,3 @@
+@import "../../styles/mixins.scss";
+
+@include apply-current-theme-to(favorite-words-container);

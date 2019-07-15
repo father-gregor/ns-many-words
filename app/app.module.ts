@@ -1,7 +1,8 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
 
 /**
  * Modules
@@ -68,7 +69,8 @@ import { SearchWordsModalComponent } from "~/components/modals/search-words-moda
     imports: [
         NativeScriptModule,
         AppRoutingModule,
-        NativeScriptHttpClientModule
+        NativeScriptHttpClientModule,
+        NativeScriptAnimationsModule
     ],
     declarations: [
         AppComponent,

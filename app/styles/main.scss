@@ -15,14 +15,6 @@ Page {
     font-weight: normal;
 }
 
-.grey-theme {
-    background-color: #ffffff;
-}
-
-.dark-theme {
-    background-color: #333232;
-}
-
 .general-action-bar {
     color: #ffffff;
     background-color: #000000;
@@ -32,6 +24,10 @@ Page {
         font-weight: normal;
         font-size: 25;
     }
+}
+
+.main-tab-view {
+    tab-text-font-size: 11;
 }
 
 .font-icon {

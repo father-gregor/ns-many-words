@@ -2,15 +2,18 @@
 
 .master-words-container {
     .words-list {
-        height: 100%;
-
         .word-date-container{
             font-family: $typography-font;
+            color: #000000;
         }
     }
 
     .loading-words-spinner {
         margin-top: 15;
+    }
+
+    .word-box {
+        padding-bottom: 30;
     }
 }
 

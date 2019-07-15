@@ -1,20 +1,20 @@
 <GridLayout #wordBox 
             *ngIf="!hideBeforeConfirm"
-            columns="*, 30"
+            columns="*, 45"
             rows="72, *, 40"
-            class="word-container" 
+            class="word-container"
             [ngClass]="{'newest-teaser': word.newest, 'newest-word': !word.newest && word.date.text === 'Today'}"
             verticalAlignment="center">
     <ng-container *ngIf="!word.newest">
         <Label row="0" col="0" class="word-selftext" [text]="word.name" verticalAlignment="top" (longPress)="copyToClipboard($event, word.name)"></Label>
         <Image *ngIf="!disableFavorite" 
-            [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
-            row="0" 
-            col="1" 
-            class="btn-favorite" 
-            verticalAlignment="top" 
-            stretch="aspectFit" 
-            (tap)="onFavoriteTap()">
+                [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
+                class="btn-favorite-container" 
+                row="0"
+                col="1"
+                horizontalAlignment="center"
+                verticalAlignment="top"
+                (tap)="onFavoriteTap()">
         </Image>
         <StackLayout class="word-definitions" row="1" col="0" colSpan="2" orientation="vertical">
             <Label *ngFor="let def of word.definitions | slice:0:4 ; index as ind" 

@@ -12,10 +12,10 @@
               verticalAlignment="center"
               stretch="aspectFit">
        </Image>
-       <Ripple col="{{iconSrc ? '1' : '0'}}"
-               row="0"
-               rippleColor="#afafaf"
-               (tap)="open()">
+       <MDRipple col="{{iconSrc ? '1' : '0'}}"
+                 row="0"
+                 rippleColor="#afafaf"
+                 (tap)="open()">
               <GridLayout [columns]="withFutherActions ? '*, 30' : '*'"
                           rows="*">
                      <StackLayout col="0"
@@ -39,7 +39,7 @@
                             text="&#xf105;">
                      </Label>
               </GridLayout>
-       </Ripple>
+       </MDRipple>
        <StackLayout *ngIf="useContentProjection"
                     class="entry-content"
                     col="{{iconSrc ? '1' : '0'}}"

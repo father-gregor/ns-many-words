@@ -1,9 +1,9 @@
-<GridLayout rows="*" class="master-words-container" [ngClass]="className" orientation="vertical">
+<GridLayout rows="*" columns="*" class="master-words-container" [ngClass]="className" orientation="vertical">
     <ListView #listView
               *ngIf="!firstLoading && allWords.length !== 0" 
               class="words-list"
               row="0"
-              height="100%"
+              column="0"
               [items]="allWords" 
               separatorColor="transparent" 
               (setupItemView)="onSetupWordBoxView($event)"
@@ -18,19 +18,21 @@
                 <GridLayout height="300" columns="*" rows="*">
                     <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
                 </GridLayout>
-                <NoWords *ngIf="isLast && isNoWords && !isLoading" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
-                <ActivityIndicator *ngIf="isLast && isLoading" 
-                                    class="loading-words-spinner"
-                                    [busy]="true"
-                                    height="60"
-                                    width="60"
-                                    horizontalAlignment="center"
-                                    verticalAlignment="center">
-                </ActivityIndicator>
+                <ng-container *ngIf="isLast">
+                    <NoWords *ngIf="isNoWords && !isLoading" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
+                    <ActivityIndicator *ngIf="isLoading" 
+                                        class="loading-words-spinner"
+                                        [busy]="true"
+                                        height="60"
+                                        width="60"
+                                        horizontalAlignment="center"
+                                        verticalAlignment="center">
+                    </ActivityIndicator>
+                </ng-container>
             </StackLayout>
         </ng-template>
     </ListView>
-    <StackLayout row="0" class="words-additional-elements" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
+    <StackLayout row="0" column="0"  class="words-additional-elements" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
         <ActivityIndicator *ngIf="isNoWords && allWords.length === 0 && isLoading || firstLoading"
                            [busy]="true"
                            height="100"

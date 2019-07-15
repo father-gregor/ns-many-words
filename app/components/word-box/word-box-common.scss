@@ -1,28 +1,40 @@
 @import "../../styles/variables.scss";
 
 ::ng-deep {
-    .grey-theme {
+    .grey-theme,
+    .dark-theme {
         .word-container {
             color: rgb(0, 0, 0);
-            background-color: rgb(204, 204, 204);
+            border-color: transparent;
+            background-color: #ffffffff;
+            border-width: 2;
+            border-radius: 5;
+
+            .btn-favorite-container {
+                background: #000000;
+                border-radius: 100;
+                border-width: 0;
+            }
         }
     }
 
+    .grey-theme {
+        .word-container {}
+    }
+
     .dark-theme {
-        .word-container {
-            background-color: #ffffffff;
-        }
+        .word-container {}
     }
 }
 
 .word-container {
     height: 300;
-    margin-top: 10;
+    margin-top: 20;
     margin-bottom: 20;
     padding-top: 20;
-    padding-bottom: 15; 
-    padding-right: 15;
-    padding-left: 15;
+    padding-bottom: 20; 
+    padding-right: 20;
+    padding-left: 20;
 
     .word-selftext,
     .word-definitions {
@@ -31,8 +43,6 @@
     }
 
     &.newest-teaser {
-        background-color: #ac9203;
-
         .question-icon {
             margin-top: -10;
             font-family: "FontAwesome", "fontawesome";
@@ -41,15 +51,9 @@
         }
 
         .btn-newest-word {
-            color: #000000;
-            background-color: rgba(233, 200, 16, 0.822);
             font-size: 25;
             font-weight: 600;
         }
-    }
-
-    &.newest-word {
-        background-color: rgba(201, 174, 20, 0.815);
     }
 
     .word-selftext {
@@ -80,13 +84,14 @@
         margin-left: 0;
         margin-right: 10;
         color: black;
+        background-color: rgb(240, 240, 240);
         border-width: 1;
-        border-color: black;
+        border-color: transparent;
         border-radius: 3;
         padding: 0;
     }
     
-    .btn-favorite {
-        margin-top: 8;
+    .btn-favorite-container {
+        padding: 0 5;
     }
 }

@@ -20,7 +20,8 @@ if (isAndroid && parseInt(device.sdkVersion, 10) >= 21) {
 @Component({
     selector: "many-words-app",
     moduleId: module.id,
-    templateUrl: "app.component.html"
+    styleUrls: ["./app.component.scss"],
+    templateUrl: "./app.component.html"
 })
 export class AppComponent implements AfterViewInit  {
     public enableFpsMeter = false;

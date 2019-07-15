@@ -12,6 +12,11 @@ import { IWord, IWordQueryOptions, WordType } from "~/components/word-box/word-b
 import { MasterWordsComponentCommon } from "~/components/master-words/master-words.component.common";
 
 /**
+ * Animations
+ */
+import { masterWordsAnimations } from "../master-words/master-words.animations";
+
+/**
  * Services
  */
 import { LoggerService } from "~/services/logger/logger.service";
@@ -21,7 +26,10 @@ import { WordsService } from "~/services/words/words.service";
     selector: "RandomWords",
     moduleId: module.id,
     styleUrls: ["../master-words/master-words.scss", "./random-words-common.scss"],
-    templateUrl: "../master-words/master-words-template.html"
+    templateUrl: "../master-words/master-words-template.html",
+    animations: [
+        ...masterWordsAnimations
+    ]
 })
 export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";

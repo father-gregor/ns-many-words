@@ -12,6 +12,11 @@ import { finalize } from "rxjs/operators";
 import { MasterWordsComponentCommon } from "~/components/master-words/master-words.component.common";
 
 /**
+ * Animations
+ */
+import { masterWordsAnimations } from "../master-words/master-words.animations";
+
+/**
  * Interfaces
  */
 import { IWord, IWordQueryOptions, WordType } from "~/components/word-box/word-box.interfaces";
@@ -26,7 +31,10 @@ import { LoggerService } from "~/services/logger/logger.service";
     selector: "DailyWords",
     moduleId: module.id,
     styleUrls: ["../master-words/master-words.scss", "./daily-words-common.scss"],
-    templateUrl: "../master-words/master-words-template.html"
+    templateUrl: "../master-words/master-words-template.html",
+    animations: [
+        ...masterWordsAnimations
+    ]
 })
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
