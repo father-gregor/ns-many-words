@@ -26,8 +26,8 @@
             <Label *ngIf="word.definitions.length > 3" [text]="(word.definitions.length - 3) + ' more...'" horizontalAlignment="right"></Label>
         </StackLayout>
         <StackLayout class="wordbox-footer" row="2" col="0" colSpan="2" orientation="horizontal">
-            <Button class="btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()" [btnHighlight]="word.date.text === 'Today' ? '#eed755' : null"></Button>
-            <Button class="btn-outline brn-share-word" text="Share" (tap)="onSocialShareTap()" [btnHighlight]="word.date.text === 'Today' ? '#eed755' : null"></Button>
+            <Button class="btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()"></Button>
+            <Button class="btn-outline brn-share-word" text="Share" (tap)="onSocialShareTap()"></Button>
         </StackLayout>
     </ng-container>
 
