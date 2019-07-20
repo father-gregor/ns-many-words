@@ -1,16 +1,22 @@
-<GridLayout rows="*" columns="*" class="master-words-container" [ngClass]="className" orientation="vertical">
+<GridLayout rows="*" columns="*" class="master-words-container" [class.daily]="wordsType === 'daily'" [class.random]="wordsType === 'random'" [class.meme]="wordsType === 'meme'" orientation="vertical">
     <ListView #listView
-              *ngIf="!firstLoading && allWords.length !== 0" 
+              *ngIf="!firstLoading && allListItems.length !== 0" 
               class="words-list"
               row="0"
               column="0"
-              [items]="allWords" 
+              [items]="allListItems" 
               separatorColor="transparent" 
-              (setupItemView)="onSetupWordBoxView($event)"
+              [itemTemplateSelector]="selectItemTemplate"
               (loadMoreItems)="loadNewWords({count: 5})">
-        <ng-template let-word="item" let-ind="index" let-isLast="isLast">
-            <StackLayout class="word-box" [ngClass]="{'first-word': ind === 0}" orientation="vertical">
-                <GridLayout *ngIf="wordsType === 'daily'" class="word-date-container" height="30" columns="*, auto, *" rows="*" [ngClass]="{'today-date': word.date.text === 'Today'}">
+        <ng-template nsTemplateKey="header">
+            <GridLayout columns="*" rows="30">
+                <Label col="0" row="0" text=""></Label>   
+            </GridLayout>
+        </ng-template>
+
+        <ng-template nsTemplateKey="dailyWord" let-word="item">
+            <StackLayout class="word-box" orientation="vertical">
+                <GridLayout class="word-date-container" [class.todayDate]="word.date.text === 'Today'" height="30" columns="*, auto, *" rows="*">
                     <Label col="0" row="0" text="" class="word-date-line"></Label>   
                     <Label col="1" row="0" [text]="word.date.text" class="word-date"></Label> 
                     <Label col="2" row="0" text="" class="word-date-line"></Label>   
@@ -18,28 +24,43 @@
                 <GridLayout height="300" columns="*" rows="*">
                     <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
                 </GridLayout>
-                <ng-container *ngIf="isLast">
-                    <NoWords *ngIf="isNoWords && !isLoading" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
-                    <ActivityIndicator *ngIf="isLoading" 
-                                        class="loading-words-spinner"
-                                        [busy]="true"
-                                        height="60"
-                                        width="60"
-                                        horizontalAlignment="center"
-                                        verticalAlignment="center">
-                    </ActivityIndicator>
-                </ng-container>
+            </StackLayout>
+        </ng-template>
+
+        <ng-template nsTemplateKey="defaultWord" let-word="item" let-ind="index">
+            <StackLayout class="word-box" orientation="vertical">
+                <GridLayout height="300" columns="*" rows="*">
+                    <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
+                </GridLayout>
+            </StackLayout>
+        </ng-template>
+
+        <ng-template nsTemplateKey="noWords">
+            <StackLayout class="word-box" orientation="vertical">
+                <NoWords [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 5})"></NoWords>
+            </StackLayout>
+        </ng-template>
+
+        <ng-template nsTemplateKey="loading">
+            <StackLayout class="word-box" orientation="vertical">
+                <ActivityIndicator class="loading-words-spinner"
+                                    [busy]="true"
+                                    height="60"
+                                    width="60"
+                                    horizontalAlignment="center"
+                                    verticalAlignment="center">
+                </ActivityIndicator>
             </StackLayout>
         </ng-template>
     </ListView>
-    <StackLayout row="0" column="0"  class="words-additional-elements" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
-        <ActivityIndicator *ngIf="isNoWords && allWords.length === 0 && isLoading || firstLoading"
+    <StackLayout *ngIf="isNoWords && allListItems.length === 0 || firstLoading" row="0" column="0"  class="words-additional-elements" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
+        <ActivityIndicator *ngIf="isLoading || firstLoading"
                            [busy]="true"
                            height="100"
                            width="100"
                            horizontalAlignment="center"
                            verticalAlignment="center">
         </ActivityIndicator>
-        <NoWords *ngIf="isNoWords && allWords.length === 0 && !isLoading" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
+        <NoWords *ngIf="!isLoading" [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 3})"></NoWords>
     </StackLayout>
 </GridLayout>

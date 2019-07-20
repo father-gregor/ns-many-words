@@ -1,5 +1,4 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
-import { finalize } from "rxjs/operators";
 
 /**
  * Interfaces
@@ -25,21 +24,21 @@ import { LoggerService } from "~/services/logger/logger.service";
 @Component({
     selector: "MemeWords",
     moduleId: module.id,
-    styleUrls: ["../master-words/master-words.scss", "./meme-words-common.scss"],
+    styleUrls: ["./meme-words-common.scss"],
     templateUrl: "../master-words/master-words-template.html",
     animations: [...masterWordsAnimations]
 })
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
-    public className = "meme-words-container";
     public noWordsMsg = "Word didn't loaded. Press button to try again";
 
     constructor (
         private Words: WordsService,
-        private logger: LoggerService,
+        protected Logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
-        super(cd);
+        super(Logger, cd);
+        super.wordsType = this.wordsType;
     }
 
     public ngOnInit () {
@@ -56,44 +55,26 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
 
         const query = {count: options.count || 1};
         this.isLoading = true;
+        this.addTechItem("loading");
         this.cd.detectChanges();
 
-        this.Words.getMemeWord(query).pipe(
-            finalize(() => {
-                this.isLoading = false;
-                if (this.firstLoading) {
-                    this.firstLoading = false;
-                }
-                this.newWordsLoaded$.next();
-            })
-        ).subscribe(
-            (res) => {
-                if (res && Array.isArray(res) && res.length > 0) {
-                    if (this.isNoWords) {
-                        this.isNoWords = false;
-                    }
-
-                    for (const word of res) {
-                        this.allWords.push({
-                            name: word.name,
-                            nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
-                            definitions: word.definitions,
-                            archaic: word.archaic,
-                            language: word.language,
-                            date: word.publishDateUTC,
-                            partOfSpeech: word.partOfSpeech
-                        } as IWord);
-                    }
-                }
-                else {
-                    this.isNoWords = true;
-                }
-            },
-            (err) => {
-                this.logger.error("mw_error_try_catch", err);
-                this.isNoWords = true;
-                this.currentError = "wordsLoadingFailed";
+        this.handleWordsRequest(this.Words.getMemeWord(query), (res: any[]) => {
+            if (this.isNoWords) {
+                this.isNoWords = false;
             }
-        );
+
+            for (const word of res) {
+                this.allListItems.push({
+                    name: word.name,
+                    type: "meme",
+                    nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
+                    definitions: word.definitions,
+                    archaic: word.archaic,
+                    language: word.language,
+                    date: word.publishDateUTC,
+                    partOfSpeech: word.partOfSpeech
+                } as IWord);
+            }
+        });
     }
 }

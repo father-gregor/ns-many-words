@@ -4,7 +4,6 @@ import {
     setString as nsSetString,
     hasKey as nsHasKey
 } from "tns-core-modules/application-settings/application-settings";
-import { finalize } from "rxjs/operators";
 
 /**
  * Components
@@ -30,7 +29,7 @@ import { LoggerService } from "~/services/logger/logger.service";
 @Component({
     selector: "DailyWords",
     moduleId: module.id,
-    styleUrls: ["../master-words/master-words.scss", "./daily-words-common.scss"],
+    styleUrls: ["./daily-words-common.scss"],
     templateUrl: "../master-words/master-words-template.html",
     animations: [
         ...masterWordsAnimations
@@ -38,7 +37,6 @@ import { LoggerService } from "~/services/logger/logger.service";
 })
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
-    public className = "daily-words-container";
     public noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
     public earliestWordDate: Date;
     private newestWordDate: Date;
@@ -46,10 +44,11 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
 
     constructor (
         private Words: WordsService,
-        private logger: LoggerService,
+        protected Logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
-        super(cd);
+        super(Logger, cd);
+        super.wordsType = this.wordsType;
     }
 
     public ngOnInit () {
@@ -72,64 +71,41 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             count: options.count || 3
         };
         this.isLoading = true;
+        this.addTechItem("loading");
         this.cd.detectChanges();
 
-        this.Words.getDailyWord(query).pipe(
-            finalize(() => {
-                this.isLoading = false;
-                if (this.firstLoading) {
-                    this.firstLoading = false;
-                }
-                this.newWordsLoaded$.next();
-            })
-        ).subscribe(
-            (res) => {
-                let newWords = false;
-                if (res && Array.isArray(res) && res.length > 0) {
-                    if (this.isNoWords) {
-                        this.isNoWords = false;
-                    }
-
-                    const resultWords = [];
-                    for (let word of res) {
-                        word = {
-                            name: word.name,
-                            nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
-                            definitions: word.definitions,
-                            archaic: word.archaic,
-                            language: word.language,
-                            publishDateUTC: word.publishDateUTC,
-                            partOfSpeech: word.partOfSpeech
-                        } as IWord;
-                        word.date = this.getWordDate(word);
-                        if (options.checkForNewestWord) {
-                            if (!this.newestWordDate || this.newestWordDate.getTime() < word.date.object.getTime()) {
-                                word.newest = true;
-                                this.newestWordDate = word.date.object;
-                                options.checkForNewestWord = false;
-                                // nsSetString(this.newestWordDateKey, word.date.object); TODO Commented out for development only
-                            }
-                        }
-
-                        resultWords.push(word);
-                    }
-
-                    this.allWords = this.allWords.concat(resultWords);
-                    newWords = true;
-                }
-                else {
-                    this.isNoWords = true;
-                }
-
-                if (newWords) {
-                    this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);
-                }
-            },
-            (err) => {
-                this.logger.error("mw_error_try_catch", err);
-                this.isNoWords = true;
-                this.currentError = "wordsLoadingFailed";
+        this.handleWordsRequest(this.Words.getDailyWord(query), (res: IWord[]) => {
+            if (this.isNoWords) {
+                this.isNoWords = false;
             }
-        );
+
+            const resultWords = [];
+            for (let word of res) {
+                word = {
+                    name: word.name,
+                    type: "daily",
+                    nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
+                    definitions: word.definitions,
+                    archaic: word.archaic,
+                    language: word.language,
+                    publishDateUTC: word.publishDateUTC,
+                    partOfSpeech: word.partOfSpeech
+                } as IWord;
+                word.date = this.getWordDate(word);
+                if (options.checkForNewestWord) {
+                    if (!this.newestWordDate || this.newestWordDate.getTime() < word.date.object.getTime()) {
+                        word.newest = true;
+                        this.newestWordDate = word.date.object;
+                        options.checkForNewestWord = false;
+                        // nsSetString(this.newestWordDateKey, word.date.object); TODO Commented out for development only
+                    }
+                }
+
+                resultWords.push(word);
+            }
+
+            this.allListItems = [...this.allListItems, ...resultWords];
+            this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);
+        });
     }
 }

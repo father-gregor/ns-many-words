@@ -1,12 +1,15 @@
+@import "../master-words/master-words-common.scss";
+
 ::ng-deep {
     .grey-theme,
     .dark-theme {
-        .daily-words-container .word-container {
+        .master-words-container.daily .word-container {
             border-color: #000000;
     
-            &.newest-teaser {
+            &.newest_teaser {
                 background-color: #ac9203;
-                border-width: 0;
+                border-width: 4;
+                border-color: #d3b301;
     
                 .btn-newest-word {
                     color: #000000;
@@ -14,14 +17,14 @@
                 }
             }
     
-            &.newest-word {
+            &.newest_word {
                 background-color: rgba(201, 174, 20, 0.815);
             }
         }
     }
 }
 
-.daily-words-container {
+.master-words-container.daily {
     .word-date-line {
         border-width: 0;
         border-style: solid;
@@ -37,7 +40,7 @@
         font-weight: bold;
     }
     
-    .today-date {
+    .todayDate {
         .word-date {
             color: rgba(121, 104, 7, 0.815);
         }

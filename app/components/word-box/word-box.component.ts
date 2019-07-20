@@ -63,6 +63,7 @@ export class WordBoxComponent {
         if (!this.word) {
             this.word = {
                 name: "",
+                type: null,
                 definitions: [],
                 date: {text: "", object: new Date()}
             };

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
-import { finalize } from "rxjs/operators";
 
 /**
  * Interfaces
@@ -25,7 +24,7 @@ import { WordsService } from "~/services/words/words.service";
 @Component({
     selector: "RandomWords",
     moduleId: module.id,
-    styleUrls: ["../master-words/master-words.scss", "./random-words-common.scss"],
+    styleUrls: ["./random-words-common.scss"],
     templateUrl: "../master-words/master-words-template.html",
     animations: [
         ...masterWordsAnimations
@@ -33,15 +32,14 @@ import { WordsService } from "~/services/words/words.service";
 })
 export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";
-    public className = "random-word-container";
     public noWordsMsg = "Word didn't loaded. Press button to try again";
 
     constructor (
         private Words: WordsService,
-        private logger: LoggerService,
+        protected Logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
-        super(cd);
+        super(Logger, cd);
     }
 
    public ngOnInit () {
@@ -57,44 +55,26 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
 
         const query = {count: options.count || 1};
         this.isLoading = true;
+        this.addTechItem("loading");
         this.cd.detectChanges();
 
-        this.Words.getRandomWord(query).pipe(
-            finalize(() => {
-                this.isLoading = false;
-                if (this.firstLoading) {
-                    this.firstLoading = false;
-                }
-                this.newWordsLoaded$.next();
-            })
-        ).subscribe(
-            (res) => {
-                if (res && Array.isArray(res) && res.length > 0) {
-                    if (this.isNoWords) {
-                        this.isNoWords = false;
-                    }
-
-                    for (const word of res) {
-                        this.allWords.push({
-                            name: word.name,
-                            nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
-                            definitions: word.definitions,
-                            archaic: word.archaic,
-                            language: word.language,
-                            date: word.publishDateUTC,
-                            partOfSpeech: word.partOfSpeech
-                        } as IWord);
-                    }
-                }
-                else {
-                    this.isNoWords = true;
-                }
-            },
-            (err) => {
-                this.logger.error("mw_error_try_catch", err);
-                this.isNoWords = true;
-                this.currentError = "wordsLoadingFailed";
+        this.handleWordsRequest(this.Words.getRandomWord(query), (res: any[]) => {
+            if (this.isNoWords) {
+                this.isNoWords = false;
             }
-        );
+
+            for (const word of res) {
+                this.allListItems.push({
+                    name: word.name,
+                    type: "random",
+                    nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
+                    definitions: word.definitions,
+                    archaic: word.archaic,
+                    language: word.language,
+                    date: word.publishDateUTC,
+                    partOfSpeech: word.partOfSpeech
+                } as IWord);
+            }
+        });
     }
 }

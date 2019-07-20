@@ -2,6 +2,7 @@ export type WordType = "daily" | "random" | "meme" | "favorite";
 
 export interface IWord {
     name: string;
+    type: WordType;
     nameAsId?: string;
     definitions: string[];
     date: {text: string, object: Date};

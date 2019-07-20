@@ -1,6 +1,7 @@
 @import "../../styles/mixins.scss";
+@import "../master-words/master-words-common.scss";
 
-.meme-words-container {
+.master-words-container.meme {
     @include meme-gradient(to bottom);
 
     .words-additional-elements {

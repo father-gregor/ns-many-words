@@ -2,7 +2,8 @@ import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef,
 import { SetupItemViewArgs } from "nativescript-angular/directives";
 import { isAndroid } from "tns-core-modules/platform";
 import { ListView } from "tns-core-modules/ui/list-view";
-import { Subject, Subscription } from "rxjs";
+import { Subject, Subscription, Observable } from "rxjs";
+import { finalize } from "rxjs/operators";
 
 import * as dateformat from "dateformat";
 
@@ -13,16 +14,22 @@ import { TabErrorType } from "../errors/errors.interfaces";
 import { IWord, IWordQueryOptions, WordType } from "~/components/word-box/word-box.interfaces";
 import { ScrollDirection, ITabScrollEvent } from "~/components/master-words/master-words.interfaces";
 
+/**
+ * Services
+ */
+import { LoggerService } from "../../services/logger/logger.service";
+
+type TechItemType = "loading" | "noWords" | "header";
+
 export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit, OnDestroy {
     public wordsType: WordType;
     public currentError: TabErrorType;
     public isNoWords = false;
     public noWordsMsg: string;
     public loadWordsBtnMsg: string = "Repeat";
-    public className: string;
     public firstLoading = true;
     public isLoading: boolean = false;
-    public allWords: IWord[] = [];
+    public allListItems: Array<IWord | {techItem: TechItemType}> = [];
 
     @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<ITabScrollEvent> = new EventEmitter<ITabScrollEvent>();
     @ViewChild("listView", {static: false}) public wordsListView: ElementRef;
@@ -35,7 +42,10 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
 
     protected subscriptions: Subscription = new Subscription();
 
-    constructor (protected cd: ChangeDetectorRef) {
+    constructor (
+        protected Logger: LoggerService,
+        protected cd: ChangeDetectorRef
+    ) {
         this.cd.detach();
     }
 
@@ -59,7 +69,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 this.listView = this.wordsListView && this.wordsListView.nativeElement as ListView;
                 if (this.listView && this.listView.android) {
                     clearInterval(intervalId);
-                    this.listView.android.setFriction(android.view.ViewConfiguration.getScrollFriction() * 2);
+                    this.listView.android.setFriction(android.view.ViewConfiguration.getScrollFriction() * 4);
                     this.listView.android.setOnScrollListener(new android.widget.AbsListView.OnScrollListener({
                         onScrollStateChanged: () => {
                             const offset = this.listView.android.computeVerticalScrollOffset();
@@ -109,10 +119,65 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         }
     }
 
+    public selectItemTemplate (item: IWord | {techItem: TechItemType}, index: number, items: IWord[]) {
+        if ((item as IWord).type === "daily") {
+            return "dailyWord";
+        }
+        else if ((item as any).techItem) {
+            return (item as any).techItem;
+        }
+        else {
+            return "defaultWord";
+        }
+    }
+
     public abstract async loadNewWords (options?: IWordQueryOptions);
 
-    public onSetupWordBoxView (event: SetupItemViewArgs) {
-        event.view.context.isLast = ((event.index + 1) === this.allWords.length);
+    public handleWordsRequest (words$: Observable<object>, processSuccessResultFn) {
+        const sub = words$.pipe(
+            finalize(() => {
+                const toFilter: TechItemType[] = ["loading"];
+                if (!this.isNoWords) {
+                    toFilter.push("noWords");
+                }
+                this.filterTechItems(toFilter);
+                this.isLoading = false;
+                if (this.firstLoading) {
+                    this.firstLoading = false;
+                }
+                this.newWordsLoaded$.next();
+                sub.unsubscribe();
+            })
+        ).subscribe(
+            (res: any[]) => {
+                if (res && Array.isArray(res) && res.length > 0) {
+                    if (this.firstLoading) {
+                        this.addTechItem("header");
+                    }
+                    processSuccessResultFn(res);
+                }
+                else {
+                    this.addTechItem("noWords");
+                    this.isNoWords = true;
+                }
+            },
+            (err) => {
+                this.Logger.error("mw_error_try_catch", err);
+                this.addTechItem("noWords");
+                this.isNoWords = true;
+                this.currentError = "wordsLoadingFailed";
+            }
+        );
+    }
+
+    public addTechItem (techItem: TechItemType) {
+        this.allListItems.push({techItem});
+    }
+
+    public filterTechItems (toFilter: TechItemType[]) {
+        this.allListItems = this.allListItems.filter((item) => {
+            return !(item as any).techItem || !toFilter.includes((item as any).techItem);
+        });
     }
 
     public getWordDate (word: IWord): {text: string, object: Date} {

@@ -17,6 +17,7 @@ import { MasterWordsComponentCommon } from "~/components/master-words/master-wor
  */
 import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
 import { MainConfigService } from "~/services/main-config/main-config.service";
+import { LoggerService } from "../../services/logger/logger.service";
 
 @Component({
     selector: "FavoriteWords",
@@ -33,9 +34,10 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
     constructor (
         public MainConfig: MainConfigService,
         public FavoriteWords: FavoriteWordsService,
+        protected Logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
-        super(cd);
+        super(Logger, cd);
         this.noWordsMsg = this.MainConfig.config.states.favoritesArchive.noWordsText;
     }
 
