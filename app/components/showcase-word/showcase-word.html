@@ -17,8 +17,30 @@
                           (loaded)="makeSelectable($event)">
                 </TextView>
                 <Label text=""
-                       class="word-name-separator"></Label>
+                       class="word-name-separator">
+                </Label>
+                <StackLayout *ngIf="word.synonyms && word.synonyms.length > 0"
+                             class="word-synonyms-container">
+                    <Label class="word-synonyms-label"
+                           text="Synonyms">
+                    </Label>
+                    <ScrollView orientation="horizontal">
+                        <StackLayout orientation="horizontal">
+                            <Label *ngFor="let synonym of word.synonyms"
+                                   class="word-synonym"
+                                   [text]="synonym"
+                                   height="40"
+                                   horizontalAlignment="center"
+                                   verticalAlignment="center">
+                            </Label>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
                 <StackLayout class="word-definition-container">
+                    <Label *ngIf="word.synonyms && word.synonyms.length > 0" 
+                            class="word-definition-label"
+                            text="Definitions">
+                    </Label>
                     <GridLayout columns="30, 5, *"
                                 rows="*"
                                 *ngFor="let def of word.definitions; index as ind">

@@ -69,6 +69,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
                     type: "meme",
                     nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
                     definitions: word.definitions,
+                    synonyms: word.synonyms,
                     archaic: word.archaic,
                     language: word.language,
                     date: word.publishDateUTC,

@@ -15,11 +15,8 @@
             background-color: #f7f7f7;
         }
     
-        .btn-favorite {
+        .btn-favorite-container {
             color: black;
-            border-radius: 100;
-            border-width: 0;
-
             @include meme-gradient(45deg);
         }
     }

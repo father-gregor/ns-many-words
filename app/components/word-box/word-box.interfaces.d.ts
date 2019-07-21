@@ -5,6 +5,7 @@ export interface IWord {
     type: WordType;
     nameAsId?: string;
     definitions: string[];
+    synonyms?: string[];
     date: {text: string, object: Date};
     newest?: boolean;
     publishDateUTC?: string;
