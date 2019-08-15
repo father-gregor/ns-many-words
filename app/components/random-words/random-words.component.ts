@@ -3,12 +3,12 @@ import { Component, ChangeDetectorRef } from "@angular/core";
 /**
  * Interfaces
  */
-import { IWord, IWordQueryOptions, WordType } from "~/components/word-box/word-box.interfaces";
+import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
 
 /**
  * Components
  */
-import { MasterWordsComponentCommon } from "~/components/master-words/master-words.component.common";
+import { MasterWordsComponentCommon } from "../master-words/master-words.component.common";
 
 /**
  * Animations
@@ -18,8 +18,8 @@ import { masterWordsAnimations } from "../master-words/master-words.animations";
 /**
  * Services
  */
-import { LoggerService } from "~/services/logger/logger.service";
-import { WordsService } from "~/services/words/words.service";
+import { LoggerService } from "../../services/logger/logger.service";
+import { WordsService } from "../../services/words/words.service";
 
 @Component({
     selector: "RandomWords",

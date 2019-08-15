@@ -11,8 +11,8 @@ import * as dateformat from "dateformat";
  * Interfaces
  */
 import { TabErrorType } from "../errors/errors.interfaces";
-import { IWord, IWordQueryOptions, WordType } from "~/components/word-box/word-box.interfaces";
-import { ScrollDirection, ITabScrollEvent } from "~/components/master-words/master-words.interfaces";
+import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
+import { ScrollDirection, ITabScrollEvent } from "./master-words.interfaces";
 
 /**
  * Services

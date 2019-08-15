@@ -8,7 +8,7 @@ import {
 /**
  * Components
  */
-import { MasterWordsComponentCommon } from "~/components/master-words/master-words.component.common";
+import { MasterWordsComponentCommon } from "../master-words/master-words.component.common";
 
 /**
  * Animations
@@ -18,13 +18,13 @@ import { masterWordsAnimations } from "../master-words/master-words.animations";
 /**
  * Interfaces
  */
-import { IWord, IWordQueryOptions, WordType } from "~/components/word-box/word-box.interfaces";
+import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
 
 /**
  * Services
  */
-import { WordsService } from "~/services/words/words.service";
-import { LoggerService } from "~/services/logger/logger.service";
+import { WordsService } from "../../services/words/words.service";
+import { LoggerService } from "../../services/logger/logger.service";
 
 @Component({
     selector: "DailyWords",
@@ -98,7 +98,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                         word.newest = true;
                         this.newestWordDate = word.date.object;
                         options.checkForNewestWord = false;
-                        // nsSetString(this.newestWordDateKey, word.date.object); TODO Commented out for development only
+                        nsSetString(this.newestWordDateKey, JSON.stringify(word.date.object));
                     }
                 }
 

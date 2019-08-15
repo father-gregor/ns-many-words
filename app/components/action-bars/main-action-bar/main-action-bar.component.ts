@@ -4,8 +4,8 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { ActionBar } from "tns-core-modules/ui/action-bar/action-bar";
 import * as utils from "tns-core-modules/utils/utils";
 
-import { MainConfigService } from "~/services/main-config/main-config.service";
-import { IWord } from "~/components/word-box/word-box.interfaces";
+import { MainConfigService } from "../../../services/main-config/main-config.service";
+import { IWord } from "../../word-box/word-box.interfaces";
 import { ActionBarItemsType } from "./main-action-bar.interfaces";
 
 @Component({

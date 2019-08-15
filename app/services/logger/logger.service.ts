@@ -10,7 +10,7 @@ import {IAnalyticsLog, CustomErrorType, CustomEventType } from "./logger.interfa
  * Services
  */
 import { GoogleFirebaseService } from "../google-firebase/google-firebase.service";
-import { MainConfigService } from "~/services/main-config/main-config.service";
+import { MainConfigService } from "../main-config/main-config.service";
 
 @Injectable()
 export class LoggerService {

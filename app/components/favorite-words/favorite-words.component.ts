@@ -4,19 +4,19 @@ import { Subscription } from "rxjs";
 /**
  * Interfaces
  */
-import { IFavoriteWord } from "~/services/favorite-words/favorite-words";
-import { WordType } from "~/components/word-box/word-box.interfaces";
+import { IFavoriteWord } from "../../services/favorite-words/favorite-words";
+import { WordType } from "../word-box/word-box.interfaces";
 
 /**
  * Components
  */
-import { MasterWordsComponentCommon } from "~/components/master-words/master-words.component.common";
+import { MasterWordsComponentCommon } from "../master-words/master-words.component.common";
 
 /**
  * Services
  */
-import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
-import { MainConfigService } from "~/services/main-config/main-config.service";
+import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
+import { MainConfigService } from "../../services/main-config/main-config.service";
 import { LoggerService } from "../../services/logger/logger.service";
 
 @Component({

@@ -6,7 +6,7 @@ import {
 
 import * as mainConfig from "../../config/main.config.json";
 import * as statesConfig from "../../config/states.config.json";
-import { IMainConfig } from "~/config/main.config";
+import { IMainConfig } from "../../config/main.config";
 
 @Injectable()
 export class MainConfigService {

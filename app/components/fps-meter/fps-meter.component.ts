@@ -1,14 +1,14 @@
-import { Component, DoCheck, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectorRef } from "@angular/core";
 
 /**
  * Interfaces
  */
-import { IFpsLog } from "~/services/fps-logger/fps-logger.interfaces";
+import { IFpsLog } from "../../services/fps-logger/fps-logger.interfaces";
 
 /**
  * Services
  */
-import { FpsLoggerService } from "~/services/fps-logger/fps-logger.service";
+import { FpsLoggerService } from "../../services/fps-logger/fps-logger.service";
 
 @Component({
     selector: "FpsMeter",

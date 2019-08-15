@@ -1,4 +1,4 @@
-import { AppThemeType } from "~/services/app-theme/app-theme.interfaces";
+import { AppThemeType } from "../services/app-theme/app-theme.interfaces";
 
 export interface IStatesConfig {
     home: any;

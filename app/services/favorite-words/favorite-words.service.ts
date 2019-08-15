@@ -9,13 +9,13 @@ import {
 /**
  * Interfaces
  */
-import { IWord, WordType } from "~/components/word-box/word-box.interfaces";
-import { IFavoriteWords, IFavoriteWord } from "~/services/favorite-words/favorite-words";
+import { IWord, WordType } from "../../components/word-box/word-box.interfaces";
+import { IFavoriteWords, IFavoriteWord } from "../favorite-words/favorite-words";
 
 /**
  * Services
  */
-import { LoggerService } from "~/services/logger/logger.service";
+import { LoggerService } from "../logger/logger.service";
 import { SnackBarNotificationService } from "../snack-bar-notification/snack-bar-notification.service";
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SnackBar, SnackBarOptions } from "nativescript-snackbar";
+import { SnackBar, SnackBarOptions } from "@nstudio/nativescript-snackbar";
 
 @Injectable()
 export class SnackBarNotificationService {

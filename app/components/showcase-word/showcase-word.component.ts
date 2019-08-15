@@ -2,10 +2,10 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from "@
 import { HttpClient } from "@angular/common/http";
 import { isAndroid } from "tns-core-modules/ui/page/page";
 
-import { PageDataStorageService } from "~/services/page-data-storage/page-data-storage.service";
-import { IWord, IWordRouterData, WordType } from "~/components/word-box/word-box.interfaces";
-import { FavoriteWordsService } from "~/services/favorite-words/favorite-words.service";
-import { MainConfigService } from "~/services/main-config/main-config.service";
+import { PageDataStorageService } from "../../services/page-data-storage/page-data-storage.service";
+import { IWord, IWordRouterData, WordType } from "../word-box/word-box.interfaces";
+import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
+import { MainConfigService } from "../../services/main-config/main-config.service";
 
 @Component({
     selector: "ShowcaseWord",

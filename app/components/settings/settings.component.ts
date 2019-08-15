@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { MainConfigService } from "~/services/main-config/main-config.service";
+import { MainConfigService } from "../../services/main-config/main-config.service";
 
 @Component({
     selector: "Settings",

@@ -6,20 +6,20 @@ import { isAndroid } from "tns-core-modules/platform";
 /**
  * Interfaces
  */
-import { IWordTab } from "~/components/home/tab";
-import { ITabScrollEvent } from "~/components/master-words/master-words.interfaces";
+import { IWordTab } from "../home/tab";
+import { ITabScrollEvent } from "../master-words/master-words.interfaces";
 
 /**
  * Components
  */
-import { MainActionBarComponent } from "~/components/action-bars/main-action-bar/main-action-bar.component";
+import { MainActionBarComponent } from "../action-bars/main-action-bar/main-action-bar.component";
 
 /**
  * Services
  */
-import { CurrentTabService } from "~/services/current-tab/current-tab.service";
-import { ConnectionMonitorService } from "~/services/connection-monitor/connection-monitor.service";
-import { MainConfigService } from "~/services/main-config/main-config.service";
+import { CurrentTabService } from "../../services/current-tab/current-tab.service";
+import { ConnectionMonitorService } from "../../services/connection-monitor/connection-monitor.service";
+import { MainConfigService } from "../../services/main-config/main-config.service";
 
 @Component({
     selector: "Home",
@@ -113,7 +113,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public onTabScroll (event: ITabScrollEvent) {
-        if (isAndroid) {
+        /* if (isAndroid) {
             if (this.isTabViewHeaderAnimInProgress) {
                 return;
             }
@@ -136,7 +136,7 @@ export class HomeComponent implements AfterViewInit {
                 this.tabViewHeaderShowAnimation.start();
                 this.cd.detectChanges();
             }
-        }
+        }*/
     }
 
     private setTabIconColor (tabIndex: number, type: "selected" | "unselected") {

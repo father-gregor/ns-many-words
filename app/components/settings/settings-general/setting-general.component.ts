@@ -9,7 +9,7 @@ import { ModalDialogService } from "nativescript-angular/modal-dialog";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { AppThemeType } from "../../../services/app-theme/app-theme.interfaces";
-import { ColumnsOrderingModalComponent } from "~/components/modals/columns-ordering-modal/columns-ordering-modal.component";
+import { ColumnsOrderingModalComponent } from "../../modals/columns-ordering-modal/columns-ordering-modal.component";
 
 export interface IAppTheme {
     label: string;
