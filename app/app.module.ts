@@ -44,6 +44,7 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./components/home/home.component";
 import { DailyWordsComponent } from "./components/daily-words/daily-words.component";
 import { WordBoxComponent } from "./components/word-box/word-box.component";
+import { LatestWordBox } from "./components/latest-word-box/latest-word-box.component";
 import { RandomWordsComponent } from "./components/random-words/random-words.component";
 import { MemeWordsComponent } from "./components/meme-words/meme-words.component";
 import { SettingsComponent } from "./components/settings/settings.component";
@@ -79,6 +80,7 @@ import { SearchWordsModalComponent } from "./components/modals/search-words-moda
         RandomWordsComponent,
         MemeWordsComponent,
         WordBoxComponent,
+        LatestWordBox,
         SettingsComponent,
         FavoriteWordsComponent,
         MainActionBarComponent,

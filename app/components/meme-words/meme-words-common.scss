@@ -15,8 +15,12 @@
             background-color: #f7f7f7;
         }
     
-        .btn-favorite-container {
-            color: black;
+        .wordbox-footer {
+            .wordbox-footer-btn {
+                color: transparent;
+                background-color: transparent;
+            }
+
             @include meme-gradient(45deg);
         }
     }

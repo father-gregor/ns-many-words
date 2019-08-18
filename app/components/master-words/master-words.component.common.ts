@@ -121,6 +121,9 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
 
     public selectItemTemplate (item: IWord | {techItem: TechItemType}, index: number, items: IWord[]) {
         if ((item as IWord).type === "daily") {
+            if ((item as IWord).latest) {
+                return "latestDailyWord";
+            }
             return "dailyWord";
         }
         else if ((item as any).techItem) {
@@ -132,6 +135,10 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     }
 
     public abstract async loadNewWords (options?: IWordQueryOptions);
+
+    public startLatestWordTeaserAnimation (LatestWordBox: any) {
+        return;
+    }
 
     public handleWordsRequest (words$: Observable<object>, processSuccessResultFn) {
         const sub = words$.pipe(

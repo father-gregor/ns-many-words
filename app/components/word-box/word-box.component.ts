@@ -1,7 +1,5 @@
-import { Component, Input, ElementRef, ViewChild, ChangeDetectorRef, HostBinding } from "@angular/core";
-import {trigger, transition, style, animate} from "@angular/animations";
-import { View, isIOS } from "tns-core-modules/ui/core/view";
-import { AnimationCurve } from "tns-core-modules/ui/enums";
+import { Component, Input, ChangeDetectorRef } from "@angular/core";
+import { isIOS } from "tns-core-modules/ui/core/view";
 import { RouterExtensions } from "nativescript-angular/router";
 import * as SocialShare from "nativescript-social-share";
 import * as clipboard from "nativescript-clipboard";
@@ -15,41 +13,16 @@ import { SnackBarNotificationService } from "../../services/snack-bar-notificati
     selector: "WordBox",
     moduleId: module.id,
     styleUrls: ["./word-box-common.scss", "./word-box.scss"],
-    templateUrl: "./word-box.html",
-    animations: [
-        trigger("wordBoxAnimations", [
-            transition(":enter", [
-                style({
-                    transform: "translateY(100%)",
-                    opacity: "0"
-                }),
-                animate(300, style({
-                    transform: "translateY(0%)",
-                    opacity: "1.0"
-                }))
-            ]),
-            transition("* => openNewWord", [
-                style({
-                    transform: "scale(1)",
-                    opacity: "1.0"
-                }),
-                animate(700, style({
-                    transform: "scale(0.5)",
-                    opacity: "0"
-                }))
-            ])
-        ])
-    ]
+    templateUrl: "./word-box.html"
 })
 export class WordBoxComponent {
     public hideBeforeConfirm = false;
-    public animationState: "openNewWord" | never;
     @Input() public word: IWord;
     @Input() public type: WordType;
     @Input() public isFavoritePage = false;
     @Input() public disableFavorite: boolean;
 
-    @ViewChild("wordBox", {static: false}) public wordBoxView: ElementRef;
+    private stopPropagation = false;
 
     constructor (
         public FavoriteWords: FavoriteWordsService,
@@ -74,29 +47,6 @@ export class WordBoxComponent {
         return Boolean(this.FavoriteWords.get(this.word, this.type));
     }
 
-    public openNewestWord () {
-        // this.animationState = "openNewWord";
-        // this.cd.detectChanges();
-        const wordView = this.wordBoxView.nativeElement as View;
-        wordView.animate({
-            scale: { x: 0.5, y: 0.5},
-            opacity: 0,
-            duration: 1000
-        }).then(() => {
-            this.word = {...this.word, newest: false};
-            this.cd.detectChanges();
-            wordView.translateX = -300;
-            wordView.scaleX = 1;
-            wordView.scaleY = 1;
-            wordView.opacity = 1;
-            wordView.animate({
-                translate: { x: 0, y: 0 },
-                duration: 600,
-                curve: AnimationCurve.easeOut
-            });
-        });
-    }
-
     public async copyToClipboard (event, text: string) {
         if (isIOS) {
             if (event.ios.state !== 3) {
@@ -107,7 +57,25 @@ export class WordBoxComponent {
         this.SnackBarService.showMessage("Copied to clipboard");
     }
 
+    public onOpenWordTap () {
+        if (this.stopPropagation) {
+            this.stopPropagation = false;
+            return;
+        }
+
+        this.PageDataStorage.current = {word: this.word, type: this.type};
+        this.routerExtensions.navigate(["/showcase-word"], {
+            transition: {
+                name: "slideLeft",
+                duration: 500,
+                curve: "ease"
+            }
+        });
+    }
+
     public async onFavoriteTap () {
+        this.stopPropagation = true;
+
         if (this.isFavorite()) {
             this.FavoriteWords.remove(this.word, this.type);
             if (!this.isFavoritePage) {
@@ -120,18 +88,9 @@ export class WordBoxComponent {
         }
     }
 
-    public onOpenWordTap () {
-        this.PageDataStorage.current = {word: this.word, type: this.type};
-        this.routerExtensions.navigate(["/showcase-word"], {
-            transition: {
-                name: "slideLeft",
-                duration: 500,
-                curve: "ease"
-            }
-        });
-    }
-
     public onSocialShareTap () {
+        this.stopPropagation = true;
+
         SocialShare.shareText(
             `"${this.word.name}" - ${this.word.definitions[0].toLowerCase()}"`,
             `Would you like to share word "${this.word.name}" with others?`

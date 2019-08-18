@@ -1,38 +1,33 @@
 <GridLayout #wordBox 
             *ngIf="!hideBeforeConfirm"
-            columns="*, 45"
+            columns="*, 100"
             rows="72, *, 40"
             class="word-container"
-            [class.newest_teaser]="word.newest"
-            [class.newest_word]="!word.newest && word.date.text === 'Today'"
-            verticalAlignment="center">
-    <ng-container *ngIf="!word.newest">
-        <Label row="0" col="0" class="word-selftext" [text]="word.name" verticalAlignment="top" (longPress)="copyToClipboard($event, word.name)"></Label>
-        <Image *ngIf="!disableFavorite" 
-                [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
-                class="btn-favorite-container" 
-                row="0"
-                col="1"
+            [class.latest_word]="!word.latest && word.date.text === 'Today'"
+            verticalAlignment="center"
+            (tap)="onOpenWordTap()">
+    <Label row="0" col="0" colspan="2" class="word-selftext" [text]="word.name" verticalAlignment="top" (longPress)="copyToClipboard($event, word.name)"></Label>
+    <StackLayout class="word-definitions" row="1" col="0" colSpan="2" orientation="vertical">
+        <Label *ngFor="let def of word.definitions | slice:0:3 ; index as ind" 
+                class="word-definition" 
+                [text]="(ind + 1) + '. ' + def" 
+                (longPress)="copyToClipboard($event, def)">
+        </Label>
+        <Label *ngIf="word.definitions.length > 3" [text]="(word.definitions.length - 3) + ' more...'" horizontalAlignment="right"></Label>
+    </StackLayout>
+    <StackLayout class="wordbox-footer" row="2" col="1" orientation="horizontal">
+        <Image [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
+                class="wordbox-footer-btn btn-favorite-container"
+                [style.visibility]="disableFavorite ? 'collapse' : 'visible'"
                 horizontalAlignment="center"
                 verticalAlignment="top"
                 (tap)="onFavoriteTap()">
         </Image>
-        <StackLayout class="word-definitions" row="1" col="0" colSpan="2" orientation="vertical">
-            <Label *ngFor="let def of word.definitions | slice:0:3 ; index as ind" 
-                   class="word-definition" 
-                   [text]="(ind + 1) + '. ' + def" 
-                   (longPress)="copyToClipboard($event, def)">
-            </Label>
-            <Label *ngIf="word.definitions.length > 3" [text]="(word.definitions.length - 3) + ' more...'" horizontalAlignment="right"></Label>
-        </StackLayout>
-        <StackLayout class="wordbox-footer" row="2" col="0" colSpan="2" orientation="horizontal">
-            <Button class="btn-outline btn-open-word" text="Open" (tap)="onOpenWordTap()"></Button>
-            <Button class="btn-outline brn-share-word" text="Share" (tap)="onSocialShareTap()"></Button>
-        </StackLayout>
-    </ng-container>
-
-    <ng-container *ngIf="word.newest">
-        <Label class="font-icon question-icon" text="&#xf128;" col="0" colSpan="2" row="0" rowSpan="3" horizontalAlignment="center" verticalAlignment="center"></Label>
-        <Button class="btn-primary text-uppercase btn-newest-word" col="0" colSpan="2" row="0" rowSpan="3" verticalAlignment="center" text="Open Latest Word!" (tap)="openNewestWord()"></Button>
-    </ng-container>
+        <Image [src]="'res://social_share'" 
+                class="wordbox-footer-btn btn-share-container" 
+                horizontalAlignment="center"
+                verticalAlignment="top"
+                (tap)="onSocialShareTap()">
+        </Image>
+    </StackLayout>
 </GridLayout>

@@ -14,9 +14,22 @@
             </GridLayout>
         </ng-template>
 
+        <ng-template nsTemplateKey="latestDailyWord" let-word="item">
+            <StackLayout class="word-box" orientation="vertical">
+                <GridLayout class="word-date-container" [class.today_date]="word.date.text === 'Today'" height="30" columns="*, auto, *" rows="*">
+                    <Label col="0" row="0" text="" class="word-date-line"></Label>   
+                    <Label col="1" row="0" [text]="word.date.text" class="word-date"></Label> 
+                    <Label col="2" row="0" text="" class="word-date-line"></Label>   
+                </GridLayout>
+                <GridLayout height="300" columns="*" rows="*">
+                    <LatestWordBox #latestWordELement col="0" row="0" (onLatestWordOpen)="startLatestWordTeaserAnimation(latestWordELement)"></LatestWordBox>
+                </GridLayout>
+            </StackLayout>
+        </ng-template>
+
         <ng-template nsTemplateKey="dailyWord" let-word="item">
             <StackLayout class="word-box" orientation="vertical">
-                <GridLayout class="word-date-container" [class.todayDate]="word.date.text === 'Today'" height="30" columns="*, auto, *" rows="*">
+                <GridLayout class="word-date-container" height="30" columns="*, auto, *" rows="*">
                     <Label col="0" row="0" text="" class="word-date-line"></Label>   
                     <Label col="1" row="0" [text]="word.date.text" class="word-date"></Label> 
                     <Label col="2" row="0" text="" class="word-date-line"></Label>   

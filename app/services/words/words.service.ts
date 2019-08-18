@@ -11,7 +11,7 @@ export class WordsService {
 
     constructor (private http: HttpClient, private MainConfig: MainConfigService) {
         const init = {
-            daily: this.getDailyWord({count: 5, checkForNewestWord: true, date: new Date().toString()}),
+            daily: this.getDailyWord({count: 5, checkForLatestWord: true, date: new Date().toString()}),
             random: this.getRandomWord({count: 10}),
             meme: this.getMemeWord({count: 10})
         };

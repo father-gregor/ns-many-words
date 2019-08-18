@@ -46,9 +46,6 @@ export class AppComponent implements AfterViewInit  {
                 const navigationBar = frame.ios.controller.navigationBar;
                 navigationBar.barStyle = UIBarStyle.Black;
             }
-            else {
-                console.log("FRAME STILL NOT LOADED");
-            }
         }
     }
 }

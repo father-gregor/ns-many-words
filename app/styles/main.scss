@@ -43,3 +43,7 @@ Page {
 ActivityIndicator {
     color: rgb(77, 76, 76);
 }
+
+.hidden {
+    visibility: collapse;
+}

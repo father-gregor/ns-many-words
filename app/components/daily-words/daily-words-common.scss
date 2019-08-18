@@ -5,21 +5,6 @@
     .dark-theme {
         .master-words-container.daily .word-container {
             border-color: #000000;
-    
-            &.newest_teaser {
-                background-color: #ac9203;
-                border-width: 4;
-                border-color: #d3b301;
-    
-                .btn-newest-word {
-                    color: #000000;
-                    background-color: rgba(233, 200, 16, 0.822);
-                }
-            }
-    
-            &.newest_word {
-                background-color: rgba(201, 174, 20, 0.815);
-            }
         }
     }
 }
@@ -40,7 +25,7 @@
         font-weight: bold;
     }
     
-    .todayDate {
+    .today_date {
         .word-date {
             color: rgba(121, 104, 7, 0.815);
         }

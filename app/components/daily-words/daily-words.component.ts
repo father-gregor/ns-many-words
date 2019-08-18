@@ -1,9 +1,10 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectorRef, ElementRef } from "@angular/core";
 import {
     getString as nsGetString,
     setString as nsSetString,
     hasKey as nsHasKey
 } from "tns-core-modules/application-settings/application-settings";
+import { ProxyViewContainer } from "tns-core-modules/ui/proxy-view-container";
 
 /**
  * Components
@@ -25,6 +26,8 @@ import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfa
  */
 import { WordsService } from "../../services/words/words.service";
 import { LoggerService } from "../../services/logger/logger.service";
+import { LatestWordBox } from "../latest-word-box/latest-word-box.component";
+import { View } from "tns-core-modules/ui/core/view";
 
 @Component({
     selector: "DailyWords",
@@ -39,8 +42,8 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
     public noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
     public earliestWordDate: Date;
-    private newestWordDate: Date;
-    private newestWordDateKey = "newestDate";
+    private latestWordDate: Date;
+    private latestWordDateKey = "latestDate";
 
     constructor (
         private Words: WordsService,
@@ -54,10 +57,25 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
     public ngOnInit () {
         super.ngOnInit();
         this.earliestWordDate = new Date();
-        if (nsHasKey(this.newestWordDateKey)) {
-            this.newestWordDate = JSON.parse(nsGetString(this.newestWordDateKey));
+        if (nsHasKey(this.latestWordDateKey)) {
+            this.latestWordDate = new Date(JSON.parse(nsGetString(this.latestWordDateKey)));
         }
-        this.loadNewWords({count: 5, checkForNewestWord: true});
+        this.loadNewWords({ count: 5, checkForLatestWord: true });
+    }
+
+    public startLatestWordTeaserAnimation (latestWordBox: LatestWordBox) {
+        const latestWordIndex = this.allListItems.findIndex((i) => (i as IWord).latest);
+        if (latestWordIndex >= 0) {
+            const wordView = latestWordBox.element.nativeElement as View;
+            wordView.animate({
+                scale: {x: 0.5, y: 0.5},
+                opacity: 0,
+                duration: 1000
+            }).then(() => {
+                this.allListItems[latestWordIndex] = {...this.allListItems[latestWordIndex], latest: false};
+                this.cd.detectChanges();
+            });
+        }
     }
 
     // @Override
@@ -79,34 +97,42 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 this.isNoWords = false;
             }
 
-            const resultWords = [];
-            for (let word of res) {
-                word = {
-                    name: word.name,
-                    type: "daily",
-                    nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
-                    definitions: word.definitions,
-                    synonyms: word.synonyms,
-                    archaic: word.archaic,
-                    language: word.language,
-                    publishDateUTC: word.publishDateUTC,
-                    partOfSpeech: word.partOfSpeech
-                } as IWord;
-                word.date = this.getWordDate(word);
-                if (options.checkForNewestWord) {
-                    if (!this.newestWordDate || this.newestWordDate.getTime() < word.date.object.getTime()) {
-                        word.newest = true;
-                        this.newestWordDate = word.date.object;
-                        options.checkForNewestWord = false;
-                        nsSetString(this.newestWordDateKey, JSON.stringify(word.date.object));
+            if (res && res.length > 0) {
+                const resultWords = [];
+                for (const word of res) {
+                    const newWord = {
+                        name: word.name,
+                        type: "daily",
+                        nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
+                        definitions: word.definitions,
+                        synonyms: word.synonyms,
+                        archaic: word.archaic,
+                        language: word.language,
+                        publishDateUTC: word.publishDateUTC,
+                        partOfSpeech: word.partOfSpeech
+                    } as IWord;
+                    newWord.date = this.getWordDate(word);
+                    if (options.checkForLatestWord) {
+                        if (!this.latestWordDate || this.latestWordDate.getTime() < newWord.date.object.getTime()) {
+                            newWord.latest = true;
+                            this.latestWordDate = newWord.date.object;
+                            options.checkForLatestWord = false;
+                            nsSetString(this.latestWordDateKey, JSON.stringify(this.latestWordDate));
+                        }
                     }
+
+                    resultWords.push(newWord);
                 }
 
-                resultWords.push(word);
-            }
+                // TODO: Remove later
+                if (options.checkForLatestWord) {
+                    resultWords[0] = {...resultWords[0], latest: true};
+                    console.log("LATEST HERE", resultWords[0]);
+                }
 
-            this.allListItems = [...this.allListItems, ...resultWords];
-            this.earliestWordDate.setDate(this.earliestWordDate.getDate() - query.count);
+                this.earliestWordDate = new Date(resultWords[resultWords.length - 1].publishDateUTC);
+                this.allListItems = [...this.allListItems, ...resultWords];
+            }
         });
     }
 }

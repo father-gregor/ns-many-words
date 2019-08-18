@@ -7,7 +7,7 @@ export interface IWord {
     definitions: string[];
     synonyms?: string[];
     date: {text: string, object: Date};
-    newest?: boolean;
+    latest?: boolean;
     publishDateUTC?: string;
     language?: string;
     archaic?: boolean;
@@ -22,5 +22,5 @@ export interface IWordRouterData {
 
 export interface IWordQueryOptions {
     count?: number;
-    checkForNewestWord?: boolean;
+    checkForLatestWord?: boolean;
 }
