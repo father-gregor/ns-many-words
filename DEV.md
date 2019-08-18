@@ -2,4 +2,4 @@
 
 ## Start TSLint
 
-tslint -c tslint.json 'src/**/*.ts'
+tslint -c tslint.json 'app/**/*.ts'
