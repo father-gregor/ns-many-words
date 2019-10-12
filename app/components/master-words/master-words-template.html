@@ -1,4 +1,4 @@
-<GridLayout rows="*" columns="*" class="master-words-container" [class.daily]="wordsType === 'daily'" [class.random]="wordsType === 'random'" [class.meme]="wordsType === 'meme'" orientation="vertical">
+<GridLayout rows="*" columns="*" class="master-words-container {{wordsType}}" orientation="vertical">
     <ListView #listView
               *ngIf="!firstLoading && allListItems.length !== 0" 
               class="words-list"
@@ -9,42 +9,28 @@
               [itemTemplateSelector]="selectItemTemplate"
               (loadMoreItems)="loadNewWords({count: 5})">
         <ng-template nsTemplateKey="header">
-            <GridLayout columns="*" rows="30">
+            <GridLayout columns="*" rows="10">
                 <Label col="0" row="0" text=""></Label>   
             </GridLayout>
         </ng-template>
 
         <ng-template nsTemplateKey="latestDailyWord" let-word="item">
             <StackLayout class="word-box" orientation="vertical">
-                <GridLayout class="word-date-container" [class.today_date]="word.date.text === 'Today'" height="30" columns="*, auto, *" rows="*">
-                    <Label col="0" row="0" text="" class="word-date-line"></Label>   
-                    <Label col="1" row="0" [text]="word.date.text" class="word-date"></Label> 
-                    <Label col="2" row="0" text="" class="word-date-line"></Label>   
-                </GridLayout>
-                <GridLayout height="300" columns="*" rows="*">
-                    <LatestWordBox #latestWordELement col="0" row="0" (onLatestWordOpen)="startLatestWordTeaserAnimation(latestWordELement)"></LatestWordBox>
-                </GridLayout>
+                <WordDateTime [dateText]="word.date.text" [isToday]="true"></WordDateTime>
+                <LatestWordBox #latestWordELement (onLatestWordOpen)="startLatestWordTeaserAnimation(latestWordELement)"></LatestWordBox>
             </StackLayout>
         </ng-template>
 
         <ng-template nsTemplateKey="dailyWord" let-word="item">
             <StackLayout class="word-box" orientation="vertical">
-                <GridLayout class="word-date-container" height="30" columns="*, auto, *" rows="*">
-                    <Label col="0" row="0" text="" class="word-date-line"></Label>   
-                    <Label col="1" row="0" [text]="word.date.text" class="word-date"></Label> 
-                    <Label col="2" row="0" text="" class="word-date-line"></Label>   
-                </GridLayout>
-                <GridLayout height="300" columns="*" rows="*">
-                    <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
-                </GridLayout>
+                <WordDateTime [dateText]="word.date.text"></WordDateTime>
+                <WordBox [word]="word" [type]="wordsType"></WordBox>
             </StackLayout>
         </ng-template>
 
         <ng-template nsTemplateKey="defaultWord" let-word="item" let-ind="index">
             <StackLayout class="word-box" orientation="vertical">
-                <GridLayout height="300" columns="*" rows="*">
-                    <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
-                </GridLayout>
+                <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
             </StackLayout>
         </ng-template>
 

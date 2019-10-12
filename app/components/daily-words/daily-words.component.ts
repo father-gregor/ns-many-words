@@ -127,7 +127,6 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 // TODO: Remove later
                 if (options.checkForLatestWord) {
                     resultWords[0] = {...resultWords[0], latest: true};
-                    console.log("LATEST HERE", resultWords[0]);
                 }
 
                 this.earliestWordDate = new Date(resultWords[resultWords.length - 1].publishDateUTC);

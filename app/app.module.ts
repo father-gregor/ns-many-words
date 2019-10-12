@@ -3,6 +3,9 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
+import { NativeScriptMaterialCardViewModule } from "nativescript-material-cardview/angular";
+import { NativeScriptMaterialRippleModule } from "nativescript-material-ripple/angular";
+import { NativeScriptMaterialBottomSheetModule } from "nativescript-material-bottomsheet/angular";
 
 /**
  * Modules
@@ -62,6 +65,7 @@ import { ColumnsOrderingModalComponent } from "./components/modals/columns-order
 import { ModalContainerComponent } from "./components/modals/modal-container/modal-container.component";
 import { SearchWordsComponent } from "./components/search-words/search-words.component";
 import { SearchWordsModalComponent } from "./components/modals/search-words-modal/search-words-modal.component";
+import { WordDateTimeComponent } from "./components/word-date-time/word-date-time.component";
 
 @NgModule({
     bootstrap: [
@@ -71,7 +75,10 @@ import { SearchWordsModalComponent } from "./components/modals/search-words-moda
         NativeScriptModule,
         AppRoutingModule,
         NativeScriptHttpClientModule,
-        NativeScriptAnimationsModule
+        NativeScriptAnimationsModule,
+        NativeScriptMaterialCardViewModule,
+        NativeScriptMaterialRippleModule,
+        NativeScriptMaterialBottomSheetModule.forRoot()
     ],
     declarations: [
         AppComponent,
@@ -99,7 +106,8 @@ import { SearchWordsModalComponent } from "./components/modals/search-words-moda
         DraggableItemAnchorDirective,
         ModalContainerComponent,
         SearchWordsComponent,
-        SearchWordsModalComponent
+        SearchWordsModalComponent,
+        WordDateTimeComponent
     ],
     providers: [
         WordsService,

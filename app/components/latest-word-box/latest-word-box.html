@@ -1,18 +1,24 @@
-<GridLayout #wordBox
-            columns="*"
-            rows="*"
-            class="word-container latest_word_teaser"
-            verticalAlignment="center">
-       <Label class="font-icon question-icon"
-              text="&#xf128;"
-              col="0"
-              row="0"
-              horizontalAlignment="center"
-              verticalAlignment="center"></Label>
-       <Button class="btn-primary text-uppercase btn-latest-word"
-               col="0"
-               row="0"
-               verticalAlignment="center"
-               text="Open Latest Word!"
-               (tap)="openLatestWord()"></Button>
-</GridLayout>
+<MDCardView #wordBox
+            class="material-card-wrapper"
+            elevation="5"
+            rippleColor="gold"
+            height="100%"
+            (tap)="openLatestWord()">
+       <GridLayout columns="*"
+                   rows="*"
+                   class="word-container latest_word_teaser"
+                   verticalAlignment="center">
+              <Label class="font-icon question-icon"
+                     text="&#xf128;"
+                     col="0"
+                     row="0"
+                     horizontalAlignment="center"
+                     verticalAlignment="center"></Label>
+              <Button class="btn-primary text-uppercase btn-latest-word"
+                      col="0"
+                      row="0"
+                      verticalAlignment="center"
+                      text="Open Latest Word!"
+                      (tap)="openLatestWord()"></Button>
+       </GridLayout>
+</MDCardView>

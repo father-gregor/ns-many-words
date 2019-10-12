@@ -20,6 +20,8 @@ import { masterWordsAnimations } from "../master-words/master-words.animations";
  */
 import { LoggerService } from "../../services/logger/logger.service";
 import { WordsService } from "../../services/words/words.service";
+import { CurrentTabService } from "../../services/current-tab/current-tab.service";
+import { IWordTab } from "../home/tab";
 
 @Component({
     selector: "RandomWords",
@@ -34,10 +36,13 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";
     public noWordsMsg = "Word didn't loaded. Press button to try again";
 
+    private isFirstVisit = true;
+
     constructor (
         private Words: WordsService,
         protected Logger: LoggerService,
-        protected cd: ChangeDetectorRef
+        protected cd: ChangeDetectorRef,
+        private CurrentTab: CurrentTabService
     ) {
         super(Logger, cd);
     }
@@ -45,6 +50,21 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
    public ngOnInit () {
        super.ngOnInit();
        this.loadNewWords({count: 10});
+
+       this.subscriptions.add(
+            this.CurrentTab.tabChanged$.subscribe((currentTab: IWordTab) => {
+                if (currentTab && currentTab.id === "random") {
+                    if (this.isFirstVisit) {
+                        this.isFirstVisit = false;
+                    }
+                    else if (!this.isFirstVisit) {
+                        this.allListItems = [];
+                        this.firstLoading = true;
+                        this.loadNewWords({count: 10});
+                    }
+                }
+            })
+       );
     }
 
     // @Override

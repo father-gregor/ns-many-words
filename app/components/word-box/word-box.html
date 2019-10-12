@@ -1,33 +1,53 @@
-<GridLayout #wordBox 
-            *ngIf="!hideBeforeConfirm"
-            columns="*, 100"
-            rows="72, *, 40"
-            class="word-container"
-            [class.latest_word]="!word.latest && word.date.text === 'Today'"
-            verticalAlignment="center"
+<MDCardView *ngIf="!hideBeforeConfirm"
+            class="material-card-wrapper"
+            elevation="5"
+            height="100%"
             (tap)="onOpenWordTap()">
-    <Label row="0" col="0" colspan="2" class="word-selftext" [text]="word.name" verticalAlignment="top" (longPress)="copyToClipboard($event, word.name)"></Label>
-    <StackLayout class="word-definitions" row="1" col="0" colSpan="2" orientation="vertical">
-        <Label *ngFor="let def of word.definitions | slice:0:3 ; index as ind" 
-                class="word-definition" 
-                [text]="(ind + 1) + '. ' + def" 
-                (longPress)="copyToClipboard($event, def)">
-        </Label>
-        <Label *ngIf="word.definitions.length > 3" [text]="(word.definitions.length - 3) + ' more...'" horizontalAlignment="right"></Label>
-    </StackLayout>
-    <StackLayout class="wordbox-footer" row="2" col="1" orientation="horizontal">
-        <Image [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'" 
-                class="wordbox-footer-btn btn-favorite-container"
-                [style.visibility]="disableFavorite ? 'collapse' : 'visible'"
-                horizontalAlignment="center"
-                verticalAlignment="top"
-                (tap)="onFavoriteTap()">
-        </Image>
-        <Image [src]="'res://social_share'" 
-                class="wordbox-footer-btn btn-share-container" 
-                horizontalAlignment="center"
-                verticalAlignment="top"
-                (tap)="onSocialShareTap()">
-        </Image>
-    </StackLayout>
-</GridLayout>
+       <GridLayout #wordBox
+                   columns="*, auto"
+                   rows="70, *, 50"
+                   class="word-container {{dynamicStyleClass}}"
+                   verticalAlignment="center">
+              <StackLayout class="word-selftext"
+                           row="0"
+                           col="0"
+                           colspan="2"
+                           verticalAlignment="center">
+                     <Label height="100%" [text]="word.name"></Label>
+              </StackLayout>
+              <StackLayout class="word-definitions"
+                           row="1"
+                           col="0"
+                           colSpan="2"
+                           orientation="vertical">
+                     <Label *ngFor="let def of word.definitions | slice:0:3 ; index as ind"
+                            class="word-definition"
+                            [text]="(ind + 1) + '. ' + def">
+                     </Label>
+                     <Label *ngIf="word.definitions.length > 3"
+                            [text]="(word.definitions.length - 3) + ' more...'"
+                            horizontalAlignment="right">
+                     </Label>
+              </StackLayout>
+              <StackLayout class="wordbox-footer"
+                           row="2"
+                           col="1"
+                           orientation="horizontal">
+                     <MDRipple (tap)="onFavoriteTap()">
+                            <Image [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'"
+                                   class="wordbox-footer-btn btn-favorite-container"
+                                   [style.visibility]="disableFavorite ? 'collapse' : 'visible'"
+                                   horizontalAlignment="center"
+                                   verticalAlignment="top">
+                            </Image>
+                     </MDRipple>
+                     <MDRipple (tap)="onSocialShareTap()">
+                            <Image [src]="'res://social_share'"
+                                   class="wordbox-footer-btn btn-share-container"
+                                   horizontalAlignment="center"
+                                   verticalAlignment="top">
+                            </Image>
+                     </MDRipple>
+              </StackLayout>
+       </GridLayout>
+</MDCardView>

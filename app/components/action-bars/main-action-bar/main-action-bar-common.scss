@@ -1,5 +1,10 @@
 ActionBar {
     transition: margin-top 5s linear;
+    color: white;
+
+    .general-action-bar-label {
+        color: white;
+    }
 
     .close-icon {
         color: #ffffff;

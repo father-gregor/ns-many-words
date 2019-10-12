@@ -5,10 +5,7 @@
     .dark-theme {
         .word-container {
             color: rgb(0, 0, 0);
-            border-color: transparent;
             background-color: #ffffffff;
-            border-width: 2;
-            border-radius: 5;
 
             .wordbox-footer {
                 background: #000000;
@@ -27,14 +24,13 @@
     }
 }
 
+.material-card-wrapper {
+    margin: 10 15;
+}
+
 .word-container {
-    height: 300;
-    margin-top: 20;
-    margin-bottom: 20;
-    padding-top: 20;
-    padding-bottom: 20; 
-    padding-right: 20;
-    padding-left: 20;
+    height: $word-box-height;
+    padding: 15 20;
 
     .word-selftext,
     .word-definitions {
@@ -46,13 +42,17 @@
         font-weight: normal;
         font-size: 35;
         color: rgb(0, 0, 0);
-        margin-bottom: 20;
+        padding: 0; // Will remove StackLayout's own paddings
     }
     
     .word-definitions {
-        padding-bottom: 5;
+        padding: 0;
         font-size: 20;
         font-weight: normal;
+
+        Label {
+            padding: 0;
+        }
     
         .word-definition {
             font-style: italic;
@@ -61,6 +61,7 @@
     }
     
     .wordbox-footer {
-        padding-left: 7;
+        padding-left: 10;
+        padding-right: 15;
     }
 }

@@ -3,9 +3,4 @@ import { platformNativeScript } from "nativescript-angular/platform-static";
 
 import { AppModuleNgFactory } from "./app.module.ngfactory";
 
-import { registerElement } from "nativescript-angular/element-registry";
-import { Ripple } from "nativescript-material-ripple";
-
-registerElement("MDRipple", () => Ripple);
-
 platformNativeScript().bootstrapModuleFactory(AppModuleNgFactory);

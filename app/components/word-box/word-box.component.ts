@@ -1,8 +1,6 @@
 import { Component, Input, ChangeDetectorRef } from "@angular/core";
-import { isIOS } from "tns-core-modules/ui/core/view";
 import { RouterExtensions } from "nativescript-angular/router";
 import * as SocialShare from "nativescript-social-share";
-import * as clipboard from "nativescript-clipboard";
 
 import { IWord, WordType, IWordRouterData } from "./word-box.interfaces";
 import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
@@ -17,6 +15,7 @@ import { SnackBarNotificationService } from "../../services/snack-bar-notificati
 })
 export class WordBoxComponent {
     public hideBeforeConfirm = false;
+    public dynamicStyleClass = "";
     @Input() public word: IWord;
     @Input() public type: WordType;
     @Input() public isFavoritePage = false;
@@ -41,20 +40,12 @@ export class WordBoxComponent {
                 date: {text: "", object: new Date()}
             };
         }
+
+        this.dynamicStyleClass = !this.word.latest && this.word.date.text === "Today" ? "latest_word" : "";
     }
 
     public isFavorite () {
         return Boolean(this.FavoriteWords.get(this.word, this.type));
-    }
-
-    public async copyToClipboard (event, text: string) {
-        if (isIOS) {
-            if (event.ios.state !== 3) {
-                return;
-            }
-        }
-        await clipboard.setText(text);
-        this.SnackBarService.showMessage("Copied to clipboard");
     }
 
     public onOpenWordTap () {

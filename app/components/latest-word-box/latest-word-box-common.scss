@@ -1,10 +1,10 @@
+@import "../../styles/variables.scss";
+
 ::ng-deep {
     .grey-theme,
     .dark-theme {
         .word-container.latest_word_teaser {
             background-color: #ac9203;
-            border-width: 4;
-            border-color: #d3b301;
 
             .btn-latest-word {
                 color: #000000;
@@ -14,7 +14,13 @@
     }
 }
 
+.material-card-wrapper {
+    margin: 10 15;
+}
+
 .word-container {
+    height: $word-box-height;
+
     &.latest_word_teaser {
         .question-icon {
             margin-top: -10;

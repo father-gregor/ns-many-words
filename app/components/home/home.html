@@ -9,12 +9,9 @@
         <StackLayout *tabItem="{title: wordsTab[column].title, iconSource: wordsTab[column].icon}">
             <ng-container *ngIf="!noConnectionError"
                           [ngSwitch]="column">
-                <DailyWords *ngSwitchCase="'daily'"
-                            (onTabScroll)="onTabScroll($event)"></DailyWords>
-                <RandomWords *ngSwitchCase="'random'"
-                             (onTabScroll)="onTabScroll($event)"></RandomWords>
-                <MemeWords *ngSwitchCase="'meme'"
-                           (onTabScroll)="onTabScroll($event)"></MemeWords>
+                <DailyWords *ngSwitchCase="'daily'"></DailyWords>
+                <RandomWords *ngSwitchCase="'random'" [currentSelectedTab]=""></RandomWords>
+                <MemeWords *ngSwitchCase="'meme'"></MemeWords>
             </ng-container>
 
             <NoConnection *ngIf="noConnectionError"></NoConnection>

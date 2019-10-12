@@ -3,9 +3,5 @@ import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
 import { AppModule } from "./app.module";
 
-import { registerElement } from "nativescript-angular/element-registry";
-import { Ripple } from "nativescript-material-ripple";
-
-registerElement("MDRipple", () => Ripple);
 // enableProdMode();
 platformNativeScriptDynamic().bootstrapModule(AppModule);
