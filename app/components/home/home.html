@@ -1,5 +1,8 @@
 <MainActionBar #mainActionBar
-               [routeName]="MainConfig.config.states.home.url"></MainActionBar>
+               [routeName]="MainConfig.config.states.home.url">
+</MainActionBar>
+<NoConnection></NoConnection>
+
 <TabView #wordsTabView
          class="main-tab-view"
          androidTabsPosition="bottom"
@@ -7,14 +10,12 @@
          (selectedIndexChanged)="onSelectedTabChanged($event)">
     <ng-container *ngFor="let column of MainConfig.config.columnsOrder">
         <StackLayout *tabItem="{title: wordsTab[column].title, iconSource: wordsTab[column].icon}">
-            <ng-container *ngIf="!noConnectionError"
-                          [ngSwitch]="column">
+            <ng-container [ngSwitch]="column">
                 <DailyWords *ngSwitchCase="'daily'"></DailyWords>
-                <RandomWords *ngSwitchCase="'random'" [currentSelectedTab]=""></RandomWords>
+                <RandomWords *ngSwitchCase="'random'"
+                             [currentSelectedTab]=""></RandomWords>
                 <MemeWords *ngSwitchCase="'meme'"></MemeWords>
             </ng-container>
-
-            <NoConnection *ngIf="noConnectionError"></NoConnection>
         </StackLayout>
     </ng-container>
 </TabView>

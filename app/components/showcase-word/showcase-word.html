@@ -13,7 +13,6 @@
                 <TextView class="word-name"
                           [text]="word.name"
                           [editable]="false"
-                          backgroundColor="transparent"
                           (loaded)="makeSelectable($event)">
                 </TextView>
                 <Label text=""
@@ -47,13 +46,13 @@
                         <Label col="0"
                                row="0"
                                horizontalAlignment="left"
-                               [text]="(ind + 1) + '.'"></Label>
+                               [text]="(ind + 1) + '.'">
+                        </Label>
                         <TextView col="2"
                                   row="0"
                                   class="word-definition"
                                   [editable]="false"
                                   [text]="def"
-                                  backgroundColor="transparent"
                                   (loaded)="makeSelectable($event)">
                         </TextView>
                     </GridLayout>

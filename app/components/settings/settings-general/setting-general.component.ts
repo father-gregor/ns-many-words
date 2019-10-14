@@ -25,8 +25,8 @@ export class SettingsGeneralComponent  {
     public selectedTheme: IAppTheme;
     public availableThemes: IAppTheme[] = [
         {
-            label: "Grey",
-            value: "grey"
+            label: "Light",
+            value: "light"
         },
         {
             label: "Dark",
@@ -57,7 +57,7 @@ export class SettingsGeneralComponent  {
     ) {
         let theme = nsGetString(this.appThemeKey) as AppThemeType;
         if (!theme) {
-            theme = "grey";
+            theme = "light";
             nsSetString(this.appThemeKey, theme);
         }
         this.selectedTheme = this.availableThemes.find((t) => t.value === theme);

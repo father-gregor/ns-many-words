@@ -33,25 +33,25 @@
                     ios.position="right"
                     android.position="actionBarIfRoom"
                     (tap)="goHome()">
-            <StackLayout orientation="vertical">
-                <Label class="font-icon close-icon"
-                       text="&#xf00d;"
-                       horizontalAlignment="center"
-                       verticalAlignment="center">
-                </Label>
+            <StackLayout class=close-icon>
+                <ActionBarIconItem iconSrc="font://&#xf00d;" [isFontIcon]="true"></ActionBarIconItem>
             </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'searchWords'"
                     (tap)="openSearchBar()"
-                    icon="res://search"
                     ios.position="right"
                     android.position="actionBarIfRoom">
+            <StackLayout>
+                <ActionBarIconItem iconSrc="res://search"></ActionBarIconItem>
+            </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"
                     (tap)="openFavoritesArchive()"
-                    icon="res://favorites_archive"
                     ios.position="right"
                     android.position="actionBarIfRoom">
+            <StackLayout>
+                <ActionBarIconItem iconSrc="res://favorites_archive"></ActionBarIconItem>
+            </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'settings'"
                     (tap)="openSettings()"

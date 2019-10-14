@@ -1,0 +1,19 @@
+.icon-item-container {
+    MDRipple {
+        padding: 5;
+    }
+
+    &.font-item MDRipple {
+        padding: 10;
+    }
+
+    .icon-item {
+        width: 30;
+        height: 30;
+    
+        &.font-icon {
+            width: 20;
+            height: 20;
+        }
+    }
+}

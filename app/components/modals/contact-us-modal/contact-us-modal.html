@@ -1,0 +1,27 @@
+<StackLayout>
+    <Label class="h2"
+           margin="15"
+           text="Contact via">
+    </Label>
+    <ListView height="200"
+              [items]="availableContactOptions"
+              (itemTap)="onContactTap($event)">
+        <ng-template let-contact="item">
+            <GridLayout columns="50, *"
+                        rows="*">
+                <Image [src]="MainConfig.config.states.settingsGeneral.iconSrc"
+                       class="icon-item"
+                       col="0"
+                       row="0"
+                       width="50"
+                       height="50"
+                       [stretch]="'aspectFit'">
+                </Image>
+                <Label [text]="contact.title"
+                       col="1"
+                       row="0">
+                </Label>
+            </GridLayout>
+        </ng-template>
+    </ListView>
+</StackLayout>

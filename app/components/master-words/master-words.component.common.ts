@@ -57,12 +57,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         );
     }
 
-    public ngOnDestroy () {
-        if (this.subscriptions) {
-            this.subscriptions.unsubscribe();
-        }
-    }
-
     public ngAfterViewInit () {
         if (isAndroid) {
             const intervalId = setInterval(() => {
@@ -87,6 +81,16 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 }
             }, 100);
         }
+    }
+
+    public ngOnDestroy () {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
+    }
+
+    public preventItemHighlight () {
+        return; // Consume tap and prevent highlighting of "tech" items
     }
 
     public onAndroidListViewTopScroll () {

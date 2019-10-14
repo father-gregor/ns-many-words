@@ -1,16 +1,18 @@
 .no-connection-container {
-    margin: 10 10 0 10;
+    z-index: 1000;
+    transform: translateY(-50);
 
-    .no-connection-icon {
-        margin-top: 10;
-        font-size: 60;
-    }
-    
-    .ban-icon {
-        font-size: 85;
-    }
-    
-    .offline-text {
-        font-size: 25;
+    GridLayout {
+        .error {
+            background-color: red;
+        }
+
+        .working {
+            background-color: green;
+        }
+
+        .offline-text {
+            color: #ffffff;
+        }
     }
 }

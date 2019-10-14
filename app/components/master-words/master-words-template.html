@@ -9,7 +9,7 @@
               [itemTemplateSelector]="selectItemTemplate"
               (loadMoreItems)="loadNewWords({count: 5})">
         <ng-template nsTemplateKey="header">
-            <GridLayout columns="*" rows="10">
+            <GridLayout columns="*" rows="10" (tap)="preventItemHighlight()">
                 <Label col="0" row="0" text=""></Label>   
             </GridLayout>
         </ng-template>
@@ -41,7 +41,7 @@
         </ng-template>
 
         <ng-template nsTemplateKey="loading">
-            <StackLayout orientation="vertical">
+            <StackLayout orientation="vertical" (tap)="preventItemHighlight()">
                 <ActivityIndicator class="loading-words-spinner"
                                     [busy]="true"
                                     height="60"

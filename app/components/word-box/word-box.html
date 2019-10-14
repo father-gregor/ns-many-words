@@ -33,17 +33,17 @@
                            row="2"
                            col="1"
                            orientation="horizontal">
-                     <MDRipple (tap)="onFavoriteTap()">
+                     <MDRipple class="wordbox-footer-btn" rippleColor="white" (tap)="onFavoriteTap()">
                             <Image [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'"
-                                   class="wordbox-footer-btn btn-favorite-container"
+                                   class="btn-favorite-container"
                                    [style.visibility]="disableFavorite ? 'collapse' : 'visible'"
                                    horizontalAlignment="center"
                                    verticalAlignment="top">
                             </Image>
                      </MDRipple>
-                     <MDRipple (tap)="onSocialShareTap()">
+                     <MDRipple class="wordbox-footer-btn" rippleColor="white" (tap)="onSocialShareTap()">
                             <Image [src]="'res://social_share'"
-                                   class="wordbox-footer-btn btn-share-container"
+                                   class="btn-share-container"
                                    horizontalAlignment="center"
                                    verticalAlignment="top">
                             </Image>

@@ -63,5 +63,9 @@
     .wordbox-footer {
         padding-left: 10;
         padding-right: 15;
+
+        .wordbox-footer-btn {
+            border-radius: 50;
+        }
     }
 }

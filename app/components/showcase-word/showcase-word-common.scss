@@ -5,9 +5,16 @@
     font-family: $typography-font;
     color: #000000;
 
+    TextView {
+        padding: 0;
+        border-width: 0;
+    }
+
     .word-name {
-        margin-top: 20;
+        margin-top: 30;
         font-size: 40;
+        height: 50;
+        background-color: transparent;
     }
     
     .word-name-separator {
@@ -40,9 +47,13 @@
     }
     
     .word-definition-container {
-        font-size: 20;
         margin-top: 15;
         margin-bottom: 80;
+
+        TextView,
+        Label {
+            font-size: 20;
+        }
 
         .word-definition-label {
             font-size: 25;
@@ -50,7 +61,9 @@
         }
 
         .word-definition {
-            margin-top: -10;
+            margin-top: 2;
+            min-height: 30;
+            background-color: transparent;
         }
     
         GridLayout {

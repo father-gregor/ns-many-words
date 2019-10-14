@@ -1,0 +1,14 @@
+<StackLayout class="icon-item-container"
+             orientation="vertical"
+             [ngClass]="{'font-item': isFontIcon}"
+             marginLeft="5"
+             marginRight="5">
+    <MDRipple borderRadius="50"
+              rippleColor="white">
+        <Image [src]="iconSrc"
+               class="icon-item"
+               [ngClass]="{'font-icon': isFontIcon}"
+               [stretch]="'aspectFit'">
+        </Image>
+    </MDRipple>
+</StackLayout>

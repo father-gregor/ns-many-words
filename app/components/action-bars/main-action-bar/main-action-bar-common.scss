@@ -1,15 +1,16 @@
 ActionBar {
     transition: margin-top 5s linear;
     color: white;
+    padding: 0;
 
     .general-action-bar-label {
         color: white;
     }
 
-    .close-icon {
-        color: #ffffff;
-        font-size: 25;
-        margin-left: 15;
-        margin-right: 15;
+    ::ng-deep {
+        .close-icon .icon-item-container {
+            margin-top: 5;
+            margin-right: 15;
+        }
     }
 }

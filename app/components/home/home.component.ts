@@ -1,6 +1,5 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, AfterViewInit } from "@angular/core";
 import { SelectedIndexChangedEventData, TabView } from "tns-core-modules/ui/tab-view";
-import { connectionType } from "tns-core-modules/connectivity/connectivity";
 import { isAndroid } from "tns-core-modules/platform";
 
 /**
@@ -18,7 +17,6 @@ import { MainActionBarComponent } from "../action-bars/main-action-bar/main-acti
  * Services
  */
 import { CurrentTabService } from "../../services/current-tab/current-tab.service";
-import { ConnectionMonitorService } from "../../services/connection-monitor/connection-monitor.service";
 import { MainConfigService } from "../../services/main-config/main-config.service";
 
 @Component({
@@ -45,7 +43,6 @@ export class HomeComponent implements AfterViewInit {
             id: "meme"
         }
     };
-    public noConnectionError = false;
 
     @ViewChild("mainActionBar", { static: false }) public mainActionBarComponent: MainActionBarComponent;
     @ViewChild("wordsTabView", { static: false }) public tabBarElement: ElementRef;
@@ -61,19 +58,9 @@ export class HomeComponent implements AfterViewInit {
     constructor (
         public MainConfig: MainConfigService,
         private CurrentTab: CurrentTabService,
-        private ConnectionMonitor: ConnectionMonitorService,
         private cd: ChangeDetectorRef
     ) {
         this.CurrentTab.setCurrent(this.wordsTab[0], 0);
-
-        this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
-            if (!this.noConnectionError && connection === connectionType.none) {
-                this.noConnectionError = true;
-            }
-            else if (this.noConnectionError && connection !== connectionType.none) {
-                this.noConnectionError = false;
-            }
-        });
         this.cd.detach();
     }
 
