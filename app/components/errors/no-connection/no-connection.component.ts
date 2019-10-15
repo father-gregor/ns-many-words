@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef } from "@angular/core";
+import { Component, Input, ElementRef, ViewChild, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 import { View } from "tns-core-modules/ui/core/view";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
 import { connectionType } from "tns-core-modules/connectivity/connectivity";
@@ -19,24 +19,31 @@ import { ConnectionMonitorService } from "../../../services/connection-monitor/c
     styleUrls: ["./no-connection-common.scss"],
     templateUrl: "./no-connection.html"
 })
-export class NoConnectionComponent implements ITabError {
+export class NoConnectionComponent implements ITabError, AfterViewInit {
     public isNoConnection = false;
-    @Input() public errorMessage = "Device is offline!";
+    public isFirstInit = true;
+    @Input() public errorMessage = "Device is online!";
 
-    private animationInProgress = false;
+    @ViewChild("noConnectionView", {static: false}) public noConnectionView: ElementRef;
+
     private view: View;
 
     constructor (
         private ConnectionMonitor: ConnectionMonitorService,
-        el: ElementRef
-    ) {
-        this.view = el.nativeElement as View;
+        private cd: ChangeDetectorRef
+    ) {}
 
+    public ngAfterViewInit () {
+        this.view = this.noConnectionView.nativeElement;
         this.ConnectionMonitor.changes$.subscribe((connection: connectionType) => {
-            if (!this.isNoConnection && connection === connectionType.none) {
+            if ((this.isFirstInit || !this.isNoConnection) && connection === connectionType.none) {
                 this.isNoConnection = true;
                 this.errorMessage = "Device is offline!";
                 this.startSlideAnimation();
+
+                if (this.isFirstInit) {
+                    this.isFirstInit = false;
+                }
             }
             else if (this.isNoConnection && connection !== connectionType.none) {
                 this.isNoConnection = false;
@@ -47,26 +54,23 @@ export class NoConnectionComponent implements ITabError {
     }
 
     private startSlideAnimation () {
-        if (this.animationInProgress) {
-            return;
-        }
         const animationOptions: any = {
-            translate: {x: 0, y: 0},
-            duration: 300,
+            duration: 500,
             curve: AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1)
         };
 
         if (this.isNoConnection) {
             animationOptions.translate = {x: 0, y: 0};
+            animationOptions.delay = this.isFirstInit ? 200 : 2000;
         }
         else {
-            animationOptions.translate = {x: 0, y: -50};
+            animationOptions.translate = {x: 0, y: -100};
             animationOptions.delay = 2000;
         }
 
-        this.animationInProgress = true;
-        this.view.animate(animationOptions).then(() => {
-            this.animationInProgress = false;
-        });
+        setTimeout(() => {
+            this.cd.detectChanges();
+            this.view.animate(animationOptions);
+        }, 100);
     }
 }

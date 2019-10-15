@@ -92,7 +92,7 @@ export class SettingsGeneralComponent  {
                 currentColumnsOrder: [...this.currentColumnsOrder],
                 availableColumns: {...this.availableColumns},
                 modalSettings: {
-                    title: "Change Sections Order"
+                    title: "Change Columns Order"
                 }
             }
         }).then((result: string[]) => {

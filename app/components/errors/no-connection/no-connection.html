@@ -1,4 +1,5 @@
-<AbsoluteLayout class="no-connection-container"
+<AbsoluteLayout #noConnectionView
+                class="no-connection-container"
                 width="100%"
                 height="50"
                 horizontalAlignment="center"
@@ -6,9 +7,9 @@
     <GridLayout columns="*"
                 rows="*"
                 width="100%"
-                [ngClass]="{'error': isNoConnection, 'working': !isNoConnection}"
+                [ngClass]="{'offline': isNoConnection, 'online': !isNoConnection}"
                 horizontalAlignment="center">
-        <Label class="text-center offline-text"
+        <Label class="text-center"
                col="0"
                row="0"
                [text]="errorMessage">

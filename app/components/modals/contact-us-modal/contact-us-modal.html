@@ -1,24 +1,23 @@
-<StackLayout>
-    <Label class="h2"
+<StackLayout class="contact-us-modal-container">
+    <Label class="h2 modal-title"
            margin="15"
-           text="Contact via">
+           text="Contact Us Via">
     </Label>
     <ListView height="200"
               [items]="availableContactOptions"
               (itemTap)="onContactTap($event)">
         <ng-template let-contact="item">
-            <GridLayout columns="50, *"
-                        rows="*">
-                <Image [src]="MainConfig.config.states.settingsGeneral.iconSrc"
-                       class="icon-item"
+            <GridLayout columns="50, 5, *"
+                        rows="*"
+                        class="contact-us-option">
+                <Image [src]="contact.icon"
+                       class="font-icon icon-item"
                        col="0"
                        row="0"
-                       width="50"
-                       height="50"
-                       [stretch]="'aspectFit'">
+                       stretch="none">
                 </Image>
                 <Label [text]="contact.title"
-                       col="1"
+                       col="2"
                        row="0">
                 </Label>
             </GridLayout>

@@ -93,11 +93,10 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         this.cd.detectChanges();
 
         this.handleWordsRequest(this.Words.getDailyWord(query), (res: IWord[]) => {
-            if (this.isNoWords) {
-                this.isNoWords = false;
-            }
-
             if (res && res.length > 0) {
+                if (this.isNoWords) {
+                    this.isNoWords = false;
+                }
                 const resultWords = [];
                 for (const word of res) {
                     const newWord = {

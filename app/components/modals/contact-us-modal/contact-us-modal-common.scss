@@ -1,0 +1,21 @@
+@import "../../../styles/variables.scss";
+
+.contact-us-modal-container {
+    color: #000000;
+
+    .modal-title {
+        font-family: $main-font;
+    }
+
+    .contact-us-option {
+        Image {
+            width: 50;
+            height: 50;
+        }
+
+        Label {
+            font-family: $typography-font;
+            font-size: 18;
+        }
+    }
+}

@@ -34,7 +34,7 @@ import { IWordTab } from "../home/tab";
 })
 export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";
-    public noWordsMsg = "Word didn't loaded. Press button to try again";
+    public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
 
     private isFirstVisit = true;
 
@@ -79,7 +79,7 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         this.cd.detectChanges();
 
         this.handleWordsRequest(this.Words.getRandomWord(query), (res: any[]) => {
-            if (this.isNoWords) {
+            if (res && res.length > 0 && this.isNoWords) {
                 this.isNoWords = false;
             }
 

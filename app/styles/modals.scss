@@ -7,9 +7,11 @@
     color: #000000;
 
     .modal-header {
-        text-align: center;
-        font-weight: 600;
-        margin-bottom: 20;
+        font-family: $main-font;
+        font-size: 20;
+        margin-top: 5;
+        margin-left: 5;
+        margin-bottom: 10;
 
         [class^="hr-"] {
             margin-top: 10;
@@ -21,16 +23,22 @@
 
         Button {
             margin: 0;
-            font-family: "Roboto";
+            font-family: $main-font;
+        }
 
-            &.btn-modal-close {
+        .btn-modal-close {
+            background-color: transparent;
+
+            Button {
                 color: #a80000;
-                background-color: transparent;
                 border-color: transparent;
                 font-size: 16;
             }
+        }
 
-            &.btn-modal-success {
+        .btn-modal-success {
+            Button {
+                color: #ffffff;
                 background-color: #000000;
             }
         }

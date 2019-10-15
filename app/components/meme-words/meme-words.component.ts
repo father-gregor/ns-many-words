@@ -30,7 +30,7 @@ import { LoggerService } from "../../services/logger/logger.service";
 })
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
-    public noWordsMsg = "Word didn't loaded. Press button to try again";
+    public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
 
     constructor (
         private Words: WordsService,
@@ -59,10 +59,9 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         this.cd.detectChanges();
 
         this.handleWordsRequest(this.Words.getMemeWord(query), (res: any[]) => {
-            if (this.isNoWords) {
+            if (res && res.length > 0 && this.isNoWords) {
                 this.isNoWords = false;
             }
-
             for (const word of res) {
                 this.allListItems.push({
                     name: word.name,

@@ -2,6 +2,7 @@ ActionBar {
     transition: margin-top 5s linear;
     color: white;
     padding: 0;
+    z-index: 100;
 
     .general-action-bar-label {
         color: white;

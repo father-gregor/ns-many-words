@@ -11,15 +11,18 @@ import { MainConfigService } from "../../../services/main-config/main-config.ser
 
 @Component({
     selector: "ContactUsModal",
+    styleUrls: ["./contact-us-modal-common.scss"],
     templateUrl: "./contact-us-modal.html"
 })
 export class ContactUsModalComponent  {
-    public availableContactOptions = [
+    public availableContactOptions: Array<{title: string, icon: string}> = [
         {
-            title: "Email"
+            title: "Email",
+            icon: "font://&#xf003;"
         },
         {
-            title: "Telegram"
+            title: "Telegram",
+            icon: "font://&#xf2c6;"
         }
     ];
 

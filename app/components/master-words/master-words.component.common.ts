@@ -138,6 +138,13 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         }
     }
 
+    public async loadNewWordsOnScroll () {
+        if (this.isNoWords) {
+            return;
+        }
+        this.loadNewWords({count: 5});
+    }
+
     public abstract async loadNewWords (options?: IWordQueryOptions);
 
     public startLatestWordTeaserAnimation (LatestWordBox: any) {
@@ -174,9 +181,15 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
             },
             (err) => {
                 this.Logger.error("mw_error_try_catch", err);
-                this.addTechItem("noWords");
-                this.isNoWords = true;
+                if (!this.isNoWords) {
+                    if (this.firstLoading) {
+                        this.addTechItem("header");
+                    }
+                    this.isNoWords = true;
+                    this.addTechItem("noWords");
+                }
                 this.currentError = "wordsLoadingFailed";
+                sub.unsubscribe();
             }
         );
     }

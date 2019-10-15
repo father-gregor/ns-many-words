@@ -40,7 +40,7 @@
         ],
         "contactInfo": {
             "title": "Contact us",
-            "subtitle": "Contact us to tell about features/languages request or problems that you encounter",
+            "subtitle": "Contact us to tell about features/languages request or problems that you encountered",
             "viaEmail": {
                 "subject": "Many Words: report from user",
                 "to": ["bobsixpackbob@gmail.com"]

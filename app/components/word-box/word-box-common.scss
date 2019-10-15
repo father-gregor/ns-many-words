@@ -14,14 +14,6 @@
             }
         }
     }
-
-    .grey-theme {
-        .word-container {}
-    }
-
-    .dark-theme {
-        .word-container {}
-    }
 }
 
 .material-card-wrapper {
@@ -61,8 +53,7 @@
     }
     
     .wordbox-footer {
-        padding-left: 10;
-        padding-right: 15;
+        padding: 5 15 5 10;
 
         .wordbox-footer-btn {
             border-radius: 50;

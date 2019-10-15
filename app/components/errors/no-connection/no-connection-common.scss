@@ -1,17 +1,17 @@
 .no-connection-container {
-    z-index: 1000;
-    transform: translateY(-50);
+    z-index: 99;
+    transform: translateY(-100);
 
     GridLayout {
-        .error {
-            background-color: red;
+        &.offline {
+            background-color: #be0000;
         }
 
-        .working {
-            background-color: green;
+        &.online {
+            background-color: #008000;
         }
 
-        .offline-text {
+        Label {
             color: #ffffff;
         }
     }
