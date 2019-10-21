@@ -6,6 +6,10 @@
     font-size: 25px;
 }
 
-.columns-list {
+.settings-entry {
     margin-bottom: 10;
+
+    &.app-theme-entry {
+        margin-top: -10;
+    }
 }

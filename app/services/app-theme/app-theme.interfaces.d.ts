@@ -1,1 +1,1 @@
-export type AppThemeType = "grey" | "dark" | "light";
+export type AppThemeType = "ns-light" | "ns-dark";

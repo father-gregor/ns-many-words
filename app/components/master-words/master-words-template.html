@@ -22,20 +22,20 @@
         </ng-template>
 
         <ng-template nsTemplateKey="dailyWord" let-word="item">
-            <StackLayout class="word-box" orientation="vertical">
+            <StackLayout class="word-box" orientation="vertical" (tap)="preventItemHighlight()">
                 <WordDateTime [dateText]="word.date.text"></WordDateTime>
                 <WordBox [word]="word" [type]="wordsType"></WordBox>
             </StackLayout>
         </ng-template>
 
         <ng-template nsTemplateKey="defaultWord" let-word="item" let-ind="index">
-            <StackLayout class="word-box" orientation="vertical">
+            <StackLayout class="word-box" orientation="vertical" (tap)="preventItemHighlight()">
                 <WordBox col="0" row="0" [word]="word" [type]="wordsType"></WordBox>
             </StackLayout>
         </ng-template>
 
         <ng-template nsTemplateKey="noWords">
-            <StackLayout class="word-box" orientation="vertical">
+            <StackLayout class="word-box" orientation="vertical" (tap)="preventItemHighlight()">
                 <NoWords [errorMessage]="noWordsMsg" (onTap)="loadNewWords({count: 5})"></NoWords>
             </StackLayout>
         </ng-template>

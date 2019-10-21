@@ -1,38 +1,22 @@
-import { Component, ViewContainerRef } from "@angular/core";
+import { Component, ViewContainerRef, ChangeDetectorRef } from "@angular/core";
 import {
     getString as nsGetString,
     setString as nsSetString
 } from "tns-core-modules/application-settings/application-settings";
-import { action } from "tns-core-modules/ui/dialogs";
 import { ModalDialogService } from "nativescript-angular/modal-dialog";
-
+import Theme from "nativescript-theme-core";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
-import { AppThemeService } from "../../../services/app-theme/app-theme.service";
-import { AppThemeType } from "../../../services/app-theme/app-theme.interfaces";
 import { ColumnsOrderingModalComponent } from "../../modals/columns-ordering-modal/columns-ordering-modal.component";
-
-export interface IAppTheme {
-    label: string;
-    value: AppThemeType;
-}
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "SettingsGeneral",
     styleUrls: ["./settings-general-common.scss"],
     templateUrl: "./settings-general.html"
 })
-export class SettingsGeneralComponent  {
-    public selectedTheme: IAppTheme;
-    public availableThemes: IAppTheme[] = [
-        {
-            label: "Light",
-            value: "light"
-        },
-        {
-            label: "Dark",
-            value: "dark"
-        }
-    ];
+export class SettingsGeneralComponent {
+    public isDarkModeEnabled = false;
+    public skipSwitchChange = true;
     public currentColumnsOrder: string[];
     public availableColumns = {
         daily: {
@@ -46,21 +30,16 @@ export class SettingsGeneralComponent  {
         }
     };
 
-    private appThemeKey = "appTheme";
     private columnsOrderKey = "customColumnsOrder";
 
     constructor (
         public MainConfig: MainConfigService,
-        public AppTheme: AppThemeService,
+        private AppTheme: AppThemeService,
         private ModalDialog: ModalDialogService,
         private viewContainer: ViewContainerRef
     ) {
-        let theme = nsGetString(this.appThemeKey) as AppThemeType;
-        if (!theme) {
-            theme = "light";
-            nsSetString(this.appThemeKey, theme);
-        }
-        this.selectedTheme = this.availableThemes.find((t) => t.value === theme);
+        this.isDarkModeEnabled = this.AppTheme.isDarkModeEnabled();
+        this.skipSwitchChange = this.isDarkModeEnabled;
 
         const customColumnsOrder = nsGetString(this.columnsOrderKey) as any;
         if (customColumnsOrder) {
@@ -71,18 +50,17 @@ export class SettingsGeneralComponent  {
         }
     }
 
-    public openSelectThemeDialog () {
-        const options = {
-            title: "Select App Theme",
-            message: "",
-            cancelButtonText: "Cancel",
-            actions: this.availableThemes.map((t) => t.label)
-        };
+    public preventHighlight () {
+        return;
+    }
 
-        action(options).then((result) => {
-            const newTheme = this.availableThemes.find((t) => t.label === result);
-            this.changeCurrentTheme(newTheme);
-        });
+    public onDarkModeChange () {
+        if (this.skipSwitchChange) {
+            this.skipSwitchChange = false;
+            return;
+        }
+
+        this.AppTheme.toggleDarkMode();
     }
 
     public openColumnsOrderingModal () {
@@ -101,14 +79,5 @@ export class SettingsGeneralComponent  {
                 nsSetString(this.columnsOrderKey, JSON.stringify(this.currentColumnsOrder));
             }
         });
-    }
-
-    private changeCurrentTheme (newTheme: IAppTheme) {
-        if (!newTheme || this.selectedTheme.value === newTheme.value) {
-            return;
-        }
-        this.selectedTheme = newTheme;
-        this.AppTheme.changeTheme(this.selectedTheme.value);
-        nsSetString(this.appThemeKey, this.selectedTheme.value);
     }
 }

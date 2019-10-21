@@ -15,14 +15,15 @@ import { MainConfigService } from "../../../services/main-config/main-config.ser
     templateUrl: "./contact-us-modal.html"
 })
 export class ContactUsModalComponent  {
-    public availableContactOptions: Array<{title: string, icon: string}> = [
+    public availableContactOptions: Array<{title: string, icon: string, cssClass?: string}> = [
         {
             title: "Email",
-            icon: "font://&#xf003;"
+            icon: String.fromCharCode(0xf003)
         },
         {
             title: "Telegram",
-            icon: "font://&#xf2c6;"
+            icon: String.fromCharCode(0xf2c6),
+            cssClass: "telegram"
         }
     ];
 

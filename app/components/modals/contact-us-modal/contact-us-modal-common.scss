@@ -9,8 +9,11 @@
 
     .contact-us-option {
         Image {
-            width: 50;
-            height: 50;
+            font-size: 20;
+            
+            &.telegram {
+                color: #28a0d3;
+            }
         }
 
         Label {

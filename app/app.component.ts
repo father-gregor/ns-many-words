@@ -25,21 +25,17 @@ if (isAndroid && parseInt(device.sdkVersion, 10) >= 21) {
 })
 export class AppComponent implements AfterViewInit  {
     public enableFpsMeter = false;
-    public currentAppTheme: string;
 
     constructor (
         private AppTheme: AppThemeService,
         private GoogleFirebase: GoogleFirebaseService
     ) {
-        this.currentAppTheme = `${this.AppTheme.getCurrent()}-theme`;
-        this.AppTheme.themeChanged$.subscribe(() => {
-            this.currentAppTheme = `${this.AppTheme.getCurrent()}-theme`;
-        });
-
         this.GoogleFirebase.init();
     }
 
     public ngAfterViewInit () {
+        setTimeout(() => this.AppTheme.init(), 10);
+
         if (isIOS) {
             const frame = topmost();
             if (frame) {

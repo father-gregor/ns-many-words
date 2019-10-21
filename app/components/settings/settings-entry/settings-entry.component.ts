@@ -17,7 +17,7 @@ export class SettingsEntryComponent {
 
     constructor (public routerExtensions: RouterExtensions) {}
 
-    public open () {
+    public openEntry () {
         if (this.url) {
             this.routerExtensions.navigate([this.url], {
                 transition: {

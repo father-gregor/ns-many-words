@@ -7,20 +7,43 @@
                      row="0"
                      orientation="vertical">
             <SettingsDivider></SettingsDivider>
-            <SettingsEntry title="Current Theme"
-                           [subtitle]="selectedTheme.label"
-                           (onEntryTap)="openSelectThemeDialog()">
+            <SettingsEntry title="Application Theme"
+                           subtitle="Configure application's style"
+                           [withFutherActions]="false"
+                           [useContentProjection]="true">
+                <StackLayout class="settings-entry app-theme-entry"
+                             (tap)="preventHighlight()">
+                    <GridLayout columns="*, auto"
+                                rows="*">
+                        <Label col="0"
+                               row="0"
+                               verticalAlignment="center"
+                               text="Dark Mode">
+                        </Label>
+
+                        <Switch row="1"
+                                col="1"
+                                [checked]="isDarkModeEnabled"
+                                (checkedChange)="onDarkModeChange()">
+                        </Switch>
+                    </GridLayout>
+                </StackLayout>
             </SettingsEntry>
             <SettingsDivider></SettingsDivider>
             <SettingsEntry title="Columns Order"
                            subtitle="Change order of columns on home page"
                            [useContentProjection]="true"
                            (onEntryTap)="openColumnsOrderingModal()">
-                <StackLayout class="columns-list">
+                <StackLayout class="settings-entry">
                     <ng-container *ngFor="let columnName of currentColumnsOrder; index as ind">
-                        <GridLayout columns="30, *" rows="*">
-                            <Label col="0" row="0" [text]="(ind + 1) + '.'"></Label>
-                            <Label col="1" row="0" [text]="availableColumns[columnName].label"></Label>
+                        <GridLayout columns="30, *"
+                                    rows="*">
+                            <Label col="0"
+                                   row="0"
+                                   [text]="(ind + 1) + '.'"></Label>
+                            <Label col="1"
+                                   row="0"
+                                   [text]="availableColumns[columnName].label"></Label>
                         </GridLayout>
                     </ng-container>
                 </StackLayout>

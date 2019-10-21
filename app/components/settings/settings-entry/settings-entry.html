@@ -4,7 +4,6 @@
        <Image *ngIf="iconSrc"
               [src]="iconSrc"
               class="entry-icon"
-              loadMode="async"
               col="0"
               row="0"
               width="40"
@@ -12,34 +11,20 @@
               verticalAlignment="center"
               stretch="aspectFit">
        </Image>
-       <MDRipple col="{{iconSrc ? '1' : '0'}}"
+       <MDRipple *ngIf="withFutherActions"
+                 col="{{iconSrc ? '1' : '0'}}"
                  row="0"
                  rippleColor="#afafaf"
-                 (tap)="open()">
-              <GridLayout [columns]="withFutherActions ? '*, 30' : '*'"
-                          rows="*">
-                     <StackLayout col="0"
-                                  row="0"
-                                  class="entry-title-container">
-                            <Label class="entry-title"
-                                   [text]="title"
-                                   [textWrap]="true">
-                            </Label>
-                            <Label class="entry-subtitle"
-                                   [text]="subtitle"
-                                   [textWrap]="true">
-                            </Label>
-                     </StackLayout>
-                     <Label *ngIf="withFutherActions"
-                            col="1"
-                            row="0"
-                            horizontalAlignment="left"
-                            verticalAlignment="center"
-                            class="font-icon"
-                            text="&#xf105;">
-                     </Label>
-              </GridLayout>
+                 (tap)="openEntry()">
+              <ng-template [ngTemplateOutlet]="entryTemplate"></ng-template>
        </MDRipple>
+
+       <StackLayout *ngIf="!withFutherActions"
+                    col="{{iconSrc ? '1' : '0'}}"
+                    row="0">
+              <ng-template [ngTemplateOutlet]="entryTemplate"></ng-template>
+       </StackLayout>
+
        <StackLayout *ngIf="useContentProjection"
                     class="entry-content"
                     col="{{iconSrc ? '1' : '0'}}"
@@ -48,3 +33,29 @@
               <ng-content></ng-content>
        </StackLayout>
 </GridLayout>
+
+<ng-template #entryTemplate>
+       <GridLayout [columns]="withFutherActions ? '*, 30' : '*'"
+                   rows="*">
+              <StackLayout col="0"
+                           row="0"
+                           class="entry-title-container">
+                     <Label class="entry-title"
+                            [text]="title"
+                            [textWrap]="true">
+                     </Label>
+                     <Label class="entry-subtitle"
+                            [text]="subtitle"
+                            [textWrap]="true">
+                     </Label>
+              </StackLayout>
+              <Label *ngIf="withFutherActions"
+                     col="1"
+                     row="0"
+                     horizontalAlignment="left"
+                     verticalAlignment="center"
+                     class="font-icon"
+                     text="&#xf105;">
+              </Label>
+       </GridLayout>
+</ng-template>

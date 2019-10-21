@@ -7,17 +7,18 @@
               [items]="availableContactOptions"
               (itemTap)="onContactTap($event)">
         <ng-template let-contact="item">
-            <GridLayout columns="50, 5, *"
-                        rows="*"
+            <GridLayout columns="10, 40, 10, *"
+                        rows="50"
                         class="contact-us-option">
-                <Image [src]="contact.icon"
-                       class="font-icon icon-item"
-                       col="0"
+                <Image src="font://{{contact.icon}}"
+                       class="font-icon"
+                       [ngClass]="contact.cssClass"
+                       col="1"
                        row="0"
                        stretch="none">
                 </Image>
                 <Label [text]="contact.title"
-                       col="2"
+                       col="3"
                        row="0">
                 </Label>
             </GridLayout>
