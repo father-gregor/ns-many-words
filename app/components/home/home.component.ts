@@ -1,5 +1,7 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, AfterViewInit } from "@angular/core";
-import { SelectedIndexChangedEventData, TabView } from "tns-core-modules/ui/tab-view";
+import { TabView } from "tns-core-modules/ui/tab-view";
+import { SelectedIndexChangedEventData } from "tns-core-modules/ui/bottom-navigation";
+import { TabStrip } from "tns-core-modules/ui/tab-navigation-base/tab-strip/tab-strip";
 import { isAndroid } from "tns-core-modules/platform";
 
 /**
@@ -46,8 +48,10 @@ export class HomeComponent implements AfterViewInit {
 
     @ViewChild("mainActionBar", { static: false }) public mainActionBarComponent: MainActionBarComponent;
     @ViewChild("wordsTabView", { static: false }) public tabBarElement: ElementRef;
+    @ViewChild("tabStripView", { static: false }) public tabStripElement: ElementRef;
 
     private tabView: TabView;
+    private tabStripView: TabStrip;
 
     private tabViewHeaderHeight;
     private tabViewHeaderHideAnimation: android.animation.ValueAnimator;
@@ -68,6 +72,10 @@ export class HomeComponent implements AfterViewInit {
         this.cd.detectChanges();
     }
 
+    public onTabsLoaded () {
+        this.tabStripView = this.tabStripElement.nativeElement as TabStrip;
+    }
+
     public onTabViewLoaded () {
         const firstLoad = this.tabView == null;
         this.tabView = this.tabBarElement.nativeElement as TabView;
@@ -76,27 +84,12 @@ export class HomeComponent implements AfterViewInit {
             const layoutParams = androidTab.getLayoutParams();
             layoutParams.height = 150;
             androidTab.setLayoutParams(layoutParams);
-
-            let selectedTabIndex = this.CurrentTab.getCurrentIndex();
-            if (selectedTabIndex == null) {
-                selectedTabIndex = 0;
-            }
-            this.setTabIconColor(selectedTabIndex, "selected");
-            for (let i = 0; i < Object.keys(this.wordsTab).length; i++) {
-                if (i !== selectedTabIndex) {
-                    this.setTabIconColor(i, "unselected");
-                }
-            }
         }
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
         const currentTabId = this.MainConfig.config.columnsOrder[event.newIndex];
         this.CurrentTab.setCurrent(this.wordsTab[currentTabId], event.newIndex);
-        if (isAndroid) {
-            this.setTabIconColor(event.oldIndex, "unselected");
-            this.setTabIconColor(event.newIndex, "selected");
-        }
         this.cd.detectChanges();
     }
 
@@ -125,24 +118,6 @@ export class HomeComponent implements AfterViewInit {
                 this.cd.detectChanges();
             }
         }*/
-    }
-
-    private setTabIconColor (tabIndex: number, type: "selected" | "unselected") {
-        if (!this.tabView) {
-            return;
-        }
-        const androidTab = this.tabView.android.tabLayout;
-        const tabIconColor = type === "unselected" ? android.graphics.Color.GRAY : android.graphics.Color.WHITE;
-        /**
-         * Note: This version of setColorFilter method was deprecated in API level 29
-         * Why so many getChildAt? Actual layout has structure that looks like that:
-         * TabLayout (androidTab variable here) => TabStrip => LinearLayout => ImageView
-         */
-        androidTab.getChildAt(0)
-            .getChildAt(tabIndex)
-            .getChildAt(0)
-            .getDrawable()
-            .setColorFilter(tabIconColor, android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     private getTabViewHeaderHeightAnimation (heightValues: number[]) {

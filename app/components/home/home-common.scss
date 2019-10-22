@@ -1,19 +1,27 @@
+@import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
-@include apply-current-theme-to(main-tab-view);
-
-:host {
-    .main-tab-view {
-        tab-text-font-size: 11;
-        tab-text-color: #a8a4a4;
-        tab-background-color: #000000;
-        selected-tab-text-color: #ffffff;
-    }
-}
-
 .main-tab-view {
-    tab-text-font-size: 11;
-    tab-text-color: #a8a4a4;
-    tab-background-color: #000000;
-    selected-tab-text-color: #ffffff;
+    TabStripItem {
+        background-color: #000000;
+
+        Label {
+            color: #a8a4a4;
+            font-family: $main-font;
+            font-size: 15;
+        }
+
+        &:active {
+            background-color: #242323;
+
+            Label {
+                color: #ffffff;
+                font-weight: 900;
+            }
+        }
+    }
+
+    TabContentItem {
+        @include apply-current-theme-to(words-tab);
+    }
 }

@@ -3,13 +3,19 @@
 </MainActionBar>
 <NoConnection></NoConnection>
 
-<TabView #wordsTabView
-         class="main-tab-view"
-         androidTabsPosition="bottom"
-         (loaded)="onTabViewLoaded()"
-         (selectedIndexChanged)="onSelectedTabChanged($event)">
-    <ng-container *ngFor="let column of MainConfig.config.columnsOrder">
-        <StackLayout *tabItem="{title: wordsTab[column].title, iconSource: wordsTab[column].icon}">
+<BottomNavigation class="main-tab-view"
+                  selectedIndex="0"
+                  (loaded)="onTabsLoaded()"
+                  (selectedIndexChanged)="onSelectedTabChanged($event)">
+    <TabStrip #tabStripView>
+        <TabStripItem *ngFor="let column of MainConfig.config.columnsOrder">
+            <Label [text]="wordsTab[column].title"></Label>
+            <Image [src]="wordsTab[column].icon"></Image>
+        </TabStripItem>
+    </TabStrip>
+
+    <TabContentItem *ngFor="let column of MainConfig.config.columnsOrder">
+        <StackLayout class="words-tab">
             <ng-container [ngSwitch]="column">
                 <DailyWords *ngSwitchCase="'daily'"></DailyWords>
                 <RandomWords *ngSwitchCase="'random'"
@@ -17,5 +23,5 @@
                 <MemeWords *ngSwitchCase="'meme'"></MemeWords>
             </ng-container>
         </StackLayout>
-    </ng-container>
-</TabView>
+    </TabContentItem>
+</BottomNavigation>
