@@ -1,4 +1,4 @@
-export type WordType = "daily" | "random" | "meme" | "favorite";
+export type WordType = "daily" | "random" | "meme" | "favorite" | "search";
 
 export interface IWord {
     name: string;

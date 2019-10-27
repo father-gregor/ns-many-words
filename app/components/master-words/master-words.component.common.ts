@@ -90,7 +90,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     }
 
     public preventItemHighlight () {
-        return; // Consume tap and prevent highlighting of "tech" items
+        return;
     }
 
     public onAndroidListViewTopScroll () {

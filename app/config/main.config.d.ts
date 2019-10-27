@@ -22,5 +22,6 @@ export interface IMainConfig {
         daily: string;
         random: string;
         meme: string;
+        search: string;
     };
 }

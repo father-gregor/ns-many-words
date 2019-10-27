@@ -1,14 +1,34 @@
-<StackLayout #searchBarContainer
-             class="search-bar-container"
-             orientation="vertical"
-             horizontalAlignment="center"
-             verticalAlignment="top">
-    <SearchBar hint="Search for words..."
-               [text]="searchTerm"
-               (textChange)="onSearchTermChanged($event)"
-               (submit)="onSearchTermSubmit($event)"
-               color="white"
-               textFieldBackgroundColor="black"
-               textFieldHintColor="white">
-    </SearchBar>
-</StackLayout>
+<GridLayout columns="*"
+            rows="auto, *">
+    <StackLayout col="0"
+                 row="0"
+                 class="search-bar-container"
+                 orientation="vertical"
+                 horizontalAlignment="center"
+                 verticalAlignment="top">
+        <SearchBar hint="Search for any words..."
+                   [text]="searchTerm"
+                   color="black"
+                   textFieldBackgroundColor="black"
+                   textFieldHintColor="black"
+                   (textChange)="onSearchTermChanged($event)"
+                   (submit)="onSearchTermSubmit($event)">
+        </SearchBar>
+    </StackLayout>
+    <ScrollView class="search-results-container"
+                col="0"
+                row="1"
+                orientation="vertical">
+        <StackLayout>
+            <MDCardView *ngFor="let searchItem of searchItems"
+                        class="search-item material-card-wrapper"
+                        (tap)="onOpenWordTap(searchItem)">
+                <StackLayout class="search-item-layout"
+                             orientation="vertical"
+                             verticalAlignment="center">
+                    <Label [text]="searchItem.name"></Label>
+                </StackLayout>
+            </MDCardView>
+        </StackLayout>
+    </ScrollView>
+</GridLayout>

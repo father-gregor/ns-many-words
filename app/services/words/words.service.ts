@@ -44,6 +44,10 @@ export class WordsService {
         return this.getWord("meme", query);
     }
 
+    public searchWordByTerm (query: any): Observable<object> {
+        return this.getWord("search", query);
+    }
+
     private getWord (apiType: WordType, optQuery: any = {}, optHeaders: HttpHeaders = this.createRequestHeaders()): Observable<object> {
         if (this.initialWords && this.initialWords[apiType]) {
             return this.initialWords[apiType];

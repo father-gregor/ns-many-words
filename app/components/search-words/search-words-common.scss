@@ -1,6 +1,42 @@
+@import "../../styles/mixins.scss";
+@import "../../styles/variables.scss";
+
+@include apply-current-theme-to(search-results-container);
+
+
 .search-bar-container {
     width: 100%;
     background-color: black;
     padding-top: 15;
-    padding-bottom: 15;
+    padding-bottom: 2;
+
+    SearchBar {
+       color: black;
+    }
+}
+
+.search-results-container {
+    padding: 0;
+    margin: 0;
+
+    .search-item {
+        height: 75;
+        padding: 15 20;
+        color: rgb(0, 0, 0);
+        background-color: #ffffffff;
+        font-family: $typography-font;
+        margin-bottom: 20;
+
+        .search-item-layout {
+            padding: 0 15;
+
+            Label {
+                font-size: 25;
+            }
+        }
+
+        &.material-card-wrapper {
+            margin: 10 15;
+        }
+    }
 }
