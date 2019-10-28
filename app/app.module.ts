@@ -68,6 +68,7 @@ import { SearchWordsModalComponent } from "./components/modals/search-words-moda
 import { WordDateTimeComponent } from "./components/word-date-time/word-date-time.component";
 import { ActionBarIconItemComponent } from "./components/action-bars/action-bar-icon-item/action-bar-icon-item.component";
 import { ContactUsModalComponent } from "./components/modals/contact-us-modal/contact-us-modal.component";
+import { SearchWordsBarComponent } from "./components/search-words-bar/search-words-bar.component";
 
 @NgModule({
     bootstrap: [
@@ -111,7 +112,8 @@ import { ContactUsModalComponent } from "./components/modals/contact-us-modal/co
         SearchWordsModalComponent,
         WordDateTimeComponent,
         ActionBarIconItemComponent,
-        ContactUsModalComponent
+        ContactUsModalComponent,
+        SearchWordsBarComponent
     ],
     providers: [
         WordsService,

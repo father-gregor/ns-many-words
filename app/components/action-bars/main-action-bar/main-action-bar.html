@@ -42,7 +42,7 @@
                     ios.position="right"
                     android.position="actionBarIfRoom">
             <StackLayout>
-                <ActionBarIconItem iconSrc="res://search"></ActionBarIconItem>
+                <ActionBarIconItem iconSrc="font://&#xf002;" [isFontIcon]="true"></ActionBarIconItem>
             </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"

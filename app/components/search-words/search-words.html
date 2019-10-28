@@ -6,20 +6,20 @@
                  orientation="vertical"
                  horizontalAlignment="center"
                  verticalAlignment="top">
-        <SearchBar hint="Search for any words..."
-                   [text]="searchTerm"
-                   color="black"
-                   textFieldBackgroundColor="black"
-                   textFieldHintColor="black"
-                   (textChange)="onSearchTermChanged($event)"
-                   (submit)="onSearchTermSubmit($event)">
-        </SearchBar>
+        <SearchWordsBar (onSearchFieldLoaded)="saveSearchFieldReference($event)"
+                        (onSearchTextChange)="onSearchTextChange($event)">
+        </SearchWordsBar>
     </StackLayout>
     <ScrollView class="search-results-container"
                 col="0"
                 row="1"
-                orientation="vertical">
+                orientation="vertical"
+                (tap)="dismissSearchFieldKeyboard()">
         <StackLayout>
+            <StackLayout class="results-label-container">
+                <Label class="results-label"
+                       text="Search Results"></Label>
+            </StackLayout>
             <MDCardView *ngFor="let searchItem of searchItems"
                         class="search-item material-card-wrapper"
                         (tap)="onOpenWordTap(searchItem)">

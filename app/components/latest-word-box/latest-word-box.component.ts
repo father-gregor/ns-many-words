@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from "@angular/core";
 import {trigger, transition, style, animate} from "@angular/animations";
-import { View } from "tns-core-modules/ui/core/view";
 
 @Component({
     selector: "LatestWordBox",

@@ -13,6 +13,7 @@ import { PageDataStorageService } from "../../services/page-data-storage/page-da
  * Interfaces
  */
 import { IWord, IWordRouterData } from "../word-box/word-box.interfaces";
+import { TextField } from "tns-core-modules/ui/text-field/text-field";
 
 @Component({
     selector: "SearchWords",
@@ -24,6 +25,8 @@ export class SearchWordsComponent {
     public searchTerm: string;
     public searchItems: IWord[] = [];
 
+    private searchWordsBarTextField: TextField;
+
     constructor (
         private Words: WordsService,
         private page: Page,
@@ -33,17 +36,25 @@ export class SearchWordsComponent {
         this.page.actionBarHidden = true;
     }
 
-    public async onSearchTermChanged (args) {
-        const searchBar = args.object as SearchBar;
-        if (!searchBar.text) {
-            return;
-        }
-
-        const searchValue = searchBar.text.toLowerCase();
+    public async onSearchTextChange (searchText: string) {
+        const searchValue = searchText ? searchText.toLowerCase() : "";
 
         if (searchValue.length >= 3) {
             const result: any = await this.Words.searchWordByTerm({searchTerm: searchValue}).toPromise();
             this.searchItems = [...result];
+        }
+        else {
+            this.searchItems = [];
+        }
+    }
+
+    public saveSearchFieldReference (textField: TextField) {
+        this.searchWordsBarTextField = textField;
+    }
+
+    public dismissSearchFieldKeyboard () {
+        if (this.searchWordsBarTextField) {
+            this.searchWordsBarTextField.dismissSoftInput();
         }
     }
 
@@ -53,6 +64,8 @@ export class SearchWordsComponent {
     }
 
     public onOpenWordTap (word: IWord) {
+        this.dismissSearchFieldKeyboard();
+
         this.PageDataStorage.current = {word, type: "random"};
         this.routerExtensions.navigate(["/showcase-word"], {
             transition: {
