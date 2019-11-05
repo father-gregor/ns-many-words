@@ -1,30 +1,39 @@
 <GridLayout class="search-bar-container"
             columns="50, *, 50"
             rows="auto">
-    <Image src="font://&#xf002;"
-           class="font-icon"
-           col="0"
-           row="0">
-    </Image>
-    <TextField #searchBarField
-               class="search-bar-field"
-               textFieldHintColor="#000000"
-               hint="Search for any words..."
-               returnKeyType="search"
-               autocapitalizationType="none"
-               maxLength="50"
-               col="1"
-               row="0"
-               textAlignment="left"
-               (textChange)="onSearchTextChange()">
-    </TextField>
-    <Image src="font://&#xf00d;"
-           class="font-icon"
-           col="2"
-           row="0"
-           width="100%"
-           horizontalAlignment="center"
-           verticalAlignment="center"
-           (tap)="clearSearchField()">
-    </Image>
+       <Image src="font://&#xf002;"
+              class="font-icon"
+              col="0"
+              row="0">
+       </Image>
+       <TextField #searchBarField
+                  class="search-bar-field"
+                  textFieldHintColor="#000000"
+                  hint="Search for any words..."
+                  returnKeyType="search"
+                  autocapitalizationType="none"
+                  maxLength="50"
+                  col="1"
+                  row="0"
+                  textAlignment="left"
+                  (textChange)="onSearchTextChange()"
+                  (returnPress)="onConfirmSearchTap()">
+       </TextField>
+       <Image *ngIf="!isSearchInProgress"
+              src="font://&#xf00d;"
+              class="font-icon"
+              col="2"
+              row="0"
+              width="100%"
+              horizontalAlignment="center"
+              verticalAlignment="center"
+              (tap)="clearSearchField()">
+       </Image>
+       <ActivityIndicator *ngIf="isSearchInProgress"
+                          [busy]="true"
+                          col="2"
+                          row="0"
+                          horizontalAlignment="center"
+                          verticalAlignment="center">
+       </ActivityIndicator>
 </GridLayout>

@@ -45,6 +45,10 @@
                 "subject": "Many Words: report from user",
                 "to": ["bobsixpackbob@gmail.com"]
             },
+            "viaTwitter": {
+                "twitterUrl": "https://twitter.com/messages/compose?recipient_id=",
+                "accountId": "1189859635924291584"
+            },
             "viaTelegram": {
                 "telegramUrl": "https://t.me/",
                 "channelName": "father_gregor"
@@ -60,7 +64,7 @@
     "showcaseWord": {
         "url": "/showcase-word",
         "title": "Showcase",
-        "actionBarItems": ["title", "favoritesArchive", "wiki", "settings"],
+        "actionBarItems": ["title", "wiki"],
         "wikiUrl": "https://en.wiktionary.org/wiki/"
     }
 }

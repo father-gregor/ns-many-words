@@ -28,24 +28,54 @@
         }
     }
 
-    .search-item {
-        height: 75;
+    .search-item-common {
+        height: 65;
         padding: 15 20;
-        color: rgb(0, 0, 0);
+        color: #000000;
         background-color: #ffffffff;
         font-family: $typography-font;
         margin-bottom: 20;
 
         .search-item-layout {
-            padding: 0 15;
-
             Label {
-                font-size: 25;
+                font-size: 24;
             }
         }
 
         &.material-card-wrapper {
             margin: 10 15;
+        }
+    }
+
+    .search-archive-item {
+        .search-item-layout {
+            padding: 0 0 0 15;
+
+            .delete-recent-search {
+                background-color: #ff0000;
+            
+                Image {
+                    margin-top: 25%;
+                    color: #ffffffff;
+                    font-size: 12;
+                }
+            }
+        }
+    }
+
+    .search-item {
+        .search-item-layout {
+            padding: 0 15;
+
+            Label {
+                font-size: 24;
+            }
+
+            Image {
+                margin-top: 25;
+                margin-left: 10;
+                font-size: 8;
+            }
         }
     }
 }

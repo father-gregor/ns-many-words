@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, Output, EventEmitter } from "@angular/core";
+import { Component, ViewChild, ElementRef, Output, EventEmitter, Input } from "@angular/core";
 import { TextField } from "tns-core-modules/ui/text-field/text-field";
 
 @Component({
@@ -8,9 +8,11 @@ import { TextField } from "tns-core-modules/ui/text-field/text-field";
     templateUrl: "./search-words-bar.html"
 })
 export class SearchWordsBarComponent {
-    public searchText: string;
+    public searchBarFieldView: TextField;
+    @Input() public isSearchInProgress = false;
     @Output("onSearchFieldLoaded") public onSearchFieldLoadedEmitter: EventEmitter<TextField> = new EventEmitter<TextField>();
     @Output("onSearchTextChange") public onSearchTextChangeEmitter: EventEmitter<string> = new EventEmitter<string>();
+    @Output("onConfirmSearchTap") public onConfirmSearchTapEmitter: EventEmitter<string> = new EventEmitter<string>();
 
     @ViewChild("searchBarField", {static: false}) public set searchBarFieldElementSetter (el: ElementRef) {
         if (!this.searchBarFieldView) {
@@ -22,12 +24,14 @@ export class SearchWordsBarComponent {
         }
     }
 
-    private searchBarFieldView: TextField;
-
     constructor () {}
 
     public onSearchTextChange () {
         this.onSearchTextChangeEmitter.emit(this.searchBarFieldView.text);
+    }
+
+    public onConfirmSearchTap () {
+        this.onConfirmSearchTapEmitter.emit(this.searchBarFieldView.text);
     }
 
     public dismissKeyboard () {

@@ -18,15 +18,13 @@
                     (tap)="openWordWiki()">
             <StackLayout class="wiki-logo"
                          orientation="vertical"
-                         backgroundColor="#ffffff"
                          borderRadius="100">
-                <Image src="res://wiki_logo"
-                       loadMode="async"
-                       margin="5"
-                       width="20"
-                       height="20"
-                       stretch="aspectFit">
-                </Image>
+                <ActionBarIconItem iconSrc="res://wiki_logo"
+                                   [backgroundColor]="'#ffffff'"
+                                   [marginRight]="'30'"
+                                   [imageWidth]="'20'"
+                                   [imageHeight]="'20'">
+                </ActionBarIconItem>
             </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'close'"
@@ -34,7 +32,8 @@
                     android.position="actionBarIfRoom"
                     (tap)="goHome()">
             <StackLayout class=close-icon>
-                <ActionBarIconItem iconSrc="font://&#xf00d;" [isFontIcon]="true"></ActionBarIconItem>
+                <ActionBarIconItem iconSrc="font://&#xf00d;"
+                                   [isFontIcon]="true"></ActionBarIconItem>
             </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'searchWords'"
@@ -42,7 +41,8 @@
                     ios.position="right"
                     android.position="actionBarIfRoom">
             <StackLayout>
-                <ActionBarIconItem iconSrc="font://&#xf002;" [isFontIcon]="true"></ActionBarIconItem>
+                <ActionBarIconItem iconSrc="font://&#xf002;"
+                                   [isFontIcon]="true"></ActionBarIconItem>
             </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"

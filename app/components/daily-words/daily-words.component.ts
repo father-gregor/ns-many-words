@@ -4,7 +4,6 @@ import {
     setString as nsSetString,
     hasKey as nsHasKey
 } from "tns-core-modules/application-settings/application-settings";
-import { ProxyViewContainer } from "tns-core-modules/ui/proxy-view-container";
 
 /**
  * Components

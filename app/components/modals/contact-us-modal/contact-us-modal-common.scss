@@ -2,22 +2,46 @@
 
 .contact-us-modal-container {
     color: #000000;
+    padding: 0;
+
+    .bottom-sheet-holder {
+        background-color: rgba(175, 175, 175, 0.856);
+        height: 5;
+        border-radius: 50;
+        margin-top: 5;
+        width: 15%;
+        padding: 0;
+    }
 
     .modal-title {
         font-family: $main-font;
+        margin: 10 15 15 15;
+    }
+
+    ListView {
+        border-width: 1px;
+        border-top-color: rgb(207, 207, 207);
     }
 
     .contact-us-option {
         Image {
             font-size: 20;
+
+            &.email {
+                color: rgb(255, 73, 73);
+            }
             
+            &.twitter {
+                color: rgba(29,161,242,1.00);
+            }
+
             &.telegram {
                 color: #28a0d3;
             }
         }
 
         Label {
-            font-family: $typography-font;
+            font-family: $main-font;
             font-size: 18;
         }
     }

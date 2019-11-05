@@ -6,8 +6,10 @@
                  orientation="vertical"
                  horizontalAlignment="center"
                  verticalAlignment="top">
-        <SearchWordsBar (onSearchFieldLoaded)="saveSearchFieldReference($event)"
-                        (onSearchTextChange)="onSearchTextChange($event)">
+        <SearchWordsBar #searchWordsBarComponent
+                        (onSearchFieldLoaded)="saveSearchFieldReference($event)"
+                        (onSearchTextChange)="onSearchTermChange($event)"
+                        (onConfirmSearchTap)="saveSearchTermToArchive($event)">
         </SearchWordsBar>
     </StackLayout>
     <ScrollView class="search-results-container"
@@ -15,19 +17,80 @@
                 row="1"
                 orientation="vertical"
                 (tap)="dismissSearchFieldKeyboard()">
-        <StackLayout>
+        <StackLayout *ngIf="!isSearchActive">
             <StackLayout class="results-label-container">
                 <Label class="results-label"
-                       text="Search Results"></Label>
+                       text="Recent Searches">
+                </Label>
+            </StackLayout>
+            <MDCardView *ngFor="let searchTerm of searchTermArchive"
+                        class="search-item-common search-archive-item material-card-wrapper"
+                        (tap)="onSearchTermArchiveTap(searchTerm)">
+                <GridLayout class="search-item-layout"
+                            columns="*, 40"
+                            rows="*"
+                            orientation="vertical">
+                    <Label col="0"
+                           row="0"
+                           verticalAlignment="center"
+                           [text]="searchTerm">
+                    </Label>
+                    <MDCardView class="delete-recent-search"
+                                col="1"
+                                row="0"
+                                (tap)="removeSearchTermFromArchive(searchTerm)">
+                        <StackLayout>
+                            <Image src="font://&#xf014;"
+                                   class="font-icon"
+                                   horizontalAlignment="center"
+                                   verticalAlignment="center"
+                                   stretch="none">
+                            </Image>
+                        </StackLayout>
+                    </MDCardView>
+                </GridLayout>
+            </MDCardView>
+        </StackLayout>
+
+        <StackLayout *ngIf="isSearchActive">
+            <StackLayout *ngIf="searchItems.length === 0 && !isSearchInProgress"
+                         class="results-label-container">
+                <Label class="results-label"
+                       text="No words were found, unfortunately. Try something else!"
+                       [lineHeight]="5"
+                       [textWrap]="true">
+                </Label>
+            </StackLayout>
+            <StackLayout *ngIf="searchItems.length > 0"
+                         class="results-label-container">
+                <Label class="results-label"
+                       text="Search Results">
+                </Label>
             </StackLayout>
             <MDCardView *ngFor="let searchItem of searchItems"
-                        class="search-item material-card-wrapper"
+                        class="search-item-common search-item material-card-wrapper"
                         (tap)="onOpenWordTap(searchItem)">
-                <StackLayout class="search-item-layout"
-                             orientation="vertical"
-                             verticalAlignment="center">
-                    <Label [text]="searchItem.name"></Label>
-                </StackLayout>
+                <GridLayout class="search-item-layout"
+                            columns="*, 40"
+                            rows="*"
+                            orientation="vertical"
+                            verticalAlignment="center">
+                    <Label col="0"
+                           row="0"
+                           [text]="searchItem.name"
+                           verticalAlignment="center">
+                    </Label>
+                    <StackLayout col="1"
+                                 row="0" horizontalAlignment="center"
+                                 verticalAlignment="center">
+                        <Image src="font://&#xf061;"
+                               class="font-icon"
+                               horizontalAlignment="center"
+                               verticalAlignment="center"
+                               stretch="none">
+                        </Image>
+                    </StackLayout>
+                </GridLayout>
             </MDCardView>
         </StackLayout>
     </ScrollView>

@@ -18,7 +18,13 @@ export class ContactUsModalComponent  {
     public availableContactOptions: Array<{title: string, icon: string, cssClass?: string}> = [
         {
             title: "Email",
-            icon: String.fromCharCode(0xf003)
+            icon: String.fromCharCode(0xf0e0),
+            cssClass: "email"
+        },
+        {
+            title: "Twitter",
+            icon: String.fromCharCode(0xf099),
+            cssClass: "twitter"
         },
         {
             title: "Telegram",
@@ -28,6 +34,7 @@ export class ContactUsModalComponent  {
     ];
 
     private emailOptions: email.ComposeOptions;
+    private twitterAccountUrl: string;
     private telegramChannelUrl: string;
 
     constructor (
@@ -38,6 +45,9 @@ export class ContactUsModalComponent  {
             subject: this.MainConfig.config.states.settingsAboutUs.contactInfo.viaEmail.subject,
             to: this.MainConfig.config.states.settingsAboutUs.contactInfo.viaEmail.to
         };
+
+        const twitterConfig = this.MainConfig.config.states.settingsAboutUs.contactInfo.viaTwitter;
+        this.twitterAccountUrl = twitterConfig.twitterUrl + twitterConfig.accountId;
 
         const telegramConfig = this.MainConfig.config.states.settingsAboutUs.contactInfo.viaTelegram;
         this.telegramChannelUrl = telegramConfig.telegramUrl + telegramConfig.channelName;
@@ -55,6 +65,9 @@ export class ContactUsModalComponent  {
             case "Email":
                 this.sendEmail();
                 break;
+            case "Twitter":
+                this.openTwitterAccount();
+                break;
             case "Telegram":
                 this.openTelegramChannel();
                 break;
@@ -64,6 +77,10 @@ export class ContactUsModalComponent  {
 
     private async sendEmail () {
         email.compose(this.emailOptions);
+    }
+
+    private openTwitterAccount () {
+        utils.openUrl(this.twitterAccountUrl);
     }
 
     private openTelegramChannel () {
