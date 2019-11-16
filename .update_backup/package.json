@@ -27,7 +27,7 @@
     "@angular/router": "~8.2.0",
     "@nstudio/nativescript-snackbar": "^1.0.0",
     "dateformat": "^3.0.3",
-    "nativescript-angular": "^8.20.3",
+    "nativescript-angular": "^8.2.1",
     "nativescript-clipboard": "^1.2.0",
     "nativescript-email": "^1.5.5",
     "nativescript-local-notifications": "^3.2.1",
@@ -39,7 +39,7 @@
     "nativescript-theme-core": "^2.0.24",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.4.0",
-    "tns-core-modules": "^6.2.1",
+    "tns-core-modules": "^6.1.1",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
@@ -49,7 +49,7 @@
     "babel-types": "^6.26.0",
     "babylon": "6.4.5",
     "lazy": "1.0.11",
-    "nativescript-dev-webpack": "^1.3.0",
+    "nativescript-dev-webpack": "^1.2.1",
     "node-sass": "^4.12.0",
     "tns-platform-declarations": "6.0.1",
     "tslib": "^1.9.3",
