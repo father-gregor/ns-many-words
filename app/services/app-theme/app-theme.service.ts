@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import Theme from "nativescript-theme-core";
+import Theme from "@nativescript/theme";
 import {
     getString as nsGetString,
     setString as nsSetString

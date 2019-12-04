@@ -1,10 +1,9 @@
-import { Component, ViewContainerRef, ChangeDetectorRef } from "@angular/core";
+import { Component, ViewContainerRef } from "@angular/core";
 import {
     getString as nsGetString,
     setString as nsSetString
 } from "tns-core-modules/application-settings/application-settings";
 import { ModalDialogService } from "nativescript-angular/modal-dialog";
-import Theme from "nativescript-theme-core";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { ColumnsOrderingModalComponent } from "../../modals/columns-ordering-modal/columns-ordering-modal.component";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";

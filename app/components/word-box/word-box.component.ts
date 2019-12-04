@@ -14,7 +14,6 @@ import { SnackBarNotificationService } from "../../services/snack-bar-notificati
     templateUrl: "./word-box.html"
 })
 export class WordBoxComponent {
-    public hideBeforeConfirm = false;
     public dynamicStyleClass = "";
     @Input() public word: IWord;
     @Input() public type: WordType;

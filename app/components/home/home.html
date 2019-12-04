@@ -5,7 +5,6 @@
 
 <BottomNavigation class="main-tab-view"
                   selectedIndex="0"
-                  (loaded)="onTabsLoaded()"
                   (selectedIndexChanged)="onSelectedTabChanged($event)">
     <TabStrip #tabStripView>
         <TabStripItem *ngFor="let column of MainConfig.config.columnsOrder">

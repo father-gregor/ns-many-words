@@ -1,5 +1,4 @@
-import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, DoCheck } from "@angular/core";
-import { SetupItemViewArgs } from "nativescript-angular/directives";
+import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy } from "@angular/core";
 import { isAndroid } from "tns-core-modules/platform";
 import { ListView } from "tns-core-modules/ui/list-view";
 import { Subject, Subscription, Observable } from "rxjs";
@@ -12,7 +11,7 @@ import * as dateformat from "dateformat";
  */
 import { TabErrorType } from "../errors/errors.interfaces";
 import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
-import { ScrollDirection, ITabScrollEvent } from "./master-words.interfaces";
+import { ITabScrollEvent } from "./master-words.interfaces";
 
 /**
  * Services
@@ -35,10 +34,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     @ViewChild("listView", {static: false}) public wordsListView: ElementRef;
 
     protected listView: ListView;
-    protected lastPanDirection: ScrollDirection = "up";
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
-    protected lastListViewOffset = 0;
-    protected lastVerticalOffset = 0;
 
     protected subscriptions: Subscription = new Subscription();
 
@@ -64,20 +60,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 if (this.listView && this.listView.android) {
                     clearInterval(intervalId);
                     this.listView.android.setFriction(android.view.ViewConfiguration.getScrollFriction() * 4);
-                    this.listView.android.setOnScrollListener(new android.widget.AbsListView.OnScrollListener({
-                        onScrollStateChanged: () => {
-                            const offset = this.listView.android.computeVerticalScrollOffset();
-                            if (offset === 0) {
-                                this.onTabScrollEmitter.emit({direction: "down"});
-                            }
-                        },
-                        onScroll: () => {
-                            const offset = this.listView.android.computeVerticalScrollOffset();
-                            if (Math.abs(this.lastListViewOffset - offset) > 0) {
-                                this.onAndroidListViewScroll();
-                            }
-                        }
-                    }));
                 }
             }, 100);
         }
@@ -95,32 +77,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
 
     public onAndroidListViewTopScroll () {
         return;
-    }
-
-    public onAndroidListViewScroll () {
-        const prevOffset = this.lastListViewOffset;
-        this.lastListViewOffset = this.listView.android.computeVerticalScrollOffset();
-        if (this.lastListViewOffset > 0 && this.lastListViewOffset !== this.lastVerticalOffset) {
-            let panDelay = 20;
-
-            if ((this.lastPanDirection === "up" && this.lastVerticalOffset < this.lastListViewOffset) || (this.lastPanDirection === "down" && this.lastVerticalOffset > this.lastListViewOffset)) {
-                panDelay = 0;
-            }
-
-            const diff = Math.abs(this.lastListViewOffset - prevOffset);
-            if (this.lastVerticalOffset + panDelay < this.lastListViewOffset) {
-                this.lastVerticalOffset = this.lastListViewOffset;
-                this.lastPanDirection = "up";
-                if (diff > 0) {
-                    this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
-                }
-            }
-            else if (this.lastVerticalOffset - panDelay > this.lastListViewOffset) {
-                this.lastVerticalOffset = this.lastListViewOffset;
-                this.lastPanDirection = "down";
-                this.onTabScrollEmitter.emit({direction: this.lastPanDirection});
-            }
-        }
     }
 
     public selectItemTemplate (item: IWord | {techItem: TechItemType}, index: number, items: IWord[]) {

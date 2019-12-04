@@ -1,14 +1,10 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, AfterViewInit } from "@angular/core";
-import { TabView } from "tns-core-modules/ui/tab-view";
 import { SelectedIndexChangedEventData } from "tns-core-modules/ui/bottom-navigation";
-import { TabStrip } from "tns-core-modules/ui/tab-navigation-base/tab-strip/tab-strip";
-import { isAndroid } from "tns-core-modules/platform";
 
 /**
  * Interfaces
  */
 import { IWordTab } from "../home/tab";
-import { ITabScrollEvent } from "../master-words/master-words.interfaces";
 
 /**
  * Components
@@ -48,16 +44,6 @@ export class HomeComponent implements AfterViewInit {
 
     @ViewChild("mainActionBar", { static: false }) public mainActionBarComponent: MainActionBarComponent;
     @ViewChild("wordsTabView", { static: false }) public tabBarElement: ElementRef;
-    @ViewChild("tabStripView", { static: false }) public tabStripElement: ElementRef;
-
-    private tabView: TabView;
-    private tabStripView: TabStrip;
-
-    private tabViewHeaderHeight;
-    private tabViewHeaderHideAnimation: android.animation.ValueAnimator;
-    private tabViewHeaderShowAnimation: android.animation.ValueAnimator;
-    private isTabViewHeaderAnimInProgress = false;
-    private isTabViewHeaderHidden = false;
 
     constructor (
         public MainConfig: MainConfigService,
@@ -72,74 +58,9 @@ export class HomeComponent implements AfterViewInit {
         this.cd.detectChanges();
     }
 
-    public onTabsLoaded () {
-        this.tabStripView = this.tabStripElement.nativeElement as TabStrip;
-    }
-
-    public onTabViewLoaded () {
-        const firstLoad = this.tabView == null;
-        this.tabView = this.tabBarElement.nativeElement as TabView;
-        if (isAndroid && firstLoad) {
-            const androidTab = this.tabView.android.tabLayout;
-            const layoutParams = androidTab.getLayoutParams();
-            layoutParams.height = 150;
-            androidTab.setLayoutParams(layoutParams);
-        }
-    }
-
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
         const currentTabId = this.MainConfig.config.columnsOrder[event.newIndex];
         this.CurrentTab.setCurrent(this.wordsTab[currentTabId], event.newIndex);
         this.cd.detectChanges();
-    }
-
-    public onTabScroll (event: ITabScrollEvent) {
-        /* if (isAndroid) {
-            if (this.isTabViewHeaderAnimInProgress) {
-                return;
-            }
-
-            if (this.tabViewHeaderHeight == null) {
-                this.tabViewHeaderHeight = this.tabView.android.tabLayout.getHeight();
-                this.tabViewHeaderHideAnimation = this.getTabViewHeaderHeightAnimation([this.tabViewHeaderHeight, 0]);
-                this.tabViewHeaderShowAnimation = this.getTabViewHeaderHeightAnimation([0, this.tabViewHeaderHeight]);
-            }
-
-            if (event.direction === "up" && !this.isTabViewHeaderHidden) {
-                this.isTabViewHeaderAnimInProgress = true;
-                this.isTabViewHeaderHidden = true;
-                this.tabViewHeaderHideAnimation.start();
-                this.cd.detectChanges();
-            }
-            else if (event.direction === "down" && this.isTabViewHeaderHidden) {
-                this.isTabViewHeaderAnimInProgress = true;
-                this.isTabViewHeaderHidden = false;
-                this.tabViewHeaderShowAnimation.start();
-                this.cd.detectChanges();
-            }
-        }*/
-    }
-
-    private getTabViewHeaderHeightAnimation (heightValues: number[]) {
-        const anim = android.animation.ValueAnimator.ofInt(heightValues);
-        anim.addUpdateListener(new android.animation.ValueAnimator.AnimatorUpdateListener({
-            onAnimationUpdate: (valueAnimator: android.animation.ValueAnimator) => {
-                const val = valueAnimator.getAnimatedValue();
-                const layoutParams = this.tabView.android.tabLayout.getLayoutParams();
-                layoutParams.height = val;
-                this.tabView.android.tabLayout.setLayoutParams(layoutParams);
-            }
-        }));
-        anim.addListener(new android.animation.Animator.AnimatorListener({
-            onAnimationEnd: (param: android.animation.Animator) => {
-                this.isTabViewHeaderAnimInProgress = false;
-            },
-            onAnimationStart: () => {},
-            onAnimationCancel: () => {},
-            onAnimationRepeat: () => {}
-        }));
-        anim.setDuration(300);
-
-        return anim;
     }
 }

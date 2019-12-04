@@ -84,7 +84,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         }
 
         const query = {
-            date: this.earliestWordDate.toString(),
+            date: this.earliestWordDate.toUTCString(),
             count: options.count || 3
         };
         this.isLoading = true;
@@ -109,6 +109,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                         publishDateUTC: word.publishDateUTC,
                         partOfSpeech: word.partOfSpeech
                     } as IWord;
+
                     newWord.date = this.getWordDate(word);
                     if (options.checkForLatestWord) {
                         if (!this.latestWordDate || this.latestWordDate.getTime() < newWord.date.object.getTime()) {
@@ -128,6 +129,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 }
 
                 this.earliestWordDate = new Date(resultWords[resultWords.length - 1].publishDateUTC);
+                this.earliestWordDate.setUTCHours(this.earliestWordDate.getUTCHours() - 24);
                 this.allListItems = [...this.allListItems, ...resultWords];
             }
         });
