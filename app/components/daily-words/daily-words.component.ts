@@ -59,7 +59,8 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         if (nsHasKey(this.latestWordDateKey)) {
             this.latestWordDate = new Date(JSON.parse(nsGetString(this.latestWordDateKey)));
         }
-        this.loadNewWords({ count: 5, checkForLatestWord: true });
+
+        this.loadNewWords({count: 10, checkForLatestWord: true});
     }
 
     public startLatestWordTeaserAnimation (latestWordBox: LatestWordBox) {

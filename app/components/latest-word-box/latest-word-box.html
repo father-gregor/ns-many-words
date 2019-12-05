@@ -1,7 +1,7 @@
 <MDCardView #wordBox
             class="material-card-wrapper"
             elevation="5"
-            rippleColor="gold"
+            [rippleColor]="cardRippleColor"
             (tap)="openLatestWord()">
        <GridLayout columns="*"
                    rows="*"
@@ -12,12 +12,14 @@
                      col="0"
                      row="0"
                      horizontalAlignment="center"
-                     verticalAlignment="center"></Label>
+                     verticalAlignment="center">
+              </Label>
               <Button class="btn-primary text-uppercase btn-latest-word"
                       col="0"
                       row="0"
                       verticalAlignment="center"
                       text="Open Latest Word!"
-                      (tap)="openLatestWord()"></Button>
+                      (tap)="openLatestWord()">
+              </Button>
        </GridLayout>
 </MDCardView>

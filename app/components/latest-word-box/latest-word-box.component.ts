@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from "@angular/core";
+import { Component, ViewChild, ElementRef, Output, EventEmitter } from "@angular/core";
 import {trigger, transition, style, animate} from "@angular/animations";
 
 @Component({
@@ -35,18 +35,23 @@ import {trigger, transition, style, animate} from "@angular/animations";
         ])
     ]
 })
-export class LatestWordBox implements OnInit {
+export class LatestWordBox {
     public animationState: "openNewWord" | never;
+    public isOpening = false;
+    public cardRippleColor = "gold";
     @Output("onLatestWordOpen") public onLatestWordOpenEmitter: EventEmitter<void> = new EventEmitter<void>();
 
     @ViewChild("wordBox", {static: false}) public element: ElementRef;
 
-    constructor () { }
-
-    public ngOnInit () {}
+    constructor () {}
 
     public openLatestWord () {
+        if (this.isOpening) {
+            return;
+        }
+        this.isOpening = true;
         this.onLatestWordOpenEmitter.emit();
+
         // this.animationState = "openNewWord";
         // this.cd.detectChanges();
         /* const wordView = this.wordBoxView.nativeElement as View;

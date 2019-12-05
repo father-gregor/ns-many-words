@@ -15,6 +15,7 @@ import { SnackBarNotificationService } from "../../services/snack-bar-notificati
 })
 export class WordBoxComponent {
     public dynamicStyleClass = "";
+    public isFavorite: boolean;
     @Input() public word: IWord;
     @Input() public type: WordType;
     @Input() public isFavoritePage = false;
@@ -40,11 +41,12 @@ export class WordBoxComponent {
             };
         }
 
+        this.checkIsFavorite();
         this.dynamicStyleClass = !this.word.latest && this.word.date.text === "Today" ? "latest_word" : "";
     }
 
-    public isFavorite () {
-        return Boolean(this.FavoriteWords.get(this.word, this.type));
+    public checkIsFavorite () {
+        this.isFavorite = Boolean(this.FavoriteWords.get(this.word, this.type));
     }
 
     public onOpenWordTap () {
@@ -66,14 +68,16 @@ export class WordBoxComponent {
     public async onFavoriteTap () {
         this.stopPropagation = true;
 
-        if (this.isFavorite()) {
+        if (this.isFavorite) {
             this.FavoriteWords.remove(this.word, this.type);
+            this.checkIsFavorite();
             if (!this.isFavoritePage) {
                 this.cd.detectChanges();
             }
         }
         else {
             this.FavoriteWords.add(this.word, this.type);
+            this.checkIsFavorite();
             this.cd.detectChanges();
         }
     }

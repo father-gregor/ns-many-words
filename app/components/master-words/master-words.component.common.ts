@@ -30,7 +30,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public isLoading: boolean = false;
     public allListItems: Array<IWord | {techItem: TechItemType}> = [];
 
-    @Output("onTabScroll") public onTabScrollEmitter: EventEmitter<ITabScrollEvent> = new EventEmitter<ITabScrollEvent>();
     @ViewChild("listView", {static: false}) public wordsListView: ElementRef;
 
     protected listView: ListView;
@@ -72,10 +71,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     }
 
     public preventItemHighlight () {
-        return;
-    }
-
-    public onAndroidListViewTopScroll () {
         return;
     }
 

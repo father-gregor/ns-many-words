@@ -100,10 +100,8 @@ export class ReorderContainerDirective implements AfterContentInit {
 
     public onItemPanEnd (itemValue: any) {
         this.onItemsOrderChangeEmitter.emit(this.itemsOrder.map((i) => {
-            if (i.itemValue !== itemValue) {
-                i.element.view.translateX = 0;
-                i.element.view.translateY = 0;
-            }
+            i.element.view.translateX = 0;
+            i.element.view.translateY = 0;
             return i.itemValue;
         }));
     }

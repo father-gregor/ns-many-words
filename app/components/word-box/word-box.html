@@ -4,15 +4,17 @@
        <GridLayout #wordBox
                    columns="*, auto"
                    rows="70, *, 50"
-                   class="word-container {{dynamicStyleClass}}"
+                   class="word-container"
                    verticalAlignment="center">
-              <StackLayout class="word-selftext"
+              <GridLayout class="word-selftext"
                            row="0"
                            col="0"
                            colspan="2"
+                           columns="*"
+                           rows="*"
                            verticalAlignment="center">
-                     <Label height="100%" [text]="word.name"></Label>
-              </StackLayout>
+                     <Label col="0" row="0" [text]="word.name"></Label>
+              </GridLayout>
               <StackLayout class="word-definitions"
                            row="1"
                            col="0"
@@ -27,25 +29,27 @@
                             horizontalAlignment="right">
                      </Label>
               </StackLayout>
-              <StackLayout class="wordbox-footer"
+              <GridLayout class="wordbox-footer"
                            row="2"
                            col="1"
+                           columns="auto, auto"
+                           rows="*"
                            orientation="horizontal">
-                     <MDRipple class="wordbox-footer-btn" rippleColor="white" (tap)="onFavoriteTap()">
-                            <Image [src]="isFavorite() ? 'res://star_full' : 'res://star_empty'"
+                     <MDRipple col="0" row="0" class="wordbox-footer-btn" rippleColor="white" (tap)="onFavoriteTap()">
+                            <Image [src]="isFavorite ? 'res://star_full' : 'res://star_empty'"
                                    class="btn-favorite-container"
                                    [style.visibility]="disableFavorite ? 'collapse' : 'visible'"
                                    horizontalAlignment="center"
                                    verticalAlignment="top">
                             </Image>
                      </MDRipple>
-                     <MDRipple class="wordbox-footer-btn" rippleColor="white" (tap)="onSocialShareTap()">
+                     <MDRipple col="1" row="0" class="wordbox-footer-btn" rippleColor="white" (tap)="onSocialShareTap()">
                             <Image [src]="'res://social_share'"
                                    class="btn-share-container"
                                    horizontalAlignment="center"
                                    verticalAlignment="top">
                             </Image>
                      </MDRipple>
-              </StackLayout>
+              </GridLayout>
        </GridLayout>
 </MDCardView>

@@ -98,7 +98,7 @@ export class DraggableItemDirective {
         this.view.backgroundColor = new Color("#ffffff");
         this.view.style.zIndex = null;
         this.view.animate({
-            translate: { x: 0, y: 0 },
+            translate: {x: 0, y: 0},
             duration: 300,
             curve: AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1)
         });
