@@ -52,6 +52,7 @@
     "lazy": "1.0.11",
     "nativescript-dev-webpack": "^1.3.0",
     "node-sass": "^4.12.0",
+    "serialize-javascript": "2.1.1",
     "tns-platform-declarations": "6.0.1",
     "tslib": "^1.9.3",
     "typescript": "~3.5.3"
