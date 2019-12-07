@@ -17,7 +17,8 @@
                         (tap)="preventItemHighlight()">
                 <Label col="0"
                        row="0"
-                       text=""></Label>
+                       text="">
+                </Label>
             </GridLayout>
         </ng-template>
 
@@ -26,7 +27,8 @@
             <StackLayout class="word-box"
                          orientation="vertical">
                 <WordDateTime [dateText]="word.date.text"
-                              [isToday]="true"></WordDateTime>
+                              [isToday]="true">
+                </WordDateTime>
                 <LatestWordBox #latestWordELement
                                (onLatestWordOpen)="startLatestWordTeaserAnimation(latestWordELement)"></LatestWordBox>
             </StackLayout>
@@ -39,7 +41,8 @@
                          (tap)="preventItemHighlight()">
                 <WordDateTime [dateText]="word.date.text"></WordDateTime>
                 <WordBox [word]="word"
-                         [type]="wordsType"></WordBox>
+                         [type]="wordsType">
+                </WordBox>
             </StackLayout>
         </ng-template>
 
@@ -52,7 +55,8 @@
                 <WordBox col="0"
                          row="0"
                          [word]="word"
-                         [type]="wordsType"></WordBox>
+                         [type]="wordsType">
+                </WordBox>
             </StackLayout>
         </ng-template>
 
@@ -61,7 +65,8 @@
                          orientation="vertical"
                          (tap)="preventItemHighlight()">
                 <NoWords [errorMessage]="noWordsMsg"
-                         (onTap)="loadNewWords({count: 5})"></NoWords>
+                         (onTap)="loadNewWords({count: 5})">
+                </NoWords>
             </StackLayout>
         </ng-template>
 

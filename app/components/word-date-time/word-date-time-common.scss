@@ -23,11 +23,11 @@
 
     &.today_date {
         .word-date {
-            color: rgba(121, 104, 7, 0.815);
+            color: $latest-daily-word-color;
         }
     
         .word-date-line {
-            background-color: rgba(185, 158, 2, 0.815);
+            background-color: lighten($latest-daily-word-color, 10%);
         }
     }
 }

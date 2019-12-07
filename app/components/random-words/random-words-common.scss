@@ -1,9 +1,10 @@
+@import "../../styles/variables.scss";
 @import "../master-words/master-words-common.scss";
 
 .master-words-container.random {
     ::ng-deep {
         .wordbox-footer {
-            background-color: #000000;
+            background-color: $random-words-color;
         }
     }
 }
