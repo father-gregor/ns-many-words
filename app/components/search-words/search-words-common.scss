@@ -1,8 +1,9 @@
 @import "../../styles/mixins.scss";
 @import "../../styles/variables.scss";
 
-@include apply-current-theme-to(search-results-container);
-
+::ng-deep {
+    @include apply-current-theme-to(search-words-layout)
+}
 
 .search-bar-container {
     width: 100%;

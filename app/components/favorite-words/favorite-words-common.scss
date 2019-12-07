@@ -1,3 +1,5 @@
 @import "../../styles/mixins.scss";
 
-@include apply-current-theme-to(favorite-words-container);
+::ng-deep {
+    @include apply-current-theme-to(favorite-words-container);
+}

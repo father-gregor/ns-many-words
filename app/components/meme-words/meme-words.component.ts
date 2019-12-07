@@ -31,6 +31,7 @@ import { LoggerService } from "../../services/logger/logger.service";
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
     public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
+    public loadingIndicatorSrc = "CircleLoading-purple.json";
 
     constructor (
         private Words: WordsService,

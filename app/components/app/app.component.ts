@@ -5,8 +5,8 @@ import { isAndroid, isIOS } from "tns-core-modules/ui/page/page";
 import { Color } from "tns-core-modules/ui/core/view";
 import { android as androidObj, AndroidApplication } from "tns-core-modules/application/application";
 
-import { GoogleFirebaseService } from "./services/google-firebase/google-firebase.service";
-import { AppThemeService } from "./services/app-theme/app-theme.service";
+import { GoogleFirebaseService } from "../../services/google-firebase/google-firebase.service";
+import { AppThemeService } from "../../services/app-theme/app-theme.service";
 
 if (isAndroid && parseInt(device.sdkVersion, 10) >= 21) {
     androidObj.on(AndroidApplication.activityStartedEvent, () => {
@@ -20,7 +20,7 @@ if (isAndroid && parseInt(device.sdkVersion, 10) >= 21) {
 @Component({
     selector: "many-words-app",
     moduleId: module.id,
-    styleUrls: ["./app.component.scss"],
+    styleUrls: ["./app-common.scss"],
     templateUrl: "./app.component.html"
 })
 export class AppComponent implements AfterViewInit  {

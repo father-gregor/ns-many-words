@@ -1,1 +1,9 @@
 @import "../master-words/master-words-common.scss";
+
+.master-words-container.daily {
+    ::ng-deep {
+        .wordbox-footer {
+            background-color: rgba(184, 161, 32, 0.822);
+        }
+    }
+}

@@ -41,6 +41,8 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
     public noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
     public earliestWordDate: Date;
+    public loadingIndicatorSrc = "CircleLoading-gold.json";
+
     private latestWordDate: Date;
     private latestWordDateKey = "latestDate";
 

@@ -20,8 +20,8 @@
             }
         }
     }
+}
 
-    TabContentItem {
-        @include apply-current-theme-to(words-tab);
-    }
+::ng-deep {
+    @include apply-current-theme-to(words-tab);
 }

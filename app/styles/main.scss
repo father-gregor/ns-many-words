@@ -5,13 +5,16 @@
 $btn-color-outline-highlighted: #b4b4b4;
 
 @import "./variables.scss";
+@import "./mixins.scss";
 @import "./modals.scss";
 
 @import "./main.android.scss";
 
-Page {
+Frame {
     font-family: $main-font;
     font-weight: normal;
+
+    background-color: #e5e2e2;
 }
 
 .general-action-bar {
@@ -31,10 +34,6 @@ Page {
 
 .font-icon {
     font-family: "FontAwesome", "fontawesome";
-}
-
-.ns-dark {
-    background-color: black;
 }
 
 ActivityIndicator {

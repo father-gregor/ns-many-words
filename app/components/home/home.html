@@ -13,7 +13,7 @@
         </TabStripItem>
     </TabStrip>
 
-    <TabContentItem *ngFor="let column of MainConfig.config.columnsOrder">
+    <TabContentItem class="words-tab" *ngFor="let column of MainConfig.config.columnsOrder">
         <StackLayout class="words-tab">
             <ng-container [ngSwitch]="column">
                 <DailyWords *ngSwitchCase="'daily'"></DailyWords>

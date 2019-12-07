@@ -43,7 +43,7 @@ import { AppThemeService } from "./services/app-theme/app-theme.service";
 /**
  * Components
  */
-import { AppComponent } from "./app.component";
+import { AppComponent } from "./components/app/app.component";
 import { HomeComponent } from "./components/home/home.component";
 import { DailyWordsComponent } from "./components/daily-words/daily-words.component";
 import { WordBoxComponent } from "./components/word-box/word-box.component";

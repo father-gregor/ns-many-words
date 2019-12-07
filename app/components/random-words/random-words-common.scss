@@ -1,7 +1,9 @@
 @import "../master-words/master-words-common.scss";
 
-.master-words-container.random .word-container {
-    .wordbox-footer {
-        background: rgb(0, 40, 78);
+.master-words-container.random {
+    ::ng-deep {
+        .wordbox-footer {
+            background-color: #000000;
+        }
     }
 }

@@ -4,8 +4,10 @@
 
 @mixin apply-current-theme-to($className) {
     ::ng-deep {
-        .#{$className} {
-            background-color: #d4d4d4;
+        .ns-light {
+            .#{$className} {
+                background-color: #e5e2e2;
+            }
         }
 
         .ns-dark {

@@ -29,6 +29,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public firstLoading = true;
     public isLoading: boolean = false;
     public allListItems: Array<IWord | {techItem: TechItemType}> = [];
+    public loadingIndicatorSrc = "CircleLoading-black.json";
 
     @ViewChild("listView", {static: false}) public wordsListView: ElementRef;
 

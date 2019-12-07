@@ -4,12 +4,6 @@
 .master-words-container.meme {
     @include meme-gradient(to bottom);
 
-    .words-additional-elements {
-        ActivityIndicator {
-            color: #ffffff;
-        }
-    }
-
     ::ng-deep {
         .word-container {
             background-color: #f7f7f7;
