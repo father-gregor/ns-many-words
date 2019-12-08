@@ -1,6 +1,7 @@
-import { EventEmitter, Output, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy } from "@angular/core";
+import { OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, AfterContentInit, Input } from "@angular/core";
 import { isAndroid } from "tns-core-modules/platform";
 import { ListView } from "tns-core-modules/ui/list-view";
+import { Visibility } from "tns-core-modules/ui/page/page";
 import { Subject, Subscription, Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 
@@ -11,16 +12,16 @@ import * as dateformat from "dateformat";
  */
 import { TabErrorType } from "../errors/errors.interfaces";
 import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
-import { ITabScrollEvent } from "./master-words.interfaces";
 
 /**
  * Services
  */
 import { LoggerService } from "../../services/logger/logger.service";
+import { MainConfigService } from "../../services/main-config/main-config.service";
 
 type TechItemType = "loading" | "noWords" | "header";
 
-export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit, OnDestroy {
+export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
     public wordsType: WordType;
     public currentError: TabErrorType;
     public isNoWords = false;
@@ -29,7 +30,16 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public firstLoading = true;
     public isLoading: boolean = false;
     public allListItems: Array<IWord | {techItem: TechItemType}> = [];
-    public loadingIndicatorSrc = "CircleLoading-black.json";
+    public loadingIndicatorSrc: string;
+    public visibilityStatus: Visibility = "visible";
+    @Input("isVisible") set isVisibleInput (value: boolean) {
+        if (value) {
+            this.visibilityStatus = "visible";
+        }
+        else {
+            this.visibilityStatus = "collapse";
+        }
+    }
 
     @ViewChild("listView", {static: false}) public wordsListView: ElementRef;
 
@@ -39,9 +49,11 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     protected subscriptions: Subscription = new Subscription();
 
     constructor (
+        protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
+        this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.default;
         this.cd.detach();
     }
 
@@ -63,6 +75,12 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 }
             }, 100);
         }
+    }
+
+    public ngAfterContentInit () {
+        setTimeout(() => {
+            console.log("TEST");
+        });
     }
 
     public ngOnDestroy () {

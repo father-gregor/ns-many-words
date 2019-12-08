@@ -1,21 +1,8 @@
 @import "../../styles/mixins.scss";
 @import "../master-words/master-words-common.scss";
 
-.master-words-container.meme {
+.master-words-container {
     @include meme-gradient(to bottom);
 
-    ::ng-deep {
-        .word-container {
-            background-color: #f7f7f7;
-        }
-    
-        .wordbox-footer {
-            .wordbox-footer-btn Image {
-                color: transparent;
-                background-color: transparent;
-            }
-
-            @include meme-gradient(45deg);
-        }
-    }
+    @include meme-word();
 }

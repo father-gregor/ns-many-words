@@ -1,10 +1,6 @@
-@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
 @import "../master-words/master-words-common.scss";
 
-.master-words-container.daily {
-    ::ng-deep {
-        .wordbox-footer {
-            background-color: $daily-words-color;
-        }
-    }
+.master-words-container {
+    @include daily-word();
 }

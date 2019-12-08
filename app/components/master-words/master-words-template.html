@@ -1,7 +1,8 @@
 <GridLayout rows="*"
             columns="*"
-            class="master-words-container {{wordsType}}"
-            orientation="vertical">
+            class="master-words-container"
+            orientation="vertical"
+            [visibility]="visibilityStatus">
     <ListView #listView
               *ngIf="!firstLoading && allListItems.length !== 0"
               class="words-list"
@@ -30,7 +31,8 @@
                               [isToday]="true">
                 </WordDateTime>
                 <LatestWordBox #latestWordELement
-                               (onLatestWordOpen)="startLatestWordTeaserAnimation(latestWordELement)"></LatestWordBox>
+                               (onLatestWordOpen)="startLatestWordTeaserAnimation(latestWordELement)">
+                </LatestWordBox>
             </StackLayout>
         </ng-template>
 
@@ -49,40 +51,38 @@
         <ng-template nsTemplateKey="defaultWord"
                      let-word="item"
                      let-ind="index">
-            <StackLayout class="word-box"
-                         orientation="vertical"
-                         (tap)="preventItemHighlight()">
-                <WordBox col="0"
-                         row="0"
+            <GridLayout class="word-box"
+                        rows="auto"
+                        orientation="vertical"
+                        (tap)="preventItemHighlight()">
+                <WordBox row="0"
                          [word]="word"
                          [type]="wordsType">
                 </WordBox>
-            </StackLayout>
+            </GridLayout>
         </ng-template>
 
         <ng-template nsTemplateKey="noWords">
-            <StackLayout class="word-box"
-                         orientation="vertical"
-                         (tap)="preventItemHighlight()">
-                <NoWords [errorMessage]="noWordsMsg"
+            <GridLayout class="word-box"
+                        rows="auto"
+                        orientation="vertical"
+                        (tap)="preventItemHighlight()">
+                <NoWords row="0"
+                         [errorMessage]="noWordsMsg"
                          (onTap)="loadNewWords({count: 5})">
                 </NoWords>
-            </StackLayout>
+            </GridLayout>
         </ng-template>
 
         <ng-template nsTemplateKey="loading">
-            <StackLayout orientation="vertical"
-                         (tap)="preventItemHighlight()">
-                <LottieView class="loading-words-spinner"
-                            width="100"
-                            height="100"
-                            [src]="loadingIndicatorSrc"
-                            [loop]="true"
-                            [autoPlay]="true"
-                            horizontalAlignment="center"
-                            verticalAlignment="center">
-                </LottieView>
-            </StackLayout>
+            <GridLayout rows="auto"
+                        (tap)="preventItemHighlight()">
+                <LoadingIndicator class="loading-words-spinner"
+                                  [animationSrc]="loadingIndicatorSrc"
+                                  width="100"
+                                  height="100">
+                </LoadingIndicator>
+            </GridLayout>
         </ng-template>
     </ListView>
     <StackLayout *ngIf="isNoWords && allListItems.length === 0 || firstLoading"
@@ -92,15 +92,11 @@
                  orientation="vertical"
                  horizontalAlignment="center"
                  verticalAlignment="center">
-        <LottieView *ngIf="isLoading || firstLoading"
-                    width="200"
-                    height="200"
-                    [src]="loadingIndicatorSrc"
-                    [loop]="true"
-                    [autoPlay]="true"
-                    horizontalAlignment="center"
-                    verticalAlignment="center">
-        </LottieView>
+        <LoadingIndicator *ngIf="isLoading || firstLoading"
+                          [animationSrc]="loadingIndicatorSrc"
+                          width="200"
+                          height="200">
+        </LoadingIndicator>
         <NoWords *ngIf="!isLoading"
                  [errorMessage]="noWordsMsg"
                  (onTap)="loadNewWords({count: 3})">

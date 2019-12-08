@@ -13,13 +13,20 @@
         </TabStripItem>
     </TabStrip>
 
-    <TabContentItem class="words-tab" *ngFor="let column of MainConfig.config.columnsOrder">
-        <StackLayout class="words-tab">
+    <TabContentItem class="words-tab"
+                    *ngFor="let column of MainConfig.config.columnsOrder">
+        <StackLayout *ngIf="isFirstLoadingComplete[column]" class="words-tab">
             <ng-container [ngSwitch]="column">
-                <DailyWords *ngSwitchCase="'daily'"></DailyWords>
+                <DailyWords *ngSwitchCase="'daily'"
+                            [isVisible]="currentTabId === 'daily'">
+                </DailyWords>
                 <RandomWords *ngSwitchCase="'random'"
-                             [currentSelectedTab]=""></RandomWords>
-                <MemeWords *ngSwitchCase="'meme'"></MemeWords>
+                             [currentSelectedTab]=""
+                             [isVisible]="currentTabId === 'random'">
+                </RandomWords>
+                <MemeWords *ngSwitchCase="'meme'"
+                           [isVisible]="currentTabId === 'meme'">
+                </MemeWords>
             </ng-container>
         </StackLayout>
     </TabContentItem>

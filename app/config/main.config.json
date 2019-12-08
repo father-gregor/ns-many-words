@@ -15,6 +15,12 @@
         "meme"
     ],
     "loadingText": "Loading...",
+    "loadingAnimations": {
+        "default": "CircleLoading-black.json",
+        "daily": "CircleLoading-gold.json",
+        "random": "CircleLoading-black.json",
+        "meme": "CircleLoading-purple.json"
+    },
     "pushNotificationTopics": [
         "newDailyWord"
     ],

@@ -16,6 +16,12 @@ export interface IMainConfig {
     columnsOrder: string[];
     states: IStatesConfig;
     loadingText: string;
+    loadingAnimations: {
+        default: string;
+        daily: string;
+        random: string;
+        meme: string;
+    };
     pushNotificationTopics: string[];
     loggingUrl: string;
     wordApi: {

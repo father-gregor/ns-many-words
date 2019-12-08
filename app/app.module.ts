@@ -69,6 +69,7 @@ import { WordDateTimeComponent } from "./components/word-date-time/word-date-tim
 import { ActionBarIconItemComponent } from "./components/action-bars/action-bar-icon-item/action-bar-icon-item.component";
 import { ContactUsModalComponent } from "./components/modals/contact-us-modal/contact-us-modal.component";
 import { SearchWordsBarComponent } from "./components/search-words-bar/search-words-bar.component";
+import { LoadingIndicatorComponent } from "./components/loading-indicator/loading-indicator.component";
 
 @NgModule({
     bootstrap: [
@@ -113,7 +114,8 @@ import { SearchWordsBarComponent } from "./components/search-words-bar/search-wo
         WordDateTimeComponent,
         ActionBarIconItemComponent,
         ContactUsModalComponent,
-        SearchWordsBarComponent
+        SearchWordsBarComponent,
+        LoadingIndicatorComponent
     ],
     providers: [
         WordsService,

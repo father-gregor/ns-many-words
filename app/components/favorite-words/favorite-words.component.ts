@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, AfterContentInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
 /**
@@ -25,9 +25,10 @@ import { LoggerService } from "../../services/logger/logger.service";
     styleUrls: ["./favorite-words-common.scss"],
     templateUrl: "./favorite-words.html"
 })
-export class FavoriteWordsComponent extends MasterWordsComponentCommon implements OnInit, OnDestroy {
+export class FavoriteWordsComponent extends MasterWordsComponentCommon implements OnInit, AfterContentInit, OnDestroy {
     public wordsType: WordType = "favorite";
     public favoriteWords: IFavoriteWord[];
+    public isInitCompleted = false;
 
     private sub: Subscription;
 
@@ -37,7 +38,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
         protected Logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
-        super(Logger, cd);
+        super(MainConfig, Logger, cd);
         this.noWordsMsg = this.MainConfig.config.states.favoritesArchive.noWordsText;
     }
 
@@ -50,6 +51,13 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
             this.cd.detectChanges();
             this.newWordsLoaded$.next();
         });
+    }
+
+    public ngAfterContentInit () {
+        setTimeout(() => {
+            this.isInitCompleted = true;
+            this.cd.detectChanges();
+        }, 700);
     }
 
     public ngOnDestroy () {

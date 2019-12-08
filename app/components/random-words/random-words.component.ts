@@ -4,6 +4,7 @@ import { Component, ChangeDetectorRef } from "@angular/core";
  * Interfaces
  */
 import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
+import { IWordTab } from "../home/tab";
 
 /**
  * Components
@@ -21,7 +22,7 @@ import { masterWordsAnimations } from "../master-words/master-words.animations";
 import { LoggerService } from "../../services/logger/logger.service";
 import { WordsService } from "../../services/words/words.service";
 import { CurrentTabService } from "../../services/current-tab/current-tab.service";
-import { IWordTab } from "../home/tab";
+import { MainConfigService } from "../../services/main-config/main-config.service";
 
 @Component({
     selector: "RandomWords",
@@ -40,11 +41,15 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
 
     constructor (
         private Words: WordsService,
+        protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
         protected cd: ChangeDetectorRef,
         private CurrentTab: CurrentTabService
     ) {
-        super(Logger, cd);
+        super(MainConfig, Logger, cd);
+        super.wordsType = this.wordsType;
+
+        this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.random;
     }
 
    public ngOnInit () {

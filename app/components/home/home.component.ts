@@ -24,7 +24,7 @@ import { MainConfigService } from "../../services/main-config/main-config.servic
     templateUrl: "./home.html"
 })
 export class HomeComponent implements AfterViewInit {
-    public wordsTab: { [key: string]: IWordTab } = {
+    public wordsTab: {[key: string]: IWordTab} = {
         daily: {
             title: "Daily",
             icon: "res://tab_icon_daily",
@@ -41,6 +41,8 @@ export class HomeComponent implements AfterViewInit {
             id: "meme"
         }
     };
+    public isFirstLoadingComplete: {[key: string]: boolean} = {};
+    public currentTabId: string;
 
     @ViewChild("mainActionBar", { static: false }) public mainActionBarComponent: MainActionBarComponent;
     @ViewChild("wordsTabView", { static: false }) public tabBarElement: ElementRef;
@@ -51,6 +53,9 @@ export class HomeComponent implements AfterViewInit {
         private cd: ChangeDetectorRef
     ) {
         this.CurrentTab.setCurrent(this.wordsTab[0], 0);
+        for (const column of this.MainConfig.config.columnsOrder) {
+            this.isFirstLoadingComplete[column] = false;
+        }
         this.cd.detach();
     }
 
@@ -59,8 +64,11 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
-        const currentTabId = this.MainConfig.config.columnsOrder[event.newIndex];
-        this.CurrentTab.setCurrent(this.wordsTab[currentTabId], event.newIndex);
+        this.currentTabId = this.MainConfig.config.columnsOrder[event.newIndex];
+        if (!this.isFirstLoadingComplete[this.currentTabId]) {
+            this.isFirstLoadingComplete[this.currentTabId] = true;
+        }
+        this.CurrentTab.setCurrent(this.wordsTab[this.currentTabId], event.newIndex);
         this.cd.detectChanges();
     }
 }

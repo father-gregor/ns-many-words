@@ -1,5 +1,23 @@
 @import "../../styles/mixins.scss";
 
+.favorite-words-container {
+    .favorite-word-component {
+        @include default-word();
+
+        &.daily {
+            @include daily-word();
+        }
+    
+        &.random {
+            @include random-word();
+        }
+    
+        &.meme {
+            @include meme-word();
+        }
+    }
+}
+
 ::ng-deep {
     @include apply-current-theme-to(favorite-words-container);
 }

@@ -1,7 +1,7 @@
 @import "../../styles/variables.scss";
 
 .word-container.latest_word_teaser {
-    background-color: $latest-daily-word-color;
+    background: linear-gradient(to bottom, lighten($daily-words-color, 10%), $daily-words-color);
 
     .btn-latest-word {
         color: #000000;

@@ -1,5 +1,44 @@
+@import "./variables.scss";
+
 @mixin meme-gradient($direction) {
     background: linear-gradient(#{$direction}, rgb(235, 209, 96), rgb(241, 79, 106), rgb(153, 216, 236));
+}
+
+@mixin default-word () {
+    ::ng-deep {
+        .wordbox-footer {
+            background-color: $default-words-color;
+        }
+    }
+}
+
+@mixin daily-word () {
+    ::ng-deep {
+        .wordbox-footer {
+            background: linear-gradient(to right, lighten($daily-words-color, 10%), $daily-words-color);
+        }
+    }
+}
+
+@mixin random-word () {
+    ::ng-deep {
+        .wordbox-footer {
+            background-color: $random-words-color;
+        }
+    }
+}
+
+@mixin meme-word () {
+    ::ng-deep {
+        .wordbox-footer {
+            .wordbox-footer-btn Image {
+                color: transparent;
+                background-color: transparent;
+            }
+
+            @include meme-gradient(45deg);
+        }
+    }
 }
 
 @mixin apply-current-theme-to($className) {

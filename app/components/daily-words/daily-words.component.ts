@@ -1,14 +1,16 @@
-import { Component, ChangeDetectorRef, ElementRef } from "@angular/core";
+import { Component, ChangeDetectorRef } from "@angular/core";
 import {
     getString as nsGetString,
     setString as nsSetString,
     hasKey as nsHasKey
 } from "tns-core-modules/application-settings/application-settings";
+import { View } from "tns-core-modules/ui/core/view";
 
 /**
  * Components
  */
 import { MasterWordsComponentCommon } from "../master-words/master-words.component.common";
+import { LatestWordBox } from "../latest-word-box/latest-word-box.component";
 
 /**
  * Animations
@@ -25,8 +27,7 @@ import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfa
  */
 import { WordsService } from "../../services/words/words.service";
 import { LoggerService } from "../../services/logger/logger.service";
-import { LatestWordBox } from "../latest-word-box/latest-word-box.component";
-import { View } from "tns-core-modules/ui/core/view";
+import { MainConfigService } from "../../services/main-config/main-config.service";
 
 @Component({
     selector: "DailyWords",
@@ -41,18 +42,20 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
     public noWordsMsg = "No more words in the archive. New word will be released tomorrow!";
     public earliestWordDate: Date;
-    public loadingIndicatorSrc = "CircleLoading-gold.json";
 
     private latestWordDate: Date;
     private latestWordDateKey = "latestDate";
 
     constructor (
         private Words: WordsService,
+        protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
-        super(Logger, cd);
+        super(MainConfig, Logger, cd);
         super.wordsType = this.wordsType;
+
+        this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.daily;
     }
 
     public ngOnInit () {

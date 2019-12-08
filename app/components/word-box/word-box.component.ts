@@ -14,7 +14,6 @@ import { SnackBarNotificationService } from "../../services/snack-bar-notificati
     templateUrl: "./word-box.html"
 })
 export class WordBoxComponent {
-    public dynamicStyleClass = "";
     public isFavorite: boolean;
     @Input() public word: IWord;
     @Input() public type: WordType;
@@ -42,7 +41,6 @@ export class WordBoxComponent {
         }
 
         this.checkIsFavorite();
-        this.dynamicStyleClass = !this.word.latest && this.word.date.text === "Today" ? "latest_word" : "";
     }
 
     public checkIsFavorite () {

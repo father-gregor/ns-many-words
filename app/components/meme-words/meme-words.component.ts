@@ -20,6 +20,7 @@ import { masterWordsAnimations } from "../master-words/master-words.animations";
  */
 import { WordsService } from "../../services/words/words.service";
 import { LoggerService } from "../../services/logger/logger.service";
+import { MainConfigService } from "../../services/main-config/main-config.service";
 
 @Component({
     selector: "MemeWords",
@@ -31,15 +32,17 @@ import { LoggerService } from "../../services/logger/logger.service";
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
     public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
-    public loadingIndicatorSrc = "CircleLoading-purple.json";
 
     constructor (
         private Words: WordsService,
+        protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
         protected cd: ChangeDetectorRef
     ) {
-        super(Logger, cd);
+        super(MainConfig, Logger, cd);
         super.wordsType = this.wordsType;
+
+        this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.meme;
     }
 
     public ngOnInit () {

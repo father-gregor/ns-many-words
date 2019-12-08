@@ -1,15 +1,36 @@
 <MainActionBar [routeName]="MainConfig.config.states.favoritesArchive.url"></MainActionBar>
-<ScrollView class="favorite-words-container" orientation="vertical">
-    <GridLayout columns="10%, *, 10%" rows="*" *ngIf="favoriteWords.length > 0">
-        <StackLayout [ngClass]="{'first-word': ind === 0}" col="1" row="0" orientation="vertical">
-            <StackLayout *ngFor="let favoriteWord of favoriteWords" orientation="vertical">
-                <WordBox [word]="favoriteWord.word" [type]="favoriteWord.type" [isFavoritePage]="true"></WordBox>
+<LoadingIndicator *ngIf="!isInitCompleted"
+                  width="200"
+                  height="200">
+</LoadingIndicator>
+<ScrollView *ngIf="isInitCompleted"
+            class="favorite-words-container"
+            orientation="vertical">
+    <GridLayout *ngIf="favoriteWords.length > 0"
+                columns="10%, *, 10%">
+        <StackLayout col="1"
+                     orientation="vertical">
+            <StackLayout *ngFor="let favoriteWord of favoriteWords"
+                         class="favorite-word-component"
+                         [ngClass]="favoriteWord.type"
+                         orientation="vertical">
+                <WordBox [word]="favoriteWord.word"
+                         [type]="favoriteWord.type"
+                         [isFavoritePage]="true">
+                </WordBox>
             </StackLayout>
-            <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'"  horizontalAlignment="center">
-            </ActivityIndicator>
+            <LoadingIndicator *ngIf="isLoading"
+                              width="100"
+                              height="100">
+            </LoadingIndicator>
         </StackLayout>
     </GridLayout>
-    <StackLayout *ngIf="favoriteWords.length === 0" orientation="vertical" horizontalAlignment="center" verticalAlignment="center">
-        <NoWords [errorMessage]="noWordsMsg" [showButton]="false"></NoWords>
+    <StackLayout *ngIf="favoriteWords.length === 0"
+                 orientation="vertical"
+                 horizontalAlignment="center"
+                 verticalAlignment="center">
+        <NoWords [errorMessage]="noWordsMsg"
+                 [showButton]="false">
+        </NoWords>
     </StackLayout>
 </ScrollView>
