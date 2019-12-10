@@ -42,10 +42,9 @@ export class ContactUsModalComponent  {
     constructor (
         public MainConfig: MainConfigService,
         private params: BottomSheetParams,
-        AppTheme: AppThemeService,
+        AppTheme: AppThemeService
     ) {
         this.currentTheme = AppTheme.getCurrent();
-        console.log("Current Theme", this.currentTheme);
 
         this.emailOptions = {
             subject: this.MainConfig.config.states.settingsAboutUs.contactInfo.viaEmail.subject,

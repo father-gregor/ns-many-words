@@ -7,6 +7,7 @@
                     (onCancel)="closeModal()">
         <StackLayout reorderContainer
                      class="columns-reorder-container"
+                     [ngClass]="currentTheme"
                      (onItemsOrderChange)="updateColumnsOrder($event)">
             <ng-container *ngFor="let columnName of currentColumnsOrder; index as ind">
                 <GridLayout draggableItem
