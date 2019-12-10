@@ -1,5 +1,38 @@
 @import "./variables.scss";
 
+@mixin for-light-theme ($className) {
+    :host-context(.ns-light) .#{$className} {
+        @content;
+    }
+}
+
+@mixin for-dark-theme ($className) {
+    :host-context(.ns-dark) .#{$className} {
+        @content;
+    }
+}
+
+@mixin apply-black-color-to ($className, $property) {
+    :host-context(.ns-light) .#{$className} {
+        #{$property}: $background-dark;
+    }
+
+    :host-context(.ns-dark) .#{$className} {
+        #{$property}: $background-lighter-dark;
+    }
+}
+
+@mixin apply-current-theme-to($className) {
+    :host-context(.ns-light) .#{$className} {
+        background-color: $background;
+    }
+
+    :host-context(.ns-dark) .#{$className} {
+        color: #ffffff;
+        background-color: $background-dark;
+    }
+}
+
 @mixin meme-gradient($direction) {
     background: linear-gradient(#{$direction}, rgb(235, 209, 96), rgb(241, 79, 106), rgb(153, 216, 236));
 }
@@ -37,22 +70,6 @@
             }
 
             @include meme-gradient(45deg);
-        }
-    }
-}
-
-@mixin apply-current-theme-to($className) {
-    ::ng-deep {
-        .ns-light {
-            .#{$className} {
-                background-color: #e5e2e2;
-            }
-        }
-
-        .ns-dark {
-            .#{$className} {
-                background-color: #050505;
-            }
         }
     }
 }

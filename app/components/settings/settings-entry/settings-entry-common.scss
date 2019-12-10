@@ -1,4 +1,5 @@
 @import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
 
 $settings-entry-color: rgba(3, 3, 3, 0.836);
 
@@ -7,7 +8,6 @@ $settings-entry-color: rgba(3, 3, 3, 0.836);
         font-family: $typography-font;
         font-weight: normal;
         font-size: 20;
-        color: $settings-entry-color;
     }
 }
 
@@ -22,16 +22,41 @@ $settings-entry-color: rgba(3, 3, 3, 0.836);
 .entry-title {
     font-size: 18;
     font-family: $main-font;
-    color: $settings-entry-color;
 }
 
 .entry-subtitle {
     font-family: $typography-font;
-    color: lighten($settings-entry-color, 20%);
     font-size: 16;
 }
 
 .entry-content {
     margin-top: 15;
     margin-left: 15;
+}
+
+@include for-light-theme(entry-container) {
+    &,
+    .entry-title {
+        color: $settings-entry-color;
+    }
+
+    .entry-subtitle {
+        color: lighten($settings-entry-color, 20%);
+    }
+}
+
+@include for-dark-theme(entry-container) {
+    &,
+    .entry-title {
+        color: #ffffff;
+    }
+
+    .entry-subtitle {
+        color: darken(#ffffff, 20%);
+    }
+
+    .entry-icon {
+        background-color: #ffffff;
+        border-radius: 10;
+    }
 }

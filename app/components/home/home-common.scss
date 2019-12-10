@@ -22,6 +22,4 @@
     }
 }
 
-::ng-deep {
-    @include apply-current-theme-to(words-tab);
-}
+@include apply-current-theme-to(words-tab);

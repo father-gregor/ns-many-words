@@ -1,4 +1,4 @@
-import { OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, AfterContentInit, Input } from "@angular/core";
+import { OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, Input } from "@angular/core";
 import { isAndroid } from "tns-core-modules/platform";
 import { ListView } from "tns-core-modules/ui/list-view";
 import { Visibility } from "tns-core-modules/ui/page/page";
@@ -21,7 +21,7 @@ import { MainConfigService } from "../../services/main-config/main-config.servic
 
 type TechItemType = "loading" | "noWords" | "header";
 
-export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
+export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit, OnDestroy {
     public wordsType: WordType;
     public currentError: TabErrorType;
     public isNoWords = false;
@@ -33,11 +33,13 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public loadingIndicatorSrc: string;
     public visibilityStatus: Visibility = "visible";
     @Input("isVisible") set isVisibleInput (value: boolean) {
-        if (value) {
+        if (value && this.visibilityStatus !== "visible") {
             this.visibilityStatus = "visible";
+            this.cd.detectChanges();
         }
-        else {
+        else if (!value && this.visibilityStatus !== "collapse") {
             this.visibilityStatus = "collapse";
+            this.cd.detectChanges();
         }
     }
 
@@ -75,12 +77,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 }
             }, 100);
         }
-    }
-
-    public ngAfterContentInit () {
-        setTimeout(() => {
-            console.log("TEST");
-        });
     }
 
     public ngOnDestroy () {

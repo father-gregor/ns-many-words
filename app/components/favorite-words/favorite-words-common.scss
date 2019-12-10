@@ -18,6 +18,4 @@
     }
 }
 
-::ng-deep {
-    @include apply-current-theme-to(favorite-words-container);
-}
+@include apply-current-theme-to(favorite-words-container);

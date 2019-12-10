@@ -1,4 +1,12 @@
+@import "../../../styles/mixins.scss";
+
 .column-elem{
     padding-top: 10;
     padding-bottom: 10;
+}
+
+:host-context(.ns-dark) {
+    .column-elem {
+        color: #ffffff;
+    }
 }

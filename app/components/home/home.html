@@ -15,13 +15,13 @@
 
     <TabContentItem class="words-tab"
                     *ngFor="let column of MainConfig.config.columnsOrder">
-        <StackLayout *ngIf="isFirstLoadingComplete[column]" class="words-tab">
+        <StackLayout *ngIf="isFirstLoadingComplete[column]"
+                     class="words-tab">
             <ng-container [ngSwitch]="column">
                 <DailyWords *ngSwitchCase="'daily'"
                             [isVisible]="currentTabId === 'daily'">
                 </DailyWords>
                 <RandomWords *ngSwitchCase="'random'"
-                             [currentSelectedTab]=""
                              [isVisible]="currentTabId === 'random'">
                 </RandomWords>
                 <MemeWords *ngSwitchCase="'meme'"

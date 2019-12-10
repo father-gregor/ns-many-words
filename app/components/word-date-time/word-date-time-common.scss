@@ -1,8 +1,8 @@
 @import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
 
 .word-date-container {
     font-family: $typography-font;
-    color: #000000;
     margin-left: 10;
     margin-right: 10;
 
@@ -10,7 +10,6 @@
         border-width: 0;
         border-style: solid;
         height: 1;
-        background-color: rgb(95, 94, 94);
     }
       
     .word-date {
@@ -20,14 +19,30 @@
         font-size: 15;
         font-weight: bold;
     }
+}
+
+@include for-light-theme (word-date-container) {
+    color: #000000;
+
+    .word-date-line {
+        background-color: rgb(95, 94, 94);
+    }
 
     &.today_date {
         .word-date {
-            color: $latest-daily-word-color;
+            color: $daily-words-color;
         }
     
         .word-date-line {
-            background-color: lighten($latest-daily-word-color, 10%);
+            background-color: lighten($daily-words-color, 10%);
         }
+    }
+}
+
+@include for-dark-theme (word-date-container) {
+    color: #ffffff;
+
+    .word-date-line {
+        background-color: darken(#ffffff, 10%);
     }
 }

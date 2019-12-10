@@ -1,8 +1,11 @@
 $word-box-height: 300;
 
+$background: #e5e2e2;
+$background-dark: #050505;
+$background-lighter-dark: lighten($background-dark, 10%);
+
 $default-words-color: #000000;
 $daily-words-color: rgb(172, 146, 3);
-$latest-daily-word-color: rgb(172, 146, 3);
 $random-words-color: #000000;
 $meme-words-color: linear-gradient(to bottom, rgb(235, 209, 96), rgb(241, 79, 106), rgb(153, 216, 236));
 

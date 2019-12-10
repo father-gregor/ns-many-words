@@ -1,0 +1,14 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+@include for-dark-theme(modal-container) {
+    background-color: $background-lighter-dark;
+
+    Label {
+        color: #ffffff;
+    }
+
+    .btn {
+        background-color: $background-lighter-dark;
+    }
+}

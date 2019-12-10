@@ -1,10 +1,11 @@
+@import "./variables.scss";
+
 @import "~@nativescript/theme/core";
 @import "~@nativescript/theme/default";
 
 // Theme colors override
 $btn-color-outline-highlighted: #b4b4b4;
 
-@import "./variables.scss";
 @import "./mixins.scss";
 @import "./modals.scss";
 
@@ -14,7 +15,11 @@ Frame {
     font-family: $main-font;
     font-weight: normal;
 
-    background-color: #e5e2e2;
+    background-color: $background;
+}
+
+.ns-dark Frame {
+    background-color: $background-dark;
 }
 
 .general-action-bar {
@@ -26,6 +31,15 @@ Frame {
         font-weight: normal;
         font-size: 25;
     }
+}
+
+.ns-light Switch {
+    color: #000000;
+}
+
+.ns-dark Switch {
+    color: #ffffff;
+    background-color: #b4b4b4;
 }
 
 .main-tab-view {

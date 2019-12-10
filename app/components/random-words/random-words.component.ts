@@ -37,8 +37,6 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";
     public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
 
-    private isFirstVisit = true;
-
     constructor (
         private Words: WordsService,
         protected MainConfig: MainConfigService,
@@ -54,19 +52,19 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
 
    public ngOnInit () {
        super.ngOnInit();
+       let isComponentInInitState = true;
        this.loadNewWords({count: 10});
 
        this.subscriptions.add(
             this.CurrentTab.tabChanged$.subscribe((currentTab: IWordTab) => {
-                if (currentTab && currentTab.id === "random") {
-                    if (this.isFirstVisit) {
-                        this.isFirstVisit = false;
-                    }
-                    else if (!this.isFirstVisit) {
-                        this.allListItems = [];
-                        this.firstLoading = true;
-                        this.loadNewWords({count: 10});
-                    }
+                if (currentTab && currentTab.id === "random" && !isComponentInInitState) {
+                    this.allListItems = [];
+                    this.firstLoading = true;
+                    this.loadNewWords({count: 10});
+                }
+
+                if (isComponentInInitState) {
+                    isComponentInInitState = false;
                 }
             })
        );

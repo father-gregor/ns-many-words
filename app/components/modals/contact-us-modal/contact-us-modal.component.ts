@@ -8,6 +8,7 @@ import * as email from "nativescript-email";
  * Services
  */
 import { MainConfigService } from "../../../services/main-config/main-config.service";
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "ContactUsModal",
@@ -32,6 +33,7 @@ export class ContactUsModalComponent  {
             cssClass: "telegram"
         }
     ];
+    public currentTheme: string;
 
     private emailOptions: email.ComposeOptions;
     private twitterAccountUrl: string;
@@ -39,8 +41,12 @@ export class ContactUsModalComponent  {
 
     constructor (
         public MainConfig: MainConfigService,
-        private params: BottomSheetParams
+        private params: BottomSheetParams,
+        AppTheme: AppThemeService,
     ) {
+        this.currentTheme = AppTheme.getCurrent();
+        console.log("Current Theme", this.currentTheme);
+
         this.emailOptions = {
             subject: this.MainConfig.config.states.settingsAboutUs.contactInfo.viaEmail.subject,
             to: this.MainConfig.config.states.settingsAboutUs.contactInfo.viaEmail.to

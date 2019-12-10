@@ -1,11 +1,10 @@
 @import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
 
 .contact-us-modal-container {
-    color: #000000;
     padding: 0;
 
     .bottom-sheet-holder {
-        background-color: rgba(175, 175, 175, 0.856);
         height: 5;
         border-radius: 50;
         margin-top: 5;
@@ -20,7 +19,6 @@
 
     ListView {
         border-width: 1px;
-        border-top-color: rgb(207, 207, 207);
     }
 
     .contact-us-option {
@@ -44,5 +42,27 @@
             font-family: $main-font;
             font-size: 18;
         }
+    }
+
+    // Special case because BottomSheet doesn't respect topframe classes ns-light/ns-dark
+    &.ns-light {
+        color: #000000;
+
+        .bottom-sheet-holder {
+            background-color: rgba(175, 175, 175, 0.856);
+        }
+    
+        ListView {
+            border-top-color: rgb(207, 207, 207);
+        }
+    }
+
+    &.ns-dark {
+        color: #ffffff;
+        background-color: $background-lighter-dark;
+    
+        .bottom-sheet-holder {
+            background-color: #ffffff;
+        } 
     }
 }
