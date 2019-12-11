@@ -45,13 +45,13 @@ import { AppThemeService } from "./services/app-theme/app-theme.service";
  */
 import { AppComponent } from "./components/app/app.component";
 import { HomeComponent } from "./components/home/home.component";
-import { DailyWordsComponent } from "./components/daily-words/daily-words.component";
+import { DailyWordsComponent } from "./components/list-words/daily-words/daily-words.component";
 import { WordBoxComponent } from "./components/word-box/word-box.component";
 import { LatestWordBox } from "./components/latest-word-box/latest-word-box.component";
-import { RandomWordsComponent } from "./components/random-words/random-words.component";
-import { MemeWordsComponent } from "./components/meme-words/meme-words.component";
+import { RandomWordsComponent } from "./components/list-words/random-words/random-words.component";
+import { MemeWordsComponent } from "./components/list-words/meme-words/meme-words.component";
 import { SettingsComponent } from "./components/settings/settings.component";
-import { FavoriteWordsComponent } from "./components/favorite-words/favorite-words.component";
+import { FavoriteWordsComponent } from "./components/list-words/favorite-words/favorite-words.component";
 import { MainActionBarComponent } from "./components/action-bars/main-action-bar/main-action-bar.component";
 import { ShowcaseWordComponent } from "./components/showcase-word/showcase-word.component";
 import { NoConnectionComponent } from "./components/errors/no-connection/no-connection.component";

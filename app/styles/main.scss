@@ -22,26 +22,6 @@ Frame {
     background-color: $background-dark;
 }
 
-.general-action-bar {
-    color: #ffffff;
-    background-color: #000000;
-
-    .general-action-bar-label {
-        font-family: $main-font;
-        font-weight: normal;
-        font-size: 25;
-    }
-}
-
-.ns-light Switch {
-    color: #000000;
-}
-
-.ns-dark Switch {
-    color: #ffffff;
-    background-color: #b4b4b4;
-}
-
 .main-tab-view {
     tab-text-font-size: 11;
 }

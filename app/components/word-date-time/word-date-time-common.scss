@@ -21,7 +21,7 @@
     }
 }
 
-@include for-light-theme (word-date-container) {
+@include for-light-theme-class(word-date-container) {
     color: #000000;
 
     .word-date-line {
@@ -39,7 +39,7 @@
     }
 }
 
-@include for-dark-theme (word-date-container) {
+@include for-dark-theme-class(word-date-container) {
     color: #ffffff;
 
     .word-date-line {

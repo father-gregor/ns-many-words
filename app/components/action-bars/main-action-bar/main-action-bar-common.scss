@@ -1,18 +1,42 @@
-ActionBar {
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.general-action-bar {
     transition: margin-top 5s linear;
-    color: white;
     padding: 0;
     z-index: 100;
 
     .general-action-bar-label {
-        color: white;
         margin-top: 0;
+        font-family: $main-font;
+        font-weight: normal;
+        font-size: 25;
     }
 
     ::ng-deep {
         .close-icon .icon-item-container {
             margin-top: 5;
             margin-right: 15;
+        }
+    }
+}
+
+::ng-deep {
+    .ns-light .general-action-bar {
+        color: #ffffff;
+        background-color: #000000;
+
+        .general-action-bar-label {
+            color: #ffffff;
+        }
+    }
+
+    .ns-dark .general-action-bar {
+        color: #ffffff;
+        background-color: lighten($background-dark, 5%);
+
+        .general-action-bar-label {
+            color: #ffffff;
         }
     }
 }

@@ -18,6 +18,7 @@ export interface IMainConfig {
     loadingText: string;
     loadingAnimations: {
         default: string;
+        defaultDark: string;
         daily: string;
         random: string;
         meme: string;

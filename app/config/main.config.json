@@ -17,6 +17,7 @@
     "loadingText": "Loading...",
     "loadingAnimations": {
         "default": "CircleLoading-black.json",
+        "defaultDark": "CircleLoading-white.json",
         "daily": "CircleLoading-gold.json",
         "random": "CircleLoading-black.json",
         "meme": "CircleLoading-purple.json"

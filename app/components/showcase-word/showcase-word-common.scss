@@ -71,24 +71,12 @@
     }
 }
 
-@include for-light-theme(showcase-word-container) {
-    color: #000000;
-}
-
-@include for-dark-theme(showcase-word-container) {
-    color: #ffffff;
-}
-
-@include apply-black-color-to(word-synonym, background-color);
-
 .btn-favorite-container {
     margin-right: 20;
     margin-bottom: 20;
     border-radius: 100;
     border-width: 0;
 }
-
-@include apply-black-color-to(btn-favorite-container, background-color);
 
 .meme-word {
     &.btn-favorite-container {
@@ -99,3 +87,15 @@
         @include meme-gradient(to right);
     }
 }
+
+@include for-light-theme-class(showcase-word-container) {
+    color: #000000;
+}
+
+@include for-dark-theme-class(showcase-word-container) {
+    color: #ffffff;
+}
+
+@include apply-black-color-to(word-synonym, background-color);
+
+@include apply-black-color-to(btn-favorite-container, background-color);

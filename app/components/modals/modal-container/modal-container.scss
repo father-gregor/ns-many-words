@@ -1,7 +1,7 @@
 @import "../../../styles/variables.scss";
 @import "../../../styles/mixins.scss";
 
-@include for-dark-theme(modal-container) {
+@include for-dark-theme-class(modal-container) {
     background-color: $background-lighter-dark;
 
     Label {

@@ -34,7 +34,7 @@ $settings-entry-color: rgba(3, 3, 3, 0.836);
     margin-left: 15;
 }
 
-@include for-light-theme(entry-container) {
+@include for-light-theme-class(entry-container) {
     &,
     .entry-title {
         color: $settings-entry-color;
@@ -45,7 +45,7 @@ $settings-entry-color: rgba(3, 3, 3, 0.836);
     }
 }
 
-@include for-dark-theme(entry-container) {
+@include for-dark-theme-class(entry-container) {
     &,
     .entry-title {
         color: #ffffff;

@@ -1,12 +1,24 @@
 @import "./variables.scss";
 
-@mixin for-light-theme ($className) {
+@mixin for-light-theme-elem ($elemName) {
+    :host-context(.ns-light) #{$elemName} {
+        @content;
+    }
+}
+
+@mixin for-dark-theme-elem ($elemName) {
+    :host-context(.ns-dark) #{$elemName} {
+        @content;
+    }
+}
+
+@mixin for-light-theme-class ($className) {
     :host-context(.ns-light) .#{$className} {
         @content;
     }
 }
 
-@mixin for-dark-theme ($className) {
+@mixin for-dark-theme-class ($className) {
     :host-context(.ns-dark) .#{$className} {
         @content;
     }

@@ -10,14 +10,15 @@ import * as dateformat from "dateformat";
 /**
  * Interfaces
  */
-import { TabErrorType } from "../errors/errors.interfaces";
-import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
+import { TabErrorType } from "../../errors/errors.interfaces";
+import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.interfaces";
 
 /**
  * Services
  */
-import { LoggerService } from "../../services/logger/logger.service";
-import { MainConfigService } from "../../services/main-config/main-config.service";
+import { LoggerService } from "../../../services/logger/logger.service";
+import { MainConfigService } from "../../../services/main-config/main-config.service";
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 
 type TechItemType = "loading" | "noWords" | "header";
 
@@ -32,6 +33,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public allListItems: Array<IWord | {techItem: TechItemType}> = [];
     public loadingIndicatorSrc: string;
     public visibilityStatus: Visibility = "visible";
+
     @Input("isVisible") set isVisibleInput (value: boolean) {
         if (value && this.visibilityStatus !== "visible") {
             this.visibilityStatus = "visible";
@@ -53,9 +55,10 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     constructor (
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
+        protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef
     ) {
-        this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.default;
+        this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations[this.AppTheme.isDarkModeEnabled() ? "defaultDark" : "default"];
         this.cd.detach();
     }
 

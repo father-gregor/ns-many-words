@@ -3,7 +3,7 @@ import { Component, ChangeDetectorRef } from "@angular/core";
 /**
  * Interfaces
  */
-import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
+import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.interfaces";
 
 /**
  * Components
@@ -18,9 +18,10 @@ import { masterWordsAnimations } from "../master-words/master-words.animations";
 /**
  * Services
  */
-import { WordsService } from "../../services/words/words.service";
-import { LoggerService } from "../../services/logger/logger.service";
-import { MainConfigService } from "../../services/main-config/main-config.service";
+import { WordsService } from "../../../services/words/words.service";
+import { LoggerService } from "../../../services/logger/logger.service";
+import { MainConfigService } from "../../../services/main-config/main-config.service";
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "MemeWords",
@@ -37,9 +38,10 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         private Words: WordsService,
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
-        protected cd: ChangeDetectorRef
+        protected cd: ChangeDetectorRef,
+        protected AppTheme: AppThemeService
     ) {
-        super(MainConfig, Logger, cd);
+        super(MainConfig, Logger, AppTheme, cd);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.meme;

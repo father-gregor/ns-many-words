@@ -1,6 +1,6 @@
-@import "../../styles/mixins.scss";
+@import "../../../styles/mixins.scss";
 @import "../master-words/master-words-common.scss";
 
 .master-words-container {
-    @include random-word();
+    @include daily-word();
 }

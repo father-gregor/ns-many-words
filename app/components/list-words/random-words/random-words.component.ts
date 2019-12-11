@@ -3,8 +3,8 @@ import { Component, ChangeDetectorRef } from "@angular/core";
 /**
  * Interfaces
  */
-import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
-import { IWordTab } from "../home/tab";
+import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.interfaces";
+import { IWordTab } from "../../home/tab";
 
 /**
  * Components
@@ -19,10 +19,11 @@ import { masterWordsAnimations } from "../master-words/master-words.animations";
 /**
  * Services
  */
-import { LoggerService } from "../../services/logger/logger.service";
-import { WordsService } from "../../services/words/words.service";
-import { CurrentTabService } from "../../services/current-tab/current-tab.service";
-import { MainConfigService } from "../../services/main-config/main-config.service";
+import { LoggerService } from "../../../services/logger/logger.service";
+import { WordsService } from "../../../services/words/words.service";
+import { CurrentTabService } from "../../../services/current-tab/current-tab.service";
+import { MainConfigService } from "../../../services/main-config/main-config.service";
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "RandomWords",
@@ -41,13 +42,14 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         private Words: WordsService,
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
+        protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef,
         private CurrentTab: CurrentTabService
     ) {
-        super(MainConfig, Logger, cd);
+        super(MainConfig, Logger, AppTheme, cd);
         super.wordsType = this.wordsType;
 
-        this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.random;
+        this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations[this.AppTheme.isDarkModeEnabled() ? "defaultDark" : "random"];
     }
 
    public ngOnInit () {

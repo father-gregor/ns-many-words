@@ -10,7 +10,7 @@ import { View } from "tns-core-modules/ui/core/view";
  * Components
  */
 import { MasterWordsComponentCommon } from "../master-words/master-words.component.common";
-import { LatestWordBox } from "../latest-word-box/latest-word-box.component";
+import { LatestWordBox } from "../../latest-word-box/latest-word-box.component";
 
 /**
  * Animations
@@ -20,14 +20,15 @@ import { masterWordsAnimations } from "../master-words/master-words.animations";
 /**
  * Interfaces
  */
-import { IWord, IWordQueryOptions, WordType } from "../word-box/word-box.interfaces";
+import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.interfaces";
 
 /**
  * Services
  */
-import { WordsService } from "../../services/words/words.service";
-import { LoggerService } from "../../services/logger/logger.service";
-import { MainConfigService } from "../../services/main-config/main-config.service";
+import { WordsService } from "../../../services/words/words.service";
+import { LoggerService } from "../../../services/logger/logger.service";
+import { MainConfigService } from "../../../services/main-config/main-config.service";
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "DailyWords",
@@ -50,9 +51,10 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         private Words: WordsService,
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
+        protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef
     ) {
-        super(MainConfig, Logger, cd);
+        super(MainConfig, Logger, AppTheme, cd);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.daily;

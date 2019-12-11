@@ -1,3 +1,5 @@
+@import "../../../styles/mixins.scss";
+
 :host {
     font-size: 25px;
 }
@@ -12,4 +14,13 @@
     &.app-theme-entry {
         margin-top: -10;
     }
+}
+
+@include for-light-theme-class (theme-switch) {
+    color: #000000;
+}
+
+@include for-dark-theme-class (theme-switch) {
+    color: #cfcfcf;
+    background-color: rgb(255, 255, 255);
 }

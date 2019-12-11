@@ -1,4 +1,4 @@
-import { trigger, transition, style, animate, query, stagger, animateChild } from "@angular/animations";
+import { trigger, transition, style, animate, query, animateChild } from "@angular/animations";
 
 const wordsListAnimations = trigger("wordsListAnimations", [
     transition(":enter", [

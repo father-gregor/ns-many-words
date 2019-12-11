@@ -4,8 +4,8 @@ import { Subscription } from "rxjs";
 /**
  * Interfaces
  */
-import { IFavoriteWord } from "../../services/favorite-words/favorite-words";
-import { WordType } from "../word-box/word-box.interfaces";
+import { IFavoriteWord } from "../../../services/favorite-words/favorite-words";
+import { WordType } from "../../word-box/word-box.interfaces";
 
 /**
  * Components
@@ -15,9 +15,10 @@ import { MasterWordsComponentCommon } from "../master-words/master-words.compone
 /**
  * Services
  */
-import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
-import { MainConfigService } from "../../services/main-config/main-config.service";
-import { LoggerService } from "../../services/logger/logger.service";
+import { FavoriteWordsService } from "../../../services/favorite-words/favorite-words.service";
+import { MainConfigService } from "../../../services/main-config/main-config.service";
+import { LoggerService } from "../../../services/logger/logger.service";
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "FavoriteWords",
@@ -36,9 +37,10 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
         public MainConfig: MainConfigService,
         public FavoriteWords: FavoriteWordsService,
         protected Logger: LoggerService,
+        protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef
     ) {
-        super(MainConfig, Logger, cd);
+        super(MainConfig, Logger, AppTheme, cd);
         this.noWordsMsg = this.MainConfig.config.states.favoritesArchive.noWordsText;
     }
 

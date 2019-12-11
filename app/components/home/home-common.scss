@@ -3,23 +3,37 @@
 
 .main-tab-view {
     TabStripItem {
-        background-color: #000000;
-
         Label {
-            color: #a8a4a4;
             font-family: $main-font;
             font-size: 15;
         }
 
         &:active {
-            background-color: #242323;
-
             Label {
-                color: #ffffff;
                 font-weight: 900;
             }
         }
     }
+}
+
+@include for-light-theme-elem(TabStripItem) {
+    background-color: #000000;
+
+    Label {
+        color: #a8a4a4;
+    }
+
+    &:active {
+        background-color: #242323;
+
+        Label {
+            color: #ffffff;
+        }
+    }
+}
+
+@include for-dark-theme-elem(TabStripItem) {
+    background-color: lighten($background-dark, 5%);
 }
 
 @include apply-current-theme-to(words-tab);
