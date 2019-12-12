@@ -1,4 +1,5 @@
 @import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
 
 .word-container.latest_word_teaser {
     background: linear-gradient(to bottom, lighten($daily-words-color, 10%), $daily-words-color);
@@ -32,4 +33,8 @@
             font-weight: 600;
         }
     }
+}
+
+@include for-dark-theme-class(question-icon) {
+    color: #000000;
 }

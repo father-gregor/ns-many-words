@@ -21,13 +21,7 @@
     }
 }
 
-@include for-light-theme-class(word-date-container) {
-    color: #000000;
-
-    .word-date-line {
-        background-color: rgb(95, 94, 94);
-    }
-
+@include for-general-theme-class(word-date-container) {
     &.today_date {
         .word-date {
             color: $daily-words-color;
@@ -36,6 +30,14 @@
         .word-date-line {
             background-color: lighten($daily-words-color, 10%);
         }
+    }
+}
+
+@include for-light-theme-class(word-date-container) {
+    color: #000000;
+
+    .word-date-line {
+        background-color: rgb(95, 94, 94);
     }
 }
 

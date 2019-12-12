@@ -1,5 +1,15 @@
 @import "./variables.scss";
 
+@mixin for-general-theme-elem ($elemName) {
+    :host-context(.ns-light) #{$elemName} {
+        @content;
+    }
+
+    :host-context(.ns-dark) #{$elemName} {
+        @content;
+    }
+}
+
 @mixin for-light-theme-elem ($elemName) {
     :host-context(.ns-light) #{$elemName} {
         @content;
@@ -8,6 +18,16 @@
 
 @mixin for-dark-theme-elem ($elemName) {
     :host-context(.ns-dark) #{$elemName} {
+        @content;
+    }
+}
+
+@mixin for-general-theme-class ($className) {
+    :host-context(.ns-light) .#{$className} {
+        @content;
+    }
+
+    :host-context(.ns-dark) .#{$className} {
         @content;
     }
 }

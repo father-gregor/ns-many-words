@@ -56,7 +56,7 @@ export class FavoriteWordsService {
         }
     }
 
-    public remove (word: IWord, type: WordType) {
+    public async remove (word: IWord, type: WordType): Promise<boolean> {
         try {
             const removedWordIndex: number = this.favoritesArchive.words.findIndex((favoriteElem) => favoriteElem.word.name === word.name && favoriteElem.type === type);
             const removedWord: IFavoriteWord = this.favoritesArchive.words[removedWordIndex];
@@ -66,11 +66,13 @@ export class FavoriteWordsService {
                 this.saveFavoriteWordsArchive();
             }
 
-            this.SnackBarService.showUndoAction(`Removed "${removedWord.word.name}" from favorite list`).then((undo) => {
-                if (undo.command === "Action") {
+            return this.SnackBarService.showUndoAction(`Removed "${removedWord.word.name}" from favorite list`).then((undo) => {
+                const isRemoveCancelled = undo.command === "Action";
+                if (isRemoveCancelled) {
                     this.favoritesArchive.words.splice(removedWordIndex, 0, removedWord);
                     this.saveFavoriteWordsArchive();
                 }
+                return isRemoveCancelled;
             });
         }
         catch (err) {

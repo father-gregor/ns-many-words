@@ -14,6 +14,7 @@ import { AppThemeService } from "../../../services/app-theme/app-theme.service";
     templateUrl: "./settings-general.html"
 })
 export class SettingsGeneralComponent {
+    public isSystemDarkMode = false;
     public isDarkModeEnabled = false;
     public skipSwitchChange = true;
     public currentColumnsOrder: string[];
@@ -37,6 +38,7 @@ export class SettingsGeneralComponent {
         private ModalDialog: ModalDialogService,
         private viewContainer: ViewContainerRef
     ) {
+        this.isSystemDarkMode = this.AppTheme.getCurrentSystemTheme() === "dark";
         this.isDarkModeEnabled = this.AppTheme.isDarkModeEnabled();
         this.skipSwitchChange = this.isDarkModeEnabled;
 

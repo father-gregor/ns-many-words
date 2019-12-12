@@ -1,11 +1,14 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { isAndroid } from "tns-core-modules/ui/page/page";
+import { isAndroid, isIOS } from "tns-core-modules/ui/page/page";
+import * as clipboard from "nativescript-clipboard";
 
 import { PageDataStorageService } from "../../services/page-data-storage/page-data-storage.service";
 import { IWord, IWordRouterData, WordType } from "../word-box/word-box.interfaces";
 import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
 import { MainConfigService } from "../../services/main-config/main-config.service";
+import { SnackBarNotificationService } from "../../services/snack-bar-notification/snack-bar-notification.service";
+import { GestureEventData } from "tns-core-modules/ui/gestures/gestures";
 
 @Component({
     selector: "ShowcaseWord",
@@ -22,6 +25,7 @@ export class ShowcaseWordComponent implements OnInit {
         public MainConfig: MainConfigService,
         private FavoriteWords: FavoriteWordsService,
         private PageDataStorage: PageDataStorageService<IWordRouterData>,
+        private SnackBar: SnackBarNotificationService,
         private http: HttpClient,
         private cd: ChangeDetectorRef
     ) {}
@@ -34,6 +38,16 @@ export class ShowcaseWordComponent implements OnInit {
 
     public isFavorite () {
         return Boolean(this.FavoriteWords.get(this.word, this.type));
+    }
+
+    public async copySynonymToClipboard (event: GestureEventData, text: string) {
+        if (isIOS) {
+            if (event.ios.state !== 3) {
+                return;
+            }
+        }
+        await clipboard.setText(text);
+        this.SnackBar.showMessage("Copied!");
     }
 
     public makeSelectable (event) {

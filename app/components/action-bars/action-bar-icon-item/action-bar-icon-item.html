@@ -1,6 +1,7 @@
 <StackLayout class="icon-item-container"
              orientation="vertical"
              [ngClass]="{'font-item': isFontIcon}"
+             [@actionBarItemEnter]="animationState"
              [marginLeft]="marginLeft"
              [marginRight]="marginRight">
     <MDRipple borderRadius="50"

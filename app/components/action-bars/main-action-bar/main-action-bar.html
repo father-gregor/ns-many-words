@@ -13,6 +13,13 @@
             <Label [text]="title"
                    class="general-action-bar-label"></Label>
         </StackLayout>
+        <ActionItem *ngIf="actionBarItem === 'share'"
+                    ios.position="right"
+                    (tap)="shareWord()">
+            <StackLayout>
+                <ActionBarIconItem iconSrc="res://social_share"></ActionBarIconItem>
+            </StackLayout>
+        </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'wiki' && showWikiLogo()"
                     ios.position="right"
                     (tap)="openWordWiki()">
@@ -21,9 +28,10 @@
                          borderRadius="100">
                 <ActionBarIconItem iconSrc="res://wiki_logo"
                                    [backgroundColor]="'#ffffff'"
-                                   [marginRight]="'30'"
-                                   [imageWidth]="'20'"
-                                   [imageHeight]="'20'">
+                                   [enableAnimations]="true"
+                                   marginRight="30"
+                                   imageWidth="18"
+                                   imageHeight="18">
                 </ActionBarIconItem>
             </StackLayout>
         </ActionItem>
@@ -31,7 +39,7 @@
                     ios.position="right"
                     android.position="actionBarIfRoom"
                     (tap)="goHome()">
-            <StackLayout class=close-icon>
+            <StackLayout class="close-icon">
                 <ActionBarIconItem iconSrc="font://&#xf00d;"
                                    [isFontIcon]="true">
                 </ActionBarIconItem>
@@ -43,7 +51,8 @@
                     android.position="actionBarIfRoom">
             <StackLayout>
                 <ActionBarIconItem iconSrc="font://&#xf002;"
-                                   [isFontIcon]="true"></ActionBarIconItem>
+                                   [isFontIcon]="true">
+                </ActionBarIconItem>
             </StackLayout>
         </ActionItem>
         <ActionItem *ngIf="actionBarItem === 'favoritesArchive' && showFavoritesArchive()"

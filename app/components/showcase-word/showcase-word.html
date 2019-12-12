@@ -31,7 +31,8 @@
                                    [text]="synonym"
                                    height="40"
                                    horizontalAlignment="center"
-                                   verticalAlignment="center">
+                                   verticalAlignment="center"
+                                   (longPress)="copySynonymToClipboard($event, synonym)">
                             </Label>
                         </StackLayout>
                     </ScrollView>

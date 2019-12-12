@@ -1,11 +1,18 @@
 import { Component, Input, ChangeDetectorRef } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
-import * as SocialShare from "nativescript-social-share";
 
+/**
+ * Interfaces
+ */
 import { IWord, WordType, IWordRouterData } from "./word-box.interfaces";
+
+/**
+ * Services
+ */
 import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
 import { PageDataStorageService } from "../../services/page-data-storage/page-data-storage.service";
 import { SnackBarNotificationService } from "../../services/snack-bar-notification/snack-bar-notification.service";
+import { SocialShareService } from "~/services/social-share/social-share.service";
 
 @Component({
     selector: "WordBox",
@@ -27,6 +34,7 @@ export class WordBoxComponent {
         public PageDataStorage: PageDataStorageService<IWordRouterData>,
         public routerExtensions: RouterExtensions,
         public SnackBarService: SnackBarNotificationService,
+        private SocialShare: SocialShareService,
         private cd: ChangeDetectorRef
     ) {}
 
@@ -67,7 +75,12 @@ export class WordBoxComponent {
         this.stopPropagation = true;
 
         if (this.isFavorite) {
-            this.FavoriteWords.remove(this.word, this.type);
+            this.FavoriteWords.remove(this.word, this.type).then((isRemoveCancelled: boolean) => {
+                if (isRemoveCancelled) {
+                    this.checkIsFavorite();
+                    this.cd.detectChanges();
+                }
+            });
             this.checkIsFavorite();
             if (!this.isFavoritePage) {
                 this.cd.detectChanges();
@@ -82,10 +95,6 @@ export class WordBoxComponent {
 
     public onSocialShareTap () {
         this.stopPropagation = true;
-
-        SocialShare.shareText(
-            `"${this.word.name}" - ${this.word.definitions[0].toLowerCase()}"`,
-            `Would you like to share word "${this.word.name}" with others?`
-        );
+        this.SocialShare.shareWord(this.word.name, this.word.definitions[0]);
     }
 }

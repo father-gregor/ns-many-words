@@ -3,7 +3,7 @@ import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { HomeComponent } from "./components/home/home.component";
-import { FavoriteWordsComponent } from "./components/favorite-words/favorite-words.component";
+import { FavoriteWordsComponent } from "./components/list-words/favorite-words/favorite-words.component";
 import { ShowcaseWordComponent } from "./components/showcase-word/showcase-word.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { SettingsGeneralComponent } from "./components/settings/settings-general/setting-general.component";

@@ -12,6 +12,7 @@
                      orientation="vertical">
             <StackLayout *ngFor="let favoriteWord of favoriteWords"
                          class="favorite-word-component"
+                         @wordUnfavorite
                          [ngClass]="favoriteWord.type"
                          orientation="vertical">
                 <WordBox [word]="favoriteWord.word"

@@ -14,19 +14,28 @@
                 <StackLayout class="settings-entry app-theme-entry"
                              (tap)="preventHighlight()">
                     <GridLayout columns="*, auto"
-                                rows="*">
+                                rows="*, auto">
                         <Label col="0"
                                row="0"
                                verticalAlignment="center"
                                text="Dark Mode">
                         </Label>
 
-                        <Switch row="1"
+                        <Switch row="0"
                                 col="1"
                                 class="theme-switch"
                                 [checked]="isDarkModeEnabled"
+                                [isEnabled]="isSystemDarkMode"
                                 (checkedChange)="onDarkModeChange()">
                         </Switch>
+
+                        <Label *ngIf="isSystemDarkMode"
+                               row="1"
+                               col="0"
+                               colspan="2"
+                               class="system-dark-mode-message"
+                               text="Enabled by default according to the system preferences">
+                        </Label>
                     </GridLayout>
                 </StackLayout>
             </SettingsEntry>

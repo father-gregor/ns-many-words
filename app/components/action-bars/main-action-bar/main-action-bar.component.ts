@@ -7,6 +7,7 @@ import * as utils from "tns-core-modules/utils/utils";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { IWord } from "../../word-box/word-box.interfaces";
 import { ActionBarItemsType } from "./main-action-bar.interfaces";
+import { SocialShareService } from "~/services/social-share/social-share.service";
 
 @Component({
     selector: "MainActionBar",
@@ -30,6 +31,7 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         public MainConfig: MainConfigService,
         public router: Router,
         public routerExtensions: RouterExtensions,
+        protected SocialShare: SocialShareService,
         protected cd: ChangeDetectorRef
     ) {
         this.router.events.subscribe((event: Event) => {
@@ -98,6 +100,10 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
                 curve: "ease"
             }
         });
+    }
+
+    public shareWord () {
+        this.SocialShare.shareWord(this.showcaseWord.name, this.showcaseWord.definitions[0]);
     }
 
     public openWordWiki () {

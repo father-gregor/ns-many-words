@@ -42,6 +42,12 @@
             font-family: $main-font;
             font-size: 18;
         }
+
+        Label.telegram-icon-background-imitator {
+            background-color: #ffffff;
+            border-radius: 100;
+            font-size: 8;
+        }
     }
 
     // Special case because BottomSheet doesn't respect topframe classes ns-light/ns-dark

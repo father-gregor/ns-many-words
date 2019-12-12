@@ -64,7 +64,7 @@
     "showcaseWord": {
         "url": "/showcase-word",
         "title": "Showcase",
-        "actionBarItems": ["title", "wiki"],
+        "actionBarItems": ["title", "share", "wiki"],
         "wikiUrl": "https://en.wiktionary.org/wiki/"
     }
 }

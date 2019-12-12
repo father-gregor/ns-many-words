@@ -1,5 +1,7 @@
-<StackLayout class="contact-us-modal-container" [ngClass]="currentTheme">
-    <StackLayout class="bottom-sheet-holder" horizontalAlignment="center"></StackLayout>
+<StackLayout class="contact-us-modal-container"
+             [ngClass]="currentTheme">
+    <StackLayout class="bottom-sheet-holder"
+                 horizontalAlignment="center"></StackLayout>
     <Label class="h2 modal-title"
            text="Contact Us Via">
     </Label>
@@ -10,6 +12,12 @@
             <GridLayout columns="10, 30, 10, *"
                         rows="50"
                         class="contact-us-option">
+                <Label *ngIf="contact.cssClass === 'telegram'"
+                       class="telegram-icon-background-imitator"
+                       col="1"
+                       row="0"
+                       text="">
+                </Label>
                 <Image src="font://{{contact.icon}}"
                        class="font-icon"
                        [ngClass]="contact.cssClass"

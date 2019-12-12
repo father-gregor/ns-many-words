@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import Theme from "@nativescript/theme";
+import { systemAppearance } from "tns-core-modules/application/application";
 import {
     getString as nsGetString,
     setString as nsSetString
@@ -14,15 +15,22 @@ export class AppThemeService {
     constructor () {}
 
     public init () {
-        const currentTheme = this.getCurrent();
-        const savedTheme = nsGetString(this.appThemeKey) as AppThemeType;
-        if (savedTheme) {
-            if (currentTheme !== savedTheme) {
-                this.toggleDarkMode();
-            }
+        const currentSystemAppearance = this.getCurrentSystemTheme();
+        if (currentSystemAppearance === "dark") {
+            Theme.setMode(Theme.Dark);
+            this.saveThemeAsDefault("ns-dark");
         }
         else {
-            this.saveThemeAsDefault(currentTheme);
+            const currentTheme = this.getCurrent();
+            const savedTheme = nsGetString(this.appThemeKey) as AppThemeType;
+            if (savedTheme) {
+                if (currentTheme !== savedTheme) {
+                    this.toggleDarkMode();
+                }
+            }
+            else {
+                this.saveThemeAsDefault(currentTheme);
+            }
         }
     }
 
@@ -38,6 +46,10 @@ export class AppThemeService {
             Theme.setMode(Theme.Dark);
         }
         this.saveThemeAsDefault(this.getCurrent());
+    }
+
+    public getCurrentSystemTheme () {
+        return systemAppearance();
     }
 
     public getCurrent () {

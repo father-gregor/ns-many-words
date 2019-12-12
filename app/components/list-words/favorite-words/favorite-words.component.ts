@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, AfterContentInit } from "@angular/core";
+import { trigger, transition, style, animate } from "@angular/animations";
 import { Subscription } from "rxjs";
 
 /**
@@ -24,7 +25,15 @@ import { AppThemeService } from "../../../services/app-theme/app-theme.service";
     selector: "FavoriteWords",
     moduleId: module.id,
     styleUrls: ["./favorite-words-common.scss"],
-    templateUrl: "./favorite-words.html"
+    templateUrl: "./favorite-words.html",
+    animations: [
+        trigger("wordUnfavorite", [
+            transition(":leave", [
+                style({transform: "translateX(0)"}),
+                animate("800ms ease-out", style({transform: "translateX(500)"}))
+            ])
+        ])
+    ]
 })
 export class FavoriteWordsComponent extends MasterWordsComponentCommon implements OnInit, AfterContentInit, OnDestroy {
     public wordsType: WordType = "favorite";

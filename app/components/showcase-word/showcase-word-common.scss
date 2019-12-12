@@ -90,6 +90,7 @@
 
 @include for-light-theme-class(showcase-word-container) {
     color: #000000;
+    background-color: #ffffff;
 }
 
 @include for-dark-theme-class(showcase-word-container) {

@@ -16,9 +16,7 @@
     }
 }
 
-@include for-light-theme-elem(TabStripItem) {
-    background-color: #000000;
-
+@include for-general-theme-elem(TabStripItem) {
     Label {
         color: #a8a4a4;
     }
@@ -30,6 +28,10 @@
             color: #ffffff;
         }
     }
+}
+
+@include for-light-theme-elem(TabStripItem) {
+    background-color: #000000;
 }
 
 @include for-dark-theme-elem(TabStripItem) {
