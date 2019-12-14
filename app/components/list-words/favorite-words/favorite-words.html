@@ -1,5 +1,6 @@
 <MainActionBar [routeName]="MainConfig.config.states.favoritesArchive.url"></MainActionBar>
 <LoadingIndicator *ngIf="!isInitCompleted"
+                  [animationSrc]="loadingIndicatorSrc"
                   width="200"
                   height="200">
 </LoadingIndicator>

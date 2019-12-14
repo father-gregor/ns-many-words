@@ -25,7 +25,7 @@
                                 col="1"
                                 class="theme-switch"
                                 [checked]="isDarkModeEnabled"
-                                [isEnabled]="isSystemDarkMode"
+                                [isEnabled]="!isSystemDarkMode"
                                 (checkedChange)="onDarkModeChange()">
                         </Switch>
 

@@ -1,6 +1,7 @@
 import { Component, ViewChild } from "@angular/core";
 import { Page } from "tns-core-modules/ui/page/page";
 import { RouterExtensions } from "nativescript-angular/router";
+import { TextField } from "tns-core-modules/ui/text-field/text-field";
 import {
     getString as nsGetString,
     setString as nsSetString,
@@ -14,11 +15,14 @@ import { WordsService } from "../../services/words/words.service";
 import { PageDataStorageService } from "../../services/page-data-storage/page-data-storage.service";
 
 /**
+ * Components
+ */
+import { SearchWordsBarComponent } from "./search-words-bar/search-words-bar.component";
+
+/**
  * Interfaces
  */
 import { IWord, IWordRouterData } from "../word-box/word-box.interfaces";
-import { TextField } from "tns-core-modules/ui/text-field/text-field";
-import { SearchWordsBarComponent } from "../search-words-bar/search-words-bar.component";
 
 @Component({
     selector: "SearchWords",

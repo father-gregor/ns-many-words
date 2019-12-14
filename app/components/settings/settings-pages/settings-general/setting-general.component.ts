@@ -4,9 +4,9 @@ import {
     setString as nsSetString
 } from "tns-core-modules/application-settings/application-settings";
 import { ModalDialogService } from "nativescript-angular/modal-dialog";
-import { MainConfigService } from "../../../services/main-config/main-config.service";
-import { ColumnsOrderingModalComponent } from "../../modals/columns-ordering-modal/columns-ordering-modal.component";
-import { AppThemeService } from "../../../services/app-theme/app-theme.service";
+import { MainConfigService } from "../../../../services/main-config/main-config.service";
+import { ColumnsOrderingModalComponent } from "../../../modals/columns-ordering-modal/columns-ordering-modal.component";
+import { AppThemeService } from "../../../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "SettingsGeneral",

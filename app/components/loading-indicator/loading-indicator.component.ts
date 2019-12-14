@@ -4,6 +4,7 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
  * Services
  */
 import { MainConfigService } from "../../services/main-config/main-config.service";
+import { AppThemeService } from "../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "LoadingIndicator",
@@ -16,9 +17,10 @@ export class LoadingIndicatorComponent {
     @Output("onTap") public onTapEmitter: EventEmitter<void> = new EventEmitter<void>();
 
     constructor (
-        protected MainConfig: MainConfigService
+        protected MainConfig: MainConfigService,
+        private AppTheme: AppThemeService
     ) {
-        this.animationSrc = this.MainConfig.config.loadingAnimations.default;
+        this.animationSrc = this.MainConfig.config.loadingAnimations[this.AppTheme.isDarkModeEnabled() ? "defaultDark" : "default"];
     }
 
     public onIndicatorTap () {

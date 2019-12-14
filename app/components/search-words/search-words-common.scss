@@ -1,8 +1,6 @@
 @import "../../styles/mixins.scss";
 @import "../../styles/variables.scss";
 
-@include apply-current-theme-to(search-words-layout);
-
 .search-bar-container {
     width: 100%;
     background-color: black;
@@ -11,6 +9,19 @@
 
     SearchBar {
        color: black;
+    }
+}
+
+.no-recent-search-container {
+    margin-top: -20;
+
+    .icon {
+        font-size: 120;
+    }
+
+    .label {
+        font-size: 25;
+        margin: 10 30 0 30;
     }
 }
 
@@ -23,15 +34,12 @@
 
         Label {
             font-size: 18;
-            color: #474747;
         }
     }
 
     .search-item-common {
         height: 65;
         padding: 15 20;
-        color: #000000;
-        background-color: #ffffffff;
         font-family: $typography-font;
         margin-bottom: 20;
 
@@ -47,17 +55,29 @@
     }
 
     .search-archive-item {
-        .search-item-layout {
-            padding: 0 0 0 15;
+        margin-right: 10;
 
-            .delete-recent-search {
-                background-color: #ff0000;
-            
-                Image {
-                    margin-top: 25%;
-                    color: #ffffffff;
-                    font-size: 12;
-                }
+        .material-card-wrapper {
+            margin-right: 0;
+        }
+
+        .search-item-layout {
+            padding: 0 0 0 10;
+
+            Label.label {
+                margin-top: -5;
+            }
+        }
+
+        .delete-recent-search {
+            Image {
+                font-size: 10;
+                margin-top: 0.3/10*1000%;
+            }
+
+            &.material-card-wrapper {
+                margin-right: 0;
+                margin-left: 0;
             }
         }
     }
@@ -77,3 +97,65 @@
         }
     }
 }
+
+@include for-light-theme-class(search-words-layout) {
+    .no-recent-search-container {
+        opacity: 0.4;
+
+        .icon {
+            color: lighten(#000000, 10%);
+        }
+    
+        .label {
+            color: lighten(#000000, 10%);
+        }
+    }
+
+    .search-results-container {
+        .results-label-container Label {
+            color: #474747;
+        }
+    
+        .search-item-common {
+            color: #000000;
+            background-color: #ffffffff;
+        }
+    
+        .search-archive-item {
+            .delete-recent-search {
+                background-color: #ff0000;
+                
+                Image {
+                    color: #ffffffff;
+                }
+            }
+        }
+    }
+}
+
+@include for-dark-theme-class(search-words-layout) {
+    .no-recent-search-container {
+        opacity: 0.3;
+
+        .icon {
+            color: darken(#ffffff, 10%);
+        }
+    
+        .label {
+            color: darken(#ffffff, 10%);
+        }
+    }
+
+    .search-results-container {
+        .results-label-container Label {
+            color: #ffffff;
+        }
+    
+        .search-item-common {
+            color: #ffffff;
+            background-color: $background-lighter-dark;
+        }
+    }
+}
+
+@include apply-current-theme-to(search-words-layout);

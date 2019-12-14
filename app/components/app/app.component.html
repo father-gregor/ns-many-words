@@ -1,4 +1,7 @@
 <GridLayout rows="*" columns="*">
     <page-router-outlet row="0" column="0"></page-router-outlet>
+    <AbsoluteLayout class="help-container" width="70" height="70" horizontalAlignment="right" verticalAlignment="bottom">
+        <Button text="Home" [nsRouterLink]="['/home']" pageTransition="slide" clearHistory="true"></Button>
+    </AbsoluteLayout>
     <FpsMeter *ngIf="enableFpsMeter" row="0" column="0"></FpsMeter>
 </GridLayout>

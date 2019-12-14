@@ -58,10 +58,10 @@ import { ShowcaseWordComponent } from "./components/showcase-word/showcase-word.
 import { NoConnectionComponent } from "./components/errors/no-connection/no-connection.component";
 import { NoWordsComponent } from "./components/errors/no-words/no-words.component";
 import { FpsMeterComponent } from "./components/fps-meter/fps-meter.component";
-import { SettingsEntryComponent } from "./components/settings/settings-entry/settings-entry.component";
-import { SettingsGeneralComponent } from "./components/settings/settings-general/setting-general.component";
-import { SettingsAboutUsComponent } from "./components/settings/settings-about-us/settings-about-us.component";
-import { SettingsDividerComponent } from "./components/settings/settings-divider/settings-divider.component";
+import { SettingsEntryComponent } from "./components/settings/settings-elements/settings-entry/settings-entry.component";
+import { SettingsGeneralComponent } from "./components/settings/settings-pages/settings-general/setting-general.component";
+import { SettingsAboutUsComponent } from "./components/settings/settings-pages/settings-about-us/settings-about-us.component";
+import { SettingsDividerComponent } from "./components/settings/settings-elements/settings-divider/settings-divider.component";
 import { ColumnsOrderingModalComponent } from "./components/modals/columns-ordering-modal/columns-ordering-modal.component";
 import { ModalContainerComponent } from "./components/modals/modal-container/modal-container.component";
 import { SearchWordsComponent } from "./components/search-words/search-words.component";
@@ -69,7 +69,7 @@ import { SearchWordsModalComponent } from "./components/modals/search-words-moda
 import { WordDateTimeComponent } from "./components/word-date-time/word-date-time.component";
 import { ActionBarIconItemComponent } from "./components/action-bars/action-bar-icon-item/action-bar-icon-item.component";
 import { ContactUsModalComponent } from "./components/modals/contact-us-modal/contact-us-modal.component";
-import { SearchWordsBarComponent } from "./components/search-words-bar/search-words-bar.component";
+import { SearchWordsBarComponent } from "./components/search-words/search-words-bar/search-words-bar.component";
 import { LoadingIndicatorComponent } from "./components/loading-indicator/loading-indicator.component";
 
 @NgModule({

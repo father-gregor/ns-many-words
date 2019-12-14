@@ -91,11 +91,11 @@ export class DraggableItemDirective {
         this.prevDeltaX = 0;
         this.prevDeltaY = 0;
         this.view.style.zIndex = 100;
-        this.view.backgroundColor = new Color("#e5e5e5");
+        this.view.backgroundColor = new Color(25, 0, 0, 0);
     }
 
     private prepareViewOnDraggingEnd () {
-        this.view.backgroundColor = new Color("#ffffff");
+        this.view.backgroundColor = null;
         this.view.style.zIndex = null;
         this.view.animate({
             translate: {x: 0, y: 0},

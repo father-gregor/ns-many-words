@@ -26,12 +26,20 @@ Frame {
     tab-text-font-size: 11;
 }
 
-.font-icon {
+.fa-font-icon {
     font-family: "FontAwesome", "fontawesome";
 }
 
-ActivityIndicator {
+.md-font-icon {
+    font-family: "Material Icons", "MaterialIcons-Regular"
+}
+
+.ns-light ActivityIndicator {
     color: rgb(77, 76, 76);
+}
+
+.ns-dark ActivityIndicator {
+    color: #ffffff;
 }
 
 .hidden {

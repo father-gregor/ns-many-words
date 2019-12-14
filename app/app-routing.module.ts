@@ -6,8 +6,8 @@ import { HomeComponent } from "./components/home/home.component";
 import { FavoriteWordsComponent } from "./components/list-words/favorite-words/favorite-words.component";
 import { ShowcaseWordComponent } from "./components/showcase-word/showcase-word.component";
 import { SettingsComponent } from "./components/settings/settings.component";
-import { SettingsGeneralComponent } from "./components/settings/settings-general/setting-general.component";
-import { SettingsAboutUsComponent } from "./components/settings/settings-about-us/settings-about-us.component";
+import { SettingsGeneralComponent } from "./components/settings/settings-pages/settings-general/setting-general.component";
+import { SettingsAboutUsComponent } from "./components/settings/settings-pages/settings-about-us/settings-about-us.component";
 import { SearchWordsComponent } from "./components/search-words/search-words.component";
 
 const routes: Routes = [

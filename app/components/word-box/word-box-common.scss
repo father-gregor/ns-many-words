@@ -9,11 +9,6 @@
     height: $word-box-height;
     padding: 15 20;
 
-    .wordbox-footer {
-        border-radius: 100;
-        border-width: 0;
-    }
-
     .word-selftext,
     .word-definitions {
         font-family: $typography-font;
@@ -42,6 +37,8 @@
     
     .wordbox-footer {
         padding: 5 15 5 10;
+        border-radius: 100;
+        border-width: 0;
 
         .wordbox-footer-btn {
             border-radius: 50;

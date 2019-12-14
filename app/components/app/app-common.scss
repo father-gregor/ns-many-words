@@ -7,3 +7,16 @@
     color: #ffffff;
     background-color: green;
 }
+
+.help-container {
+    background-color: #000000;
+    margin-right: 5;
+    margin-bottom: 75;
+    z-index: 1000;
+
+    Button {
+        font-size: 20;
+        margin: 0;
+        padding: 0;
+    }
+}

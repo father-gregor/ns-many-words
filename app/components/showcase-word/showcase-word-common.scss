@@ -95,8 +95,8 @@
 
 @include for-dark-theme-class(showcase-word-container) {
     color: #ffffff;
+    background-color: $background-dark;
 }
 
 @include apply-black-color-to(word-synonym, background-color);
-
 @include apply-black-color-to(btn-favorite-container, background-color);

@@ -1,0 +1,45 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.search-bar-container {
+    .search-bar-field {
+        height: 40;
+        width: 100%;
+        font-size: 20;
+        padding-left: 10;
+        padding-bottom: 5;
+    }
+
+    Image {
+        height: 20;
+    }
+
+    ActivityIndicator {
+        width: 25;
+        height: 25;
+    }
+}
+
+@include for-general-theme-class(search-bar-container) {
+    background-color: #ffffff;
+
+    .search-bar-field {
+        color: #000000;
+        background-color:  #ffffff;
+        border-color: #ffffff;
+    }
+
+    Image {
+        background-color: transparent;
+    }
+}
+
+@include for-dark-theme-class(search-bar-container) {
+    background-color: lighten($background-dark, 5%);
+
+    .search-bar-field {
+        color: #ffffff;
+        background-color:  lighten($background-dark, 10%);
+        border-color: lighten($background-dark, 10%);
+    }
+}

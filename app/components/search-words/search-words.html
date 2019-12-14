@@ -13,7 +13,26 @@
                         (onConfirmSearchTap)="saveSearchTermToArchive($event)">
         </SearchWordsBar>
     </StackLayout>
-    <ScrollView class="search-results-container"
+    <GridLayout *ngIf="!searchTermArchive.length && !isSearchActive"
+                class="no-recent-search-container"
+                col="0"
+                row="1"
+                horizontalAlignment="center"
+                verticalAlignment="center">
+        <StackLayout>
+            <Label text="&#xe8cd;"
+                   class="md-font-icon icon"
+                   textAlignment="center">
+            </Label>
+            <Label class="label"
+                   text="Want to find some fascinating words? Type something above!"
+                   [textWrap]="true"
+                   textAlignment="center">
+            </Label>
+        </StackLayout>
+    </GridLayout>
+    <ScrollView *ngIf="searchTermArchive.length > 0 || isSearchActive"
+                class="search-results-container"
                 col="0"
                 row="1"
                 orientation="vertical"
@@ -24,33 +43,41 @@
                        text="Recent Searches">
                 </Label>
             </StackLayout>
-            <MDCardView *ngFor="let searchTerm of searchTermArchive"
-                        class="search-item-common search-archive-item material-card-wrapper"
-                        (tap)="onSearchTermArchiveTap(searchTerm)">
-                <GridLayout class="search-item-layout"
-                            columns="*, 40"
-                            rows="*"
-                            orientation="vertical">
-                    <Label col="0"
-                           row="0"
-                           verticalAlignment="center"
-                           [text]="searchTerm">
-                    </Label>
-                    <MDCardView class="delete-recent-search"
-                                col="1"
-                                row="0"
-                                (tap)="removeSearchTermFromArchive(searchTerm)">
-                        <StackLayout>
-                            <Image src="font://&#xf014;"
-                                   class="font-icon"
-                                   horizontalAlignment="center"
-                                   verticalAlignment="center"
-                                   stretch="none">
-                            </Image>
-                        </StackLayout>
-                    </MDCardView>
-                </GridLayout>
-            </MDCardView>
+            <GridLayout *ngFor="let searchTerm of searchTermArchive"
+                        class="search-archive-item"
+                        columns="*, 40"
+                        orientation="vertical">
+                <MDCardView col="0"
+                            class="search-item-common material-card-wrapper"
+                            (tap)="onSearchTermArchiveTap(searchTerm)">
+                    <GridLayout class="search-item-layout"
+                                columns="auto, 10, *">
+                        <Label col="0"
+                               text="&#xe192;"
+                               class="md-font-icon icon"
+                               verticalAlignment="center"
+                               textAlignment="center">
+                        </Label>
+                        <Label col="2"
+                               verticalAlignment="center"
+                               class="label"
+                               [text]="searchTerm">
+                        </Label>
+                    </GridLayout>
+                </MDCardView>
+                <MDCardView col="1"
+                            class="search-item-common material-card-wrapper delete-recent-search"
+                            (tap)="removeSearchTermFromArchive(searchTerm)">
+                    <StackLayout>
+                        <Image src="font://&#xf014;"
+                               class="fa-font-icon"
+                               horizontalAlignment="center"
+                               verticalAlignment="center"
+                               stretch="none">
+                        </Image>
+                    </StackLayout>
+                </MDCardView>
+            </GridLayout>
         </StackLayout>
 
         <StackLayout *ngIf="isSearchActive">
@@ -86,7 +113,7 @@
                                  horizontalAlignment="center"
                                  verticalAlignment="center">
                         <Image src="font://&#xf061;"
-                               class="font-icon"
+                               class="fa-font-icon"
                                horizontalAlignment="center"
                                verticalAlignment="center"
                                stretch="none">

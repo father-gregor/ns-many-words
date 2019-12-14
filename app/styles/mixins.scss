@@ -23,11 +23,7 @@
 }
 
 @mixin for-general-theme-class ($className) {
-    :host-context(.ns-light) .#{$className} {
-        @content;
-    }
-
-    :host-context(.ns-dark) .#{$className} {
+    .#{$className} {
         @content;
     }
 }
