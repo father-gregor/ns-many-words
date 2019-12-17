@@ -1,5 +1,4 @@
 import { Component, ViewChild, ElementRef, Output, EventEmitter } from "@angular/core";
-import {trigger, transition, style, animate} from "@angular/animations";
 
 @Component({
     selector: "LatestWordBox",
@@ -9,31 +8,7 @@ import {trigger, transition, style, animate} from "@angular/animations";
         "../word-box/word-box.scss",
         "./latest-word-box-common.scss"
     ],
-    templateUrl: "./latest-word-box.html",
-    animations: [
-        trigger("wordBoxAnimations", [
-            transition(":enter", [
-                style({
-                    transform: "translateY(100%)",
-                    opacity: "0"
-                }),
-                animate(300, style({
-                    transform: "translateY(0%)",
-                    opacity: "1.0"
-                }))
-            ]),
-            transition("* => openNewWord", [
-                style({
-                    transform: "scale(1)",
-                    opacity: "1.0"
-                }),
-                animate(700, style({
-                    transform: "scale(0.5)",
-                    opacity: "0"
-                }))
-            ])
-        ])
-    ]
+    templateUrl: "./latest-word-box.html"
 })
 export class LatestWordBox {
     public animationState: "openNewWord" | never;
@@ -51,26 +26,5 @@ export class LatestWordBox {
         }
         this.isOpening = true;
         this.onLatestWordOpenEmitter.emit();
-
-        // this.animationState = "openNewWord";
-        // this.cd.detectChanges();
-        /* const wordView = this.wordBoxView.nativeElement as View;
-        wordView.animate({
-            scale: { x: 0.5, y: 0.5},
-            opacity: 0,
-            duration: 1000
-        }).then(() => {
-            this.word = {...this.word, latest: false};
-            this.cd.detectChanges();
-            wordView.translateX = -300;
-            wordView.scaleX = 1;
-            wordView.scaleY = 1;
-            wordView.opacity = 1;
-            wordView.animate({
-                translate: { x: 0, y: 0 },
-                duration: 600,
-                curve: AnimationCurve.easeOut
-            });
-        });*/
     }
 }

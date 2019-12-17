@@ -94,7 +94,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
 
     public selectItemTemplate (item: IWord | {techItem: TechItemType}, index: number, items: IWord[]) {
         if ((item as IWord).type === "daily") {
-            if ((item as IWord).latest) {
+            if ((item as IWord).viewState === "latestPreview") {
                 return "latestDailyWord";
             }
             return "dailyWord";

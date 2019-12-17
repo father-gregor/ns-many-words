@@ -12,11 +12,6 @@ import { IWordTab } from "../../home/tab";
 import { MasterWordsComponentCommon } from "../master-words/master-words.component.common";
 
 /**
- * Animations
- */
-import { masterWordsAnimations } from "../master-words/master-words.animations";
-
-/**
  * Services
  */
 import { LoggerService } from "../../../services/logger/logger.service";
@@ -29,10 +24,7 @@ import { AppThemeService } from "../../../services/app-theme/app-theme.service";
     selector: "RandomWords",
     moduleId: module.id,
     styleUrls: ["./random-words-common.scss"],
-    templateUrl: "../master-words/master-words-template.html",
-    animations: [
-        ...masterWordsAnimations
-    ]
+    templateUrl: "../master-words/master-words-template.html"
 })
 export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";

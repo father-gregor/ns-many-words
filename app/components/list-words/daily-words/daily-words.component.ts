@@ -13,11 +13,6 @@ import { MasterWordsComponentCommon } from "../master-words/master-words.compone
 import { LatestWordBox } from "../../latest-word-box/latest-word-box.component";
 
 /**
- * Animations
- */
-import { masterWordsAnimations } from "../master-words/master-words.animations";
-
-/**
  * Interfaces
  */
 import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.interfaces";
@@ -34,10 +29,7 @@ import { AppThemeService } from "../../../services/app-theme/app-theme.service";
     selector: "DailyWords",
     moduleId: module.id,
     styleUrls: ["./daily-words-common.scss"],
-    templateUrl: "../master-words/master-words-template.html",
-    animations: [
-        ...masterWordsAnimations
-    ]
+    templateUrl: "../master-words/master-words-template.html"
 })
 export class DailyWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "daily";
@@ -71,7 +63,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
     }
 
     public startLatestWordTeaserAnimation (latestWordBox: LatestWordBox) {
-        const latestWordIndex = this.allListItems.findIndex((i) => (i as IWord).latest);
+        const latestWordIndex = this.allListItems.findIndex((i) => (i as IWord).viewState === "latestPreview");
         if (latestWordIndex >= 0) {
             const wordView = latestWordBox.element.nativeElement as View;
             wordView.animate({
@@ -79,7 +71,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 opacity: 0,
                 duration: 1000
             }).then(() => {
-                this.allListItems[latestWordIndex] = {...this.allListItems[latestWordIndex], latest: false};
+                this.allListItems[latestWordIndex] = {...this.allListItems[latestWordIndex], viewState: "latest"};
                 this.cd.detectChanges();
             });
         }
@@ -111,6 +103,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                         type: "daily",
                         nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
                         definitions: word.definitions,
+                        viewState: "default",
                         synonyms: word.synonyms,
                         archaic: word.archaic,
                         language: word.language,
@@ -121,7 +114,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                     newWord.date = this.getWordDate(word);
                     if (options.checkForLatestWord) {
                         if (!this.latestWordDate || this.latestWordDate.getTime() < newWord.date.object.getTime()) {
-                            newWord.latest = true;
+                            newWord.viewState = "latestPreview";
                             this.latestWordDate = newWord.date.object;
                             options.checkForLatestWord = false;
                             nsSetString(this.latestWordDateKey, JSON.stringify(this.latestWordDate));
@@ -133,7 +126,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
 
                 // TODO: Remove later
                 if (options.checkForLatestWord) {
-                    resultWords[0] = {...resultWords[0], latest: true};
+                    resultWords[0] = {...resultWords[0], viewState: "latestPreview"};
                 }
 
                 this.earliestWordDate = new Date(resultWords[resultWords.length - 1].publishDateUTC);

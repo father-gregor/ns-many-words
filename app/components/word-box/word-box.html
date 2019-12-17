@@ -1,4 +1,5 @@
-<MDCardView class="material-card-wrapper"
+<MDCardView #cardViewElement
+            class="material-card-wrapper"
             elevation="5"
             (tap)="onOpenWordTap()">
        <GridLayout #wordBox
@@ -7,13 +8,15 @@
                    class="word-container"
                    verticalAlignment="center">
               <GridLayout class="word-selftext"
-                           row="0"
-                           col="0"
-                           colspan="2"
-                           columns="*"
-                           rows="*"
-                           verticalAlignment="center">
-                     <Label col="0" row="0" [text]="word.name"></Label>
+                          row="0"
+                          col="0"
+                          colspan="2"
+                          columns="*"
+                          rows="*"
+                          verticalAlignment="center">
+                     <Label col="0"
+                            row="0"
+                            [text]="word.name"></Label>
               </GridLayout>
               <StackLayout class="word-definitions"
                            row="1"
@@ -30,12 +33,16 @@
                      </Label>
               </StackLayout>
               <GridLayout class="wordbox-footer"
-                           row="2"
-                           col="1"
-                           columns="auto, auto"
-                           rows="*"
-                           orientation="horizontal">
-                     <MDRipple col="0" row="0" class="wordbox-footer-btn" rippleColor="white" (tap)="onFavoriteTap()">
+                          row="2"
+                          col="1"
+                          columns="auto, auto"
+                          rows="*"
+                          orientation="horizontal">
+                     <MDRipple col="0"
+                               row="0"
+                               class="wordbox-footer-btn"
+                               rippleColor="white"
+                               (tap)="onFavoriteTap()">
                             <Image [src]="isFavorite ? 'res://star_full' : 'res://star_empty'"
                                    class="btn-favorite-container"
                                    [style.visibility]="disableFavorite ? 'collapse' : 'visible'"
@@ -43,7 +50,11 @@
                                    verticalAlignment="top">
                             </Image>
                      </MDRipple>
-                     <MDRipple col="1" row="0" class="wordbox-footer-btn" rippleColor="white" (tap)="onSocialShareTap()">
+                     <MDRipple col="1"
+                               row="0"
+                               class="wordbox-footer-btn"
+                               rippleColor="white"
+                               (tap)="onSocialShareTap()">
                             <Image [src]="'res://social_share'"
                                    class="btn-share-container"
                                    horizontalAlignment="center"

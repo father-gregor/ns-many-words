@@ -7,7 +7,7 @@ export interface IWord {
     definitions: string[];
     synonyms?: string[];
     date: {text: string, object: Date};
-    latest?: boolean;
+    viewState?: "latestPreview" | "latest" | "default";
     publishDateUTC?: string;
     language?: string;
     archaic?: boolean;

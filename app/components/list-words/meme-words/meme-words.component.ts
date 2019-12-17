@@ -11,11 +11,6 @@ import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.inte
 import { MasterWordsComponentCommon } from "../master-words/master-words.component.common";
 
 /**
- * Animations
- */
-import { masterWordsAnimations } from "../master-words/master-words.animations";
-
-/**
  * Services
  */
 import { WordsService } from "../../../services/words/words.service";
@@ -27,8 +22,7 @@ import { AppThemeService } from "../../../services/app-theme/app-theme.service";
     selector: "MemeWords",
     moduleId: module.id,
     styleUrls: ["./meme-words-common.scss"],
-    templateUrl: "../master-words/master-words-template.html",
-    animations: [...masterWordsAnimations]
+    templateUrl: "../master-words/master-words-template.html"
 })
 export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
