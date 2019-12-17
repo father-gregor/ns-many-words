@@ -12,6 +12,7 @@ import ITabError from "../errors.interfaces";
  * Services
  */
 import { ConnectionMonitorService } from "../../../services/connection-monitor/connection-monitor.service";
+import { UtilsService } from "../../../services/utils/utils.service";
 
 @Component({
     selector: "NoConnection",
@@ -69,7 +70,7 @@ export class NoConnectionComponent implements ITabError, AfterViewInit {
         }
 
         setTimeout(() => {
-            this.cd.detectChanges();
+            UtilsService.safeDetectChanges(this.cd);
             this.view.animate(animationOptions);
         }, 100);
     }

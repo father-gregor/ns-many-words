@@ -17,6 +17,7 @@ import { WordsService } from "../../../services/words/words.service";
 import { LoggerService } from "../../../services/logger/logger.service";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
+import { UtilsService } from "../../../services/utils/utils.service";
 
 @Component({
     selector: "MemeWords",
@@ -56,7 +57,7 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         const query = {count: options.count || 1};
         this.isLoading = true;
         this.addTechItem("loading");
-        this.cd.detectChanges();
+        UtilsService.safeDetectChanges(this.cd);
 
         this.handleWordsRequest(this.Words.getMemeWord(query), (res: any[]) => {
             if (res && res.length > 0 && this.isNoWords) {

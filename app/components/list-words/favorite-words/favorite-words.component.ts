@@ -20,6 +20,7 @@ import { FavoriteWordsService } from "../../../services/favorite-words/favorite-
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { LoggerService } from "../../../services/logger/logger.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
+import { UtilsService } from "../../../services/utils/utils.service";
 
 @Component({
     selector: "FavoriteWords",
@@ -55,11 +56,11 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
 
     public ngOnInit () {
         this.favoriteWords = this.FavoriteWords.getAll();
-        this.cd.detectChanges();
+        UtilsService.safeDetectChanges(this.cd);
 
         this.sub = this.FavoriteWords.changes$.subscribe((words: IFavoriteWord[]) => {
             this.favoriteWords = words;
-            this.cd.detectChanges();
+            UtilsService.safeDetectChanges(this.cd);
             this.newWordsLoaded$.next();
         });
     }
@@ -67,7 +68,7 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
     public ngAfterContentInit () {
         setTimeout(() => {
             this.isInitCompleted = true;
-            this.cd.detectChanges();
+            UtilsService.safeDetectChanges(this.cd);
         }, 700);
     }
 

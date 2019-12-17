@@ -19,6 +19,7 @@ import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.inte
 import { LoggerService } from "../../../services/logger/logger.service";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
+import { UtilsService } from "../../../services/utils/utils.service";
 
 type TechItemType = "loading" | "noWords" | "header";
 
@@ -37,11 +38,11 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     @Input("isVisible") set isVisibleInput (value: boolean) {
         if (value && this.visibilityStatus !== "visible") {
             this.visibilityStatus = "visible";
-            this.cd.detectChanges();
+            UtilsService.safeDetectChanges(this.cd);
         }
         else if (!value && this.visibilityStatus !== "collapse") {
             this.visibilityStatus = "collapse";
-            this.cd.detectChanges();
+            UtilsService.safeDetectChanges(this.cd);
         }
     }
 
@@ -65,7 +66,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public ngOnInit () {
         this.subscriptions.add(
             this.newWordsLoaded$.subscribe(() => {
-                this.cd.detectChanges();
+                UtilsService.safeDetectChanges(this.cd);
             })
         );
     }

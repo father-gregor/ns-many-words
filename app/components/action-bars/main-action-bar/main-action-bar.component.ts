@@ -7,7 +7,7 @@ import * as utils from "tns-core-modules/utils/utils";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { IWord } from "../../word-box/word-box.interfaces";
 import { ActionBarItemsType } from "./main-action-bar.interfaces";
-import { SocialShareService } from "~/services/social-share/social-share.service";
+import { SocialShareService } from "../../../services/social-share/social-share.service";
 
 @Component({
     selector: "MainActionBar",

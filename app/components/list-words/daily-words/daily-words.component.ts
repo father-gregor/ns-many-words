@@ -24,6 +24,7 @@ import { WordsService } from "../../../services/words/words.service";
 import { LoggerService } from "../../../services/logger/logger.service";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
+import { UtilsService } from "../../../services/utils/utils.service";
 
 @Component({
     selector: "DailyWords",
@@ -72,7 +73,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
                 duration: 1000
             }).then(() => {
                 this.allListItems[latestWordIndex] = {...this.allListItems[latestWordIndex], viewState: "latest"};
-                this.cd.detectChanges();
+                UtilsService.safeDetectChanges(this.cd);
             });
         }
     }
@@ -89,7 +90,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         };
         this.isLoading = true;
         this.addTechItem("loading");
-        this.cd.detectChanges();
+        UtilsService.safeDetectChanges(this.cd);
 
         this.handleWordsRequest(this.Words.getDailyWord(query), (res: IWord[]) => {
             if (res && res.length > 0) {

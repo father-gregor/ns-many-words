@@ -40,6 +40,7 @@ import { LoggerService } from "./services/logger/logger.service";
 import { FpsLoggerService } from "./services/fps-logger/fps-logger.service";
 import { AppThemeService } from "./services/app-theme/app-theme.service";
 import { SocialShareService } from "./services/social-share/social-share.service";
+import { UtilsService } from "./services/utils/utils.service";
 
 /**
  * Components
@@ -131,6 +132,7 @@ import { LoadingIndicatorComponent } from "./components/loading-indicator/loadin
         FpsLoggerService,
         AppThemeService,
         SocialShareService,
+        UtilsService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: DeviceInfoInterceptor,

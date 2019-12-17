@@ -15,6 +15,7 @@ import { FavoriteWordsService } from "../../services/favorite-words/favorite-wor
 import { PageDataStorageService } from "../../services/page-data-storage/page-data-storage.service";
 import { SnackBarNotificationService } from "../../services/snack-bar-notification/snack-bar-notification.service";
 import { SocialShareService } from "../../services/social-share/social-share.service";
+import { UtilsService } from "../../services/utils/utils.service";
 
 @Component({
     selector: "WordBox",
@@ -98,18 +99,18 @@ export class WordBoxComponent implements OnChanges {
             this.FavoriteWords.remove(this.word, this.type).then((isRemoveCancelled: boolean) => {
                 if (isRemoveCancelled) {
                     this.checkIsFavorite();
-                    this.cd.detectChanges();
+                    UtilsService.safeDetectChanges(this.cd);
                 }
             });
             this.checkIsFavorite();
             if (!this.isFavoritePage) {
-                this.cd.detectChanges();
+                UtilsService.safeDetectChanges(this.cd);
             }
         }
         else {
             this.FavoriteWords.add(this.word, this.type);
             this.checkIsFavorite();
-            this.cd.detectChanges();
+            UtilsService.safeDetectChanges(this.cd);
         }
     }
 

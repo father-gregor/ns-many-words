@@ -16,6 +16,7 @@ import { MainActionBarComponent } from "../action-bars/main-action-bar/main-acti
  */
 import { CurrentTabService } from "../../services/current-tab/current-tab.service";
 import { MainConfigService } from "../../services/main-config/main-config.service";
+import { UtilsService } from "../../services/utils/utils.service";
 
 @Component({
     selector: "Home",
@@ -60,7 +61,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit () {
-        this.cd.detectChanges();
+        UtilsService.safeDetectChanges(this.cd);
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {
@@ -69,6 +70,6 @@ export class HomeComponent implements AfterViewInit {
             this.isFirstLoadingComplete[this.currentTabId] = true;
         }
         this.CurrentTab.setCurrent(this.wordsTab[this.currentTabId], event.newIndex);
-        this.cd.detectChanges();
+        UtilsService.safeDetectChanges(this.cd);
     }
 }

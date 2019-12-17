@@ -1,14 +1,22 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { isAndroid, isIOS } from "tns-core-modules/ui/page/page";
+import { GestureEventData } from "tns-core-modules/ui/gestures/gestures";
 import * as clipboard from "nativescript-clipboard";
 
-import { PageDataStorageService } from "../../services/page-data-storage/page-data-storage.service";
+/**
+ * Interfaces
+ */
 import { IWord, IWordRouterData, WordType } from "../word-box/word-box.interfaces";
+
+/**
+ * Services
+ */
+import { PageDataStorageService } from "../../services/page-data-storage/page-data-storage.service";
 import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
 import { MainConfigService } from "../../services/main-config/main-config.service";
 import { SnackBarNotificationService } from "../../services/snack-bar-notification/snack-bar-notification.service";
-import { GestureEventData } from "tns-core-modules/ui/gestures/gestures";
+import { UtilsService } from "../../services/utils/utils.service";
 
 @Component({
     selector: "ShowcaseWord",
@@ -78,7 +86,7 @@ export class ShowcaseWordComponent implements OnInit {
         }
         finally {
             this.word = {...this.word};
-            this.cd.detectChanges();
+            UtilsService.safeDetectChanges(this.cd);
         }
     }
 }

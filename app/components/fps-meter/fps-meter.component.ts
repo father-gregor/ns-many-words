@@ -9,6 +9,7 @@ import { IFpsLog } from "../../services/fps-logger/fps-logger.interfaces";
  * Services
  */
 import { FpsLoggerService } from "../../services/fps-logger/fps-logger.service";
+import { UtilsService } from "../../services/utils/utils.service";
 
 @Component({
     selector: "FpsMeter",
@@ -25,7 +26,7 @@ export class FpsMeterComponent {
     ) {
         this.FpsLogger.newLog$.subscribe((newLog: IFpsLog) => {
             this.currentFps = newLog.fps;
-            this.cd.detectChanges();
+            UtilsService.safeDetectChanges(this.cd);
         });
         this.FpsLogger.start();
     }
