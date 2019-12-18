@@ -41,6 +41,7 @@ import { FpsLoggerService } from "./services/fps-logger/fps-logger.service";
 import { AppThemeService } from "./services/app-theme/app-theme.service";
 import { SocialShareService } from "./services/social-share/social-share.service";
 import { UtilsService } from "./services/utils/utils.service";
+import { SpeechRecognitionService } from "./services/speech-recognition/speech-recognition.service";
 
 /**
  * Components
@@ -133,6 +134,7 @@ import { LoadingIndicatorComponent } from "./components/loading-indicator/loadin
         AppThemeService,
         SocialShareService,
         UtilsService,
+        SpeechRecognitionService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: DeviceInfoInterceptor,

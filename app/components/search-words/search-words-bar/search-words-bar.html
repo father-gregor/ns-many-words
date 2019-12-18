@@ -1,10 +1,16 @@
 <GridLayout class="search-bar-container"
             columns="50, *, 50"
             rows="auto">
-       <Image src="font://&#xf002;"
-              class="fa-font-icon"
-              col="0"
-              row="0">
+       <Image *ngIf="SpeechRecognition.isAvailable"
+              src="font://&#xe31d;"
+              class="md-font-icon"
+              verticalAlignment="center"
+              (tap)="startSpeechRecognition()">
+       </Image>
+       <Image *ngIf="!SpeechRecognition.isAvailable"
+              src="font://&#xf002;"
+              verticalAlignment="center"
+              class="fa-font-icon">
        </Image>
        <TextField #searchBarField
                   class="search-bar-field"

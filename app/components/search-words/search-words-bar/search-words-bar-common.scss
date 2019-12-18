@@ -11,7 +11,14 @@
     }
 
     Image {
-        height: 20;
+        margin-top: 2;
+
+        &.fa-font-icon {
+            height: 20;
+        }
+        &.md-font-icon {
+            height: 25; 
+        }
     }
 
     ActivityIndicator {
