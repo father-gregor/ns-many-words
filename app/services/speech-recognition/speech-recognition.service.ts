@@ -9,6 +9,7 @@ export class SpeechRecognitionService {
     }
     private speechRecognition = new SpeechRecognition();
     private isEngineAvailable: boolean;
+    private isRecognitionInProgress = false;
 
     constructor () {
         this.speechRecognition.available().then(
@@ -24,7 +25,7 @@ export class SpeechRecognitionService {
 
         const recognition$: Subject<SpeechRecognitionTranscription> = new Subject<SpeechRecognitionTranscription>();
         const error$: Subject<string | number> = new Subject<string | number>();
-        this.speechRecognition.startListening({
+        const onStartPromise = this.speechRecognition.startListening({
             locale: "en-US",
             returnPartialResults: true,
             onResult: (result: SpeechRecognitionTranscription) => {
@@ -36,17 +37,24 @@ export class SpeechRecognitionService {
                 console.log("onError", err);
                 error$.next(err);
             }
+        }).then((isStarted: boolean) => {
+            this.isRecognitionInProgress = isStarted;
+            return isStarted;
         }).catch((err: string | number) => {
             console.log("Catch", err);
             error$.next(err);
         });
 
-        return {recognition$, error$};
+        return {onStartPromise, recognition$, error$};
     }
 
-    public stopListening () {
+    public async stopListening () {
         try {
-            this.speechRecognition.stopListening();
+            console.log("Trying to stop", this.isRecognitionInProgress);
+            if (this.isRecognitionInProgress) {
+                this.isRecognitionInProgress = false;
+                await this.speechRecognition.stopListening();
+            }
         }
         catch (err) {}
     }

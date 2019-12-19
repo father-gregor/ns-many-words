@@ -67,12 +67,12 @@ import { SettingsDividerComponent } from "./components/settings/settings-element
 import { ColumnsOrderingModalComponent } from "./components/modals/columns-ordering-modal/columns-ordering-modal.component";
 import { ModalContainerComponent } from "./components/modals/modal-container/modal-container.component";
 import { SearchWordsComponent } from "./components/search-words/search-words.component";
-import { SearchWordsModalComponent } from "./components/modals/search-words-modal/search-words-modal.component";
 import { WordDateTimeComponent } from "./components/word-date-time/word-date-time.component";
 import { ActionBarIconItemComponent } from "./components/action-bars/action-bar-icon-item/action-bar-icon-item.component";
 import { ContactUsModalComponent } from "./components/modals/contact-us-modal/contact-us-modal.component";
 import { SearchWordsBarComponent } from "./components/search-words/search-words-bar/search-words-bar.component";
 import { LoadingIndicatorComponent } from "./components/loading-indicator/loading-indicator.component";
+import { SpeechRecognitionModalComponent } from "./components/modals/speech-recognition-modal/speech-recognition-modal.component";
 
 @NgModule({
     bootstrap: [
@@ -113,12 +113,12 @@ import { LoadingIndicatorComponent } from "./components/loading-indicator/loadin
         DraggableItemAnchorDirective,
         ModalContainerComponent,
         SearchWordsComponent,
-        SearchWordsModalComponent,
         WordDateTimeComponent,
         ActionBarIconItemComponent,
         ContactUsModalComponent,
         SearchWordsBarComponent,
-        LoadingIndicatorComponent
+        LoadingIndicatorComponent,
+        SpeechRecognitionModalComponent
     ],
     providers: [
         WordsService,
@@ -144,8 +144,8 @@ import { LoadingIndicatorComponent } from "./components/loading-indicator/loadin
     entryComponents: [
         ModalContainerComponent,
         ColumnsOrderingModalComponent,
-        SearchWordsModalComponent,
-        ContactUsModalComponent
+        ContactUsModalComponent,
+        SpeechRecognitionModalComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

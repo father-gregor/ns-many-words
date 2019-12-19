@@ -1,0 +1,20 @@
+<ScrollView>
+    <GridLayout class="speech-recognition-container"
+                [ngClass]="currentTheme"
+                columns="*"
+                rows="*"
+                horizontalAlignment="center"
+                verticalAlignment="center">
+        <LottieView col="0"
+                    row="0"
+                    width="300"
+                    height="300"
+                    [src]="animationSrc"
+                    [loop]="true"
+                    [autoPlay]="true"
+                    horizontalAlignment="center"
+                    verticalAlignment="center"
+                    (loaded)="animationLoaded($event)">
+        </LottieView>
+    </GridLayout>
+</ScrollView>

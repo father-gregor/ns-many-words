@@ -23,6 +23,10 @@ export interface IMainConfig {
         random: string;
         meme: string;
     };
+    speechRecognition: {
+        activeAnimationLight: string;
+        activeAnimationDark: string;
+    };
     pushNotificationTopics: string[];
     loggingUrl: string;
     wordApi: {

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
     selector: "ModalContainer",
-    styleUrls: ["./modal-container.scss"],
+    styleUrls: ["./modal-container-common.scss"],
     templateUrl: "./modal-container.html"
 })
 export class ModalContainerComponent {

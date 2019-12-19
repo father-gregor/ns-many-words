@@ -22,6 +22,10 @@
         "random": "CircleLoading-black.json",
         "meme": "CircleLoading-purple.json"
     },
+    "speechRecognition": {
+        "activeAnimationLight": "SpeechRipple_black.json",
+        "activeAnimationDark": "SpeechRipple_white.json"
+    },
     "pushNotificationTopics": [
         "newDailyWord"
     ],

@@ -1,0 +1,12 @@
+@import "../../../styles/variables.scss";
+
+.speech-recognition-container {
+    .microphone-icon {
+        font-size: 70;
+        color: #ffffff;
+    }
+
+    &.ns-dark {
+        background-color: $background-lighter-dark;
+    }
+}

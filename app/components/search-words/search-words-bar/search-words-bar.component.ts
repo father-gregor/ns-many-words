@@ -1,14 +1,19 @@
-import { Component, ViewChild, ElementRef, Output, EventEmitter, Input, OnDestroy } from "@angular/core";
+import { Component, ViewChild, ElementRef, Output, EventEmitter, Input, OnDestroy, ViewContainerRef } from "@angular/core";
 import { TextField } from "tns-core-modules/ui/text-field/text-field";
-import { Subscription } from "rxjs";
+import { Subscription, Subject } from "rxjs";
+import { ModalDialogService } from "nativescript-angular/modal-dialog";
 import { SpeechRecognitionTranscription } from "nativescript-speech-recognition";
-import { isAndroid } from "tns-core-modules/platform";
+import { isAndroid, isIOS } from "tns-core-modules/platform";
+
+/**
+ * Components
+ */
+import { SpeechRecognitionModalComponent } from "../../modals/speech-recognition-modal/speech-recognition-modal.component";
 
 /**
  * Services
  */
 import { SpeechRecognitionService } from "../../../services/speech-recognition/speech-recognition.service";
-import { isIOS } from "tns-core-modules/ui/page/page";
 
 @Component({
     selector: "SearchWordsBar",
@@ -35,9 +40,12 @@ export class SearchWordsBarComponent implements OnDestroy {
 
     private speechRecognitionSub: Subscription;
     private speechErrorSub: Subscription;
+    private closeRecognitionModal$: Subject<any>;
 
     constructor (
-        public SpeechRecognition: SpeechRecognitionService
+        public SpeechRecognition: SpeechRecognitionService,
+        private ModalDialog: ModalDialogService,
+        private viewContainer: ViewContainerRef
     ) {}
 
     public ngOnDestroy () {
@@ -49,6 +57,20 @@ export class SearchWordsBarComponent implements OnDestroy {
         if (!process) {
             return;
         }
+
+        process.onStartPromise.then((isStarted: boolean) => {
+            if (isStarted) {
+                this.closeRecognitionModal$ = new Subject<any>();
+                this.ModalDialog.showModal(SpeechRecognitionModalComponent, {
+                    viewContainerRef: this.viewContainer,
+                    context: {
+                        closeModal$: this.closeRecognitionModal$
+                    }
+                }).then(() => {
+                    this.stopSpeechRecognition();
+                });
+            }
+        });
 
         this.speechRecognitionSub = process.recognition$.subscribe((result: SpeechRecognitionTranscription) => {
             console.log("Recognized", result.text);
@@ -62,7 +84,6 @@ export class SearchWordsBarComponent implements OnDestroy {
         this.speechErrorSub = process.error$.subscribe((err: string | number) => {
             if (isAndroid) {
                 const nonBreakingErrors = [
-                    android.speech.SpeechRecognizer.ERROR_SPEECH_TIMEOUT,
                     android.speech.SpeechRecognizer.ERROR_NO_MATCH,
                     android.speech.SpeechRecognizer.ERROR_RECOGNIZER_BUSY
                 ];
@@ -104,6 +125,10 @@ export class SearchWordsBarComponent implements OnDestroy {
         if (this.speechErrorSub) {
             this.speechErrorSub.unsubscribe();
             this.speechErrorSub = null;
+        }
+        if (this.closeRecognitionModal$) {
+            this.closeRecognitionModal$.next();
+            this.closeRecognitionModal$ = null;
         }
         this.SpeechRecognition.stopListening();
     }
