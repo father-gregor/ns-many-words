@@ -1,6 +1,7 @@
 import { Directive, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter, ElementRef } from "@angular/core";
 import { View } from "tns-core-modules/ui/core/view";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
+import { Subject } from "rxjs";
 
 /**
  * Directives
@@ -17,6 +18,7 @@ export class ReorderContainerDirective implements AfterContentInit {
     public view: View;
     private itemsOrder: Array<{itemValue: any, element: DraggableItemDirective, locationX?: number, locationY?: number}> = [];
     private animationInProgress = false;
+    private animationEnd$: Subject<any> = new Subject<any>();
 
     constructor (
         el: ElementRef
@@ -45,6 +47,7 @@ export class ReorderContainerDirective implements AfterContentInit {
         if (this.animationInProgress) {
             return;
         }
+
         const itemInd = this.itemsOrder.findIndex((i) => i.itemValue === itemValue);
         const prevItemInd = (itemInd - 1) >= 0 ? (itemInd - 1) : null;
         const nextItemInd = (itemInd + 1) < this.itemsOrder.length ? (itemInd + 1) : null;
@@ -71,6 +74,7 @@ export class ReorderContainerDirective implements AfterContentInit {
                     curve: AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1)
                 }).then(() => {
                     this.animationInProgress = false;
+                    this.animationEnd$.next();
                 });
                 isOrderChanged = true;
             }
@@ -93,12 +97,25 @@ export class ReorderContainerDirective implements AfterContentInit {
                     curve: AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1)
                 }).then(() => {
                     this.animationInProgress = false;
+                    this.animationEnd$.next();
                 });
             }
         }
     }
 
     public onItemPanEnd (itemValue: any) {
+        if (!this.animationInProgress) {
+            this.emitItemsNewOrder();
+        }
+        else {
+            const sub = this.animationEnd$.subscribe(() => {
+                sub.unsubscribe();
+                this.emitItemsNewOrder();
+            });
+        }
+    }
+
+    private emitItemsNewOrder () {
         this.onItemsOrderChangeEmitter.emit(this.itemsOrder.map((i) => {
             i.element.view.translateX = 0;
             i.element.view.translateY = 0;

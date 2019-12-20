@@ -8,6 +8,11 @@ import { AnimationCurve } from "tns-core-modules/ui/enums";
  */
 import { DraggableItemAnchorDirective } from "../draggable-item-anchor/draggable-item-anchor.directive";
 
+/**
+ * Services
+ */
+import { AppThemeService } from "../../../services/app-theme/app-theme.service";
+
 @Directive({
     selector: "[draggableItem]"
 })
@@ -23,7 +28,10 @@ export class DraggableItemDirective {
     private prevDeltaX: number;
     private prevDeltaY: number;
 
-    constructor (el: ElementRef) {
+    constructor (
+        private AppTheme: AppThemeService,
+        el: ElementRef
+    ) {
         this.view = ((el as any).element ? (el as any).element.nativeElement : el.nativeElement) as View;
 
         this.view.translateX = 0;
@@ -91,16 +99,17 @@ export class DraggableItemDirective {
         this.prevDeltaX = 0;
         this.prevDeltaY = 0;
         this.view.style.zIndex = 100;
-        this.view.backgroundColor = new Color(25, 0, 0, 0);
+
+        if (this.AppTheme.getCurrent() === "ns-light") {
+            this.view.backgroundColor = new Color(100, 255, 255, 255);
+        }
+        else {
+            this.view.backgroundColor = new Color(100, 0, 0, 0);
+        }
     }
 
     private prepareViewOnDraggingEnd () {
         this.view.backgroundColor = null;
         this.view.style.zIndex = null;
-        this.view.animate({
-            translate: {x: 0, y: 0},
-            duration: 300,
-            curve: AnimationCurve.cubicBezier(0.1, 0.1, 0.1, 1)
-        });
     }
 }
