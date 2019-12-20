@@ -1,12 +1,15 @@
 <GridLayout class="search-bar-container"
             columns="50, *, 50"
             rows="auto">
-       <Image *ngIf="SpeechRecognition.isAvailable"
-              src="font://&#xe31d;"
-              class="md-font-icon"
-              verticalAlignment="center"
-              (tap)="startSpeechRecognition()">
-       </Image>
+       <MDRipple *ngIf="SpeechRecognition.isAvailable"
+                 borderRadius="100"
+                 rippleColor="#050505"
+                 (tap)="startSpeechRecognition()">
+              <Image src="font://&#xe31d;"
+                     class="md-font-icon"
+                     verticalAlignment="center">
+              </Image>
+       </MDRipple>
        <Image *ngIf="!SpeechRecognition.isAvailable"
               src="font://&#xf002;"
               verticalAlignment="center"
@@ -24,16 +27,19 @@
                   (textChange)="onSearchTextChange()"
                   (returnPress)="onConfirmSearchTap()">
        </TextField>
-       <Image *ngIf="!isSearchInProgress"
-              src="font://&#xf00d;"
-              class="fa-font-icon"
-              col="2"
-              row="0"
-              width="100%"
-              horizontalAlignment="center"
-              verticalAlignment="center"
-              (tap)="clearSearchField()">
-       </Image>
+       <MDRipple *ngIf="!isSearchInProgress"
+                 col="2"
+                 row="0"
+                 borderRadius="100"
+                 rippleColor="#050505"
+                 (tap)="clearSearchField()">
+              <Image src="font://&#xf00d;"
+                     class="fa-font-icon"
+                     width="100%"
+                     horizontalAlignment="center"
+                     verticalAlignment="center">
+              </Image>
+       </MDRipple>
        <ActivityIndicator *ngIf="isSearchInProgress"
                           [busy]="true"
                           col="2"

@@ -10,13 +10,18 @@
         padding-bottom: 5;
     }
 
-    Image {
-        margin-top: 2;
+    MDRipple {
+        padding: 6 4 4 4;
+        margin: 5;
+    }
 
+    Image {
         &.fa-font-icon {
+            margin-top: 4;
             height: 20;
         }
         &.md-font-icon {
+            margin-top: 2;
             height: 25; 
         }
     }

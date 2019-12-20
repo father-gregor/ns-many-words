@@ -29,11 +29,9 @@ export class SpeechRecognitionService {
             locale: "en-US",
             returnPartialResults: true,
             onResult: (result: SpeechRecognitionTranscription) => {
-                console.log(`User said: ${result.text}; User finished?: ${result.finished}`);
                 recognition$.next(result);
             },
             onError: (err: string | number) => {
-                console.log("onError", err);
                 error$.next(err);
             }
         }).then((isStarted: boolean) => {
@@ -48,7 +46,6 @@ export class SpeechRecognitionService {
 
     public async stopListening () {
         try {
-            console.log("Trying to stop", this.isRecognitionInProgress);
             if (this.isRecognitionInProgress) {
                 this.isRecognitionInProgress = false;
                 await this.speechRecognition.stopListening();
