@@ -69,6 +69,7 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
             const wordView = latestWordBox.element.nativeElement as View;
             wordView.animate({
                 scale: {x: 0.5, y: 0.5},
+                translate: {x: 300, y: 0},
                 opacity: 0,
                 duration: 1000
             }).then(() => {
