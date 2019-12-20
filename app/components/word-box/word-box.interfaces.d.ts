@@ -13,6 +13,7 @@ export interface IWord {
     archaic?: boolean;
     partOfSpeech?: string[];
     wikiUrl?: string;
+    isFavorite?: boolean;
 }
 
 export interface IWordRouterData {

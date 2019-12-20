@@ -43,7 +43,7 @@
                                class="wordbox-footer-btn"
                                rippleColor="white"
                                (tap)="onFavoriteTap()">
-                            <Image [src]="isFavorite ? 'res://star_full' : 'res://star_empty'"
+                            <Image [src]="word.isFavorite ? 'res://star_full' : 'res://star_empty'"
                                    class="btn-favorite-container"
                                    [style.visibility]="disableFavorite ? 'collapse' : 'visible'"
                                    horizontalAlignment="center"

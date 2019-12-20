@@ -24,10 +24,9 @@ import { UtilsService } from "../../services/utils/utils.service";
     templateUrl: "./word-box.html"
 })
 export class WordBoxComponent implements OnChanges {
-    public isFavorite: boolean;
     @Input() public word: IWord;
     @Input() public type: WordType;
-    @Input() public isFavoritePage = false;
+    @Input() public isOnFavoriteWordsPage = false;
     @Input() public disableFavorite: boolean;
     @ViewChild("cardViewElement", {static: false}) public cardViewElement: ElementRef;
 
@@ -73,7 +72,7 @@ export class WordBoxComponent implements OnChanges {
     }
 
     public checkIsFavorite () {
-        this.isFavorite = Boolean(this.FavoriteWords.get(this.word, this.type));
+        this.word.isFavorite = Boolean(this.FavoriteWords.get(this.word, this.type));
     }
 
     public onOpenWordTap () {
@@ -95,7 +94,7 @@ export class WordBoxComponent implements OnChanges {
     public async onFavoriteTap () {
         this.stopPropagation = true;
 
-        if (this.isFavorite) {
+        if (this.word.isFavorite) {
             this.FavoriteWords.remove(this.word, this.type).then((isRemoveCancelled: boolean) => {
                 if (isRemoveCancelled) {
                     this.checkIsFavorite();
@@ -103,7 +102,7 @@ export class WordBoxComponent implements OnChanges {
                 }
             });
             this.checkIsFavorite();
-            if (!this.isFavoritePage) {
+            if (!this.isOnFavoriteWordsPage) {
                 UtilsService.safeDetectChanges(this.cd);
             }
         }
