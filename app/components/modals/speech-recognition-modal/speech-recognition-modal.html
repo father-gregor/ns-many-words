@@ -2,7 +2,7 @@
     <GridLayout class="speech-recognition-container"
                 [ngClass]="currentTheme"
                 columns="*"
-                rows="*"
+                rows="*, auto"
                 horizontalAlignment="center"
                 verticalAlignment="center">
         <LottieView col="0"
@@ -16,5 +16,23 @@
                     verticalAlignment="center"
                     (loaded)="animationLoaded($event)">
         </LottieView>
+        <Label *ngIf="currentStatus === 'active'"
+               class="speech-recognition-message"
+               col="0"
+               row="1"
+               text="Say the word you want to find."
+               [textWrap]="true"
+               textAlignment="center"
+               horizontalAlignment="center">
+        </Label>
+        <Label *ngIf="currentStatus === 'lightError'"
+               class="speech-recognition-message"
+               col="0"
+               row="1"
+               text="Restarting speech recognition. Please wait"
+               [textWrap]="true"
+               textAlignment="center"
+               horizontalAlignment="center">
+        </Label>
     </GridLayout>
 </ScrollView>

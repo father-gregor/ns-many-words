@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, Output, EventEmitter, Input, OnDestroy, ViewContainerRef } from "@angular/core";
 import { TextField } from "tns-core-modules/ui/text-field/text-field";
-import { Subscription, Subject } from "rxjs";
+import { Subscription, Subject, BehaviorSubject } from "rxjs";
 import { ModalDialogService } from "nativescript-angular/modal-dialog";
 import { SpeechRecognitionTranscription } from "nativescript-speech-recognition";
 import { isAndroid, isIOS } from "tns-core-modules/platform";
@@ -9,6 +9,11 @@ import { isAndroid, isIOS } from "tns-core-modules/platform";
  * Components
  */
 import { SpeechRecognitionModalComponent } from "../../modals/speech-recognition-modal/speech-recognition-modal.component";
+
+/**
+ * Interfaces
+ */
+import { SpeechRecognitionStatus } from "../../../services/speech-recognition/speech-recognition";
 
 /**
  * Services
@@ -40,6 +45,7 @@ export class SearchWordsBarComponent implements OnDestroy {
 
     private speechRecognitionSub: Subscription;
     private speechErrorSub: Subscription;
+    private recognitionStatusChanged$: Subject<SpeechRecognitionStatus>;
     private closeRecognitionModal$: Subject<any>;
 
     constructor (
@@ -52,23 +58,32 @@ export class SearchWordsBarComponent implements OnDestroy {
         this.stopSpeechRecognition();
     }
 
-    public startSpeechRecognition () {
+    public startSpeechRecognition (openModal: boolean = true) {
         const process = this.SpeechRecognition.startListening();
         if (!process) {
             return;
         }
 
         process.onStartPromise.then((isStarted: boolean) => {
-            if (isStarted) {
+            if (!isStarted) {
+                return;
+            }
+
+            if (openModal) {
+                this.recognitionStatusChanged$ = new BehaviorSubject<SpeechRecognitionStatus>("active");
                 this.closeRecognitionModal$ = new Subject<any>();
                 this.ModalDialog.showModal(SpeechRecognitionModalComponent, {
                     viewContainerRef: this.viewContainer,
                     context: {
+                        statusChanged$: this.recognitionStatusChanged$,
                         closeModal$: this.closeRecognitionModal$
                     }
                 }).then(() => {
                     this.stopSpeechRecognition();
                 });
+            }
+            else if (this.recognitionStatusChanged$) {
+                this.recognitionStatusChanged$.next("active");
             }
         });
 
@@ -82,12 +97,17 @@ export class SearchWordsBarComponent implements OnDestroy {
         });
 
         this.speechErrorSub = process.error$.subscribe((err: string | number) => {
-            if (isAndroid) {
+            if (isAndroid && typeof err === "number") {
                 const nonBreakingErrors = [
+                    android.speech.SpeechRecognizer.ERROR_SPEECH_TIMEOUT,
                     android.speech.SpeechRecognizer.ERROR_NO_MATCH,
                     android.speech.SpeechRecognizer.ERROR_RECOGNIZER_BUSY
                 ];
-                if (!nonBreakingErrors.includes(err as any)) {
+                if (nonBreakingErrors.includes(err)) {
+                    this.recognitionStatusChanged$.next("lightError");
+                    this.restartSpeechRecognition();
+                }
+                else {
                     this.stopSpeechRecognition();
                 }
             }
@@ -117,6 +137,24 @@ export class SearchWordsBarComponent implements OnDestroy {
         this.searchBarFieldView.focus();
     }
 
+    private restartSpeechRecognition () {
+        if (this.speechRecognitionSub) {
+            this.speechRecognitionSub.unsubscribe();
+            this.speechRecognitionSub = null;
+        }
+        if (this.speechErrorSub) {
+            this.speechErrorSub.unsubscribe();
+            this.speechErrorSub = null;
+        }
+
+        setTimeout(() => {
+            if (this.closeRecognitionModal$) {
+                this.SpeechRecognition.stopListening();
+                this.startSpeechRecognition(false);
+            }
+        }, 2000);
+    }
+
     private stopSpeechRecognition () {
         if (this.speechRecognitionSub) {
             this.speechRecognitionSub.unsubscribe();
@@ -129,6 +167,10 @@ export class SearchWordsBarComponent implements OnDestroy {
         if (this.closeRecognitionModal$) {
             this.closeRecognitionModal$.next();
             this.closeRecognitionModal$ = null;
+        }
+        if (this.recognitionStatusChanged$) {
+            this.recognitionStatusChanged$.unsubscribe();
+            this.recognitionStatusChanged$ = null;
         }
         this.SpeechRecognition.stopListening();
     }

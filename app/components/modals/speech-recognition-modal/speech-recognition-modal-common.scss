@@ -1,12 +1,27 @@
 @import "../../../styles/variables.scss";
 
 .speech-recognition-container {
-    .microphone-icon {
-        font-size: 70;
-        color: #ffffff;
+    border-width: 5;
+    border-color: #000000;
+    margin: 0;
+    padding: 0;
+
+    LottieView {
+        margin-top: -20;
+    }
+    
+    .speech-recognition-message {
+        margin-top: -50;
+        margin-left: 10;
+        margin-right: 10;
+        margin-bottom: 20;
+        font-family: $main-font;
+        font-weight: normal;
+        font-size: 20;
     }
 
     &.ns-dark {
         background-color: $background-lighter-dark;
+        border-color: darken($background, 10%);
     }
 }

@@ -29,8 +29,7 @@ export class SpeechRecognitionService {
             locale: "en-US",
             returnPartialResults: true,
             onResult: (result: SpeechRecognitionTranscription) => {
-                console.log(`User said: ${result.text}`);
-                console.log(`User finished?: ${result.finished}`);
+                console.log(`User said: ${result.text}; User finished?: ${result.finished}`);
                 recognition$.next(result);
             },
             onError: (err: string | number) => {
@@ -41,7 +40,6 @@ export class SpeechRecognitionService {
             this.isRecognitionInProgress = isStarted;
             return isStarted;
         }).catch((err: string | number) => {
-            console.log("Catch", err);
             error$.next(err);
         });
 
