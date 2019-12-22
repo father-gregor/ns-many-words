@@ -1,0 +1,23 @@
+.settings-container {
+    ::ng-deep {
+        .entry-title {
+            font-size: 20;
+        }
+    }
+
+    .license-url {
+        color: #0000EE;
+        font-size: 16;
+        margin-bottom: 15;
+    }
+
+    .thanks-text {
+        font-size: 18;
+    }
+
+    .thanks-url {
+        color: #0000EE;
+        font-size: 18;
+        margin-bottom: 15;
+    }
+}

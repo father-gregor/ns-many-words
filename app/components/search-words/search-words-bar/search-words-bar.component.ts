@@ -88,7 +88,6 @@ export class SearchWordsBarComponent implements OnDestroy {
         });
 
         this.speechRecognitionSub = process.recognition$.subscribe((result: SpeechRecognitionTranscription) => {
-            console.log("Recognized", result.text);
             if (result.finished || result.text.length >= 3) {
                 this.searchBarFieldView.text = result.text.toLowerCase();
                 this.onSearchTextChangeEmitter.emit(result.text);

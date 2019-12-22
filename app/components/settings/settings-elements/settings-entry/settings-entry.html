@@ -40,11 +40,13 @@
               <StackLayout col="0"
                            row="0"
                            class="entry-title-container">
-                     <Label class="entry-title"
+                     <Label *ngIf="title"
+                            class="entry-title"
                             [text]="title"
                             [textWrap]="true">
                      </Label>
-                     <Label class="entry-subtitle"
+                     <Label *ngIf="subtitle"
+                            class="entry-subtitle"
                             [text]="subtitle"
                             [textWrap]="true">
                      </Label>

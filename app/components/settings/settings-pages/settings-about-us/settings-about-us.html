@@ -1,29 +1,27 @@
 <MainActionBar [routeName]="MainConfig.config.states.settingsAboutUs.url"></MainActionBar>
 <ScrollView orientation="vertical"
             class="settings-container">
-       <GridLayout columns="*"
-                   rows="*">
-              <StackLayout col="0"
-                           row="0"
-                           orientation="vertical">
-                     <SettingsDivider></SettingsDivider>
-                     <SettingsEntry [iconSrc]="'res://app_logo'"
-                                    [title]="MainConfig.config.states.settingsAboutUs.appInfoTitle"
-                                    [subtitle]="MainConfig.config.states.settingsAboutUs.appInfoSubtitle" 
-                                    [withFutherActions]="false">
-                     </SettingsEntry>
-                     <SettingsDivider></SettingsDivider>
-                     <SettingsEntry *ngFor="let entry of MainConfig.config.states.settingsAboutUs.developersInfo"
-                                    [title]="entry.title"
-                                    [subtitle]="entry.subtitle" 
-                                    [withFutherActions]="false">
-                     </SettingsEntry>
-                     <SettingsDivider></SettingsDivider>
-                     <SettingsEntry [title]="MainConfig.config.states.settingsAboutUs.contactInfo.title"
-                                    [subtitle]="MainConfig.config.states.settingsAboutUs.contactInfo.subtitle" 
-                                    (onEntryTap)="openContactUsBottomSheet()">
-                     </SettingsEntry>
-                     <SettingsDivider></SettingsDivider>
-              </StackLayout>
-       </GridLayout>
+       <StackLayout orientation="vertical">
+              <SettingsEntry [iconSrc]="'res://app_logo'"
+                             [title]="MainConfig.config.states.settingsAboutUs.appInfo.title"
+                             [subtitle]="MainConfig.config.states.settingsAboutUs.appInfo.subtitle"
+                             [withFutherActions]="false">
+              </SettingsEntry>
+              <SettingsDivider></SettingsDivider>
+              <SettingsEntry [title]="MainConfig.config.states.settingsAboutUs.developersInfo.title"
+                             [subtitle]="MainConfig.config.states.settingsAboutUs.developersInfo.subtitle"
+                             (onEntryTap)="openDevelopersInfoModal()">
+              </SettingsEntry>
+              <SettingsDivider></SettingsDivider>
+              <SettingsEntry [title]="MainConfig.config.states.settingsAboutUs.creditsInfo.title"
+                             [subtitle]="MainConfig.config.states.settingsAboutUs.creditsInfo.subtitle"
+                             (onEntryTap)="openCreditsPage()">
+              </SettingsEntry>
+              <SettingsDivider></SettingsDivider>
+              <SettingsEntry [title]="MainConfig.config.states.settingsAboutUs.contactInfo.title"
+                             [subtitle]="MainConfig.config.states.settingsAboutUs.contactInfo.subtitle"
+                             (onEntryTap)="openContactUsBottomsheet()">
+              </SettingsEntry>
+              <SettingsDivider></SettingsDivider>
+       </StackLayout>
 </ScrollView>

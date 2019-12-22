@@ -1,0 +1,14 @@
+<ScrollView>
+    <ModalContainer [modalTitle]="modalTitle"
+                    [footerButtons]="['finish']"
+                    [finishButtonTitle]="'Close'"
+                    (onFinish)="closeModal()">
+        <StackLayout [ngClass]="currentTheme">
+            <SettingsEntry *ngFor="let entry of MainConfig.config.states.settingsAboutUs.developersInfo.entries"
+                           [title]="entry.title"
+                           [subtitle]="entry.subtitle"
+                           [withFutherActions]="false">
+            </SettingsEntry>
+        </StackLayout>
+    </ModalContainer>
+</ScrollView>

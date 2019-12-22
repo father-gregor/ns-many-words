@@ -1,4 +1,5 @@
-<StackLayout width="100%" class="modal-container">
+<StackLayout width="100%"
+             class="modal-container">
         <StackLayout *ngIf="modalTitle"
                      class="modal-header">
                 <Label [text]="modalTitle"></Label>
@@ -9,7 +10,8 @@
                     class="modal-footer"
                     columns="*, auto, auto"
                     rows="*">
-                <MDRipple col="1"
+                <MDRipple *ngIf="footerButtons.includes('cancel')"
+                          col="1"
                           row="0"
                           class="btn-modal-close"
                           (tap)="cancel()">
@@ -17,7 +19,8 @@
                                 [text]="cancelButtonTitle">
                         </Button>
                 </MDRipple>
-                <MDRipple col="2"
+                <MDRipple *ngIf="footerButtons.includes('finish')"
+                          col="2"
                           row="0"
                           class="btn-modal-success"
                           (tap)="finish()">

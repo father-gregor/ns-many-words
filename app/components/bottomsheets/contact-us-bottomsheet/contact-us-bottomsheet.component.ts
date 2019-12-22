@@ -11,11 +11,11 @@ import { MainConfigService } from "../../../services/main-config/main-config.ser
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 
 @Component({
-    selector: "ContactUsModal",
-    styleUrls: ["./contact-us-modal-common.scss"],
-    templateUrl: "./contact-us-modal.html"
+    selector: "ContactUsBottomsheet",
+    styleUrls: ["./contact-us-bottomsheet-common.scss"],
+    templateUrl: "./contact-us-bottomsheet.html"
 })
-export class ContactUsModalComponent  {
+export class ContactUsBottomsheetComponent  {
     public availableContactOptions: Array<{title: string, icon: string, cssClass?: string}> = [
         {
             title: "Email",

@@ -69,10 +69,12 @@ import { ModalContainerComponent } from "./components/modals/modal-container/mod
 import { SearchWordsComponent } from "./components/search-words/search-words.component";
 import { WordDateTimeComponent } from "./components/word-date-time/word-date-time.component";
 import { ActionBarIconItemComponent } from "./components/action-bars/action-bar-icon-item/action-bar-icon-item.component";
-import { ContactUsModalComponent } from "./components/modals/contact-us-modal/contact-us-modal.component";
+import { ContactUsBottomsheetComponent } from "./components/bottomsheets/contact-us-bottomsheet/contact-us-bottomsheet.component";
 import { SearchWordsBarComponent } from "./components/search-words/search-words-bar/search-words-bar.component";
 import { LoadingIndicatorComponent } from "./components/loading-indicator/loading-indicator.component";
 import { SpeechRecognitionModalComponent } from "./components/modals/speech-recognition-modal/speech-recognition-modal.component";
+import { SettingsCreditsComponent } from "./components/settings/settings-pages/settings-credits/settings-credits.component";
+import { DevelopersInfoModalComponent } from "./components/modals/developers-info-modal/developers-info-modal.component";
 
 @NgModule({
     bootstrap: [
@@ -115,10 +117,12 @@ import { SpeechRecognitionModalComponent } from "./components/modals/speech-reco
         SearchWordsComponent,
         WordDateTimeComponent,
         ActionBarIconItemComponent,
-        ContactUsModalComponent,
+        ContactUsBottomsheetComponent,
         SearchWordsBarComponent,
         LoadingIndicatorComponent,
-        SpeechRecognitionModalComponent
+        SpeechRecognitionModalComponent,
+        DevelopersInfoModalComponent,
+        SettingsCreditsComponent
     ],
     providers: [
         WordsService,
@@ -144,8 +148,9 @@ import { SpeechRecognitionModalComponent } from "./components/modals/speech-reco
     entryComponents: [
         ModalContainerComponent,
         ColumnsOrderingModalComponent,
-        ContactUsModalComponent,
-        SpeechRecognitionModalComponent
+        ContactUsBottomsheetComponent,
+        SpeechRecognitionModalComponent,
+        DevelopersInfoModalComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

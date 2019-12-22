@@ -5,6 +5,7 @@ export interface IStatesConfig {
     settings: any;
     settingsGeneral: any;
     settingsAboutUs: any;
+    settingsCredits: any;
     favoritesArchive: any;
     showcaseWord: any;
 }

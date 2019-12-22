@@ -1,63 +1,58 @@
 <MainActionBar [routeName]="MainConfig.config.states.settingsGeneral.url"></MainActionBar>
 <ScrollView orientation="vertical"
             class="settings-container">
-    <GridLayout columns="*"
-                rows="*">
-        <StackLayout col="0"
-                     row="0"
-                     orientation="vertical">
-            <SettingsEntry title="Application Theme"
-                           subtitle="Configure application's style"
-                           [withFutherActions]="false"
-                           [useContentProjection]="true">
-                <StackLayout class="settings-entry app-theme-entry"
-                             (tap)="preventHighlight()">
-                    <GridLayout columns="*, auto"
-                                rows="*, auto">
+    <StackLayout orientation="vertical">
+        <SettingsEntry title="Application Theme"
+                       subtitle="Configure application's style"
+                       [withFutherActions]="false"
+                       [useContentProjection]="true">
+            <StackLayout class="settings-entry app-theme-entry"
+                         (tap)="preventHighlight()">
+                <GridLayout columns="*, auto"
+                            rows="*, auto">
+                    <Label col="0"
+                           row="0"
+                           verticalAlignment="center"
+                           text="Dark Mode">
+                    </Label>
+
+                    <Switch row="0"
+                            col="1"
+                            class="theme-switch"
+                            [checked]="isDarkModeEnabled"
+                            [isEnabled]="!isSystemDarkMode"
+                            (checkedChange)="onDarkModeChange()">
+                    </Switch>
+
+                    <Label *ngIf="isSystemDarkMode"
+                           row="1"
+                           col="0"
+                           colspan="2"
+                           class="system-dark-mode-message"
+                           text="Enabled by default according to the system preferences">
+                    </Label>
+                </GridLayout>
+            </StackLayout>
+        </SettingsEntry>
+        <SettingsDivider></SettingsDivider>
+        <SettingsEntry title="Columns Order"
+                       subtitle="Change order of columns on home page"
+                       [useContentProjection]="true"
+                       (onEntryTap)="openColumnsOrderingModal()">
+            <StackLayout class="settings-entry">
+                <ng-container *ngFor="let columnName of currentColumnsOrder; index as ind">
+                    <GridLayout columns="30, *"
+                                rows="*">
                         <Label col="0"
                                row="0"
-                               verticalAlignment="center"
-                               text="Dark Mode">
-                        </Label>
-
-                        <Switch row="0"
-                                col="1"
-                                class="theme-switch"
-                                [checked]="isDarkModeEnabled"
-                                [isEnabled]="!isSystemDarkMode"
-                                (checkedChange)="onDarkModeChange()">
-                        </Switch>
-
-                        <Label *ngIf="isSystemDarkMode"
-                               row="1"
-                               col="0"
-                               colspan="2"
-                               class="system-dark-mode-message"
-                               text="Enabled by default according to the system preferences">
-                        </Label>
+                               [text]="(ind + 1) + '.'"></Label>
+                        <Label col="1"
+                               row="0"
+                               [text]="availableColumns[columnName].label"></Label>
                     </GridLayout>
-                </StackLayout>
-            </SettingsEntry>
-            <SettingsDivider></SettingsDivider>
-            <SettingsEntry title="Columns Order"
-                           subtitle="Change order of columns on home page"
-                           [useContentProjection]="true"
-                           (onEntryTap)="openColumnsOrderingModal()">
-                <StackLayout class="settings-entry">
-                    <ng-container *ngFor="let columnName of currentColumnsOrder; index as ind">
-                        <GridLayout columns="30, *"
-                                    rows="*">
-                            <Label col="0"
-                                   row="0"
-                                   [text]="(ind + 1) + '.'"></Label>
-                            <Label col="1"
-                                   row="0"
-                                   [text]="availableColumns[columnName].label"></Label>
-                        </GridLayout>
-                    </ng-container>
-                </StackLayout>
-            </SettingsEntry>
-            <SettingsDivider></SettingsDivider>
-        </StackLayout>
-    </GridLayout>
+                </ng-container>
+            </StackLayout>
+        </SettingsEntry>
+        <SettingsDivider></SettingsDivider>
+    </StackLayout>
 </ScrollView>

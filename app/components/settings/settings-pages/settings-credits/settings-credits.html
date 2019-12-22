@@ -1,0 +1,36 @@
+<MainActionBar [routeName]="MainConfig.config.states.settingsCredits.url"></MainActionBar>
+<ScrollView orientation="vertical"
+            class="settings-container">
+    <StackLayout orientation="vertical">
+        <SettingsEntry title="License"
+                       [subtitle]="MainConfig.config.states.settingsCredits.licenseName"
+                       [withFutherActions]="false"
+                       [useContentProjection]="true">
+            <Label class="license-url"
+                   [text]="MainConfig.config.states.settingsCredits.licenseUrl"
+                   textDecoration="underline"
+                   (tap)="openExternalUrl(MainConfig.config.states.settingsCredits.licenseUrl)">
+            </Label>
+        </SettingsEntry>
+        <SettingsDivider></SettingsDivider>
+        <SettingsEntry title="Thanks"
+                       subtitle="Credits for stuff used in application"
+                       [withFutherActions]="false"
+                       [useContentProjection]="true">
+            <StackLayout>
+                <ng-container *ngFor="let thankEntry of MainConfig.config.states.settingsCredits.thanksEntries">
+                    <Label class="thanks-text"
+                           [text]="thankEntry.text"
+                           [textWrap]="true">
+                    </Label>
+                    <Label class="thanks-url"
+                           [text]="thankEntry.url"
+                           textDecoration="underline"
+                           (tap)="openExternalUrl('https://www.nativescript.org/')">
+                    </Label>
+                </ng-container>
+            </StackLayout>
+        </SettingsEntry>
+        <SettingsDivider></SettingsDivider>
+    </StackLayout>
+</ScrollView>

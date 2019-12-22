@@ -22,22 +22,33 @@
         "subtitle": "Information about application, version, developers",
         "iconSrc": "res://settings_about",
         "actionBarItems": ["title", "close"],
-        "appInfoTitle": "Many Words",
-        "appInfoSubtitle": "Denys Rakov (father_gregor)\n© 2018-2019",
-        "developersInfo": [
-            {
-                "title": "Developers",
-                "subtitle": "father_gregor"
-            },
-            {
-                "title": "Interface/Design",
-                "subtitle": "father_gregor, dolgopolovki"
-            },
-            {
-                "title": "Idea",
-                "subtitle": "dolgopolovki, father_gregor"
-            }
-        ],
+        "appInfo": {
+            "title": "Many Words",
+            "subtitle": "Denys Rakov (father_gregor)\n© 2018-2020"
+        },
+        "developersInfo": {
+            "title": "Developers",
+            "subtitle": "Find out who's behind application",
+            "entries": [
+                {
+                    "title": "Developers",
+                    "subtitle": "father_gregor"
+                },
+                {
+                    "title": "Interface/Design",
+                    "subtitle": "father_gregor, dolgopolovki"
+                },
+                {
+                    "title": "Idea",
+                    "subtitle": "father_gregor, dolgopolovki"
+                }
+            ]
+        },
+        "creditsInfo": {
+            "url": "/settings-entry/about-us/credits",
+            "title": "Credits",
+            "subtitle": "License and assets information"
+        },
         "contactInfo": {
             "title": "Contact us",
             "subtitle": "Contact us to tell about features/languages request or problems that you encountered",
@@ -54,6 +65,31 @@
                 "channelName": "father_gregor"
             }
         }
+    },
+    "settingsCredits": {
+        "url": "/settings-entry/about-us/credits",
+        "title": "Credits",
+        "actionBarItems": ["title"],
+        "licenseName": "APACHE LICENSE, VERSION 2.0",
+        "licenseUrl": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "thanksEntries": [
+            {
+                "text": "NativeScript framework from:",
+                "url": "https://www.nativescript.org/"
+            },
+            {
+                "text": "Material Design icons from:",
+                "url": "https://material.io/resources/icons/"
+            },
+            {
+                "text": "Icons by FontAwesome from:",
+                "url": "https://fontawesome.com/v4.7.0/icons/"
+            },
+            {
+                "text": "Animation by Igor Shadko from:",
+                "url": "https://lottiefiles.com/3108-ripple"
+            }
+        ]
     },
     "favoritesArchive": {
         "url": "favorites-archive",

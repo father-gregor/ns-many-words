@@ -14,7 +14,7 @@ import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 export class ColumnsOrderingModalComponent {
     public currentColumnsOrder: string[];
     public availableColumns: any;
-    public modalTitle: string;
+    public modalTitle = "Change Columns Order";
     public currentTheme: string;
 
     constructor (
@@ -25,7 +25,6 @@ export class ColumnsOrderingModalComponent {
 
         this.currentColumnsOrder = this.modalParams.context.currentColumnsOrder;
         this.availableColumns = this.modalParams.context.availableColumns;
-        this.modalTitle = this.modalParams.context.modalSettings.title;
     }
 
     public updateColumnsOrder (newColumnsOrder: string[]) {

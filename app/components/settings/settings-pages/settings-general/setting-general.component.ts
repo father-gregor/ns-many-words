@@ -77,10 +77,7 @@ export class SettingsGeneralComponent {
             viewContainerRef: this.viewContainer,
             context: {
                 currentColumnsOrder: [...this.currentColumnsOrder],
-                availableColumns: {...this.availableColumns},
-                modalSettings: {
-                    title: "Change Columns Order"
-                }
+                availableColumns: {...this.availableColumns}
             }
         }).then((result: string[]) => {
             if (result && result.length === this.currentColumnsOrder.length) {
