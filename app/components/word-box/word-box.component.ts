@@ -16,6 +16,7 @@ import { PageDataStorageService } from "../../services/page-data-storage/page-da
 import { SnackBarNotificationService } from "../../services/snack-bar-notification/snack-bar-notification.service";
 import { SocialShareService } from "../../services/social-share/social-share.service";
 import { UtilsService } from "../../services/utils/utils.service";
+import { AppThemeService } from "../../services/app-theme/app-theme.service";
 
 @Component({
     selector: "WordBox",
@@ -24,6 +25,7 @@ import { UtilsService } from "../../services/utils/utils.service";
     templateUrl: "./word-box.html"
 })
 export class WordBoxComponent implements OnChanges {
+    public cardRippleColor: string;
     @Input() public word: IWord;
     @Input() public type: WordType;
     @Input() public isOnFavoriteWordsPage = false;
@@ -38,8 +40,11 @@ export class WordBoxComponent implements OnChanges {
         public routerExtensions: RouterExtensions,
         public SnackBarService: SnackBarNotificationService,
         private SocialShare: SocialShareService,
-        private cd: ChangeDetectorRef
-    ) {}
+        private cd: ChangeDetectorRef,
+        AppTheme: AppThemeService
+    ) {
+        this.cardRippleColor = AppTheme.getCurrent() === "ns-dark" ? "#e5e2e2" : "";
+    }
 
     public ngOnInit () {
         if (!this.word) {

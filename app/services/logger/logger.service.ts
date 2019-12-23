@@ -26,7 +26,7 @@ export class LoggerService {
             this.isFirebaseStarted = true;
             if (this.postponedFirebaseLogs.length > 0) {
                 for (const log of this.postponedFirebaseLogs) {
-                    this.GoogleFirebase.$Native.analytics.logEvent(log);
+                    this.GoogleFirebase.$NativeFirebase.analytics.logEvent(log);
                 }
             }
             sub.unsubscribe();
@@ -53,7 +53,7 @@ export class LoggerService {
 
     private sendLog (log: IAnalyticsLog) {
         if (this.isFirebaseStarted) {
-            this.GoogleFirebase.$Native.analytics.logEvent(log).catch(() => {
+            this.GoogleFirebase.$NativeFirebase.analytics.logEvent(log).catch(() => {
                 console.log("Error while sending log to Firebase");
             });
         }

@@ -1,6 +1,7 @@
 <MDCardView #cardViewElement
             class="material-card-wrapper"
             elevation="5"
+            [rippleColor]="cardRippleColor"
             (tap)="onOpenWordTap()">
        <GridLayout #wordBox
                    columns="*, auto"

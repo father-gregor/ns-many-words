@@ -36,7 +36,9 @@ export class ShowcaseWordComponent implements OnInit {
         private SnackBar: SnackBarNotificationService,
         private http: HttpClient,
         private cd: ChangeDetectorRef
-    ) {}
+    ) {
+        throw new Error("Test");
+    }
 
     public async ngOnInit () {
         this.word = this.PageDataStorage.current.word;
