@@ -1,7 +1,7 @@
 import { OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, Input } from "@angular/core";
 import { isAndroid } from "tns-core-modules/platform";
 import { ListView } from "tns-core-modules/ui/list-view";
-import { Visibility } from "tns-core-modules/ui/page/page";
+import { Visibility, PercentLength } from "tns-core-modules/ui/page/page";
 import { Subject, Subscription, Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 
@@ -20,6 +20,7 @@ import { LoggerService } from "../../../services/logger/logger.service";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
+import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
 
 type TechItemType = "loading" | "noWords" | "header";
 
@@ -35,6 +36,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     public loadingIndicatorSrc: string;
     public visibilityStatus: Visibility = "visible";
 
+    @Input() public actionBarHeight = 0;
     @Input("isVisible") set isVisibleInput (value: boolean) {
         if (value && this.visibilityStatus !== "visible") {
             this.visibilityStatus = "visible";
@@ -48,6 +50,8 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
 
     @ViewChild("listView", {static: false}) public wordsListView: ElementRef;
 
+    protected isAdsEnabled = false;
+    protected isAdBannerVisible = false;
     protected listView: ListView;
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
 
@@ -56,6 +60,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     constructor (
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
+        protected GoogleFirebase: GoogleFirebaseService,
         protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef
     ) {
@@ -172,6 +177,27 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         this.allListItems = this.allListItems.filter((item) => {
             return !(item as any).techItem || !toFilter.includes((item as any).techItem);
         });
+    }
+
+    public showAdBanner () {
+        if (!this.isAdBannerVisible) {
+            this.isAdBannerVisible = true;
+            if (this.listView) {
+                this.listView.marginTop = 300;
+            }
+            this.GoogleFirebase.showAdBanner({
+                margins: {
+                    top: this.actionBarHeight || 55
+                }
+            });
+        }
+    }
+
+    public hideAdBanner () {
+        if (this.isAdBannerVisible) {
+            this.GoogleFirebase.hideAdBanner();
+            this.isAdBannerVisible = false;
+        }
     }
 
     public getWordDate (word: IWord): {text: string, object: Date} {

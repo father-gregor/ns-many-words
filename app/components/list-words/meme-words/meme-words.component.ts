@@ -18,6 +18,7 @@ import { LoggerService } from "../../../services/logger/logger.service";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
+import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
 
 @Component({
     selector: "MemeWords",
@@ -29,14 +30,17 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
     public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
 
+    protected isAdsEnabled = true;
+
     constructor (
         private Words: WordsService,
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
+        protected GoogleFirebase: GoogleFirebaseService,
         protected cd: ChangeDetectorRef,
         protected AppTheme: AppThemeService
     ) {
-        super(MainConfig, Logger, AppTheme, cd);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.meme;

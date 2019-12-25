@@ -21,6 +21,7 @@ import { MainConfigService } from "../../../services/main-config/main-config.ser
 import { LoggerService } from "../../../services/logger/logger.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
+import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
 
 @Component({
     selector: "FavoriteWords",
@@ -46,11 +47,12 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
     constructor (
         public MainConfig: MainConfigService,
         public FavoriteWords: FavoriteWordsService,
+        protected GoogleFirebase: GoogleFirebaseService,
         protected Logger: LoggerService,
         protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef
     ) {
-        super(MainConfig, Logger, AppTheme, cd);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd);
         this.noWordsMsg = this.MainConfig.config.states.favoritesArchive.noWordsText;
     }
 

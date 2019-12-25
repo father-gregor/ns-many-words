@@ -26,7 +26,7 @@ export class FavoriteWordsService {
 
     constructor (
         private logger: LoggerService,
-        private SnackBarService: SnackBarNotificationService
+        private SnackBarNotification: SnackBarNotificationService
     ) {
         this.favoritesArchive = this.getFavoriteWordsArchive();
     }
@@ -66,7 +66,7 @@ export class FavoriteWordsService {
                 this.saveFavoriteWordsArchive();
             }
 
-            return this.SnackBarService.showUndoAction(`Removed "${removedWord.word.name}" from favorite list`).then((undo) => {
+            return this.SnackBarNotification.showUndoAction(`Removed "${removedWord.word.name}" from favorite list`).then((undo) => {
                 const isRemoveCancelled = undo.command === "Action";
                 if (isRemoveCancelled) {
                     this.favoritesArchive.words.splice(removedWordIndex, 0, removedWord);

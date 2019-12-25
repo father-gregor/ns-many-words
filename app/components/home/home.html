@@ -19,13 +19,16 @@
                      class="words-tab">
             <ng-container [ngSwitch]="column">
                 <DailyWords *ngSwitchCase="'daily'"
-                            [isVisible]="currentTabId === 'daily'">
+                            [isVisible]="currentTabId === 'daily'"
+                            [actionBarHeight]="actionBarHeight">
                 </DailyWords>
                 <RandomWords *ngSwitchCase="'random'"
-                             [isVisible]="currentTabId === 'random'">
+                             [isVisible]="currentTabId === 'random'"
+                             [actionBarHeight]="actionBarHeight">
                 </RandomWords>
                 <MemeWords *ngSwitchCase="'meme'"
-                           [isVisible]="currentTabId === 'meme'">
+                           [isVisible]="currentTabId === 'meme'"
+                           [actionBarHeight]="actionBarHeight">
                 </MemeWords>
             </ng-container>
         </StackLayout>

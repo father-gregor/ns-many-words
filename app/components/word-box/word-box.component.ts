@@ -13,7 +13,6 @@ import { IWord, WordType, IWordRouterData } from "./word-box.interfaces";
  */
 import { FavoriteWordsService } from "../../services/favorite-words/favorite-words.service";
 import { PageDataStorageService } from "../../services/page-data-storage/page-data-storage.service";
-import { SnackBarNotificationService } from "../../services/snack-bar-notification/snack-bar-notification.service";
 import { SocialShareService } from "../../services/social-share/social-share.service";
 import { UtilsService } from "../../services/utils/utils.service";
 import { AppThemeService } from "../../services/app-theme/app-theme.service";
@@ -38,7 +37,6 @@ export class WordBoxComponent implements OnChanges {
         public FavoriteWords: FavoriteWordsService,
         public PageDataStorage: PageDataStorageService<IWordRouterData>,
         public routerExtensions: RouterExtensions,
-        public SnackBarService: SnackBarNotificationService,
         private SocialShare: SocialShareService,
         private cd: ChangeDetectorRef,
         AppTheme: AppThemeService

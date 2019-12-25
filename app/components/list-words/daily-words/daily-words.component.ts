@@ -25,6 +25,7 @@ import { LoggerService } from "../../../services/logger/logger.service";
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
+import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
 
 @Component({
     selector: "DailyWords",
@@ -44,10 +45,11 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         private Words: WordsService,
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
+        protected GoogleFirebase: GoogleFirebaseService,
         protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef
     ) {
-        super(MainConfig, Logger, AppTheme, cd);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.daily;

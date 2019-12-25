@@ -20,6 +20,7 @@ import { CurrentTabService } from "../../../services/current-tab/current-tab.ser
 import { MainConfigService } from "../../../services/main-config/main-config.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
+import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
 
 @Component({
     selector: "RandomWords",
@@ -31,15 +32,18 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";
     public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
 
+    protected isAdsEnabled = true;
+
     constructor (
         private Words: WordsService,
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
+        protected GoogleFirebase: GoogleFirebaseService,
         protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef,
         private CurrentTab: CurrentTabService
     ) {
-        super(MainConfig, Logger, AppTheme, cd);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations[this.AppTheme.isDarkModeEnabled() ? "defaultDark" : "random"];
@@ -52,10 +56,17 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
 
        this.subscriptions.add(
             this.CurrentTab.tabChanged$.subscribe((currentTab: IWordTab) => {
-                if (currentTab && currentTab.id === "random" && !isComponentInInitState) {
-                    this.allListItems = [];
-                    this.firstLoading = true;
-                    this.loadNewWords({count: 10});
+                if (currentTab) {
+                    if (currentTab.id === "random" && !isComponentInInitState) {
+                        this.allListItems = [];
+                        this.firstLoading = true;
+                        this.loadNewWords({count: 10}).then(() => {
+                            this.showAdBanner();
+                        });
+                    }
+                    else {
+                        this.hideAdBanner();
+                    }
                 }
 
                 if (isComponentInInitState) {
@@ -66,7 +77,7 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
     }
 
     // @Override
-    public loadNewWords (options: IWordQueryOptions = {}) {
+    public async loadNewWords (options: IWordQueryOptions = {}) {
         if (this.isLoading) {
             return;
         }
@@ -76,24 +87,28 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         this.addTechItem("loading");
         UtilsService.safeDetectChanges(this.cd);
 
-        this.handleWordsRequest(this.Words.getRandomWord(query), (res: any[]) => {
-            if (res && res.length > 0 && this.isNoWords) {
-                this.isNoWords = false;
-            }
+        return new Promise((resolve) => {
+            this.handleWordsRequest(this.Words.getRandomWord(query), (res: any[]) => {
+                if (res && res.length > 0 && this.isNoWords) {
+                    this.isNoWords = false;
+                }
 
-            for (const word of res) {
-                this.allListItems.push({
-                    name: word.name,
-                    type: "random",
-                    nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
-                    definitions: word.definitions,
-                    synonyms: word.synonyms,
-                    archaic: word.archaic,
-                    language: word.language,
-                    date: word.publishDateUTC,
-                    partOfSpeech: word.partOfSpeech
-                } as IWord);
-            }
+                for (const word of res) {
+                    this.allListItems.push({
+                        name: word.name,
+                        type: "random",
+                        nameAsId: word.name.replace(/\s/gm, "_").toLowerCase(),
+                        definitions: word.definitions,
+                        synonyms: word.synonyms,
+                        archaic: word.archaic,
+                        language: word.language,
+                        date: word.publishDateUTC,
+                        partOfSpeech: word.partOfSpeech
+                    } as IWord);
+                }
+
+                resolve();
+            });
         });
     }
 }

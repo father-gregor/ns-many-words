@@ -1,4 +1,8 @@
-export type CustomErrorType = "mw_error_try_catch" | "mw_error_add_favorite" | "mw_error_remove_favorite";
+export type CustomErrorType = 
+"mw_error_try_catch" | 
+"mw_error_add_favorite" | 
+"mw_error_remove_favorite" |
+"mw_error_uncaught_exception";
 
 export type CustomEventType = "";
 
