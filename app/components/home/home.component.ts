@@ -4,12 +4,7 @@ import { SelectedIndexChangedEventData } from "tns-core-modules/ui/bottom-naviga
 /**
  * Interfaces
  */
-import { IWordTab } from "../home/tab";
-
-/**
- * Components
- */
-import { MainActionBarComponent } from "../action-bars/main-action-bar/main-action-bar.component";
+import { IWordTab } from "./tab.interfaces";
 
 /**
  * Services
@@ -46,7 +41,6 @@ export class HomeComponent implements AfterViewInit {
     public currentTabId: string;
     public actionBarHeight: number;
 
-    @ViewChild("mainActionBar", {static: false}) public mainActionBarComponent: MainActionBarComponent;
     @ViewChild("wordsTabView", {static: false}) public tabBarElement: ElementRef;
 
     constructor (
@@ -58,19 +52,16 @@ export class HomeComponent implements AfterViewInit {
         for (const column of this.MainConfig.config.columnsOrder) {
             this.isFirstLoadingComplete[column] = false;
         }
+
         this.cd.detach();
     }
 
     public ngAfterViewInit () {
         UtilsService.safeDetectChanges(this.cd);
-        const intervalId = setInterval(() => {
-            const height = this.mainActionBarComponent.actionBarView.getActualSize().height;
-            if (height > 0) {
-                this.actionBarHeight = Math.ceil(height);
-                clearInterval(intervalId);
-                console.log("Action bar height", this.actionBarHeight);
-            }
-        }, 100);
+    }
+
+    public saveActionBarHeight (height: number) {
+        this.actionBarHeight = height;
     }
 
     public onSelectedTabChanged (event: SelectedIndexChangedEventData) {

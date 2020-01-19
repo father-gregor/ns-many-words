@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, AfterContentInit } from "@angular/core";
 import { trigger, transition, style, animate } from "@angular/animations";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 
 /**
@@ -50,9 +51,10 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
         protected GoogleFirebase: GoogleFirebaseService,
         protected Logger: LoggerService,
         protected AppTheme: AppThemeService,
+        protected router: Router,
         protected cd: ChangeDetectorRef
     ) {
-        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router);
         this.noWordsMsg = this.MainConfig.config.states.favoritesArchive.noWordsText;
     }
 
@@ -70,14 +72,23 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
     public ngAfterContentInit () {
         setTimeout(() => {
             this.isInitCompleted = true;
+            if (this.favoriteWords.length) {
+                this.showAdBanner();
+            }
             UtilsService.safeDetectChanges(this.cd);
         }, 700);
     }
 
     public ngOnDestroy () {
+        this.hideAdBanner();
         if (this.sub) {
             this.sub.unsubscribe();
         }
+    }
+
+    public saveActionBarHeight (height: number) {
+        console.log("Save height");
+        this.actionBarHeight = height;
     }
 
     public loadNewWords () {

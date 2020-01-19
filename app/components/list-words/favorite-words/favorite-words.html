@@ -1,4 +1,6 @@
-<MainActionBar [routeName]="MainConfig.config.states.favoritesArchive.url"></MainActionBar>
+<MainActionBar [routeName]="MainConfig.config.states.favoritesArchive.url"
+               (onActualHeightSet)="saveActionBarHeight($event)">
+</MainActionBar>
 <LoadingIndicator *ngIf="!isInitCompleted"
                   [animationSrc]="loadingIndicatorSrc"
                   width="200"
@@ -8,6 +10,7 @@
             class="favorite-words-container"
             orientation="vertical">
     <GridLayout *ngIf="favoriteWords.length > 0"
+                #listView
                 columns="10%, *, 10%">
         <StackLayout col="1"
                      orientation="vertical">

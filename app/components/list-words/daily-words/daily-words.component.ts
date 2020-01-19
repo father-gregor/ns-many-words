@@ -1,4 +1,5 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
+import { Router } from "@angular/router";
 import {
     getString as nsGetString,
     setString as nsSetString,
@@ -16,6 +17,7 @@ import { LatestWordBox } from "../../latest-word-box/latest-word-box.component";
  * Interfaces
  */
 import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.interfaces";
+import { IWordTab } from "../../home/tab.interfaces";
 
 /**
  * Services
@@ -26,6 +28,7 @@ import { MainConfigService } from "../../../services/main-config/main-config.ser
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
 import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
+import { CurrentTabService } from "../../../services/current-tab/current-tab.service";
 
 @Component({
     selector: "DailyWords",
@@ -47,9 +50,11 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         protected Logger: LoggerService,
         protected GoogleFirebase: GoogleFirebaseService,
         protected AppTheme: AppThemeService,
-        protected cd: ChangeDetectorRef
+        protected cd: ChangeDetectorRef,
+        protected router: Router,
+        private CurrentTab: CurrentTabService
     ) {
-        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.daily;
@@ -63,6 +68,14 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         }
 
         this.loadNewWords({count: 10, checkForLatestWord: true});
+
+        this.subscriptions.add(
+            this.CurrentTab.tabChanged$.subscribe((currentTab: IWordTab) => {
+                if (currentTab && currentTab.id === "daily") {
+                    this.hideAdBanner();
+                }
+            })
+       );
     }
 
     public startLatestWordTeaserAnimation (latestWordBox: LatestWordBox) {

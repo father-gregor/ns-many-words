@@ -1,7 +1,8 @@
-import { OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, Input } from "@angular/core";
+import { OnInit, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy, Input } from "@angular/core";
+import { Router, Event, NavigationEnd } from "@angular/router";
 import { isAndroid } from "tns-core-modules/platform";
 import { ListView } from "tns-core-modules/ui/list-view";
-import { Visibility, PercentLength } from "tns-core-modules/ui/page/page";
+import { Visibility } from "tns-core-modules/ui/page/page";
 import { Subject, Subscription, Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 
@@ -24,7 +25,7 @@ import { GoogleFirebaseService } from "../../../services/google-firebase/google-
 
 type TechItemType = "loading" | "noWords" | "header";
 
-export abstract class MasterWordsComponentCommon implements OnInit, AfterViewInit, OnDestroy {
+export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
     public wordsType: WordType;
     public currentError: TabErrorType;
     public isNoWords = false;
@@ -48,12 +49,20 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         }
     }
 
-    @ViewChild("listView", {static: false}) public wordsListView: ElementRef;
+    @ViewChild("listView", {static: false}) public set wordsListView (el: ElementRef) {
+        if (el) {
+            this.listView = el.nativeElement as ListView;
+            this.listViewLoaded$.next();
 
-    protected isAdsEnabled = false;
-    protected isAdBannerVisible = false;
+            if (isAndroid && this.listView.android && this.listView.android.setFriction) {
+                this.listView.android.setFriction(android.view.ViewConfiguration.getScrollFriction() * 4);
+            }
+        }
+    }
     protected listView: ListView;
+    protected adId = "WORDS_TAB_AD";
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
+    protected listViewLoaded$: Subject<void> = new Subject<void>();
 
     protected subscriptions: Subscription = new Subscription();
 
@@ -62,9 +71,18 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
         protected Logger: LoggerService,
         protected GoogleFirebase: GoogleFirebaseService,
         protected AppTheme: AppThemeService,
-        protected cd: ChangeDetectorRef
+        protected cd: ChangeDetectorRef,
+        protected router: Router
     ) {
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations[this.AppTheme.isDarkModeEnabled() ? "defaultDark" : "default"];
+        if (this.wordsType !== "favorite") {
+            this.router.events.subscribe((event: Event) => {
+                if (event instanceof NavigationEnd && event.url !== "/home") {
+                    this.GoogleFirebase.hideAdBanner(this.adId);
+                }
+            });
+        }
+
         this.cd.detach();
     }
 
@@ -74,18 +92,6 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
                 UtilsService.safeDetectChanges(this.cd);
             })
         );
-    }
-
-    public ngAfterViewInit () {
-        if (isAndroid) {
-            const intervalId = setInterval(() => {
-                this.listView = this.wordsListView && this.wordsListView.nativeElement as ListView;
-                if (this.listView && this.listView.android) {
-                    clearInterval(intervalId);
-                    this.listView.android.setFriction(android.view.ViewConfiguration.getScrollFriction() * 4);
-                }
-            }, 100);
-        }
     }
 
     public ngOnDestroy () {
@@ -180,24 +186,17 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
     }
 
     public showAdBanner () {
-        if (!this.isAdBannerVisible) {
-            this.isAdBannerVisible = true;
-            if (this.listView) {
-                this.listView.marginTop = 300;
-            }
-            this.GoogleFirebase.showAdBanner({
-                margins: {
-                    top: this.actionBarHeight || 55
-                }
+        if (this.MainConfig.config.isAdsEnabled) {
+            this.GoogleFirebase.showAdBanner(this.adId, {
+                margins: {top: this.actionBarHeight}
+            }).then(() => {
+                this.setMarginForAds();
             });
         }
     }
 
     public hideAdBanner () {
-        if (this.isAdBannerVisible) {
-            this.GoogleFirebase.hideAdBanner();
-            this.isAdBannerVisible = false;
-        }
+        this.GoogleFirebase.hideAdBanner(this.adId);
     }
 
     public getWordDate (word: IWord): {text: string, object: Date} {
@@ -227,5 +226,19 @@ export abstract class MasterWordsComponentCommon implements OnInit, AfterViewIni
             return {text: "Yesterday", object: inputDate};
         }
         return {text: dateformat(inputDate, "mmmm dS, yyyy"), object: inputDate};
+    }
+
+    protected setMarginForAds () {
+        if (this.listView && !(this.listView.marginTop as any).value) {
+            this.listView.marginTop = this.actionBarHeight || 55;
+            UtilsService.safeDetectChanges(this.cd);
+        }
+        else if (!this.listView) {
+            const sub = this.listViewLoaded$.subscribe(() => {
+                sub.unsubscribe();
+                this.listView.marginTop = this.actionBarHeight || 55;
+                UtilsService.safeDetectChanges(this.cd);
+            });
+        }
     }
 }

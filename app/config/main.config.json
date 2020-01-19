@@ -35,5 +35,6 @@
         "random": "https://many-words-backend.herokuapp.com/api/words/random",
         "meme": "https://many-words-backend.herokuapp.com/api/words/meme",
         "search": "https://many-words-backend.herokuapp.com/api/words/search"
-    }
+    },
+    "dynamicConfigUrl": "https://many-words-backend.herokuapp.com/api/dynamic-config"
 }

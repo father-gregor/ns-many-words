@@ -1,9 +1,11 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
+import { Router } from "@angular/router";
 
 /**
  * Interfaces
  */
 import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.interfaces";
+import { IWordTab } from "../../home/tab.interfaces";
 
 /**
  * Components
@@ -19,6 +21,7 @@ import { MainConfigService } from "../../../services/main-config/main-config.ser
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
 import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
+import { CurrentTabService } from "../../../services/current-tab/current-tab.service";
 
 @Component({
     selector: "MemeWords",
@@ -30,17 +33,17 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "meme";
     public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
 
-    protected isAdsEnabled = true;
-
     constructor (
         private Words: WordsService,
         protected MainConfig: MainConfigService,
         protected Logger: LoggerService,
         protected GoogleFirebase: GoogleFirebaseService,
         protected cd: ChangeDetectorRef,
-        protected AppTheme: AppThemeService
+        protected AppTheme: AppThemeService,
+        protected router: Router,
+        private CurrentTab: CurrentTabService
     ) {
-        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.meme;
@@ -50,6 +53,14 @@ export class MemeWordsComponent extends MasterWordsComponentCommon {
         super.ngOnInit();
         this.firstLoading = true;
         this.loadNewWords({count: 10});
+
+        this.subscriptions.add(
+            this.CurrentTab.tabChanged$.subscribe((currentTab: IWordTab) => {
+                if (currentTab && currentTab.id === "meme") {
+                    this.showAdBanner();
+                }
+            })
+       );
     }
 
     // @Override

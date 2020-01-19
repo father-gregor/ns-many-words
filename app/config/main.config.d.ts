@@ -10,7 +10,19 @@ export interface IStatesConfig {
     showcaseWord: any;
 }
 
-export interface IMainConfig {
+export interface IAdConfig {
+    id: string;
+    android: string;
+    ios: string;
+    keywords?: string[]
+}
+
+export interface IDynamicConfig {
+    isAdsEnabled: boolean;
+    ads: IAdConfig[];
+}
+
+export interface IMainConfig extends IDynamicConfig {
     appName: string;
     appTheme: AppThemeType;
     actionBarItems: any;
@@ -36,4 +48,5 @@ export interface IMainConfig {
         meme: string;
         search: string;
     };
+    dynamicConfigUrl: string;
 }

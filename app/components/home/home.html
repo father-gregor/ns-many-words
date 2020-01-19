@@ -1,5 +1,5 @@
-<MainActionBar #mainActionBar
-               [routeName]="MainConfig.config.states.home.url">
+<MainActionBar [routeName]="MainConfig.config.states.home.url"
+               (onActualHeightSet)="saveActionBarHeight($event)">
 </MainActionBar>
 <NoConnection></NoConnection>
 

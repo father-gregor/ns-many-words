@@ -1,10 +1,11 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
+import { Router } from "@angular/router";
 
 /**
  * Interfaces
  */
 import { IWord, IWordQueryOptions, WordType } from "../../word-box/word-box.interfaces";
-import { IWordTab } from "../../home/tab";
+import { IWordTab } from "../../home/tab.interfaces";
 
 /**
  * Components
@@ -32,8 +33,6 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
     public wordsType: WordType = "random";
     public noWordsMsg = "Word didn't loaded. Press 'Repeat' to try again";
 
-    protected isAdsEnabled = true;
-
     constructor (
         private Words: WordsService,
         protected MainConfig: MainConfigService,
@@ -41,9 +40,10 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         protected GoogleFirebase: GoogleFirebaseService,
         protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef,
+        protected router: Router,
         private CurrentTab: CurrentTabService
     ) {
-        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations[this.AppTheme.isDarkModeEnabled() ? "defaultDark" : "random"];
@@ -51,26 +51,26 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
 
    public ngOnInit () {
        super.ngOnInit();
-       let isComponentInInitState = true;
+       let isFirstOpenning = true;
        this.loadNewWords({count: 10});
 
        this.subscriptions.add(
             this.CurrentTab.tabChanged$.subscribe((currentTab: IWordTab) => {
-                if (currentTab) {
-                    if (currentTab.id === "random" && !isComponentInInitState) {
+                if (currentTab && currentTab.id === "random") {
+                    if (isFirstOpenning) {
+                        this.showAdBanner();
+                    }
+                    else {
                         this.allListItems = [];
                         this.firstLoading = true;
                         this.loadNewWords({count: 10}).then(() => {
                             this.showAdBanner();
                         });
                     }
-                    else {
-                        this.hideAdBanner();
-                    }
                 }
 
-                if (isComponentInInitState) {
-                    isComponentInInitState = false;
+                if (isFirstOpenning) {
+                    isFirstOpenning = false;
                 }
             })
        );

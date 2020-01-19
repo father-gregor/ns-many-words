@@ -9,11 +9,14 @@ import { BannerOptions } from "nativescript-plugin-firebase/admob/admob";
  * Services
  */
 import { MainConfigService } from "../main-config/main-config.service";
+import { IAdConfig } from "~/config/main.config";
 
 @Injectable()
 export class GoogleFirebaseService {
     public readonly $NativeFirebase: typeof Firebase;
     public started$: Subject<void> = new Subject<void>();
+
+    private currentAds: {[key: string]: {isOpened: boolean}} = {};
 
     constructor (private router: Router, private MainConfig: MainConfigService) {
         this.$NativeFirebase = Firebase;
@@ -34,39 +37,52 @@ export class GoogleFirebaseService {
         });
     }
 
-    public async showAdBanner (customBannerOptions?: BannerOptions) {
+    public async showAdBanner (adId: string, customBannerOptions?: BannerOptions) {
+        if (!this.MainConfig.config.isAdsEnabled) {
+            return;
+        }
+
+        if (this.currentAds[adId]) {
+            if (this.currentAds[adId].isOpened) {
+                return;
+            }
+            else {
+                this.currentAds[adId].isOpened = true;
+            }
+        }
+        else {
+            this.currentAds[adId] = {isOpened: true};
+        }
+
+        const adConfig: IAdConfig = (this.MainConfig.config.ads.find((a) => a.id === adId)) || {} as IAdConfig;
         const bannerOptions = Object.assign({}, {
-            size: this.$NativeFirebase.admob.AD_SIZE.FULL_BANNER, // see firebase.admob.AD_SIZE for all options
-            margins: { // optional nr of device independent pixels from the top or bottom (don't set both)
-              top: 54
+            size: this.$NativeFirebase.admob.AD_SIZE.FULL_BANNER,
+            margins: {
+                top: 54
             },
-            androidBannerId: "ca-app-pub-3940256099942544/6300978111",
-            iosBannerId: "ca-app-pub-3940256099942544/6300978111",
-            testing: true,
-            iosTestDeviceIds: [ /*Android automatically adds the connected device as test device with testing:true, iOS does not*/],
-            keywords: ["keyword1", "keyword2"], // add keywords for ad targeting
-            onOpened: () => console.log("Ad opened"),
-            onClicked: () => console.log("Ad clicked"),
-            onLeftApplication: () => console.log("Ad left application")
+            androidBannerId: adConfig.android || "ca-app-pub-3940256099942544/6300978111",
+            iosBannerId: adConfig.ios || "ca-app-pub-3940256099942544/6300978111",
+            keywords: adConfig.keywords || [],
+            testing: TNS_MODE === "development",
+            onOpened: () => console.log("ZZZZZZZZZZZZZZZ Ad opened"),
+            onClicked: () => console.log("ZZZZZZZZZZZZZZZ Ad clicked"),
+            onCloded: () => console.log("ZZZZZZZZZZZZZZZ Ad closed"),
+            onLeftApplication: () => console.log("ZZZZZZZZZZZZZZZ Ad left application")
         }, customBannerOptions);
 
         return this.$NativeFirebase.admob.showBanner(bannerOptions).then(
-              () => {
-                  console.log("AdMob banner showing");
-              },
-              (errorMessage) => {
-                  console.log("AdMob banner error", errorMessage);
-              }
+            () => this.currentAds[adId].isOpened = true,
+            () => this.currentAds[adId].isOpened = false
         );
     }
 
-    public hideAdBanner () {
-        return this.$NativeFirebase.admob.hideBanner().then(
-            () => {},
-            (errorMessage) => {
-                console.log("AdMob banner error", errorMessage);
-            }
-        );
+    public hideAdBanner (adId: string) {
+        if (!this.MainConfig.config.isAdsEnabled || !this.currentAds[adId] || !this.currentAds[adId].isOpened) {
+            return;
+        }
+
+        this.currentAds[adId].isOpened = false;
+        return this.$NativeFirebase.admob.hideBanner().then(() => {}, () => this.currentAds[adId].isOpened = true);
     }
 
     public sendCrashLog (err: any) {

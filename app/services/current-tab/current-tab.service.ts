@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
-import { IWordTab } from "../../components/home/tab";
+import { IWordTab } from "../../components/home/tab.interfaces";
 
 @Injectable()
 export class CurrentTabService {

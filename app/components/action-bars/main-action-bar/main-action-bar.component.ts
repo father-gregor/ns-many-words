@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef, ViewChild, OnInit, AfterViewInit } from "@angular/core";
+import { Component, Input, ChangeDetectorRef, ViewChild, OnInit, ElementRef, EventEmitter, Output } from "@angular/core";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActionBar } from "tns-core-modules/ui/action-bar/action-bar";
@@ -15,15 +15,27 @@ import { SocialShareService } from "../../../services/social-share/social-share.
     styleUrls: ["./main-action-bar-common.scss", "./main-action-bar.scss"],
     templateUrl: "./main-action-bar.html"
 })
-export class MainActionBarComponent implements OnInit, AfterViewInit {
+export class MainActionBarComponent implements OnInit {
     public isTransitionEnded = true;
     public actionBarView: ActionBar;
     @Input() public routeName: string;
     @Input() public title: string;
     @Input() public actionBarItems: ActionBarItemsType[];
     @Input() public showcaseWord: IWord;
+    @Output("onActualHeightSet") public onActualHeightSetEmitter: EventEmitter<number> = new EventEmitter<number>();
 
-    @ViewChild("actionBar", {static: false}) public actionBarElement: any;
+    @ViewChild("actionBar", {static: false}) public set actionBarElement (el: any) {
+        if (el) {
+            this.actionBarView = el.element.nativeElement as ActionBar;
+            const intervalId = setInterval(() => {
+                const height = this.actionBarView.getActualSize().height;
+                if (height > 0) {
+                    this.onActualHeightSetEmitter.emit(Math.ceil(height));
+                    clearInterval(intervalId);
+                }
+            }, 100);
+        }
+    }
 
     private defaultActionBarItems: ActionBarItemsType[] = ["title", "favoritesArchive", "settings"];
 
@@ -50,10 +62,6 @@ export class MainActionBarComponent implements OnInit, AfterViewInit {
         const stateConfig = this.getStateConfigByUrl(this.routeName) || {};
         this.title = this.title || stateConfig.title || this.MainConfig.config.appName;
         this.actionBarItems = stateConfig.actionBarItems || this.defaultActionBarItems;
-    }
-
-    public ngAfterViewInit () {
-        this.actionBarView = this.actionBarElement.element.nativeElement as ActionBar;
     }
 
     public showFavoritesArchive () {
