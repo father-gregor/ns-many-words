@@ -23,6 +23,17 @@
             </GridLayout>
         </ng-template>
 
+        <ng-template nsTemplateKey="marginForAds">
+            <GridLayout columns="*"
+                        [rows]="actionBarHeight"
+                        (tap)="preventItemHighlight()">
+                <Label col="0"
+                       row="0"
+                       text="">
+                </Label>
+            </GridLayout>
+        </ng-template>
+
         <ng-template nsTemplateKey="latestDailyWord"
                      let-word="item">
             <StackLayout class="word-box"

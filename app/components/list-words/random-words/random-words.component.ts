@@ -41,9 +41,9 @@ export class RandomWordsComponent extends MasterWordsComponentCommon {
         protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef,
         protected router: Router,
-        private CurrentTab: CurrentTabService
+        protected CurrentTab: CurrentTabService
     ) {
-        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router, CurrentTab);
         super.wordsType = this.wordsType;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations[this.AppTheme.isDarkModeEnabled() ? "defaultDark" : "random"];

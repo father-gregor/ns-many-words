@@ -16,7 +16,7 @@ export class GoogleFirebaseService {
     public readonly $NativeFirebase: typeof Firebase;
     public started$: Subject<void> = new Subject<void>();
 
-    private currentAds: {[key: string]: {isOpened: boolean}} = {};
+    private currentAds: {[key: string]: {isOpened: boolean, adClosed$?: Subject<void>}} = {};
 
     constructor (private router: Router, private MainConfig: MainConfigService) {
         this.$NativeFirebase = Firebase;
@@ -48,12 +48,16 @@ export class GoogleFirebaseService {
             }
             else {
                 this.currentAds[adId].isOpened = true;
+                if (this.currentAds[adId].adClosed$) {
+                    this.currentAds[adId].adClosed$.complete();
+                }
             }
         }
         else {
             this.currentAds[adId] = {isOpened: true};
         }
 
+        this.currentAds[adId].adClosed$ = new Subject<void>();
         const adConfig: IAdConfig = (this.MainConfig.config.ads.find((a) => a.id === adId)) || {} as IAdConfig;
         const bannerOptions = Object.assign({}, {
             size: this.$NativeFirebase.admob.AD_SIZE.FULL_BANNER,
@@ -64,15 +68,21 @@ export class GoogleFirebaseService {
             iosBannerId: adConfig.ios || "ca-app-pub-3940256099942544/6300978111",
             keywords: adConfig.keywords || [],
             testing: TNS_MODE === "development",
-            onOpened: () => console.log("ZZZZZZZZZZZZZZZ Ad opened"),
-            onClicked: () => console.log("ZZZZZZZZZZZZZZZ Ad clicked"),
-            onCloded: () => console.log("ZZZZZZZZZZZZZZZ Ad closed"),
-            onLeftApplication: () => console.log("ZZZZZZZZZZZZZZZ Ad left application")
+            onOpened: () => this.currentAds[adId].adClosed$.next(),
+            onClicked: () => this.currentAds[adId].adClosed$.next(),
+            onClosed: () => this.currentAds[adId].adClosed$.next(),
+            onLeftApplication: () => this.currentAds[adId].adClosed$.next()
         }, customBannerOptions);
 
         return this.$NativeFirebase.admob.showBanner(bannerOptions).then(
-            () => this.currentAds[adId].isOpened = true,
-            () => this.currentAds[adId].isOpened = false
+            () => {
+                this.currentAds[adId].isOpened = true;
+                return this.currentAds[adId].adClosed$;
+            },
+            () => {
+                this.currentAds[adId].isOpened = false;
+                return this.currentAds[adId].adClosed$;
+            }
         );
     }
 
@@ -82,7 +92,7 @@ export class GoogleFirebaseService {
         }
 
         this.currentAds[adId].isOpened = false;
-        return this.$NativeFirebase.admob.hideBanner().then(() => {}, () => this.currentAds[adId].isOpened = true);
+        return this.$NativeFirebase.admob.hideBanner().then(() => this.currentAds[adId].adClosed$.next(), () => this.currentAds[adId].isOpened = true);
     }
 
     public sendCrashLog (err: any) {

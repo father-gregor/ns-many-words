@@ -14,6 +14,15 @@
                 columns="10%, *, 10%">
         <StackLayout col="1"
                      orientation="vertical">
+            <GridLayout *ngIf="true"
+                        columns="*"
+                        [rows]="actionBarHeight"
+                        (tap)="preventItemHighlight()">
+                <Label col="0"
+                       row="0"
+                       text="">
+                </Label>
+            </GridLayout>
             <StackLayout *ngFor="let favoriteWord of favoriteWords"
                          class="favorite-word-component"
                          @wordUnfavorite

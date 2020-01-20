@@ -1,6 +1,7 @@
 import { OnInit, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy, Input } from "@angular/core";
 import { Router, Event, NavigationEnd } from "@angular/router";
 import { isAndroid } from "tns-core-modules/platform";
+import { on as applicationOn, off as applicationOff, launchEvent, suspendEvent, resumeEvent } from "tns-core-modules/application";
 import { ListView } from "tns-core-modules/ui/list-view";
 import { Visibility } from "tns-core-modules/ui/page/page";
 import { Subject, Subscription, Observable } from "rxjs";
@@ -22,8 +23,16 @@ import { MainConfigService } from "../../../services/main-config/main-config.ser
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
 import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
+import { CurrentTabService } from "../../../services/current-tab/current-tab.service";
 
-type TechItemType = "loading" | "noWords" | "header";
+type TechItemType = "loading" | "noWords" | "header" | "marginForAds";
+
+interface ITechItem {
+    techItem: TechItemType;
+}
+
+let wordsSuspendAppCallback;
+let wordsResumeAppCallback;
 
 export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
     public wordsType: WordType;
@@ -33,7 +42,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
     public loadWordsBtnMsg: string = "Repeat";
     public firstLoading = true;
     public isLoading: boolean = false;
-    public allListItems: Array<IWord | {techItem: TechItemType}> = [];
+    public allListItems: Array<IWord | ITechItem> = [];
     public loadingIndicatorSrc: string;
     public visibilityStatus: Visibility = "visible";
 
@@ -60,6 +69,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
         }
     }
     protected listView: ListView;
+    protected isAdsEnabled: boolean;
     protected adId = "WORDS_TAB_AD";
     protected newWordsLoaded$: Subject<void> = new Subject<void>();
     protected listViewLoaded$: Subject<void> = new Subject<void>();
@@ -72,9 +82,11 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
         protected GoogleFirebase: GoogleFirebaseService,
         protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef,
-        protected router: Router
+        protected router: Router,
+        protected CurrentTab: CurrentTabService
     ) {
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations[this.AppTheme.isDarkModeEnabled() ? "defaultDark" : "default"];
+        this.isAdsEnabled = this.MainConfig.config.isAdsEnabled;
         if (this.wordsType !== "favorite") {
             this.router.events.subscribe((event: Event) => {
                 if (event instanceof NavigationEnd && event.url !== "/home") {
@@ -83,6 +95,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
             });
         }
 
+        this.subscribeToApplicationEvents();
         this.cd.detach();
     }
 
@@ -98,6 +111,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
         if (this.subscriptions) {
             this.subscriptions.unsubscribe();
         }
+        this.unsubscribeFromApplicationEvents();
     }
 
     public preventItemHighlight () {
@@ -186,17 +200,23 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
     }
 
     public showAdBanner () {
-        if (this.MainConfig.config.isAdsEnabled) {
+        if (this.isAdsEnabled) {
             this.GoogleFirebase.showAdBanner(this.adId, {
                 margins: {top: this.actionBarHeight}
-            }).then(() => {
+            }).then((adClosed$: Subject<void>) => {
                 this.setMarginForAds();
+                if (adClosed$) {
+                    adClosed$.subscribe(() => {
+                        this.turnOffAds();
+                    });
+                }
             });
         }
     }
 
     public hideAdBanner () {
         this.GoogleFirebase.hideAdBanner(this.adId);
+        this.turnOffAds();
     }
 
     public getWordDate (word: IWord): {text: string, object: Date} {
@@ -228,17 +248,52 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
         return {text: dateformat(inputDate, "mmmm dS, yyyy"), object: inputDate};
     }
 
+    protected turnOffAds () {
+        const itemIndex = this.allListItems.findIndex((item: ITechItem) => item.techItem === "marginForAds");
+        if (itemIndex >= 0) {
+            this.allListItems.splice(itemIndex, 1);
+        }
+    }
+
     protected setMarginForAds () {
-        if (this.listView && !(this.listView.marginTop as any).value) {
-            this.listView.marginTop = this.actionBarHeight || 55;
+        if (this.allListItems.find((i: ITechItem) => i.techItem === "marginForAds")) {
+            return;
+        }
+
+        if (this.listView) {
+            this.allListItems.unshift({techItem: "marginForAds"});
             UtilsService.safeDetectChanges(this.cd);
         }
         else if (!this.listView) {
             const sub = this.listViewLoaded$.subscribe(() => {
                 sub.unsubscribe();
-                this.listView.marginTop = this.actionBarHeight || 55;
+                this.allListItems.unshift({techItem: "marginForAds"});
                 UtilsService.safeDetectChanges(this.cd);
             });
         }
+    }
+
+    private subscribeToApplicationEvents () {
+        if (wordsSuspendAppCallback ||wordsResumeAppCallback) {
+            this.unsubscribeFromApplicationEvents();
+        }
+        wordsSuspendAppCallback = () => {
+            this.hideAdBanner();
+        };
+        applicationOn(suspendEvent, wordsSuspendAppCallback);
+
+        wordsResumeAppCallback = () => {
+            if (this.CurrentTab.getCurrent().id !== "daily" || this.wordsType === "favorite") {
+                this.showAdBanner();
+            }
+        };
+        applicationOn(resumeEvent, wordsResumeAppCallback);
+    }
+
+    private unsubscribeFromApplicationEvents () {
+        applicationOff(suspendEvent, wordsSuspendAppCallback);
+        applicationOff(resumeEvent, wordsResumeAppCallback);
+        wordsSuspendAppCallback = null;
+        wordsResumeAppCallback = null;
     }
 }

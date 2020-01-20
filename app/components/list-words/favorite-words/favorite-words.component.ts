@@ -23,6 +23,7 @@ import { LoggerService } from "../../../services/logger/logger.service";
 import { AppThemeService } from "../../../services/app-theme/app-theme.service";
 import { UtilsService } from "../../../services/utils/utils.service";
 import { GoogleFirebaseService } from "../../../services/google-firebase/google-firebase.service";
+import { CurrentTabService } from "../../../services/current-tab/current-tab.service";
 
 @Component({
     selector: "FavoriteWords",
@@ -52,9 +53,10 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
         protected Logger: LoggerService,
         protected AppTheme: AppThemeService,
         protected router: Router,
-        protected cd: ChangeDetectorRef
+        protected cd: ChangeDetectorRef,
+        protected CurrentTab: CurrentTabService
     ) {
-        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router, CurrentTab);
         this.noWordsMsg = this.MainConfig.config.states.favoritesArchive.noWordsText;
     }
 
@@ -87,7 +89,6 @@ export class FavoriteWordsComponent extends MasterWordsComponentCommon implement
     }
 
     public saveActionBarHeight (height: number) {
-        console.log("Save height");
         this.actionBarHeight = height;
     }
 

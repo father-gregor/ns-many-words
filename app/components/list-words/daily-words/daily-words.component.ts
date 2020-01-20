@@ -52,10 +52,11 @@ export class DailyWordsComponent extends MasterWordsComponentCommon {
         protected AppTheme: AppThemeService,
         protected cd: ChangeDetectorRef,
         protected router: Router,
-        private CurrentTab: CurrentTabService
+        protected CurrentTab: CurrentTabService
     ) {
-        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router);
+        super(MainConfig, Logger, GoogleFirebase, AppTheme, cd, router, CurrentTab);
         super.wordsType = this.wordsType;
+        this.isAdsEnabled = false;
 
         this.loadingIndicatorSrc = this.MainConfig.config.loadingAnimations.daily;
     }
