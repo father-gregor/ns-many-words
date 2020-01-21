@@ -8,17 +8,13 @@
                    rows="70, *, 50"
                    class="word-container"
                    verticalAlignment="center">
-              <GridLayout class="word-selftext"
-                          row="0"
-                          col="0"
-                          colspan="2"
-                          columns="*"
-                          rows="*"
-                          verticalAlignment="center">
-                     <Label col="0"
-                            row="0"
-                            [text]="word.name"></Label>
-              </GridLayout>
+              <Label col="0"
+                     row="0"
+                     colspan="2"
+                     class="word-selftext"
+                     verticalAlignment="center"
+                     [text]="word.name">
+              </Label>
               <StackLayout class="word-definitions"
                            row="1"
                            col="0"

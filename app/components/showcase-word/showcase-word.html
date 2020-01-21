@@ -4,21 +4,26 @@
 
 <GridLayout>
     <ScrollView class="showcase-word-container"
-                orientation="vertical"
                 [ngClass]="{'meme-word': type === 'meme'}">
         <GridLayout columns="20, *, 15"
-                    rows="*">
+                    rows="auto, auto, *">
+            <TextView col="1"
+                      row="0"
+                      class="word-name"
+                      [text]="word.name"
+                      height="100%"
+                      [lineHeight]="0"
+                      [editable]="false"
+                      (loaded)="makeSelectable($event)">
+            </TextView>
+            <Label text=""
+                   col="1"
+                   row="1"
+                   class="word-name-separator">
+            </Label>
             <StackLayout col="1"
-                         row="0"
+                         row="2"
                          orientation="vertical">
-                <TextView class="word-name"
-                          [text]="word.name"
-                          [editable]="false"
-                          (loaded)="makeSelectable($event)">
-                </TextView>
-                <Label text=""
-                       class="word-name-separator">
-                </Label>
                 <StackLayout *ngIf="word.synonyms && word.synonyms.length > 0"
                              class="word-synonyms-container">
                     <Label class="word-synonyms-label"
@@ -38,9 +43,9 @@
                     </ScrollView>
                 </StackLayout>
                 <StackLayout class="word-definition-container">
-                    <Label *ngIf="word.synonyms && word.synonyms.length > 0" 
-                            class="word-definition-label"
-                            text="Definitions">
+                    <Label *ngIf="word.synonyms && word.synonyms.length > 0"
+                           class="word-definition-label"
+                           text="Definitions">
                     </Label>
                     <GridLayout columns="30, 5, *"
                                 rows="*"

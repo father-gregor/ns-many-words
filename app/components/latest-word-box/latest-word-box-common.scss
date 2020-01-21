@@ -1,7 +1,7 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
-.word-container.latest_word_teaser {
+.word-container.latest-word-teaser {
     background: linear-gradient(to bottom, lighten($daily-words-color, 10%), $daily-words-color);
 
     .btn-latest-word {
@@ -17,7 +17,7 @@
 .word-container {
     height: $word-box-height;
 
-    &.latest_word_teaser {
+    &.latest-word-teaser {
         .question-icon {
             margin-top: -10;
             font-size: 250;

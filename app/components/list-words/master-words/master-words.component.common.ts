@@ -190,7 +190,9 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
     }
 
     public addTechItem (techItem: TechItemType) {
-        this.allListItems.push({techItem});
+        if (!this.allListItems.find((i: ITechItem) => i.techItem === techItem)) {
+            this.allListItems.push({techItem});
+        }
     }
 
     public filterTechItems (toFilter: TechItemType[]) {
@@ -283,7 +285,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
         applicationOn(suspendEvent, wordsSuspendAppCallback);
 
         wordsResumeAppCallback = () => {
-            if (this.CurrentTab.getCurrent().id !== "daily" || this.wordsType === "favorite") {
+            if (this.router.url === "/home" && (this.CurrentTab.getCurrent().id !== "daily" || this.wordsType === "favorite")) {
                 this.showAdBanner();
             }
         };
