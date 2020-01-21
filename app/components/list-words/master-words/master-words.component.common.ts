@@ -274,7 +274,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
     }
 
     private subscribeToApplicationEvents () {
-        if (wordsSuspendAppCallback ||wordsResumeAppCallback) {
+        if (wordsSuspendAppCallback || wordsResumeAppCallback) {
             this.unsubscribeFromApplicationEvents();
         }
         wordsSuspendAppCallback = () => {
