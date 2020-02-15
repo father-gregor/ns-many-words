@@ -11,3 +11,4 @@ typings/
 **/GoogleService-Info.plist
 **/google-services.json
 .tmp_backup/
+.update_backup/

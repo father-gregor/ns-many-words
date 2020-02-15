@@ -285,7 +285,7 @@ export abstract class MasterWordsComponentCommon implements OnInit, OnDestroy {
         applicationOn(suspendEvent, wordsSuspendAppCallback);
 
         wordsResumeAppCallback = () => {
-            if (this.router.url === "/home" && (this.CurrentTab.getCurrent().id !== "daily" || this.wordsType === "favorite")) {
+            if (this.router.url === "/home" && this.CurrentTab.getCurrent().id !== "daily" || this.wordsType === "favorite") {
                 this.showAdBanner();
             }
         };
