@@ -53,7 +53,7 @@
     "babylon": "6.4.5",
     "lazy": "1.0.11",
     "nativescript-dev-webpack": "^1.5.1",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "resolve-url-loader": "^3.1.2",
     "serialize-javascript": "3.1.0",
     "tns-platform-declarations": "6.0.1",
